@@ -1,0 +1,51 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,DejaVu Sans,82,&H00FFFFFF,&H00FFFFFF,&H00180E10,&H96000000,-1,0,0,0,100,100,1,0,1,7,4,2,70,70,560,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.20,0:00:01.17,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОДНАЖДЫ УТРОМ НА
+Dialogue: 0,0:00:01.17,0:00:02.64,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЗЕМЛЕ ПРОСНУЛАСЬ ТОЛЬКО
+Dialogue: 0,0:00:02.64,0:00:03.62,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ОДНА{\c&HFFFFFF&} {\c&H3AD2FF&}ДЕВУШКА.{\c&HFFFFFF&}
+Dialogue: 0,0:00:03.86,0:00:05.34,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВСЕ ОСТАЛЬНЫЕ ЖЕНЩИНЫ
+Dialogue: 0,0:00:05.34,0:00:06.11,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ИСЧЕЗЛИ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:06.47,0:00:07.08,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}УЖЕ К ОБЕДУ
+Dialogue: 0,0:00:07.08,0:00:08.17,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОЧЕРЕДЬ ИЗ ЖЕНИХОВ
+Dialogue: 0,0:00:08.17,0:00:09.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}РАСТЯНУЛАСЬ ВОКРУГ
+Dialogue: 0,0:00:09.32,0:00:09.95,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПЛАНЕТЫ
+Dialogue: 0,0:00:09.90,0:00:10.73,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЕЁ ВИДНО ИЗ
+Dialogue: 0,0:00:10.73,0:00:11.62,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}КОСМОСА!{\c&HFFFFFF&}
+Dialogue: 0,0:00:11.85,0:00:13.08,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЕЙ ПИШУТ {\c&H3AD2FF&}МИЛЛИАРД{\c&HFFFFFF&}
+Dialogue: 0,0:00:13.08,0:00:14.38,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПИСЕМ В СЕКУНДУ.
+Dialogue: 0,0:00:14.49,0:00:15.40,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}РАДИ НЕЁ СТРОЯТ
+Dialogue: 0,0:00:15.40,0:00:16.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ДВОРЦЫ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:15.97,0:00:17.05,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПОЮТ {\c&H3AD2FF&}СЕРЕНАДЫ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:16.98,0:00:18.43,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ДЕРУТСЯ В {\c&H3AD2FF&}КОММЕНТАРИЯХ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:18.70,0:00:20.19,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРАВИТЕЛЬСТВА ПРИСТАВИЛИ
+Dialogue: 0,0:00:20.19,0:00:20.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}К НЕЙ {\c&H3AD2FF&}ТЫСЯЧУ{\c&HFFFFFF&}
+Dialogue: 0,0:00:20.84,0:00:21.70,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ОХРАННИКОВ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:22.02,0:00:22.90,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НО НИКТО ТАК
+Dialogue: 0,0:00:22.90,0:00:23.86,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И НЕ СПРОСИЛ,
+Dialogue: 0,0:00:23.86,0:00:24.91,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧЕГО ХОЧЕТ {\c&H3AD2FF&}ОНА{\c&HFFFFFF&}
+Dialogue: 0,0:00:24.91,0:00:25.50,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}САМА.{\c&HFFFFFF&}
+Dialogue: 0,0:00:25.95,0:00:26.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТОГДА {\c&H3AD2FF&}ОНА{\c&HFFFFFF&} ВЫШЛА
+Dialogue: 0,0:00:26.88,0:00:27.76,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}К МИКРОФОНУ
+Dialogue: 0,0:00:27.78,0:00:29.07,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ЗАМОЛЧАЛ {\c&H3AD2FF&}ВЕСЬ{\c&HFFFFFF&}
+Dialogue: 0,0:00:29.07,0:00:29.61,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МИР.{\c&HFFFFFF&}
+Dialogue: 0,0:00:30.31,0:00:31.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВЫЙДУ ЗА ТОГО,
+Dialogue: 0,0:00:31.24,0:00:32.70,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КТО ПРИГОТОВИТ ЛУЧШИЙ
+Dialogue: 0,0:00:32.70,0:00:33.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}БОРЩ…{\c&HFFFFFF&}
+Dialogue: 0,0:00:33.56,0:00:34.69,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И САМ ПОМОЕТ
+Dialogue: 0,0:00:34.69,0:00:35.63,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ПОСУДУ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:36.08,0:00:37.11,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧЕРЕЗ НЕДЕЛЮ МУЖЧИНЫ
+Dialogue: 0,0:00:37.11,0:00:38.27,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВСЕЙ ПЛАНЕТЫ НАУЧИЛИСЬ
+Dialogue: 0,0:00:38.27,0:00:38.94,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ГОТОВИТЬ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:39.17,0:00:39.85,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И {\c&H3AD2FF&}ВПЕРВЫЕ{\c&HFFFFFF&} В
+Dialogue: 0,0:00:39.85,0:00:40.53,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ИСТОРИИ
+Dialogue: 0,0:00:40.67,0:00:41.75,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}МЫТЬ {\c&H3AD2FF&}ПОСУДУ.{\c&HFFFFFF&}
