@@ -10,60 +10,60 @@ Style: Cap,DejaVu Sans,88,&H00FFFFFF,&H00FFFFFF,&H00D0501F,&HA0100818,-1,0,0,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:00.20,0:00:00.80,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРЕДСТАВЬ,
-Dialogue: 0,0:00:00.80,0:00:01.57,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТО ТЫ ПРОДАЁШЬ
-Dialogue: 0,0:00:01.57,0:00:02.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЭЙФЕЛЕВУ{\c&HFFFFFF&} {\c&H3AD2FF&}БАШНЮ…{\c&HFFFFFF&}
-Dialogue: 0,0:00:02.70,0:00:03.76,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И САМОЕ {\c&H3AD2FF&}БЕЗУМНОЕ{\c&HFFFFFF&}
-Dialogue: 0,0:00:03.76,0:00:05.19,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КТО-ТО ДЕЙСТВИТЕЛЬНО
-Dialogue: 0,0:00:05.19,0:00:06.17,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТЕБЕ {\c&H3AD2FF&}ПЛАТИТ!{\c&HFFFFFF&}
-Dialogue: 0,0:00:06.53,0:00:07.53,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В ТЫСЯЧА ДЕВЯТЬСОТ
-Dialogue: 0,0:00:07.53,0:00:08.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ДВАДЦАТЬ ПЯТОМ ГОДУ
-Dialogue: 0,0:00:08.60,0:00:09.54,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В {\c&H3AD2FF&}ПАРИЖЕ{\c&HFFFFFF&} ПОЯВИЛСЯ
-Dialogue: 0,0:00:09.54,0:00:10.42,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧЕЛОВЕК ПО ИМЕНИ
-Dialogue: 0,0:00:10.42,0:00:11.38,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВИКТОР {\c&H3AD2FF&}ЛЮСТИГ.{\c&HFFFFFF&}
-Dialogue: 0,0:00:11.49,0:00:12.47,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОН ПРИДУМАЛ ОДНУ
-Dialogue: 0,0:00:12.47,0:00:13.39,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ИЗ САМЫХ {\c&H3AD2FF&}НАГЛЫХ{\c&HFFFFFF&}
-Dialogue: 0,0:00:13.39,0:00:14.45,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}АФЕР{\c&HFFFFFF&} В ИСТОРИИ.
-Dialogue: 0,0:00:14.77,0:00:15.87,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЛЮСТИГ{\c&HFFFFFF&} ВЫДАВАЛ СЕБЯ
-Dialogue: 0,0:00:15.87,0:00:17.02,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЗА ГОСУДАРСТВЕННОГО
-Dialogue: 0,0:00:17.02,0:00:17.75,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЧИНОВНИКА{\c&HFFFFFF&}
-Dialogue: 0,0:00:17.73,0:00:18.79,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ПРИГЛАШАЛ КРУПНЫХ
-Dialogue: 0,0:00:18.79,0:00:20.10,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТОРГОВЦЕВ МЕТАЛЛОЛОМОМ
-Dialogue: 0,0:00:20.10,0:00:21.43,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НА {\c&H3AD2FF&}СЕКРЕТНУЮ{\c&HFFFFFF&} {\c&H3AD2FF&}ВСТРЕЧУ.{\c&HFFFFFF&}
-Dialogue: 0,0:00:21.66,0:00:22.37,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОН ЗАЯВИЛ ИМ,
-Dialogue: 0,0:00:22.37,0:00:23.79,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТО СОДЕРЖАНИЕ ЭЙФЕЛЕВОЙ
-Dialogue: 0,0:00:23.79,0:00:25.15,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}БАШНИ ОБХОДИТСЯ СЛИШКОМ
-Dialogue: 0,0:00:25.15,0:00:25.75,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ДОРОГО,{\c&HFFFFFF&}
-Dialogue: 0,0:00:25.73,0:00:26.53,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ВЛАСТИ РЕШИЛИ
-Dialogue: 0,0:00:26.53,0:00:27.21,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЕЁ ПРОДАТЬ НА
-Dialogue: 0,0:00:27.21,0:00:28.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МЕТАЛЛОЛОМ.{\c&HFFFFFF&}
-Dialogue: 0,0:00:28.35,0:00:29.76,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОДИН ИЗ ПРЕДПРИНИМАТЕЛЕЙ
-Dialogue: 0,0:00:29.76,0:00:31.05,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ПОВЕРИЛ{\c&HFFFFFF&} ЕМУ НАСТОЛЬКО,
-Dialogue: 0,0:00:31.05,0:00:32.27,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТО ЗАПЛАТИЛ {\c&H3AD2FF&}ОГРОМНУЮ{\c&HFFFFFF&}
-Dialogue: 0,0:00:32.27,0:00:33.19,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}СУММУ{\c&HFFFFFF&} ЗА {\c&H3AD2FF&}БАШНЮ{\c&HFFFFFF&}
-Dialogue: 0,0:00:33.16,0:00:33.79,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ДАЖЕ ДАЛ
-Dialogue: 0,0:00:33.79,0:00:34.33,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ВЗЯТКУ,{\c&HFFFFFF&}
-Dialogue: 0,0:00:34.33,0:00:36.03,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТОБЫ ПОЛУЧИТЬ СДЕЛКУ.
-Dialogue: 0,0:00:36.27,0:00:37.81,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЛЮСТИГ{\c&HFFFFFF&} ЗАБРАЛ ДЕНЬГИ
-Dialogue: 0,0:00:37.81,0:00:38.73,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И {\c&H3AD2FF&}СКРЫЛСЯ.{\c&HFFFFFF&}
-Dialogue: 0,0:00:39.09,0:00:40.53,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НО САМОЕ {\c&H3AD2FF&}НЕВЕРОЯТНОЕ:{\c&HFFFFFF&}
-Dialogue: 0,0:00:40.53,0:00:42.12,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОН ПОПЫТАЛСЯ ПРОВЕРНУТЬ
-Dialogue: 0,0:00:42.12,0:00:42.80,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТУ ЖЕ АФЕРУ
-Dialogue: 0,0:00:42.80,0:00:43.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЕЩЁ{\c&HFFFFFF&} {\c&H3AD2FF&}РАЗ!{\c&HFFFFFF&}
-Dialogue: 0,0:00:43.72,0:00:44.27,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НА ЭТОТ {\c&H3AD2FF&}РАЗ{\c&HFFFFFF&}
-Dialogue: 0,0:00:44.27,0:00:45.51,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПОКУПАТЕЛЬ ЗАПОДОЗРИЛ
-Dialogue: 0,0:00:45.51,0:00:46.03,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ОБМАН,{\c&HFFFFFF&}
-Dialogue: 0,0:00:46.00,0:00:47.09,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И МОШЕННИКУ ПРИШЛОСЬ
-Dialogue: 0,0:00:47.09,0:00:47.67,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}БЕЖАТЬ.{\c&HFFFFFF&}
-Dialogue: 0,0:00:48.03,0:00:49.21,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТАК ВИКТОР {\c&H3AD2FF&}ЛЮСТИГ{\c&HFFFFFF&}
-Dialogue: 0,0:00:49.21,0:00:50.23,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВОШЁЛ В {\c&H3AD2FF&}ИСТОРИЮ{\c&HFFFFFF&}
-Dialogue: 0,0:00:50.23,0:00:51.09,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КАК ЧЕЛОВЕК,
-Dialogue: 0,0:00:51.09,0:00:52.59,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КОТОРЫЙ СУМЕЛ ПРОДАТЬ
-Dialogue: 0,0:00:52.59,0:00:53.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЭЙФЕЛЕВУ{\c&HFFFFFF&} {\c&H3AD2FF&}БАШНЮ…{\c&HFFFFFF&}
-Dialogue: 0,0:00:53.95,0:00:55.05,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПО КРАЙНЕЙ МЕРЕ,
-Dialogue: 0,0:00:55.05,0:00:56.39,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОДИН {\c&H3AD2FF&}РАЗ{\c&HFFFFFF&} {\c&H3AD2FF&}УСПЕШНО.{\c&HFFFFFF&}
-Dialogue: 0,0:00:56.75,0:00:57.10,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}А ТЫ БЫ
-Dialogue: 0,0:00:57.10,0:00:57.65,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ПОВЕРИЛ,{\c&HFFFFFF&}
-Dialogue: 0,0:00:57.65,0:00:58.34,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЕСЛИ БЫ ТЕБЕ
-Dialogue: 0,0:00:58.34,0:00:59.44,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРЕДЛОЖИЛИ КУПИТЬ
-Dialogue: 0,0:00:59.44,0:01:00.90,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЦЕЛУЮ {\c&H3AD2FF&}ЭЙФЕЛЕВУ{\c&HFFFFFF&} {\c&H3AD2FF&}БАШНЮ?{\c&HFFFFFF&}
+Dialogue: 0,0:00:00.08,0:00:01.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРЕДСТАВЬ,
+Dialogue: 0,0:00:01.04,0:00:02.16,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТО ТЫ ПРОДАЁШЬ
+Dialogue: 0,0:00:02.16,0:00:03.65,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЭЙФЕЛЕВУ{\c&HFFFFFF&} {\c&H3AD2FF&}БАШНЮ…{\c&HFFFFFF&}
+Dialogue: 0,0:00:03.65,0:00:05.09,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И САМОЕ {\c&H3AD2FF&}БЕЗУМНОЕ{\c&HFFFFFF&}
+Dialogue: 0,0:00:05.09,0:00:06.16,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КТО-ТО ДЕЙСТВИТЕЛЬНО
+Dialogue: 0,0:00:06.16,0:00:07.27,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТЕБЕ {\c&H3AD2FF&}ПЛАТИТ!{\c&HFFFFFF&}
+Dialogue: 0,0:00:07.27,0:00:08.16,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В ТЫСЯЧА ДЕВЯТЬСОТ
+Dialogue: 0,0:00:08.16,0:00:09.28,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ДВАДЦАТЬ ПЯТОМ ГОДУ
+Dialogue: 0,0:00:09.28,0:00:10.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В {\c&H3AD2FF&}ПАРИЖЕ{\c&HFFFFFF&} ПОЯВИЛСЯ
+Dialogue: 0,0:00:10.32,0:00:11.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧЕЛОВЕК ПО ИМЕНИ
+Dialogue: 0,0:00:11.36,0:00:12.64,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВИКТОР {\c&H3AD2FF&}ЛЮСТИГ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:12.64,0:00:13.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОН ПРИДУМАЛ ОДНУ
+Dialogue: 0,0:00:13.56,0:00:14.64,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ИЗ САМЫХ {\c&H3AD2FF&}НАГЛЫХ{\c&HFFFFFF&}
+Dialogue: 0,0:00:14.64,0:00:15.92,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}АФЕР{\c&HFFFFFF&} В ИСТОРИИ.
+Dialogue: 0,0:00:15.92,0:00:16.96,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЛЮСТИГ{\c&HFFFFFF&} ВЫДАВАЛ СЕБЯ
+Dialogue: 0,0:00:16.96,0:00:17.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЗА ГОСУДАРСТВЕННОГО
+Dialogue: 0,0:00:17.84,0:00:19.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЧИНОВНИКА{\c&HFFFFFF&} И ПРИГЛАШАЛ
+Dialogue: 0,0:00:19.24,0:00:20.16,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КРУПНЫХ ТОРГОВЦЕВ
+Dialogue: 0,0:00:20.16,0:00:21.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}МЕТАЛЛОЛОМОМ НА {\c&H3AD2FF&}СЕКРЕТНУЮ{\c&HFFFFFF&}
+Dialogue: 0,0:00:21.60,0:00:22.37,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ВСТРЕЧУ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:22.37,0:00:23.20,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОН ЗАЯВИЛ ИМ,
+Dialogue: 0,0:00:23.20,0:00:24.52,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТО СОДЕРЖАНИЕ ЭЙФЕЛЕВОЙ
+Dialogue: 0,0:00:24.52,0:00:26.00,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}БАШНИ ОБХОДИТСЯ СЛИШКОМ
+Dialogue: 0,0:00:26.00,0:00:26.61,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ДОРОГО,{\c&HFFFFFF&}
+Dialogue: 0,0:00:26.61,0:00:27.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ВЛАСТИ РЕШИЛИ
+Dialogue: 0,0:00:27.60,0:00:28.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЕЁ ПРОДАТЬ НА
+Dialogue: 0,0:00:28.24,0:00:29.17,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МЕТАЛЛОЛОМ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:29.17,0:00:30.40,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОДИН ИЗ ПРЕДПРИНИМАТЕЛЕЙ
+Dialogue: 0,0:00:30.40,0:00:31.76,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ПОВЕРИЛ{\c&HFFFFFF&} ЕМУ НАСТОЛЬКО,
+Dialogue: 0,0:00:31.76,0:00:33.20,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТО ЗАПЛАТИЛ {\c&H3AD2FF&}ОГРОМНУЮ{\c&HFFFFFF&}
+Dialogue: 0,0:00:33.20,0:00:34.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}СУММУ{\c&HFFFFFF&} ЗА {\c&H3AD2FF&}БАШНЮ{\c&HFFFFFF&}
+Dialogue: 0,0:00:34.32,0:00:34.96,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ДАЖЕ ДАЛ
+Dialogue: 0,0:00:34.96,0:00:35.44,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ВЗЯТКУ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:35.44,0:00:36.87,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТОБЫ ПОЛУЧИТЬ СДЕЛКУ.
+Dialogue: 0,0:00:36.87,0:00:38.08,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЛЮСТИГ{\c&HFFFFFF&} ЗАБРАЛ ДЕНЬГИ
+Dialogue: 0,0:00:38.08,0:00:38.96,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И {\c&H3AD2FF&}СКРЫЛСЯ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:38.96,0:00:40.64,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НО САМОЕ {\c&H3AD2FF&}НЕВЕРОЯТНОЕ:{\c&HFFFFFF&}
+Dialogue: 0,0:00:40.64,0:00:41.92,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОН ПОПЫТАЛСЯ ПРОВЕРНУТЬ
+Dialogue: 0,0:00:41.92,0:00:42.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТУ ЖЕ АФЕРУ
+Dialogue: 0,0:00:42.88,0:00:43.82,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЕЩЁ{\c&HFFFFFF&} РАЗ!
+Dialogue: 0,0:00:43.82,0:00:44.40,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НА ЭТОТ РАЗ
+Dialogue: 0,0:00:44.40,0:00:45.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПОКУПАТЕЛЬ ЗАПОДОЗРИЛ
+Dialogue: 0,0:00:45.60,0:00:46.08,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ОБМАН,{\c&HFFFFFF&}
+Dialogue: 0,0:00:46.08,0:00:47.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И МОШЕННИКУ ПРИШЛОСЬ
+Dialogue: 0,0:00:47.32,0:00:48.00,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}БЕЖАТЬ!{\c&HFFFFFF&}
+Dialogue: 0,0:00:48.00,0:00:49.12,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТАК ВИКТОР {\c&H3AD2FF&}ЛЮСТИГ{\c&HFFFFFF&}
+Dialogue: 0,0:00:49.12,0:00:50.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВОШЁЛ В {\c&H3AD2FF&}ИСТОРИЮ{\c&HFFFFFF&}
+Dialogue: 0,0:00:50.04,0:00:50.85,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КАК ЧЕЛОВЕК,
+Dialogue: 0,0:00:50.85,0:00:52.00,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КОТОРЫЙ СУМЕЛ ПРОДАТЬ
+Dialogue: 0,0:00:52.00,0:00:53.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЭЙФЕЛЕВУ{\c&HFFFFFF&} {\c&H3AD2FF&}БАШНЮ…{\c&HFFFFFF&}
+Dialogue: 0,0:00:53.36,0:00:54.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПО КРАЙНЕЙ МЕРЕ,
+Dialogue: 0,0:00:54.48,0:00:55.99,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОДИН РАЗ {\c&H3AD2FF&}УСПЕШНО.{\c&HFFFFFF&}
+Dialogue: 0,0:00:55.99,0:00:56.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}А ТЫ БЫ
+Dialogue: 0,0:00:56.32,0:00:56.80,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ПОВЕРИЛ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:56.80,0:00:57.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЕСЛИ БЫ ТЕБЕ
+Dialogue: 0,0:00:57.32,0:00:58.40,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРЕДЛОЖИЛИ КУПИТЬ
+Dialogue: 0,0:00:58.40,0:01:00.33,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЦЕЛУЮ {\c&H3AD2FF&}ЭЙФЕЛЕВУ{\c&HFFFFFF&} {\c&H3AD2FF&}БАШНЮ?{\c&HFFFFFF&}
