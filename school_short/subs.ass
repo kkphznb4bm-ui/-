@@ -1,0 +1,42 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,DejaVu Sans,88,&H00FFFFFF,&H00FFFFFF,&H00D0501F,&HA0100818,-1,0,0,0,100,100,1,0,1,9,5,2,60,60,600,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.20,0:00:01.47,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЭТО {\c&H3AD2FF&}ХУДШАЯ{\c&HFFFFFF&} ШКОЛА
+Dialogue: 0,0:00:01.47,0:00:02.17,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В МИРЕ.
+Dialogue: 0,0:00:02.36,0:00:03.64,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}КРЫША{\c&HFFFFFF&} ПРОТЕКАЕТ ПРЯМО
+Dialogue: 0,0:00:03.64,0:00:04.33,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НА ПАРТЫ.
+Dialogue: 0,0:00:04.48,0:00:05.39,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В СТОЛОВОЙ {\c&H3AD2FF&}СУП{\c&HFFFFFF&}
+Dialogue: 0,0:00:05.39,0:00:05.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТАКОЙ,
+Dialogue: 0,0:00:05.84,0:00:06.67,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТО ДАЖЕ {\c&H3AD2FF&}МУХИ{\c&HFFFFFF&}
+Dialogue: 0,0:00:06.67,0:00:07.80,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОТКАЗЫВАЮТСЯ.
+Dialogue: 0,0:00:08.03,0:00:09.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В СПОРТЗАЛЕ ПОСЛЕДНИЙ
+Dialogue: 0,0:00:09.56,0:00:10.53,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МЯЧ{\c&HFFFFFF&} СДУЛСЯ ЕЩЁ
+Dialogue: 0,0:00:10.53,0:00:11.72,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В ПРОШЛОМ ВЕКЕ.
+Dialogue: 0,0:00:11.95,0:00:12.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}А УЧИТЕЛЯ ДАВНО
+Dialogue: 0,0:00:12.88,0:00:14.03,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПЕРЕСТАЛИ ВЕРИТЬ В
+Dialogue: 0,0:00:14.03,0:00:14.68,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЧУДЕСА.{\c&HFFFFFF&}
+Dialogue: 0,0:00:15.13,0:00:16.25,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НО ОДНАЖДЫ ПРИШЛА
+Dialogue: 0,0:00:16.25,0:00:17.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НОВАЯ {\c&H3AD2FF&}ДИРЕКТРИСА.{\c&HFFFFFF&}
+Dialogue: 0,0:00:17.79,0:00:18.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОНА НЕ СТАЛА
+Dialogue: 0,0:00:18.48,0:00:19.19,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}КРИЧАТЬ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:19.25,0:00:20.44,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОНА ПРОСТО ЗАКАТАЛА
+Dialogue: 0,0:00:20.44,0:00:21.08,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}РУКАВА.{\c&HFFFFFF&}
+Dialogue: 0,0:00:21.36,0:00:23.02,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}УЧЕНИКИ КРАСИЛИ {\c&H3AD2FF&}СТЕНЫ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:23.00,0:00:24.54,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}УЧИТЕЛЯ ЧИНИЛИ {\c&H3AD2FF&}КРЫШУ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:24.52,0:00:25.65,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ДАЖЕ ПОВАР ВЫУЧИЛ
+Dialogue: 0,0:00:25.65,0:00:26.70,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НОВЫЙ {\c&H3AD2FF&}РЕЦЕПТ!{\c&HFFFFFF&}
+Dialogue: 0,0:00:26.98,0:00:27.79,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧЕРЕЗ {\c&H3AD2FF&}МЕСЯЦ{\c&HFFFFFF&} ЭТУ
+Dialogue: 0,0:00:27.79,0:00:28.49,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ШКОЛУ БЫЛО НЕ
+Dialogue: 0,0:00:28.49,0:00:29.07,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}УЗНАТЬ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:29.31,0:00:29.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ТЕПЕРЬ В
+Dialogue: 0,0:00:29.84,0:00:30.97,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НЕЁ МЕЧТАЕТ ПОПАСТЬ
+Dialogue: 0,0:00:30.97,0:00:31.79,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ВЕСЬ{\c&HFFFFFF&} {\c&H3AD2FF&}ГОРОД.{\c&HFFFFFF&}
