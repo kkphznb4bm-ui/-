@@ -1,0 +1,61 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,DejaVu Sans,88,&H00FFFFFF,&H00FFFFFF,&H00D0501F,&HA0100818,-1,0,0,0,100,100,1,0,1,9,5,2,60,60,600,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.07,0:00:01.44,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ПРЕДСТАВЬ!!!{\c&HFFFFFF&}
+Dialogue: 0,0:00:01.44,0:00:01.92,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ОСТРОВ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:01.92,0:00:02.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НА КОТОРОМ КОГДА-ТО
+Dialogue: 0,0:00:02.84,0:00:04.16,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЖИЛИ БОЛЕЕ {\c&H3AD2FF&}ПЯТИ{\c&HFFFFFF&}
+Dialogue: 0,0:00:04.16,0:00:05.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ТЫСЯЧ{\c&HFFFFFF&} ЧЕЛОВЕК!
+Dialogue: 0,0:00:05.60,0:00:06.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТАМ БЫЛИ {\c&H3AD2FF&}ШКОЛЫ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:06.56,0:00:07.28,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}БОЛЬНИЦЫ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:07.28,0:00:08.52,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МАГАЗИНЫ{\c&HFFFFFF&} И ДАЖЕ
+Dialogue: 0,0:00:08.52,0:00:09.83,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}КИНОТЕАТР.{\c&HFFFFFF&}
+Dialogue: 0,0:00:09.83,0:00:11.16,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НО СЕГОДНЯ ОН
+Dialogue: 0,0:00:11.16,0:00:12.85,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПОЛНОСТЬЮ {\c&H3AD2FF&}ЗАБРОШЕН.{\c&HFFFFFF&}
+Dialogue: 0,0:00:12.85,0:00:14.08,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЭТО {\c&H3AD2FF&}ОСТРОВ{\c&HFFFFFF&} {\c&H3AD2FF&}ХАСИМА{\c&HFFFFFF&}
+Dialogue: 0,0:00:14.08,0:00:14.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В {\c&H3AD2FF&}ЯПОНИИ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:14.88,0:00:16.16,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КОТОРЫЙ ТАКЖЕ НАЗЫВАЮТ
+Dialogue: 0,0:00:16.16,0:00:17.67,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ОСТРОВОМ-ЛИНКОРОМ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:17.67,0:00:19.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КОГДА-ТО ЗДЕСЬ ДОБЫВАЛИ
+Dialogue: 0,0:00:19.04,0:00:20.00,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}УГОЛЬ{\c&HFFFFFF&} ПОД {\c&H3AD2FF&}МОРСКИМ{\c&HFFFFFF&}
+Dialogue: 0,0:00:20.00,0:00:20.68,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ДНОМ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:20.68,0:00:21.80,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЛЮДИ ЖИЛИ БУКВАЛЬНО
+Dialogue: 0,0:00:21.80,0:00:22.96,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ДРУГ НАД ДРУГОМ,
+Dialogue: 0,0:00:22.96,0:00:24.08,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}А {\c&H3AD2FF&}ОСТРОВ{\c&HFFFFFF&} СЧИТАЛСЯ
+Dialogue: 0,0:00:24.08,0:00:24.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОДНИМ ИЗ САМЫХ
+Dialogue: 0,0:00:24.88,0:00:26.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ГУСТОНАСЕЛЁННЫХ{\c&HFFFFFF&} МЕСТ
+Dialogue: 0,0:00:26.04,0:00:27.03,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НА ПЛАНЕТЕ.
+Dialogue: 0,0:00:27.03,0:00:27.68,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НО В ТЫСЯЧА
+Dialogue: 0,0:00:27.68,0:00:28.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ДЕВЯТЬСОТ СЕМЬДЕСЯТ
+Dialogue: 0,0:00:28.56,0:00:30.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧЕТВЁРТОМ ГОДУ {\c&H3AD2FF&}ШАХТУ{\c&HFFFFFF&}
+Dialogue: 0,0:00:30.04,0:00:30.95,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЗАКРЫЛИ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:30.95,0:00:32.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ПРОИЗОШЛО НЕЧТО
+Dialogue: 0,0:00:32.32,0:00:33.59,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}УДИВИТЕЛЬНОЕ…{\c&HFFFFFF&}
+Dialogue: 0,0:00:33.59,0:00:34.64,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВСЕГО ЗА НЕСКОЛЬКО
+Dialogue: 0,0:00:34.64,0:00:36.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}МЕСЯЦЕВ ЖИТЕЛИ {\c&H3AD2FF&}ПОКИНУЛИ{\c&HFFFFFF&}
+Dialogue: 0,0:00:36.48,0:00:37.42,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ОСТРОВ!{\c&HFFFFFF&}
+Dialogue: 0,0:00:37.42,0:00:39.20,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОСТАЛИСЬ {\c&H3AD2FF&}ПУСТЫЕ{\c&HFFFFFF&} КВАРТИРЫ,
+Dialogue: 0,0:00:39.20,0:00:40.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЗАБРОШЕННЫЕ{\c&HFFFFFF&} {\c&H3AD2FF&}ШКОЛЫ{\c&HFFFFFF&}
+Dialogue: 0,0:00:40.60,0:00:41.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ЗДАНИЯ,
+Dialogue: 0,0:00:41.36,0:00:42.40,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КОТОРЫЕ ПОСТЕПЕННО
+Dialogue: 0,0:00:42.40,0:00:43.75,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}РАЗРУШАЕТ {\c&H3AD2FF&}МОРЕ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:43.75,0:00:45.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}СЕГОДНЯ {\c&H3AD2FF&}ХАСИМА{\c&HFFFFFF&} ВЫГЛЯДИТ
+Dialogue: 0,0:00:45.36,0:00:46.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КАК ДЕКОРАЦИЯ К
+Dialogue: 0,0:00:46.24,0:00:47.99,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ФИЛЬМУ ОБ {\c&H3AD2FF&}АПОКАЛИПСИСЕ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:47.99,0:00:49.41,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НО САМОЕ ИНТЕРЕСНОЕ
+Dialogue: 0,0:00:49.41,0:00:50.72,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КОГДА-ТО ЗДЕСЬ КИПЕЛА
+Dialogue: 0,0:00:50.72,0:00:52.08,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОБЫЧНАЯ ЧЕЛОВЕЧЕСКАЯ
+Dialogue: 0,0:00:52.08,0:00:52.86,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЖИЗНЬ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:52.86,0:00:53.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КАК ДУМАЕШЬ,
+Dialogue: 0,0:00:53.60,0:00:54.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}СМОГ БЫ ТЫ
+Dialogue: 0,0:00:54.36,0:00:55.20,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРОВЕСТИ {\c&H3AD2FF&}НОЧЬ{\c&HFFFFFF&} НА
+Dialogue: 0,0:00:55.20,0:00:56.49,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТАКОМ ОСТРОВЕ?
