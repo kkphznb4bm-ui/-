@@ -1,0 +1,66 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,DejaVu Sans,88,&H00FFFFFF,&H00FFFFFF,&H00D0501F,&HA0100818,-1,0,0,0,100,100,1,0,1,9,5,2,60,60,600,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.14,0:00:01.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВЧЕРА ТЫ {\c&H3AD2FF&}ПОДНЯЛ{\c&HFFFFFF&}
+Dialogue: 0,0:00:01.36,0:00:02.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ДОМ!{\c&HFFFFFF&}
+Dialogue: 0,0:00:02.24,0:00:03.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НЕ КУПИЛ,
+Dialogue: 0,0:00:03.04,0:00:04.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НЕ ПОСТРОИЛ А
+Dialogue: 0,0:00:04.32,0:00:05.52,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВЗЯЛ И {\c&H3AD2FF&}ПОДНЯЛ{\c&HFFFFFF&}
+Dialogue: 0,0:00:05.52,0:00:06.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}РУКАМИ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:06.24,0:00:06.92,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПОТОМУ ЧТО ПОД
+Dialogue: 0,0:00:06.92,0:00:08.47,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НЕГО {\c&H3AD2FF&}ЗАКАТИЛСЯ{\c&HFFFFFF&} {\c&H3AD2FF&}МЯЧ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:08.47,0:00:09.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}СОСЕД СНЯЛ ЭТО
+Dialogue: 0,0:00:09.24,0:00:10.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НА {\c&H3AD2FF&}ТЕЛЕФОН.{\c&HFFFFFF&}
+Dialogue: 0,0:00:10.04,0:00:10.64,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}К ВЕЧЕРУ У
+Dialogue: 0,0:00:10.64,0:00:12.00,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВИДЕО БЫЛО {\c&H3AD2FF&}ЧЕТЫРЕСТА{\c&HFFFFFF&}
+Dialogue: 0,0:00:12.00,0:00:13.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МИЛЛИОНОВ{\c&HFFFFFF&} ПРОСМОТРОВ.
+Dialogue: 0,0:00:13.36,0:00:14.40,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}УТРОМ ТЕБЕ ПОЗВОНИЛИ
+Dialogue: 0,0:00:14.40,0:00:15.41,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ИЗ {\c&H3AD2FF&}ПРАВИТЕЛЬСТВА.{\c&HFFFFFF&}
+Dialogue: 0,0:00:15.41,0:00:16.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТЫ ДУМАЛ {\c&H3AD2FF&}ПОСАДЯТ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:16.88,0:00:17.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}А ТЕБЕ ПРЕДЛОЖИЛИ
+Dialogue: 0,0:00:17.84,0:00:20.00,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}СТАТЬ {\c&H3AD2FF&}МИНИСТРОМ{\c&HFFFFFF&} {\c&H3AD2FF&}СТРОИТЕЛЬСТВА!{\c&HFFFFFF&}
+Dialogue: 0,0:00:20.00,0:00:20.80,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЗА ОДИН ДЕНЬ
+Dialogue: 0,0:00:20.80,0:00:21.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТЫ ПЕРЕСТАВИЛ {\c&H3AD2FF&}ТРИ{\c&HFFFFFF&}
+Dialogue: 0,0:00:21.84,0:00:22.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}РАЙОНА,{\c&HFFFFFF&}
+Dialogue: 0,0:00:22.32,0:00:23.12,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧТОБЫ У ВСЕХ
+Dialogue: 0,0:00:23.12,0:00:23.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}БЫЛИ ОКНА НА
+Dialogue: 0,0:00:23.88,0:00:25.23,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}СОЛНЕЧНУЮ СТОРОНУ.
+Dialogue: 0,0:00:25.23,0:00:26.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ПРОБКИ{\c&HFFFFFF&} ИСЧЕЗЛИ ТЫ
+Dialogue: 0,0:00:26.56,0:00:28.40,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРОСТО {\c&H3AD2FF&}РАЗДВИНУЛ{\c&HFFFFFF&} УЛИЦЫ.
+Dialogue: 0,0:00:28.40,0:00:29.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}РЕЙТИНГ {\c&H3AD2FF&}ДЕВЯНОСТО{\c&HFFFFFF&}
+Dialogue: 0,0:00:29.60,0:00:30.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ДЕВЯТЬ{\c&HFFFFFF&} {\c&H3AD2FF&}ПРОЦЕНТОВ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:30.88,0:00:31.96,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОДИН ПРОЦЕНТ ЭТО
+Dialogue: 0,0:00:31.96,0:00:32.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}СОСЕД,
+Dialogue: 0,0:00:32.36,0:00:33.12,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КОТОРОМУ ТЫ ПОМЯЛ
+Dialogue: 0,0:00:33.12,0:00:33.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}КЛУМБУ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:33.84,0:00:34.80,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}К ВЕЧЕРУ СТРАНЫ
+Dialogue: 0,0:00:34.80,0:00:35.76,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}УСТАЛИ СПОРИТЬ,
+Dialogue: 0,0:00:35.76,0:00:36.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КТО {\c&H3AD2FF&}ГЛАВНЫЙ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:36.56,0:00:37.41,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И РЕШИЛИ:
+Dialogue: 0,0:00:37.41,0:00:38.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПУСТЬ ГЛАВНЫМ БУДЕТ
+Dialogue: 0,0:00:38.48,0:00:38.85,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТОТ,
+Dialogue: 0,0:00:38.85,0:00:39.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КТО МОЖЕТ {\c&H3AD2FF&}ПОДНЯТЬ{\c&HFFFFFF&}
+Dialogue: 0,0:00:39.84,0:00:40.72,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ИХ ВСЕ.
+Dialogue: 0,0:00:40.72,0:00:41.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТАК ТЫ СТАЛ
+Dialogue: 0,0:00:41.48,0:00:42.80,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ПРЕЗИДЕНТОМ{\c&HFFFFFF&} ВСЕГО
+Dialogue: 0,0:00:42.80,0:00:43.65,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МИРА!{\c&HFFFFFF&}
+Dialogue: 0,0:00:43.65,0:00:44.61,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПЕРВЫЙ {\c&H3AD2FF&}УКАЗ:{\c&HFFFFFF&}
+Dialogue: 0,0:00:44.61,0:00:46.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КАЖДОМУ ЧЕЛОВЕКУ {\c&H3AD2FF&}ДОМ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:46.56,0:00:47.28,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВТОРОЙ:
+Dialogue: 0,0:00:47.28,0:00:49.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}СОСЕДУ НОВУЮ {\c&H3AD2FF&}КЛУМБУ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:49.04,0:00:49.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}А ТРЕТИЙ ТЫ
+Dialogue: 0,0:00:49.84,0:00:51.25,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПОДПИСАТЬ НЕ УСПЕЛ.
+Dialogue: 0,0:00:51.25,0:00:52.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В ДВЕРЬ {\c&H3AD2FF&}ПОСТУЧАЛИ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:52.56,0:00:53.73,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}«ДЯДЯ ПРЕЗИДЕНТ,
+Dialogue: 0,0:00:53.73,0:00:55.34,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОН ОПЯТЬ {\c&H3AD2FF&}ЗАКАТИЛСЯ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:55.34,0:00:56.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТОЛЬКО ТЕПЕРЬ ПОД
+Dialogue: 0,0:00:56.48,0:00:57.29,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЛУНУ».{\c&HFFFFFF&}
