@@ -1,0 +1,55 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,DejaVu Sans,88,&H00FFFFFF,&H00FFFFFF,&H00D0501F,&HA0100818,-1,0,0,0,100,100,1,0,1,9,5,2,60,60,600,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.07,0:00:01.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРЕДСТАВЬ:
+Dialogue: 0,0:00:01.04,0:00:02.16,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}САМОЛЁТ {\c&H3AD2FF&}ВЗРЫВАЕТСЯ{\c&HFFFFFF&}
+Dialogue: 0,0:00:02.16,0:00:02.92,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРЯМО В {\c&H3AD2FF&}НЕБЕ{\c&HFFFFFF&}
+Dialogue: 0,0:00:02.92,0:00:03.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НА ВЫСОТЕ БОЛЕЕ
+Dialogue: 0,0:00:03.84,0:00:05.21,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ДЕСЯТИ{\c&HFFFFFF&} {\c&H3AD2FF&}КИЛОМЕТРОВ…{\c&HFFFFFF&}
+Dialogue: 0,0:00:05.59,0:00:06.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И СРЕДИ ВСЕХ
+Dialogue: 0,0:00:06.32,0:00:08.03,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПАССАЖИРОВ ВЫЖИВАЕТ
+Dialogue: 0,0:00:08.03,0:00:09.92,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТОЛЬКО {\c&H3AD2FF&}ОДИН{\c&HFFFFFF&} {\c&H3AD2FF&}ЧЕЛОВЕК.{\c&HFFFFFF&}
+Dialogue: 0,0:00:09.92,0:00:10.96,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЕЁ ЗВАЛИ {\c&H3AD2FF&}ВЕСНА{\c&HFFFFFF&}
+Dialogue: 0,0:00:10.96,0:00:11.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ВУЛОВИЧ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:11.84,0:00:12.72,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В ТЫСЯЧА ДЕВЯТЬСОТ
+Dialogue: 0,0:00:12.72,0:00:14.00,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}СЕМЬДЕСЯТ ВТОРОМ ГОДУ
+Dialogue: 0,0:00:14.00,0:00:15.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОНА РАБОТАЛА {\c&H3AD2FF&}СТЮАРДЕССОЙ{\c&HFFFFFF&}
+Dialogue: 0,0:00:15.32,0:00:17.26,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НА ЮГОСЛАВСКОМ САМОЛЁТЕ.
+Dialogue: 0,0:00:17.26,0:00:18.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВО ВРЕМЯ ПОЛЁТА
+Dialogue: 0,0:00:18.32,0:00:19.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}САМОЛЁТ {\c&H3AD2FF&}РАЗРУШИЛСЯ{\c&HFFFFFF&}
+Dialogue: 0,0:00:19.48,0:00:20.63,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В ВОЗДУХЕ.
+Dialogue: 0,0:00:20.63,0:00:21.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ВЕСНА{\c&HFFFFFF&} ОКАЗАЛАСЬ ВНУТРИ
+Dialogue: 0,0:00:21.84,0:00:23.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ХВОСТОВОЙ{\c&HFFFFFF&} ЧАСТИ САМОЛЁТА,
+Dialogue: 0,0:00:23.36,0:00:24.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КОТОРАЯ УПАЛА В
+Dialogue: 0,0:00:24.32,0:00:25.75,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЗАСНЕЖЕННЫЙ{\c&HFFFFFF&} {\c&H3AD2FF&}ЛЕС.{\c&HFFFFFF&}
+Dialogue: 0,0:00:25.75,0:00:27.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МЕСТНЫЙ{\c&HFFFFFF&} ЖИТЕЛЬ ОБНАРУЖИЛ
+Dialogue: 0,0:00:27.04,0:00:28.20,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЕЁ СРЕДИ ОБЛОМКОВ
+Dialogue: 0,0:00:28.20,0:00:29.20,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}И ПОМОГ ДОЖДАТЬСЯ
+Dialogue: 0,0:00:29.20,0:00:30.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}СПАСАТЕЛЕЙ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:30.24,0:00:31.52,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОНА ПОЛУЧИЛА {\c&H3AD2FF&}ТЯЖЁЛЫЕ{\c&HFFFFFF&}
+Dialogue: 0,0:00:31.52,0:00:32.24,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ТРАВМЫ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:32.24,0:00:33.76,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ДОЛГО ВОССТАНАВЛИВАЛАСЬ,
+Dialogue: 0,0:00:33.76,0:00:35.44,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}НО НЕВЕРОЯТНЫМ ОБРАЗОМ
+Dialogue: 0,0:00:35.44,0:00:36.95,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}СНОВА СМОГЛА {\c&H3AD2FF&}ХОДИТЬ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:36.95,0:00:37.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В ТЫСЯЧА ДЕВЯТЬСОТ
+Dialogue: 0,0:00:37.84,0:00:38.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВОСЕМЬДЕСЯТ ПЯТОМ
+Dialogue: 0,0:00:38.84,0:00:39.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ГОДУ ЕЁ ИМЯ
+Dialogue: 0,0:00:39.84,0:00:40.68,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВНЕСЛИ В {\c&H3AD2FF&}КНИГУ{\c&HFFFFFF&}
+Dialogue: 0,0:00:40.68,0:00:42.07,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}РЕКОРДОВ{\c&HFFFFFF&} {\c&H3AD2FF&}ГИННЕССА.{\c&HFFFFFF&}
+Dialogue: 0,0:00:42.07,0:00:43.28,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОНА СТАЛА ЧЕЛОВЕКОМ,
+Dialogue: 0,0:00:43.28,0:00:45.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПЕРЕЖИВШИМ САМОЕ ВЫСОКОЕ
+Dialogue: 0,0:00:45.04,0:00:46.96,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПАДЕНИЕ БЕЗ {\c&H3AD2FF&}ПАРАШЮТА{\c&HFFFFFF&}
+Dialogue: 0,0:00:46.96,0:00:48.00,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ДЕСЯТЬ{\c&HFFFFFF&} {\c&H3AD2FF&}ТЫСЯЧ{\c&HFFFFFF&} СТО
+Dialogue: 0,0:00:48.00,0:00:49.44,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ШЕСТЬДЕСЯТ{\c&HFFFFFF&} {\c&H3AD2FF&}МЕТРОВ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:49.44,0:00:50.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ИНОГДА РЕАЛЬНОСТЬ
+Dialogue: 0,0:00:50.88,0:00:52.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОКАЗЫВАЕТСЯ {\c&H3AD2FF&}НЕВЕРОЯТНЕЕ{\c&HFFFFFF&}
+Dialogue: 0,0:00:52.48,0:00:53.93,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЛЮБОГО {\c&H3AD2FF&}ФИЛЬМА.{\c&HFFFFFF&}
