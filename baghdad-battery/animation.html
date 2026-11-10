@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Багдадская батарейка</title>
+<style>
+  html, body { margin: 0; background: #000; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: Inter, 'DejaVu Sans', sans-serif; }
+  svg { position: absolute; left: 0; top: 0; }
+  text { font-family: Inter, 'DejaVu Sans', sans-serif; }
+  #cap {
+    position: absolute; left: 40px; width: 1000px; top: 1436px; text-wrap: balance; height: 150px;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    color: #fff; font-weight: 800; font-size: 52px; line-height: 1.16; letter-spacing: -0.5px;
+    text-shadow: 0 0 14px rgba(6,8,26,.95), 0 4px 0 rgba(6,8,26,.9), 0 0 4px rgba(6,8,26,1);
+  }
+  #cap span { display: inline-block; padding: 10px 26px; background: rgba(8,10,30,.62); border-radius: 26px; }
+</style>
+</head>
+<body>
+<div id="stage">
+<svg id="svg" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<div id="cap"></div>
+</div>
+<script src="timing.js"></script>
+<script>
+/* ---------- helpers ---------- */
+const cl = x => Math.max(0, Math.min(1, x));
+const pr = (t, a, d) => cl((t - a) / d);
+const eo = x => 1 - Math.pow(1 - x, 3);
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const lerp = (a, b, k) => a + (b - a) * k;
+const $ = id => document.getElementById(id);
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+const T = window.TIMING;
+const S = T.scenes;             // start time of each of the 5 scenes
+const END = T.voiceEnd;         // narration end
+const DUR = T.duration;
+const C = id => T.caps.find(c => c.id === id).a;   // cue = start of a caption chunk
+
+/* ---------- reusable drawings ---------- */
+const JAR = 'M -92,-300 L 92,-300 L 82,-250 C 205,-200 225,110 132,300 L -132,300 C -225,110 -205,-200 -82,-250 Z';
+const BOLT = 'M12,-52 L-26,6 L-3,6 L-13,52 L29,-11 L5,-11 Z';
+
+function battery(id) {
+  return `<g id="${id}">
+    <rect x="-28" y="-222" width="56" height="34" rx="8" fill="#c9ced6"/>
+    <rect x="-78" y="-196" width="156" height="396" rx="24" fill="#22252e"/>
+    <path d="M-78,-20 L78,-20 L78,-172 a24,24 0 0 0 -24,-24 L-54,-196 a24,24 0 0 0 -24,24 Z" fill="#f4b223"/>
+    <rect x="-78" y="-32" width="156" height="14" fill="#fff" opacity=".85"/>
+    <rect x="-58" y="-180" width="20" height="364" rx="10" fill="#fff" opacity=".22"/>
+    <text x="0" y="-92" font-size="78" font-weight="900" text-anchor="middle" fill="#22252e">+</text>
+    <path d="${BOLT}" transform="translate(0,96) scale(1.15)" fill="#f4b223"/>
+  </g>`;
+}
+
+/* ---------- build the scene graph ---------- */
+let stars = '';
+for (let i = 0; i < 90; i++) {
+  stars += `<circle class="star" cx="${(rnd() * 1080).toFixed(0)}" cy="${(rnd() * 1050).toFixed(0)}" r="${(1 + rnd() * 2.6).toFixed(1)}" fill="#fff" data-p="${(rnd() * 6.28).toFixed(2)}" data-s="${(0.6 + rnd() * 1.6).toFixed(2)}"/>`;
+}
+let grid = '';
+for (let x = 0; x <= 1080; x += 90) grid += `<line x1="${x}" y1="0" x2="${x}" y2="1920"/>`;
+for (let y = 0; y <= 1920; y += 90) grid += `<line x1="0" y1="${y}" x2="1080" y2="${y}"/>`;
+let dust = '';
+for (let i = 0; i < 26; i++) dust += `<circle class="dust" r="${(5 + rnd() * 12).toFixed(1)}" fill="#f0cf9a" data-a="${(rnd() * 6.28).toFixed(2)}" data-d="${(rnd()).toFixed(2)}" data-v="${(0.6 + rnd() * 0.8).toFixed(2)}"/>`;
+let bubbles = '';
+for (let i = 0; i < 14; i++) bubbles += `<circle class="bub" r="${(4 + rnd() * 7).toFixed(1)}" fill="#f4ffd0" opacity=".8" data-x="${(-44 + rnd() * 88).toFixed(0)}" data-p="${rnd().toFixed(2)}" data-v="${(0.35 + rnd() * 0.5).toFixed(2)}"/>`;
+let qs = '';
+for (let i = 0; i < 7; i++) qs += `<text class="q" font-size="120" font-weight="900" text-anchor="middle" fill="#ffd257" data-i="${i}">?</text>`;
+
+$('svg').innerHTML = `
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#090b26"/><stop offset=".45" stop-color="#251a52"/>
+    <stop offset=".72" stop-color="#7a3a5e"/><stop offset=".9" stop-color="#e08a4a"/>
+  </linearGradient>
+  <radialGradient id="halo"><stop offset="0" stop-color="#ffe08a" stop-opacity=".85"/><stop offset=".5" stop-color="#ffb347" stop-opacity=".28"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+  <radialGradient id="ehalo"><stop offset="0" stop-color="#9fe8ff" stop-opacity=".9"/><stop offset=".5" stop-color="#4cc3ff" stop-opacity=".3"/><stop offset="1" stop-color="#4cc3ff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="clay" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#9c5f38"/><stop offset=".35" stop-color="#d79a66"/><stop offset=".7" stop-color="#c58352"/><stop offset="1" stop-color="#8a5030"/>
+  </linearGradient>
+  <linearGradient id="copper" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#a8501f"/><stop offset=".3" stop-color="#f0a166"/><stop offset=".65" stop-color="#d9773a"/><stop offset="1" stop-color="#99451a"/>
+  </linearGradient>
+  <linearGradient id="iron" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#5d636e"/><stop offset=".4" stop-color="#c3c9d3"/><stop offset="1" stop-color="#565c67"/>
+  </linearGradient>
+  <clipPath id="jarclip"><path d="${JAR}"/></clipPath>
+  <clipPath id="cutclip"><circle id="cutcircle" cx="0" cy="20" r="0"/></clipPath>
+  <clipPath id="liqclip"><rect id="liqrect" x="-46" y="230" width="92" height="0"/></clipPath>
+  <clipPath id="cylclip"><rect x="-46" y="-205" width="92" height="435"/></clipPath>
+</defs>
+
+<!-- background -->
+<rect width="1080" height="1920" fill="url(#sky)"/>
+<g id="stars">${stars}</g>
+<circle id="moon" cx="952" cy="150" r="58" fill="#fff3cf"/>
+<circle id="moonb" cx="930" cy="136" r="52" fill="#1a1646"/>
+<path id="dune1" d="M-200,1260 C100,1120 330,1190 560,1250 C800,1310 1000,1150 1400,1230 L1400,1920 L-200,1920 Z" fill="#b5653f"/>
+<path id="dune2" d="M-200,1380 C150,1290 380,1420 640,1380 C860,1345 1050,1300 1400,1400 L1400,1920 L-200,1920 Z" fill="#8c4530"/>
+<path id="dune3" d="M-200,1560 C200,1470 500,1570 760,1540 C940,1520 1100,1500 1400,1560 L1400,1920 L-200,1920 Z" fill="#5b2a2a"/>
+
+<!-- lab backdrop for cutaway scenes -->
+<g id="lab" opacity="0">
+  <rect width="1080" height="1920" fill="#0a1030" opacity=".86"/>
+  <g stroke="#5f8dff" stroke-width="1.5" opacity=".14">${grid}</g>
+</g>
+
+<!-- scene 2: map -->
+<g id="map" opacity="0">
+  <g transform="rotate(-2 540 780)">
+    <rect x="120" y="470" width="840" height="640" rx="34" fill="#ead6ab"/>
+    <rect x="120" y="470" width="840" height="640" rx="34" fill="none" stroke="#b9945a" stroke-width="6"/>
+    <path d="M700,1110 L960,900 L960,1076 a34,34 0 0 1 -34,34 Z" fill="#8fc2d8"/>
+    <path id="tigris" d="M430,470 C470,560 440,640 520,720 C600,800 640,880 760,960 C800,990 830,1010 860,1030" fill="none" stroke="#3f8fc4" stroke-width="12" stroke-linecap="round"/>
+    <path id="euph" d="M180,520 C280,600 300,720 420,800 C540,880 640,960 800,1010 C830,1020 845,1026 860,1030" fill="none" stroke="#3f8fc4" stroke-width="12" stroke-linecap="round"/>
+    <text x="640" y="760" font-size="34" font-weight="700" fill="#3f7fa8" transform="rotate(38 640 760)">Тигр</text>
+    <text x="250" y="700" font-size="34" font-weight="700" fill="#3f7fa8" transform="rotate(40 250 700)">Евфрат</text>
+    <text x="180" y="1060" font-size="40" font-weight="800" fill="#a8824a" letter-spacing="6">МЕСОПОТАМИЯ</text>
+    <g id="pin">
+      <circle id="ripple" cx="520" cy="720" r="20" fill="none" stroke="#e23b3b" stroke-width="6"/>
+      <g id="pinbody">
+        <path d="M520,720 C470,650 462,612 462,592 a58,58 0 1 1 116,0 C578,612 570,650 520,720 Z" fill="#e23b3b"/>
+        <circle cx="520" cy="592" r="22" fill="#fff"/>
+      </g>
+      <g id="pinlabel">
+        <rect x="596" y="556" width="250" height="78" rx="20" fill="#1c1f3a"/>
+        <text x="721" y="611" font-size="50" font-weight="800" text-anchor="middle" fill="#fff">Багдад</text>
+      </g>
+    </g>
+  </g>
+  <text id="year" x="540" y="420" font-size="170" font-weight="900" text-anchor="middle" fill="#ffd257" stroke="#1a1438" stroke-width="10" paint-order="stroke">1936</text>
+</g>
+
+<!-- halos behind the jar -->
+<circle id="haloC" cx="0" cy="0" r="520" fill="url(#halo)" opacity="0"/>
+<circle id="ehaloC" cx="0" cy="0" r="560" fill="url(#ehalo)" opacity="0"/>
+<g id="qback"></g>
+
+<!-- hero jar -->
+<g id="jar">
+  <ellipse cx="0" cy="306" rx="170" ry="22" fill="#000" opacity=".28"/>
+  <path d="${JAR}" fill="url(#clay)"/>
+  <g clip-path="url(#jarclip)">
+    <path d="M-240,-120 C-80,-90 80,-150 240,-110" fill="none" stroke="#7d4627" stroke-width="7" opacity=".55"/>
+    <path d="M-240,-92 C-80,-62 80,-122 240,-82" fill="none" stroke="#7d4627" stroke-width="4" opacity=".4"/>
+    <path d="M-240,170 C-80,200 80,150 240,185" fill="none" stroke="#7d4627" stroke-width="6" opacity=".45"/>
+    <ellipse cx="-95" cy="20" rx="26" ry="150" fill="#fff" opacity=".13"/>
+    <path d="M60,-40 l14,34 l-10,30 l16,40" fill="none" stroke="#6b3a20" stroke-width="4" opacity=".6"/>
+  </g>
+  <rect x="-108" y="-326" width="216" height="34" rx="15" fill="#b7754a"/>
+  <rect x="-108" y="-326" width="216" height="12" rx="6" fill="#e0a877" opacity=".7"/>
+
+  <!-- interior, revealed by the cut circle -->
+  <g id="inner" clip-path="url(#cutclip)">
+    <g clip-path="url(#jarclip)">
+      <path d="${JAR}" fill="#2a1710" transform="translate(0,-2) scale(.88,.95)"/>
+      <!-- asphalt plug -->
+      <rect x="-72" y="-252" width="144" height="50" rx="8" fill="#15151c"/>
+      <!-- copper cylinder -->
+      <rect x="-58" y="-208" width="116" height="452" rx="10" fill="url(#copper)"/>
+      <rect x="-46" y="-205" width="92" height="435" fill="#3b1d10"/>
+      <!-- liquid -->
+      <g clip-path="url(#liqclip)">
+        <rect x="-46" y="-205" width="92" height="435" fill="#b9e04a" opacity=".86"/>
+      </g>
+      <g id="bubs" clip-path="url(#cylclip)">${bubbles}</g>
+      <rect id="liqtop" x="-46" y="230" width="92" height="7" fill="#f1ffb0" opacity="0"/>
+      <!-- iron rod -->
+      <rect x="-15" y="-296" width="30" height="486" rx="9" fill="url(#iron)"/>
+      <path d="M-15,120 l8,-14 l7,12 l8,-16 l7,18 L15,190 a9,9 0 0 1 -9,9 L-6,199 a9,9 0 0 1 -9,-9 Z" fill="#7b4a2f" opacity=".75"/>
+    </g>
+    <path d="${JAR}" fill="none" stroke="#e7b48a" stroke-width="7"/>
+  </g>
+  <rect id="scan" x="-260" y="-340" width="520" height="26" fill="#aef3ff" opacity="0" clip-path="url(#jarclip)"/>
+</g>
+
+<g id="qfront">${qs}</g>
+<g id="dustg">${dust}</g>
+
+<!-- scene 1 foreground dune and props -->
+<path id="fore" d="M-200,1330 C120,1230 380,1300 620,1290 C860,1280 1040,1240 1400,1320 L1400,1920 L-200,1920 Z" fill="#c9793f"/>
+<g id="s1">
+  <g id="hook">
+    <text id="hook1" x="540" y="390" font-size="92" font-weight="900" text-anchor="middle" fill="#fff">Электричество</text>
+    <text id="hook2" x="540" y="510" font-size="92" font-weight="900" text-anchor="middle" fill="#ffd257">2000 лет назад?</text>
+  </g>
+  <g id="age">
+    <rect x="-190" y="-52" width="380" height="104" rx="52" fill="#ffd257"/>
+    <text x="0" y="22" font-size="62" font-weight="900" text-anchor="middle" fill="#1a1438">≈ 2000 лет</text>
+  </g>
+  ${battery('bat1')}
+  <text id="approx" x="578" y="1070" font-size="150" font-weight="900" text-anchor="middle" fill="#fff" stroke="#1a1438" stroke-width="10" paint-order="stroke">≈</text>
+</g>
+
+<!-- scene 2 jar caption -->
+<g id="s2b" opacity="0">
+  <rect x="290" y="330" width="500" height="92" rx="46" fill="#1c1f3a" stroke="#ffd257" stroke-width="4"/>
+  <text x="540" y="393" font-size="46" font-weight="800" text-anchor="middle" fill="#fff">высота ≈ 13 см</text>
+</g>
+
+<!-- scene 3 labels -->
+<g id="s3" opacity="1">
+  <g id="lblCu">
+    <path id="lineCu" d="M250,520 L470,700" fill="none" stroke="#f0a166" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="470" cy="700" r="12" fill="#f0a166"/>
+    <rect x="30" y="420" width="450" height="96" rx="48" fill="#f0a166"/>
+    <text x="255" y="483" font-size="42" font-weight="900" text-anchor="middle" fill="#2a1408">Медный цилиндр</text>
+  </g>
+  <g id="lblFe">
+    <path id="lineFe" d="M800,410 L548,548" fill="none" stroke="#c3c9d3" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="548" cy="548" r="12" fill="#c3c9d3"/>
+    <rect x="545" y="300" width="500" height="96" rx="48" fill="#c3c9d3"/>
+    <text x="795" y="363" font-size="42" font-weight="900" text-anchor="middle" fill="#1a1d26">Железный стержень</text>
+  </g>
+  <g id="bolts">
+    <path class="bolt" d="${BOLT}" transform="translate(130,1010) scale(2.3) rotate(-14)" fill="#ffe14d" stroke="#fff" stroke-width="2"/>
+    <path class="bolt" d="${BOLT}" transform="translate(955,960) scale(2.0) rotate(16)" fill="#ffe14d" stroke="#fff" stroke-width="2"/>
+    <path class="bolt" d="${BOLT}" transform="translate(190,1290) scale(1.4) rotate(10)" fill="#9fe8ff" stroke="#fff" stroke-width="2"/>
+    <path class="bolt" d="${BOLT}" transform="translate(900,1270) scale(1.6) rotate(-8)" fill="#9fe8ff" stroke="#fff" stroke-width="2"/>
+  </g>
+</g>
+
+<!-- scene 4: voltmeter, wires, liquid label, stamp -->
+<g id="s4" opacity="0">
+  <path id="wireA" d="M540,752 C540,700 430,700 430,640" fill="none" stroke="#ff5a5a" stroke-width="9" stroke-linecap="round"/>
+  <path id="wireB" d="M588,742 C600,700 650,700 650,640" fill="none" stroke="#4cc3ff" stroke-width="9" stroke-linecap="round"/>
+  <g id="meter">
+    <rect x="290" y="300" width="500" height="350" rx="40" fill="#1c1f3a" stroke="#5f8dff" stroke-width="5"/>
+    <path d="M360,520 A180,180 0 0 1 720,520" fill="none" stroke="#39406e" stroke-width="26" stroke-linecap="round"/>
+    <path id="arc" d="M360,520 A180,180 0 0 1 720,520" fill="none" stroke="#b9e04a" stroke-width="26" stroke-linecap="round"/>
+    <g id="needle"><path d="M540,520 L540,358" stroke="#fff" stroke-width="9" stroke-linecap="round"/></g>
+    <circle cx="540" cy="520" r="20" fill="#fff"/>
+    <text id="volt" x="540" y="618" font-size="64" font-weight="900" text-anchor="middle" fill="#b9e04a">0,0 В</text>
+    <circle cx="430" cy="640" r="15" fill="#ff5a5a"/><circle cx="650" cy="640" r="15" fill="#4cc3ff"/>
+  </g>
+  <g id="lblAcid">
+    <path d="M250,1010 L500,1170" fill="none" stroke="#b9e04a" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="500" cy="1170" r="12" fill="#b9e04a"/>
+    <rect x="24" y="900" width="262" height="150" rx="36" fill="#b9e04a"/>
+    <text x="155" y="962" font-size="44" font-weight="900" text-anchor="middle" fill="#1c2a05">Кислая</text>
+    <text x="155" y="1016" font-size="44" font-weight="900" text-anchor="middle" fill="#1c2a05">жидкость</text>
+  </g>
+  <g id="stamp">
+    <g transform="rotate(-11)">
+      <rect x="-380" y="-100" width="760" height="200" rx="26" fill="rgba(20,8,12,.72)" stroke="#ff4d4d" stroke-width="12"/>
+      <rect x="-356" y="-76" width="712" height="152" rx="14" fill="none" stroke="#ff4d4d" stroke-width="4"/>
+      <text x="0" y="42" font-size="116" font-weight="900" text-anchor="middle" fill="#ff4d4d" letter-spacing="6">ГИПОТЕЗА</text>
+    </g>
+  </g>
+</g>
+
+<!-- scene 5: options -->
+<g id="s5" opacity="0">
+  <g id="optA">
+    <rect x="-215" y="-160" width="430" height="320" rx="40" fill="#1c1f3a" stroke="#ffd257" stroke-width="6"/>
+    <g transform="translate(0,-34) scale(.42) rotate(90)">${battery('bat2')}</g>
+    <text x="0" y="112" font-size="48" font-weight="900" text-anchor="middle" fill="#ffd257">Батарейка?</text>
+  </g>
+  <g id="optB">
+    <rect x="-215" y="-160" width="430" height="320" rx="40" fill="#1c1f3a" stroke="#9fb4ff" stroke-width="6"/>
+    <g transform="translate(0,-40)">
+      <rect x="-92" y="-62" width="184" height="124" rx="10" fill="#ead6ab"/>
+      <rect x="-108" y="-76" width="216" height="28" rx="14" fill="#c9a66b"/>
+      <rect x="-108" y="48" width="216" height="28" rx="14" fill="#c9a66b"/>
+      <text x="0" y="34" font-size="92" font-weight="900" text-anchor="middle" fill="#7a5a2a">?</text>
+    </g>
+    <text x="0" y="112" font-size="44" font-weight="900" text-anchor="middle" fill="#9fb4ff">Что-то другое?</text>
+  </g>
+</g>
+
+<!-- top tag -->
+<g id="tag">
+  <rect x="250" y="160" width="580" height="74" rx="37" fill="rgba(10,12,36,.7)" stroke="#ffd257" stroke-width="3"/>
+  <text x="540" y="211" font-size="36" font-weight="800" text-anchor="middle" fill="#ffd257" letter-spacing="3">БАГДАДСКАЯ БАТАРЕЙКА</text>
+</g>
+
+<!-- finale -->
+<g id="fin" opacity="0">
+  <rect width="1080" height="1920" fill="#080a22" opacity=".8"/>
+  <g id="fintext">
+    <text x="540" y="870" font-size="128" font-weight="900" text-anchor="middle" fill="#fff">А как</text>
+    <text x="540" y="1020" font-size="128" font-weight="900" text-anchor="middle" fill="#ffd257">думаешь ты?</text>
+  </g>
+</g>
+`;
+
+/* ---------- timeline ---------- */
+const cue = {
+  age: C('c3'), bat: C('c4'), year: C('c6'), pin: C('c7'), jar2: C('c9'), scan: C('c10'),
+  cut: C('c12'), cu: C('c13'), fe: C('c14'), spark: C('c17'),
+  fill: C('c20'), volt: C('c22'), stamp: C('c24'),
+  optA: C('c28'), optB: C('c30'), fin: END + 0.35
+};
+
+// hero jar keyframes: [time, x, y, scale]
+const KF = [
+  [0, 430, 1560, .78], [0.25, 430, 1560, .78], [2.2, 430, 1085, .78],
+  [cue.bat - .1, 430, 1085, .78], [cue.bat + .7, 300, 1085, .74],
+  [S[1] - .05, 300, 1085, .74], [S[1] + .5, 300, 1700, .74],
+  [cue.jar2 - .02, 540, 1500, .6], [cue.jar2 + .7, 540, 900, 1.12],
+  [S[2] - .1, 540, 900, 1.12], [S[2] + .8, 540, 940, 1.33],
+  [S[3] - .1, 540, 940, 1.33], [S[3] + .9, 540, 1062, 1.03],
+  [S[4] - .1, 540, 1062, 1.03], [S[4] + .9, 540, 800, 1.0],
+  [cue.optA - .2, 540, 800, 1.0], [cue.optA + .7, 540, 690, .82],
+  [DUR + 1, 540, 690, .82]
+];
+function jarPose(t) {
+  let i = 0; while (i < KF.length - 2 && t >= KF[i + 1][0]) i++;
+  const a = KF[i], b = KF[i + 1];
+  const k = eio(cl((t - a[0]) / Math.max(1e-6, b[0] - a[0])));
+  return [lerp(a[1], b[1], k), lerp(a[2], b[2], k), lerp(a[3], b[3], k)];
+}
+const fadeIO = (t, a, b, f = .4) => Math.min(pr(t, a, f), 1 - pr(t, b, f));
+const pop = (t, a, d = .5) => { const k = pr(t, a, d); return k <= 0 ? 0 : back(k); };
+const set = (id, k, v) => $(id).setAttribute(k, v);
+const op = (id, v) => $(id).setAttribute('opacity', cl(v).toFixed(3));
+
+const starEls = [...document.querySelectorAll('.star')];
+const dustEls = [...document.querySelectorAll('.dust')];
+const bubEls = [...document.querySelectorAll('.bub')];
+const boltEls = [...document.querySelectorAll('.bolt')];
+const qEls = [...document.querySelectorAll('.q')];
+const lenA = $('wireA').getTotalLength(), lenB = $('wireB').getTotalLength(), lenArc = $('arc').getTotalLength();
+const lenT = $('tigris').getTotalLength(), lenE = $('euph').getTotalLength();
+
+window.renderAt = function (t) {
+  /* background */
+  starEls.forEach(s => s.setAttribute('opacity', (0.35 + 0.55 * (0.5 + 0.5 * Math.sin(t * s.dataset.s + +s.dataset.p))).toFixed(2)));
+  set('dune1', 'transform', `translate(${(-t * 2.2).toFixed(1)},0)`);
+  set('dune2', 'transform', `translate(${(t * 3.4 - 60).toFixed(1)},0)`);
+  set('dune3', 'transform', `translate(${(-t * 5 + 40).toFixed(1)},0)`);
+  const moonY = -t * 1.6;
+  set('moon', 'transform', `translate(0,${moonY.toFixed(1)})`); set('moonb', 'transform', `translate(0,${moonY.toFixed(1)})`);
+
+  const lab = fadeIO(t, S[2] - .1, S[4] - .1, .7);
+  op('lab', lab);
+
+  /* hero jar */
+  const [jx, jy, js] = jarPose(t);
+  const mapPhase = t > S[1] + .5 && t < cue.jar2;
+  let jarOp = mapPhase ? 0 : 1;
+  const shake = (t > cue.scan && t < S[2]) ? Math.sin(t * 38) * 5 * (1 - pr(t, cue.scan, S[2] - cue.scan)) : 0;
+  const bob = Math.sin(t * 1.7) * 6 * (t > cue.jar2 ? 1 : 0);
+  set('jar', 'transform', `translate(${(jx + shake).toFixed(1)},${(jy + bob).toFixed(1)}) scale(${js.toFixed(4)})`);
+  op('jar', jarOp);
+
+  // cutaway
+  const cut = eo(pr(t, cue.cut, 1.2)) * (1 - eo(pr(t, S[4] - .2, .9)));
+  const ghost = (t > cue.scan && t < cue.cut) ? 0 : 1;
+  set('cutcircle', 'r', (cut * 430).toFixed(1));
+  op('inner', ghost);
+  // x-ray scan sweep in scene 2
+  const sc = pr(t, cue.scan, S[2] - cue.scan);
+  const scy = -340 + ((sc * 2) % 1) * 660;
+  set('scan', 'y', scy.toFixed(1));
+  op('scan', (t > cue.scan && t < S[2]) ? .75 : 0);
+
+  // liquid
+  const liq = eio(pr(t, cue.fill, 2.4)) * .82 * (1 - pr(t, S[4] - .2, .6));
+  const lh = 435 * liq;
+  set('liqrect', 'y', (230 - lh).toFixed(1)); set('liqrect', 'height', lh.toFixed(1));
+  set('liqtop', 'y', (230 - lh - 3).toFixed(1)); op('liqtop', liq > 0.01 ? .9 : 0);
+  bubEls.forEach(b => {
+    const ph = ((t * +b.dataset.v + +b.dataset.p) % 1);
+    const y = 228 - ph * lh;
+    b.setAttribute('cx', (+b.dataset.x + Math.sin(t * 5 + +b.dataset.p * 9) * 5).toFixed(1));
+    b.setAttribute('cy', y.toFixed(1));
+    b.setAttribute('opacity', (liq > 0.05 && Math.abs(+b.dataset.x) > 18 ? .8 * Math.sin(ph * Math.PI) : 0).toFixed(2));
+  });
+
+  // halos
+  const warm = fadeIO(t, 0.8, S[1] - .2, .8) * .8 + fadeIO(t, cue.jar2, S[2], .6) * .7 + fadeIO(t, S[4] + .3, DUR + 2, .8) * .6;
+  set('haloC', 'transform', `translate(${jx.toFixed(1)},${jy.toFixed(1)}) scale(${(js * (1 + .05 * Math.sin(t * 2.4))).toFixed(3)})`);
+  op('haloC', warm);
+  const sparkOn = t >= cue.spark && t < S[3] + .3;
+  const voltOn = pr(t, cue.volt, .6) * (1 - pr(t, S[4] - .3, .5));
+  set('ehaloC', 'transform', `translate(${jx.toFixed(1)},${jy.toFixed(1)}) scale(${(js * (1 + .07 * Math.sin(t * 9))).toFixed(3)})`);
+  op('ehaloC', (sparkOn ? .75 * pr(t, cue.spark, .3) * (1 - pr(t, S[3] - .1, .4)) : 0) + voltOn * .45);
+
+  /* scene 1 */
+  const s1 = 1 - pr(t, S[1] - .05, .45);
+  op('s1', s1);
+  set('fore', 'transform', `translate(0,${(eio(pr(t, S[1], .7)) * 700).toFixed(1)})`);
+  const h1 = pop(t, .15, .5), h2 = pop(t, .55, .5);
+  set('hook1', 'transform', `translate(540,390) scale(${h1.toFixed(3)}) translate(-540,-390)`); op('hook1', pr(t, .15, .2));
+  set('hook2', 'transform', `translate(540,510) scale(${h2.toFixed(3)}) translate(-540,-510)`); op('hook2', pr(t, .55, .2));
+  const ag = pop(t, cue.age, .5);
+  set('age', 'transform', `translate(${jx.toFixed(1)},${(jy - 345).toFixed(1)}) scale(${ag.toFixed(3)}) rotate(${(-4 + Math.sin(t * 3) * 2).toFixed(2)})`);
+  op('age', pr(t, cue.age, .15));
+  const bk = eo(pr(t, cue.bat + .15, .7));
+  set('bat1', 'transform', `translate(${lerp(1300, 800, bk).toFixed(1)},${(1075 + Math.sin(t * 2.3) * 8).toFixed(1)}) rotate(${lerp(40, 7, bk).toFixed(1)}) scale(1.05)`);
+  const ap = pop(t, cue.bat + .9, .45);
+  set('approx', 'transform', `translate(578,1020) scale(${(ap * (1 + .06 * Math.sin(t * 7))).toFixed(3)}) translate(-578,-1020)`);
+  op('approx', pr(t, cue.bat + .9, .15));
+  dustEls.forEach(d => {
+    const life = ((t * +d.dataset.v * .55 + +d.dataset.d) % 1);
+    const a = +d.dataset.a, on = t > .3 && t < 2.8;
+    d.setAttribute('cx', (430 + Math.cos(a) * (90 + life * 210)).toFixed(1));
+    d.setAttribute('cy', (1300 - Math.abs(Math.sin(a)) * life * 190).toFixed(1));
+    d.setAttribute('opacity', (on ? .7 * (1 - life) * (1 - pr(t, 2.2, .6)) : 0).toFixed(2));
+  });
+
+  /* scene 2 */
+  const mp = fadeIO(t, S[1] + .1, cue.jar2 - .35, .4);
+  op('map', mp);
+  set('map', 'transform', `translate(${(-eio(pr(t, cue.jar2 - .5, .5)) * 300).toFixed(1)},${((1 - eo(pr(t, S[1] + .1, .6))) * 120).toFixed(1)})`);
+  const yk = eo(pr(t, cue.year, .9));
+  $('year').textContent = Math.round(lerp(1900, 1936, yk));
+  const ys = pop(t, cue.year - .05, .45);
+  set('year', 'transform', `translate(540,360) scale(${ys.toFixed(3)}) translate(-540,-360)`); op('year', pr(t, cue.year - .05, .15));
+  const rv = eo(pr(t, S[1] + .3, 1.2));
+  set('tigris', 'stroke-dasharray', lenT); set('tigris', 'stroke-dashoffset', (lenT * (1 - rv)).toFixed(1));
+  set('euph', 'stroke-dasharray', lenE); set('euph', 'stroke-dashoffset', (lenE * (1 - rv)).toFixed(1));
+  const pk = pr(t, cue.pin, .45);
+  const drop = pk < 1 ? -420 * (1 - eo(pk)) : -Math.abs(Math.sin((t - cue.pin - .45) * 9)) * 26 * Math.exp(-(t - cue.pin - .45) * 4);
+  set('pinbody', 'transform', `translate(0,${drop.toFixed(1)})`); op('pinbody', pr(t, cue.pin, .1));
+  const rp = ((t - cue.pin - .45) * .9) % 1;
+  set('ripple', 'r', (20 + rp * 90).toFixed(1)); op('ripple', t > cue.pin + .45 ? (1 - rp) * .9 : 0);
+  const pl = pop(t, cue.pin + .5, .4);
+  set('pinlabel', 'transform', `translate(596,595) scale(${pl.toFixed(3)}) translate(-596,-595)`); op('pinlabel', pr(t, cue.pin + .5, .15));
+  op('s2b', fadeIO(t, cue.jar2 + .7, cue.scan - .1, .35));
+
+  /* scene 3 */
+  const s3o = 1 - pr(t, S[3] - .25, .35);
+  const lc = pop(t, cue.cu, .45) , lf = pop(t, cue.fe, .45);
+  set('lblCu', 'transform', `translate(255,470) scale(${lc.toFixed(3)}) translate(-255,-470)`); op('lblCu', pr(t, cue.cu, .15) * s3o);
+  set('lblFe', 'transform', `translate(800,350) scale(${lf.toFixed(3)}) translate(-800,-350)`); op('lblFe', pr(t, cue.fe, .15) * s3o);
+  boltEls.forEach((b, i) => {
+    const fl = Math.sin(t * 23 + i * 2.1) > -0.25 ? 1 : .15;
+    b.setAttribute('opacity', (sparkOn ? fl * pr(t, cue.spark + i * .18, .12) * (1 - pr(t, S[3] - .15, .35)) : 0).toFixed(2));
+  });
+
+  /* scene 4 */
+  op('s4', fadeIO(t, S[3] + .5, S[4] - .25, .4));
+  const wk = eo(pr(t, S[3] + 1.0, .9));
+  set('wireA', 'stroke-dasharray', lenA); set('wireA', 'stroke-dashoffset', (lenA * (1 - wk)).toFixed(1));
+  set('wireB', 'stroke-dasharray', lenB); set('wireB', 'stroke-dashoffset', (lenB * (1 - wk)).toFixed(1));
+  const mk = pop(t, S[3] + .6, .5);
+  set('meter', 'transform', `translate(540,475) scale(${mk.toFixed(3)}) translate(-540,-475)`);
+  const vk = pr(t, cue.volt, 1.3);
+  const vv = vk <= 0 ? 0 : (eo(vk) + Math.sin(vk * 14) * .12 * (1 - vk)) * .28 + (vk >= 1 ? Math.sin(t * 6) * .008 : 0);
+  set('needle', 'transform', `rotate(${(-90 + vv * 180).toFixed(2)} 540 520)`);
+  set('arc', 'stroke-dasharray', lenArc); set('arc', 'stroke-dashoffset', (lenArc * (1 - cl(vv))).toFixed(1));
+  $('volt').textContent = '≈ ' + (Math.max(0, vv) / .28 * .5).toFixed(1).replace('.', ',') + ' В';
+  const la = pop(t, cue.fill + .3, .45);
+  set('lblAcid', 'transform', `translate(155,975) scale(${la.toFixed(3)}) translate(-155,-975)`); op('lblAcid', pr(t, cue.fill + .3, .15));
+  const sk = pr(t, cue.stamp + .25, .28);
+  set('stamp', 'transform', `translate(540,1090) scale(${(lerp(2.6, 1, eo(sk)) * (1 + (sk >= 1 ? .03 * Math.exp(-(t - cue.stamp - .53) * 6) * Math.sin((t - cue.stamp) * 30) : 0))).toFixed(3)})`);
+  op('stamp', sk);
+
+  /* scene 5 */
+  const s5 = pr(t, S[4] + .4, .5);
+  op('s5', s5);
+  qEls.forEach((q, i) => {
+    const a = t * .9 + i * (Math.PI * 2 / qEls.length);
+    const depth = Math.sin(a);
+    const sx = jx + Math.cos(a) * 370 * js, sy = jy - 60 * js + depth * 110 * js + Math.sin(t * 2 + i) * 14;
+    const sc = (.55 + .45 * (depth * .5 + .5)) * js;
+    q.setAttribute('transform', `translate(${sx.toFixed(1)},${sy.toFixed(1)}) scale(${sc.toFixed(3)}) rotate(${(Math.sin(a * 2 + i) * 14).toFixed(1)})`);
+    q.setAttribute('opacity', (s5 * pr(t, S[4] + .5 + i * .12, .3) * (.35 + .65 * (depth * .5 + .5)) * (1 - pr(t, cue.fin - .1, .4))).toFixed(2));
+  });
+  const oa = pop(t, cue.optA + .1, .5), ob = pop(t, cue.optB + .1, .5);
+  const pulseA = (t > cue.optA && t < cue.optB) ? 1 + .03 * Math.sin(t * 8) : 1;
+  const pulseB = (t > cue.optB) ? 1 + .03 * Math.sin(t * 8) : 1;
+  set('optA', 'transform', `translate(290,1230) scale(${(oa * pulseA).toFixed(3)})`); op('optA', pr(t, cue.optA + .1, .15));
+  set('optB', 'transform', `translate(790,1230) scale(${(ob * pulseB).toFixed(3)})`); op('optB', pr(t, cue.optB + .1, .15));
+
+  /* tag + finale */
+  op('tag', pr(t, 1.0, .5) * (1 - pr(t, cue.fin - .2, .4)));
+  const fk = pr(t, cue.fin, .5);
+  op('fin', fk);
+  const fs = pop(t, cue.fin + .1, .6) * (1 + .025 * Math.sin((t - cue.fin) * 4.5));
+  set('fintext', 'transform', `translate(540,940) scale(${fs.toFixed(3)}) translate(-540,-940)`);
+
+  /* captions */
+  const cap = $('cap');
+  const cur = T.caps.find(c => t >= c.a && t < c.b);
+  if (cur && t < cue.fin) {
+    const k = pr(t, cur.a, .14);
+    cap.innerHTML = `<span style="transform:scale(${(.88 + .12 * eo(k)).toFixed(3)});opacity:${k.toFixed(2)}">${cur.text}</span>`;
+  } else cap.innerHTML = '';
+};
+window.renderAt(0);
+</script>
+</body>
+</html>
