@@ -1,5 +1,5 @@
 // Renders animation.html frame by frame with Playwright, then muxes with the voiceover.
-// Usage: node render.mjs [--still t1,t2,...]
+// Usage: node render.mjs [ru|en] [--still t1,t2,...]
 import { createRequire } from 'node:module';
 const { chromium } = createRequire(import.meta.url)('playwright');
 import { spawn } from 'node:child_process';
@@ -8,7 +8,8 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
-const url = 'file://' + path.join(dir, 'animation.html');
+const lang = ['ru', 'en'].find(l => process.argv.includes(l)) || 'ru';
+const url = 'file://' + path.join(dir, 'animation.html') + '?lang=' + lang;
 const out = path.join(dir, 'out');
 mkdirSync(out, { recursive: true });
 
@@ -55,9 +56,9 @@ await browser.close();
 
 const ff = spawn('ffmpeg', ['-y', '-hide_banner', '-loglevel', 'error',
   '-framerate', String(fps), '-i', path.join(frames, 'f%05d.jpg'),
-  '-i', path.join(dir, 'audio', 'voice.mp3'),
+  '-i', path.join(dir, 'audio', `voice.${lang}.mp3`),
   '-af', 'loudnorm=I=-15:TP=-1.5:LRA=11,apad', '-t', String(duration),
   '-c:v', 'libx264', '-preset', 'medium', '-crf', '17', '-pix_fmt', 'yuv420p',
   '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart',
-  path.join(dir, 'baghdad-battery.mp4')], { stdio: 'inherit' });
+  path.join(dir, lang === 'ru' ? 'baghdad-battery.mp4' : `baghdad-battery-${lang}.mp4`)], { stdio: 'inherit' });
 ff.on('exit', code => { rmSync(frames, { recursive: true, force: true }); process.exit(code); });

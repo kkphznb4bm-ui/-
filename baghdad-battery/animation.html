@@ -22,7 +22,7 @@
 <svg id="svg" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
 <div id="cap"></div>
 </div>
-<script src="timing.js"></script>
+<script>document.write('<script src="timing.' + (new URLSearchParams(location.search).get("lang") || "ru") + '.js"><\/script>');</script>
 <script>
 /* ---------- helpers ---------- */
 const cl = x => Math.max(0, Math.min(1, x));
@@ -38,7 +38,6 @@ const T = window.TIMING;
 const S = T.scenes;             // start time of each of the 5 scenes
 const END = T.voiceEnd;         // narration end
 const DUR = T.duration;
-const C = id => T.caps.find(c => c.id === id).a;   // cue = start of a caption chunk
 
 /* ---------- reusable drawings ---------- */
 const JAR = 'M -92,-300 L 92,-300 L 82,-250 C 205,-200 225,110 132,300 L -132,300 C -225,110 -205,-200 -82,-250 Z';
@@ -71,7 +70,7 @@ for (let i = 0; i < 14; i++) bubbles += `<circle class="bub" r="${(4 + rnd() * 7
 let qs = '';
 for (let i = 0; i < 7; i++) qs += `<text class="q" font-size="120" font-weight="900" text-anchor="middle" fill="#ffd257" data-i="${i}">?</text>`;
 
-$('svg').innerHTML = `
+let TPL = `
 <defs>
   <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0" stop-color="#090b26"/><stop offset=".45" stop-color="#251a52"/>
@@ -287,14 +286,11 @@ $('svg').innerHTML = `
   </g>
 </g>
 `;
+for (const [from, to] of Object.entries(T.strings || {})) TPL = TPL.replaceAll(from, to);
+$('svg').innerHTML = TPL;
 
 /* ---------- timeline ---------- */
-const cue = {
-  age: C('c3'), bat: C('c4'), year: C('c6'), pin: C('c7'), jar2: C('c9'), scan: C('c10'),
-  cut: C('c12'), cu: C('c13'), fe: C('c14'), spark: C('c17'),
-  fill: C('c20'), volt: C('c22'), stamp: C('c24'),
-  optA: C('c28'), optB: C('c30'), fin: END + 0.35
-};
+const cue = { ...T.cues, fin: END + 0.35 };
 
 // hero jar keyframes: [time, x, y, scale]
 const KF = [
@@ -445,7 +441,7 @@ window.renderAt = function (t) {
   const vv = vk <= 0 ? 0 : (eo(vk) + Math.sin(vk * 14) * .12 * (1 - vk)) * .28 + (vk >= 1 ? Math.sin(t * 6) * .008 : 0);
   set('needle', 'transform', `rotate(${(-90 + vv * 180).toFixed(2)} 540 520)`);
   set('arc', 'stroke-dasharray', lenArc); set('arc', 'stroke-dashoffset', (lenArc * (1 - cl(vv))).toFixed(1));
-  $('volt').textContent = '≈ ' + (Math.max(0, vv) / .28 * .5).toFixed(1).replace('.', ',') + ' В';
+  $('volt').textContent = '≈ ' + (Math.max(0, vv) / .28 * .5).toFixed(1).replace('.', T.decimal || ',') + ' ' + (T.voltUnit || 'В');
   const la = pop(t, cue.fill + .3, .45);
   set('lblAcid', 'transform', `translate(155,975) scale(${la.toFixed(3)}) translate(-155,-975)`); op('lblAcid', pr(t, cue.fill + .3, .15));
   const sk = pr(t, cue.stamp + .25, .28);
