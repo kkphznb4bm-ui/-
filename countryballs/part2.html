@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robot Battle Part 2</title>
+<style>
+  html,body{margin:0;background:#111;height:100%}
+  body{display:flex;align-items:center;justify-content:center}
+  #v{height:100vh;max-width:100vw;aspect-ratio:9/16;display:block;background:#8fd3ff}
+  body.render #v{height:640px;width:360px}
+</style>
+</head>
+<body>
+<svg id="v" viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ec8ff"/><stop offset="1" stop-color="#d9f3ff"/></linearGradient>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#b9c2cc"/><stop offset="1" stop-color="#eef2f5"/></linearGradient>
+    <clipPath id="frame"><rect width="360" height="640"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+  <g id="cam">
+    <rect x="-40" y="-40" width="440" height="720" fill="url(#sky)"/>
+    <circle cx="300" cy="80" r="34" fill="#ffe066"/>
+    <g fill="#fff" opacity=".9"><g id="cl1"><ellipse rx="40" ry="16"/><ellipse cx="22" cy="-10" rx="24" ry="16"/></g><g id="cl2"><ellipse rx="34" ry="13"/><ellipse cx="-16" cy="-8" rx="20" ry="13"/></g></g>
+    <g fill="#a9c7dc"><rect x="-10" y="250" width="40" height="110"/><rect x="34" y="220" width="30" height="140"/><rect x="70" y="270" width="46" height="90"/><rect x="250" y="240" width="36" height="120"/><rect x="292" y="210" width="44" height="150"/><rect x="340" y="260" width="40" height="100"/></g>
+    <g id="palms"></g>
+    <rect x="-40" y="355" width="440" height="60" fill="#666b73"/>
+    <g id="dashes"></g>
+    <rect x="-40" y="410" width="440" height="270" fill="#7ccf63"/>
+    <path d="M-40,410 H400" stroke="#5aa647" stroke-width="5"/>
+    <g id="disco" opacity="0"><rect x="-40" y="-40" width="440" height="720" fill="#12002b" opacity=".75"/><g id="beams"></g></g>
+    <g id="robots"></g>
+    <g id="waves"></g>
+    <g id="actors"></g>
+    <g id="fx"></g>
+  </g>
+  <rect id="flash" width="360" height="640" fill="#fff" opacity="0"/>
+  <g id="part2" opacity="0"><rect x="70" y="40" width="220" height="64" rx="14" fill="#fe2c55" stroke="#111" stroke-width="4"/><text x="180" y="86" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="38" fill="#fff">PART 2</text></g>
+  <g id="endcard" opacity="0"><rect y="200" width="360" height="130" fill="#fe2c55"/><text x="180" y="248" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="28" fill="#fff">WHICH COUNTRY</text><text x="180" y="284" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="28" fill="#fff">IS NEXT? 🤖</text><text x="180" y="318" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="22" fill="#ffe066">COMMENT BELOW 👇</text></g>
+  <text id="sub" x="180" y="580" text-anchor="middle" font-family="DejaVu Sans, Arial" font-weight="bold" font-size="26" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"></text>
+  <text id="sub2" x="180" y="612" text-anchor="middle" font-family="DejaVu Sans, Arial" font-weight="bold" font-size="26" fill="#ffe066" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"></text>
+  </g>
+</svg>
+<script src="balls.js"></script>
+<script src="actors.js"></script>
+<script src="robots.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const DUR=27.3;
+// начала фраз озвучки (паузы в voice/part2-take1.mp3)
+const L=[0,3.86,7.37,11.24,13.08,15.90,17.63,21.47,23.49];
+const SUBS=[[0,1.3,'PART TWO! 🔥',''],[1.3,3.8,"Remember Philippine-ball's",'JEEPNEY-BOT? 🤖'],[3.8,7.3,'Well… USA-ball','got JEALOUS 😤'],
+  [7.3,9.0,'He brought his','monster truck…'],[9.0,11.2,"and it's","TRANSFORMING too! 🇺🇸"],[11.2,13.0,'ROBOT','BATTLE! ⚔️'],
+  [13.0,15.8,'But Jeepney-bot has','a secret weapon…'],[15.8,17.6,'KARAOKE! 🎤',''],[17.6,19.3,"USA-bot",'can\'t resist…'],[19.3,21.4,'and starts','DANCING! 🕺'],
+  [21.4,23.4,"Now they're",'BEST FRIENDS ❤️'],[23.4,DUR,'','']];
+
+let pl='';[[-6,410],[128,412],[352,410]].forEach(([x,y])=>{pl+=`<g transform="translate(${x},${y})"><path d="M0,0 Q6,-60 -2,-120" stroke="#8b5a2b" stroke-width="8" fill="none"/>${[-60,-20,20,60,100].map(a=>`<ellipse cx="0" cy="-120" rx="34" ry="8" fill="#2f9e44" transform="rotate(${a} -2 -120) translate(28,0)"/>`).join('')}</g>`});
+$('palms').innerHTML=pl;
+let ds='';for(let i=0;i<10;i++)ds+=`<rect x="${i*50-40}" y="381" width="26" height="5" fill="#fff"/>`;$('dashes').innerHTML=ds;
+let bm='';['#ff3cac','#2bd2ff','#ffe53b','#7cff6b','#b06bff'].forEach((c,i)=>bm+=`<polygon id="beam${i}" points="0,0 -45,800 45,800" fill="${c}" opacity=".35"/>`);$('beams').innerHTML=bm;
+
+const JB=buildRobot($('robots'),JEEPNEY_PARTS());
+const UB=buildRobot($('robots'),TRUCK_PARTS());
+const TF0=L[2]+1.7, TF1=L[3]-.15;       // трансформация трака
+const JX=100, UX=262, RY=405, RS=.68;
+
+const CAST=['brazil','japan'];
+const B={};CAST.concat(['philippines','usa']).forEach(c=>{B[c]=makeBall(c,{mic:c==='philippines'});$('actors').appendChild(B[c].g)});
+
+function fit(el,txt,base=26,max=340){if(el.textContent!==txt){el.textContent=txt;el.setAttribute('font-size',base);const w=txt?el.getComputedTextLength():0;if(w>max)el.setAttribute('font-size',(base*max/w).toFixed(1))}}
+function draw(t){
+  const beat=t*124/60, bounce=Math.pow(Math.sin(Math.PI*(beat%1)),2);
+  // камера
+  let cs=0;
+  if(t>L[3]&&t<L[4]) cs=Math.sin(t*50)*4*(Math.sin(t*9)>0?1:.3);
+  if(t>TF1-.05&&t<TF1+.35) cs=Math.sin(t*90)*7*(1-seg(t,TF1,TF1+.35));
+  $('cam').setAttribute('transform',`translate(${cs},${cs*.6})`);
+  $('cl1').setAttribute('transform',`translate(${(60+t*8)%460-50},120)`);$('cl2').setAttribute('transform',`translate(${(260+t*6)%460-50},170)`);
+  // субтитры
+  const sb=SUBS.find(s=>t>=s[0]&&t<s[1])||[0,0,'',''];
+  const pop=1+.15*(1-seg(t,sb[0],sb[0]+.15));
+  fit($('sub'),sb[2]);fit($('sub2'),sb[3]);
+  $('sub').setAttribute('transform',`translate(180,580) scale(${pop}) translate(-180,-580)`);$('sub2').setAttribute('transform',`translate(180,612) scale(${pop}) translate(-180,-612)`);
+  $('part2').setAttribute('opacity',t<L[1]-.3?1:0);
+  $('part2').setAttribute('transform',`translate(180,72) scale(${back(seg(t,0,.35))}) rotate(${Math.sin(t*6)*3}) translate(-180,-72)`);
+  $('flash').setAttribute('opacity',Math.max(t>=TF0?.6*(1-seg(t,TF0,TF0+.3)):0,t>=TF1?.9*(1-seg(t,TF1,TF1+.4)):0,t>=L[5]?.6*(1-seg(t,L[5],L[5]+.3)):0));
+  const party=seg(t,L[5],L[5]+.2);
+  $('disco').setAttribute('opacity',party);
+  for(let i=0;i<5;i++)$('beam'+i).setAttribute('transform',`translate(180,-20) rotate(${Math.sin(t*2.6+i*1.3)*50})`);
+
+  // ---------- Джипни-бот ----------
+  let jx=JX, jrot=0;
+  if(t>L[3]&&t<L[4]) {jx=JX+Math.max(0,Math.sin((t-L[3])*7))*14; jrot=Math.sin(t*7)*4}
+  if(t>L[5]) jrot=Math.sin(t*2*Math.PI*124/120)*6;
+  if(t>L[7]&&t<L[8]) jx=lerp(JX,JX+18,seg(t,L[7],L[7]+.5));
+  poseRobot(JB,{x:jx,y:RY,s:RS,k:1,rot:jrot,life:id=>{
+    if(id==='armR'){
+      if(t<L[1]) return {rot:-90-Math.abs(Math.sin(t*8))*60};               // машет
+      if(t>L[3]&&t<L[4]) return {rot:-60+Math.sin(t*14)*20};                // боевая стойка
+      if(t>L[4]) return {rot:-150+(t>L[5]?Math.sin(t*6.7)*10:0),dx:-6,dy:-16}; // микрофон
+    }
+    if(id==='armL'){
+      if(t>L[3]&&t<L[4]) return {rot:60+Math.sin(t*14+1)*20};
+      if(t>L[7]&&t<L[8]) return {rot:-100};                                   // обнимает
+      if(t>L[5]) return {rot:18+Math.sin(t*6.7)*25};
+    }
+    if(id==='hood'&&t>L[4]&&t<L[5]) return {rot:-8};
+  }});
+  JB.g.querySelector('.bigmic').setAttribute('opacity',t>L[4]+1?1:0);
+  JB.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',(t>L[3]&&t<L[4])?'#ff6b6b':(t>L[4]&&t<L[5])?'#ffd43b':'#7cf'));
+
+  // ---------- монстр-трак / USA-бот ----------
+  let ux=UX, urot=0, uk=0;
+  const drive=seg(t,L[2]-.2,L[2]+1.4);
+  if(t<TF0){ux=lerp(560,UX,1-Math.pow(1-drive,3)); urot=t<L[2]+1.4?Math.sin(t*20)*2:0}
+  uk=seg(t,TF0,TF1);
+  const hop=(uk>0&&uk<1)?-Math.abs(Math.sin(uk*Math.PI*3))*12:0;
+  let uy=RY+hop+(t<TF0?-Math.abs(Math.sin(t*18))*4*(1-drive):0);
+  if(t>L[3]&&t<L[4]){ux=UX-Math.max(0,Math.sin((t-L[3])*7+Math.PI))*14;urot=Math.sin(t*7+Math.PI)*4}
+  if(t>L[5]&&t<L[6]){urot=Math.sin(t*30)*1.5}                                   // «сопротивляется»
+  const dance=t>L[6]+.9;
+  if(dance){urot=Math.sin(t*2*Math.PI*124/120)*12;uy=RY-bounce*14}
+  if(t>L[7]&&t<L[8]) ux=lerp(UX,UX-18,seg(t,L[7],L[7]+.5));
+  poseRobot(UB,{x:ux,y:uy,s:RS,k:uk,rot:urot,wheelSpin:-t*900,life:id=>{
+    if(t>L[3]&&t<L[4]){if(id==='armL')return {rot:60+Math.sin(t*14)*20};if(id==='armR')return {rot:-60+Math.sin(t*14+1)*20}}
+    if(t>L[4]&&t<L[5]&&id==='hood') return {rot:12};                               // «?»
+    if(t>L[5]&&t<L[6]+.9){if(id==='armL')return {rot:150};if(id==='armR')return {rot:-150}} // закрывает уши
+    if(dance){
+      if(id==='armL') return {rot:120+Math.sin(t*13)*50};
+      if(id==='armR') return {rot:-120+Math.sin(t*13+2)*50};
+      if(id==='legL') return {rot:Math.sin(t*13)*25};
+      if(id==='legR') return {rot:-Math.sin(t*13)*25};
+    }
+    if(t>L[7]&&t<L[8]&&id==='armL') return {rot:100};
+  }});
+  UB.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',(t>L[3]&&t<L[4])?'#ff6b6b':(dance?'#ff9de2':'#fff59d')));
+
+  // ---------- шарики ----------
+  // Филиппины на плече джипни-бота
+  const shX=jx+RS*62, shY=RY-RS*300;
+  const ph={x:shX,y:shY+(t>L[5]?Math.sin(t*6.7)*3:0),s:.42,eyes:'H',mouth:3,look:1,hl:[0,0],hr:[0,0]};
+  if(t<L[1]){ph.hl=[0,-34];ph.mouth=5}
+  else if(t<L[3]){ph.eyes='N';ph.mouth=0}
+  else if(t<L[4]){ph.eyes='W';ph.sweat=0}
+  else if(t<L[5]){ph.eyes='N';ph.mouth=0}
+  else {ph.mouth=7+5*Math.abs(Math.sin(t*7));ph.hr=[-32,-38];ph.rot=Math.sin(t*5)*12}
+  if(t>L[7]&&t<L[8]){ph.hr=[18,-30];ph.mouth=6}
+  pose(B.philippines,ph);
+  // Америка: ревнует на земле, потом прыгает в трак и сидит на плече USA-бота
+  const us={x:300,y:470,s:.55,eyes:'N',look:-1,hl:[24,0],hr:[-24,0],shades:0};
+  if(t<L[1]){us.op=0}
+  else if(t<L[2]){const k=seg(t,L[1],L[1]+.4);us.x=lerp(400,300,ease(k));us.squash=Math.sin(t*28)*.03;us.mouth=0;}
+  else {
+    const kj=seg(t,TF0-.6,TF0);
+    const sx=ux-RS*62, sy=RY-RS*310;
+    if(t<TF0){us.x=lerp(300,ux-20,kj);us.y=lerp(470,RY-RS*140,kj)-Math.sin(kj*Math.PI)*80;us.eyes='N'}
+    else {us.x=lerp(ux-20,sx,ease(seg(t,TF0,TF1)));us.y=lerp(RY-RS*140,sy,ease(seg(t,TF0,TF1)));us.s=.42;us.look=-1;us.shades=1;us.hl=[0,0];us.hr=[0,0]}
+    if(t>L[3]&&t<L[4]){us.eyes='N';us.hl=[0,-30]}
+    if(t>L[4]&&t<L[5]){us.eyes='W';us.shades=0}
+    if(t>L[5]&&t<L[6]+.9){us.eyes='W';us.shades=0;us.sweat=1;us.hl=[10,-8];us.hr=[-10,-8]}
+    if(dance){us.eyes='H';us.shades=1;us.mouth=6;us.rot=Math.sin(t*13)*14;us.hl=[-6,-38+bounce*10];us.hr=[6,-38+bounce*10]}
+    if(t>L[7]&&t<L[8]){us.hl=[-18,-30];us.eyes='H'}
+    if(t>=TF0) us.y+= (dance?-bounce*14:0)+(uy-RY);
+  }
+  pose(B.usa,us);
+  // Бразилия и Япония — зрители
+  CAST.forEach((c,i)=>{
+    const p={x:[150,215][i],y:478,s:.5,eyes:'N',look:i?1:-1,hl:[0,0],hr:[0,0]};
+    if(t<L[1]){p.eyes='H';p.y=478-Math.abs(Math.sin(t*8+i))*8}
+    else if(t<L[3]){p.look=1;p.eyes=t>L[2]+.3?'W':'N'}
+    else if(t<L[4]){p.eyes='W';p.sweat=1;p.squash=Math.sin(t*40+i)*.03;p.look=Math.sin(t*4)>0?1:-1}
+    else if(t<L[5]){p.eyes='N';p.look=-1}
+    else {p.eyes='H';p.mouth=6+4*Math.abs(Math.sin(t*7+i));p.y=478-bounce*16;p.rot=Math.sin(t*6.7+i)*12;p.hl=[-8,-36+bounce*10];p.hr=[8,-36+bounce*10]}
+    pose(B[c],p);
+  });
+
+  // звуковые волны караоке
+  let wv='';
+  if(t>L[5]&&t<L[6]+1.2){for(let k=0;k<4;k++){const ph3=((t*1.6+k/4)%1);const r=20+ph3*110;
+    wv+=`<path d="M${jx+40+r*.3},${300-r*.5} A${r},${r} 0 0,1 ${jx+40+r*.3},${300+r*.5}" fill="none" stroke="#ff3cac" stroke-width="${5-ph3*3}" opacity="${1-ph3}"/>`}}
+  $('waves').innerHTML=wv;
+
+  // эффекты
+  let fx='';
+  const word=(a,b,txt,x,y,col,sz=30,rot=-8)=>{if(t>=a&&t<b){const k=back(seg(t,a,a+.25));fx+=`<text x="${x}" y="${y}" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="${sz}" fill="${col}" stroke="#000" stroke-width="5" paint-order="stroke" transform="translate(${x},${y}) scale(${k}) rotate(${rot}) translate(${-x},${-y})">${txt}</text>`}};
+  word(L[1]+.3,L[2],'😤','300','400','#fff',40,0);
+  word(L[2],L[2]+1.3,'VRRRUMMM','250','300','#ffd23b',30);
+  word(TF0+.2,TF0+.9,'KA-CHUNK!','285','190','#7cf',24,8);
+  word(TF1,TF1+1,'🇺🇸 USA-BOT','262','150','#ffd23b',26,0);
+  word(L[3],L[4],'VS','180','230','#ff3b3b',56,0);
+  word(L[4]+1,L[5],'?','300','150','#fff',48,10);
+  word(L[5],L[5]+1.1,'🎤 LA LA LAAA','140','140','#ff3cac',26);
+  word(L[6]+.9,L[7],'💃🕺','262','140','#fff',36,0);
+  // молнии в битве
+  if(t>L[3]&&t<L[4]&&Math.sin(t*25)>0) fx+=`<path d="M180,250 l-12,28 h16 l-14,32" stroke="#ffe066" stroke-width="5" fill="none"/>`;
+  // сердечки
+  if(t>L[7]) for(let k=0;k<7;k++){const ph3=((t*.8+k/7)%1);fx+=`<text x="${120+k*20+Math.sin((t+k)*3)*10}" y="${260-ph3*140}" font-size="20" opacity="${1-ph3}">❤️</text>`}
+  // ноты
+  if(t>L[5]) for(let k=0;k<6;k++){const ph3=((t*.8+k/6)%1);fx+=`<text x="${50+k*50+Math.sin((t+k)*3)*12}" y="${450-ph3*200}" font-size="22" opacity="${1-ph3}" fill="${['#ff3cac','#ffe066','#7cf'][k%3]}" stroke="#111" stroke-width="1" font-family="DejaVu Sans">${k%2?'♪':'♫'}</text>`}
+  if(t>TF0&&t<TF1+.3) for(let k=0;k<10;k++){const a=k*.63+t*3,r=50+((t*200+k*40)%100);fx+=`<circle cx="${UX+Math.cos(a)*r}" cy="${270+Math.sin(a)*r}" r="3" fill="#ffe066"/>`}
+  $('fx').innerHTML=fx;
+  $('endcard').setAttribute('opacity',seg(t,L[8],L[8]+.3));
+  $('endcard').setAttribute('transform',`translate(180,265) scale(${t>=L[8]?back(seg(t,L[8],L[8]+.4)):1}) translate(-180,-265)`);
+}
+
+window.draw=draw;window.DUR=DUR;
+if(!location.search.includes('render')){
+  const audio=new Audio('part2-audio.m4a');let t0=null;
+  document.body.onclick=()=>{audio.currentTime=0;audio.play().catch(()=>{});t0=performance.now()};
+  (function loop(now){const t=t0===null?0:((now-t0)/1000)%DUR;draw(t);requestAnimationFrame(loop)})(performance.now());
+} else {document.body.classList.add('render');draw(0)}
+</script>
+</body>
+</html>
