@@ -692,19 +692,38 @@ def main():
             frame_at(tt).resize((360, 640)).save(os.path.join(HERE, f"pv_hit_{tt:.1f}.png"))
         print("duration", DURATION)
         return
-    audio = build_audio()
-    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
-           "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-i", audio,
-           "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p",
-           "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart", OUT]
-    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     total = int(DURATION * FPS)
-    for i in range(total):
-        proc.stdin.write(frame_at(i / FPS).tobytes())
-        if i % 150 == 0:
-            print(f"кадр {i}/{total}", flush=True)
-    proc.stdin.close()
-    proc.wait()
+    if "--part" in sys.argv:          # рендер куска кадров: --part i n
+        i0 = sys.argv.index("--part")
+        k, n = int(sys.argv[i0 + 1]), int(sys.argv[i0 + 2])
+        a, b = total * k // n, total * (k + 1) // n
+        seg = os.path.join(HERE, f"seg_{k}.mp4")
+        cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
+               "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
+               "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p", seg]
+        proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+        for i in range(a, b):
+            proc.stdin.write(frame_at(i / FPS).tobytes())
+            if (i - a) % 150 == 0:
+                print(f"[{k}] кадр {i - a}/{b - a}", flush=True)
+        proc.stdin.close()
+        proc.wait()
+        return
+    # полная сборка: 4 процесса параллельно, затем склейка со звуком
+    n = int(os.environ.get("JOBS", os.cpu_count() or 1))
+    procs = [subprocess.Popen([sys.executable, __file__, "--part", str(k), str(n)]) for k in range(n)]
+    for pr in procs:
+        pr.wait()
+    audio = build_audio()
+    lst = os.path.join(HERE, "segs.txt")
+    with open(lst, "w") as f:
+        f.writelines(f"file 'seg_{k}.mp4'\n" for k in range(n))
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst,
+                    "-i", audio, "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-shortest",
+                    "-movflags", "+faststart", OUT], check=True)
+    for k in range(n):
+        os.remove(os.path.join(HERE, f"seg_{k}.mp4"))
+    os.remove(lst)
     print("готово:", OUT)
 
 
