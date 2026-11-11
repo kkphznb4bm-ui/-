@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jeepney Transformer</title>
+<style>
+  html,body{margin:0;background:#111;height:100%}
+  body{display:flex;align-items:center;justify-content:center}
+  #v{height:100vh;max-width:100vw;aspect-ratio:9/16;display:block;background:#8fd3ff}
+  body.render #v{height:640px;width:360px}
+</style>
+</head>
+<body>
+<svg id="v" viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ec8ff"/><stop offset="1" stop-color="#d9f3ff"/></linearGradient>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#b9c2cc"/><stop offset="1" stop-color="#eef2f5"/></linearGradient>
+    <clipPath id="frame"><rect width="360" height="640"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+  <g id="cam">
+    <!-- фон -->
+    <rect x="-40" y="-40" width="440" height="720" fill="url(#sky)"/>
+    <circle cx="300" cy="80" r="34" fill="#ffe066"/>
+    <g id="clouds" fill="#fff" opacity=".9"><g id="cl1"><ellipse cx="0" cy="0" rx="40" ry="16"/><ellipse cx="22" cy="-10" rx="24" ry="16"/></g><g id="cl2"><ellipse cx="0" cy="0" rx="34" ry="13"/><ellipse cx="-16" cy="-8" rx="20" ry="13"/></g></g>
+    <g fill="#a9c7dc"><rect x="-10" y="250" width="40" height="110"/><rect x="34" y="220" width="30" height="140"/><rect x="70" y="270" width="46" height="90"/><rect x="250" y="240" width="36" height="120"/><rect x="292" y="210" width="44" height="150"/><rect x="340" y="260" width="40" height="100"/></g>
+    <g id="palms"></g>
+    <rect x="-40" y="355" width="440" height="60" fill="#666b73"/>
+    <g id="dashes"></g>
+    <rect x="-40" y="410" width="440" height="270" fill="#7ccf63"/>
+    <path d="M-40,410 H400" stroke="#5aa647" stroke-width="5"/>
+    <!-- диско-слой -->
+    <g id="disco" opacity="0"><rect x="-40" y="-40" width="440" height="720" fill="#12002b" opacity=".75"/><g id="beams"></g></g>
+    <g id="robot"></g>
+    <g id="cloud" opacity="0"><g fill="#8a94a6"><ellipse cx="0" cy="0" rx="26" ry="12"/><ellipse cx="14" cy="-8" rx="16" ry="12"/><ellipse cx="-12" cy="-6" rx="14" ry="10"/></g><g id="rain" stroke="#4aa3ff" stroke-width="2.5" stroke-linecap="round"></g></g>
+    <g id="actors"></g>
+    <g id="soccer"><circle r="9" fill="#fff" stroke="#111" stroke-width="2"/><path d="M0,-4 l4,3 -1.5,4.5 h-5 l-1.5,-4.5z" fill="#111"/></g>
+    <g id="fx"></g>
+  </g>
+  <rect id="flash" width="360" height="640" fill="#fff" opacity="0"/>
+  <g id="endcard" opacity="0"><rect y="215" width="360" height="110" fill="#fe2c55"/><text x="180" y="262" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="30" fill="#fff">FOLLOW FOR</text><text x="180" y="304" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="34" fill="#ffe066">PART 2 👉</text></g>
+  <text id="sub" x="180" y="580" text-anchor="middle" font-family="DejaVu Sans, Arial" font-weight="bold" font-size="26" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"></text>
+  <text id="sub2" x="180" y="612" text-anchor="middle" font-family="DejaVu Sans, Arial" font-weight="bold" font-size="26" fill="#ffe066" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"></text>
+  </g>
+</svg>
+<script src="balls.js"></script>
+<script src="actors.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const DUR=26.6;
+// начала фраз озвучки (по паузам в voice/take1.mp3)
+const L=[0,5.45,9.37,12.44,15.65,18.38,21.61,24.17];
+const SUBS=[[0,1.2,'SHOCKING! 😱',''],[1.2,3.0,'Poor','Philippine-ball…'],[3.0,5.4,'nobody wants to','play with him 😢'],
+  [5.4,7.5,'He asked','so nicely…'],[7.5,9.3,'but they just','LAUGHED 😂'],[9.3,12.4,'But then… he heard','a strange sound 👀'],
+  [12.4,13.9,"It's his","old jeepney…"],[13.9,15.6,"and it's","TRANSFORMING! 🤖"],[15.6,18.3,'Now EVERYONE wants','to be his friend! 🤩'],
+  [18.3,21.5,'But Philippine-ball has','only ONE rule…'],[21.5,24.1,'KARAOKE','FIRST! 🎤'],[24.1,DUR,'','']];
+
+// фон: пальмы, разметка, лучи
+let pl='';[[-6,410],[128,412],[352,410]].forEach(([x,y])=>{pl+=`<g transform="translate(${x},${y})"><path d="M0,0 Q6,-60 -2,-120" stroke="#8b5a2b" stroke-width="8" fill="none"/>${[-60,-20,20,60,100].map(a=>`<ellipse cx="0" cy="-120" rx="34" ry="8" fill="#2f9e44" transform="rotate(${a} -2 -120) translate(28,0)"/>`).join('')}</g>`});
+$('palms').innerHTML=pl;
+let ds='';for(let i=0;i<10;i++)ds+=`<rect class="dash" x="${i*50-40}" y="381" width="26" height="5" fill="#fff"/>`;$('dashes').innerHTML=ds;
+let bm='';['#ff3cac','#2bd2ff','#ffe53b','#7cff6b','#b06bff'].forEach((c,i)=>bm+=`<polygon id="beam${i}" points="0,0 -45,800 45,800" fill="${c}" opacity=".35"/>`);$('beams').innerHTML=bm;
+let rn='';for(let i=0;i<5;i++)rn+=`<line class="drop" x1="${-18+i*9}" y1="8" x2="${-20+i*9}" y2="18"/>`;$('rain').innerHTML=rn;
+
+/* ---------------- ДЖИПНИ / РОБОТ ---------------- */
+// каждая деталь нарисована вокруг своего центра; car = поза машины, bot = поза робота  [x,y,rot,sx,sy]
+const PARTS=[
+  {id:'legL',svg:`<rect x="-14" y="-60" width="28" height="120" rx="6" fill="#9aa4ae" stroke="#111" stroke-width="3"/><rect x="-14" y="-10" width="28" height="12" fill="#e63946"/>`,car:[-40,-30,0,0,0],bot:[-34,-78,0,1,1],t:[.25,.65]},
+  {id:'legR',svg:`<rect x="-14" y="-60" width="28" height="120" rx="6" fill="#9aa4ae" stroke="#111" stroke-width="3"/><rect x="-14" y="-10" width="28" height="12" fill="#e63946"/>`,car:[40,-30,0,0,0],bot:[34,-78,0,1,1],t:[.25,.65]},
+  {id:'armL',svg:`<rect x="-12" y="-58" width="24" height="116" rx="8" fill="#9aa4ae" stroke="#111" stroke-width="3"/><rect x="-12" y="-20" width="24" height="10" fill="#1c7ed6"/><circle cy="62" r="15" fill="#d9dde3" stroke="#111" stroke-width="3"/>`,car:[0,-50,0,0,0],bot:[-78,-205,18,1,1],t:[.45,.85]},
+  {id:'armR',svg:`<rect x="-12" y="-58" width="24" height="116" rx="8" fill="#9aa4ae" stroke="#111" stroke-width="3"/><rect x="-12" y="-20" width="24" height="10" fill="#1c7ed6"/><circle cy="62" r="15" fill="#d9dde3" stroke="#111" stroke-width="3"/><g id="bigmic" opacity="0" transform="translate(0,62)"><rect x="-7" y="-4" width="14" height="46" rx="4" fill="#333" stroke="#111" stroke-width="2"/><circle cy="-14" r="17" fill="#c9ced6" stroke="#111" stroke-width="3"/><path d="M-12,-20 h24 M-14,-12 h28 M-12,-4 h24" stroke="#777" stroke-width="2"/></g>`,car:[0,-50,0,0,0],bot:[78,-205,-18,1,1],t:[.45,.85]},
+  {id:'body',svg:`<rect x="-120" y="-36" width="240" height="72" rx="10" fill="url(#chrome)" stroke="#111" stroke-width="3"/>
+     <rect x="-120" y="8" width="240" height="8" fill="#e63946"/><rect x="-120" y="16" width="240" height="6" fill="#ffd43b"/><rect x="-120" y="22" width="240" height="6" fill="#1c7ed6"/>
+     ${[...Array(7)].map((_,i)=>`<rect x="${-108+i*32}" y="-28" width="24" height="26" rx="3" fill="#264b7a" stroke="#111" stroke-width="2"/>`).join('')}
+     <path d="M-100,-2 q20,-8 40,0 t40,0 t40,0 t40,0 t40,0" stroke="#e63946" stroke-width="3" fill="none"/>`,car:[0,-60,0,1,1],bot:[0,-205,90,.55,1.25],t:[.1,.6]},
+  {id:'roof',svg:`<rect x="-122" y="-7" width="244" height="14" rx="5" fill="#e63946" stroke="#111" stroke-width="3"/>${[...Array(9)].map((_,i)=>`<circle cx="${-100+i*25}" cy="0" r="3" fill="#ffd43b"/>`).join('')}`,car:[-4,-100,0,1,1],bot:[0,-272,0,.62,1.5],t:[.2,.7]},
+  {id:'sign',svg:`<rect x="-46" y="-11" width="92" height="22" rx="4" fill="#ffd43b" stroke="#111" stroke-width="2.5"/><text x="0" y="6" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="13" fill="#c92a2a">PINOY 🇵🇭</text>`,car:[-70,-118,0,1,1],bot:[0,-218,0,.9,.9],t:[.5,.9]},
+  {id:'hood',svg:`<rect x="-26" y="-26" width="52" height="52" rx="8" fill="url(#chrome)" stroke="#111" stroke-width="3"/>
+     <circle class="lamp" cx="-13" cy="-8" r="8" fill="#fff59d" stroke="#111" stroke-width="2.5"/><circle class="lamp" cx="13" cy="-8" r="8" fill="#fff59d" stroke="#111" stroke-width="2.5"/>
+     <rect x="-16" y="6" width="32" height="12" rx="2" fill="#555" stroke="#111" stroke-width="2"/><path d="M-12,9v6M-6,9v6M0,9v6M6,9v6M12,9v6" stroke="#ccc" stroke-width="1.5"/>
+     <path d="M0,-26 l-6,-14 l10,-4 l3,6 z" fill="#d9dde3" stroke="#111" stroke-width="2"/>`,car:[-142,-46,0,1,1],bot:[0,-312,0,1.15,1.15],t:[.35,.8]},
+  {id:'wheelB',svg:`<circle r="21" fill="#222" stroke="#111" stroke-width="3"/><circle r="9" fill="#ccc"/><path d="M0,-9V9M-9,0H9" stroke="#888" stroke-width="2"/>`,car:[80,-21,0,1,1],bot:[34,-14,0,1.15,1.15],t:[.15,.55],spin:true},
+  {id:'wheelF',svg:`<circle r="21" fill="#222" stroke="#111" stroke-width="3"/><circle r="9" fill="#ccc"/><path d="M0,-9V9M-9,0H9" stroke="#888" stroke-width="2"/>`,car:[-92,-21,0,1,1],bot:[-34,-14,0,1.15,1.15],t:[.15,.55],spin:true},
+];
+const robot=$('robot');
+PARTS.forEach(p=>{const g=document.createElementNS(NS,'g');g.innerHTML=p.svg;robot.appendChild(g);p.g=g});
+const TF0=L[3]+.9, TF1=L[4]-.2; // окно трансформации
+
+function drawRobot(t){
+  // машина въезжает (L2+1 .. L3), стоит, трансформируется, потом робот живёт
+  let x=180, y=405, lean=0;
+  const drive=seg(t,L[2]+1.0,L[3]-.2);
+  if(t<L[3]) x=lerp(560,190,1-Math.pow(1-drive,3));
+  const k=seg(t,TF0,TF1);
+  const shake=(t>L[2]&&t<L[3])?Math.sin(t*60)*1.5*(1-drive):0;
+  const hop=(k>0&&k<1)?-Math.abs(Math.sin(k*Math.PI*3))*12:0;
+  if(t>L[5]&&t<L[6]) lean=-10*ease(seg(t,L[5],L[5]+.6));
+  let dance=0;if(t>L[6]){dance=Math.sin(t*2*Math.PI*1.07)*6}
+  robot.setAttribute('transform',`translate(${x},${y+hop+shake}) rotate(${lean+dance})`);
+  PARTS.forEach(p=>{
+    const kk=ease(seg(k,p.t[0],p.t[1]));
+    const v=p.car.map((c,i)=>lerp(c,p.bot[i],kk));
+    let rot=v[2]+Math.sin(kk*Math.PI)*180; // крутятся в полёте
+    let sx=v[3],sy=v[4];
+    if(p.id==='legL'||p.id==='legR'||p.id==='armL'||p.id==='armR'){sx=lerp(0,1,kk);sy=lerp(0,1,kk);rot=v[2]}
+    let dx=0,dy=-Math.sin(kk*Math.PI)*60;
+    if(p.spin && t<TF0) rot+= (t<L[3]-.2? t*-900 : 0);
+    // жизнь робота
+    if(k>=1){
+      if(p.id==='armR'){ if(t>L[4]&&t<L[5]) rot=-18-Math.abs(Math.sin(t*8))*60-60; // машет
+        if(t>L[5]){rot=-150+ (t>L[6]?Math.sin(t*6.7)*10:0); dx=-6;dy=-16} }
+      if(p.id==='armL'&&t>L[6]) rot=18+Math.sin(t*6.7)*25;
+      if(p.id==='hood'&&t>L[5]&&t<L[6]) rot=-8;
+    }
+    p.g.setAttribute('transform',`translate(${v[0]+dx},${v[1]+dy}) rotate(${rot}) scale(${sx},${sy})`);
+  });
+  // глаза-фары: красные в «хитрый» момент, мерцают в караоке
+  robot.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',(t>L[5]&&t<L[6])?'#ff6b6b':(k>=1?'#7cf':'#fff59d')));
+  $('bigmic').setAttribute('opacity',t>L[5]+1.2?1:0);
+}
+
+/* ---------------- ШАРИКИ ---------------- */
+const CAST=['usa','brazil','japan'], HOME=[62,140,218];
+const B={};CAST.concat(['philippines']).forEach(c=>{B[c]=makeBall(c,{mic:c==='philippines'});$('actors').appendChild(B[c].g)});
+B.philippines.g.querySelector('.handR g')?.setAttribute('id','phmic');
+const GY=470;
+
+function draw(t){
+  // камера (тряска)
+  let cs=0; if(t>L[2]&&t<L[3]+.2) cs=Math.sin(t*47)*2.5*seg(t,L[2],L[2]+1);
+  if(t>TF1-.05&&t<TF1+.35) cs=Math.sin(t*90)*7*(1-seg(t,TF1,TF1+.35));
+  $('cam').setAttribute('transform',`translate(${cs},${cs*.6})`);
+  $('cl1').setAttribute('transform',`translate(${(60+t*8)%460-50},120)`);$('cl2').setAttribute('transform',`translate(${(260+t*6)%460-50},170)`);
+  // субтитры
+  const sb=SUBS.find(s=>t>=s[0]&&t<s[1])||['','',''];
+  const pop=1+.15*(1-seg(t,sb[0],sb[0]+.15));
+  $('sub').textContent=sb[2];$('sub2').textContent=sb[3];
+  $('sub').setAttribute('transform',`translate(180,580) scale(${pop}) translate(-180,-580)`);$('sub2').setAttribute('transform',`translate(180,612) scale(${pop}) translate(-180,-612)`);
+  if(!sb[2]&&sb[3]){}
+  // вспышка трансформации
+  $('flash').setAttribute('opacity',Math.max(t>=TF0?.7*(1-seg(t,TF0,TF0+.3)):0, t>=TF1?.9*(1-seg(t,TF1,TF1+.4)):0, t>=L[6]?.6*(1-seg(t,L[6],L[6]+.3)):0));
+  // диско
+  const party=seg(t,L[6],L[6]+.2);
+  $('disco').setAttribute('opacity',party);
+  for(let i=0;i<5;i++)$('beam'+i).setAttribute('transform',`translate(180,-20) rotate(${Math.sin(t*2.6+i*1.3)*50})`);
+  drawRobot(t);
+
+  const beat=t*128/60, bounce=Math.pow(Math.sin(Math.PI*(beat%1)),2);
+  // ---- трое «крутых» ----
+  CAST.forEach((c,i)=>{
+    const p={x:HOME[i],y:GY,s:.62,hl:[0,0],hr:[0,0],eyes:'N',look:0};
+    if(t<L[1]){ // играют в мяч
+      p.y=GY-Math.abs(Math.sin(t*4+i))*10; p.look=1;
+    } else if(t<L[2]){ // смеются
+      p.look=1; if(t>L[1]+2.1){p.eyes='H';p.mouth=7;p.y=GY-Math.abs(Math.sin(t*14+i))*8;p.rot=Math.sin(t*14+i)*8;p.hl=[6,-6]}
+    } else if(t<L[4]){ // смотрят на звук/робота
+      p.eyes='W';p.look=1;p.squash=t<L[2]+.3?-.08:0;
+      if(t>TF1) {p.y=GY-6;p.mouth=8;}
+    } else if(t<L[5]){ // хотят дружить
+      const k=ease(seg(t,L[4],L[4]+1));
+      p.x=lerp(HOME[i],[70,130,250][i],k); p.y=GY-Math.abs(Math.sin(t*9+i))*16; p.eyes='H';p.mouth=6;p.hl=[0,-30];p.hr=[0,-30];
+    } else if(t<L[6]){ // нервничают
+      p.x=[70,130,250][i];p.eyes='W';p.sweat=1;p.look=i===2?-1:1;p.squash=Math.sin(t*30)*.02;
+    } else { // караоке
+      p.x=[70,130,250][i];p.eyes='H';p.mouth=6+4*Math.abs(Math.sin(t*7+i));p.y=GY-bounce*22;p.rot=Math.sin(t*6.7+i)*12;
+      p.hl=[-8,-40+bounce*12];p.hr=[8,-40+bounce*12]; if(c==='usa')p.shades=1;
+    }
+    pose(B[c],p);
+  });
+  // ---- Филиппины ----
+  const ph={x:310,y:GY,s:.56,eyes:'N',look:-1,hl:[0,0],hr:[0,8]};
+  let cloud=0;
+  if(t<L[1]){cloud=1;ph.rot=-6}
+  else if(t<L[2]){const k=ease(seg(t,L[1],L[1]+1));ph.x=lerp(310,285,k);ph.y=GY-Math.abs(Math.sin(k*Math.PI*2))*14;ph.hl=[0,-34];
+     if(t>L[1]+2.1){ph.eyes='W';ph.sweat=1;ph.hl=[0,0];cloud=1}}
+  else if(t<L[3]){ph.x=285;ph.eyes='W';ph.look=-1;ph.squash=t<L[2]+.3?-.08:0}
+  else if(t<L[4]){ // прыгает на плечо робота
+    const k=seg(t,L[3]+.2,L[3]+.9);
+    ph.x=lerp(285,245,k);ph.y=lerp(GY,GY,k)-Math.sin(k*Math.PI)*90;ph.eyes='H';
+    if(t>TF0){const kk=ease(seg(t,TF1-.4,TF1));ph.x=lerp(245,268,kk);ph.y=lerp(GY,405-292,kk);ph.s=.5}
+  }
+  else { ph.x=268; ph.y=405-292+(t>L[6]?Math.sin(t*6.7)*4:0); ph.s=.5; ph.eyes='H';ph.mouth=5;
+    if(t>L[5]&&t<L[6]){ph.eyes='N';ph.mouth=0;ph.look=-1}
+    if(t>L[6]){ph.mouth=7+5*Math.abs(Math.sin(t*7));ph.hr=[-32,-38];ph.rot=Math.sin(t*5)*12}
+  }
+  pose(B.philippines,ph);
+  $('cloud').setAttribute('opacity',cloud);$('cloud').setAttribute('transform',`translate(${ph.x},${ph.y-62})`);
+  document.querySelectorAll('.drop').forEach((d,i)=>d.setAttribute('transform',`translate(0,${((t*60+i*7)%20)})`));
+  // мяч
+  let bx=-50,by=0;
+  if(t<L[1]){const ph2=(t*1.2)%2;const pp=ph2<1?ph2:2-ph2;bx=lerp(HOME[0]+15,HOME[2]-15,pp);by=GY+30-Math.sin(pp*Math.PI)*70}
+  else if(t<L[2]){bx=lerp(HOME[2]-15,-30,seg(t,L[1]+2.1,L[1]+2.6));by=GY+30-Math.sin(seg(t,L[1]+2.1,L[1]+2.6)*Math.PI)*90}
+  $('soccer').setAttribute('transform',`translate(${bx},${by}) rotate(${t*400})`);
+  $('soccer').setAttribute('opacity',t<L[2]?1:0);
+
+  // эффекты
+  let fx='';
+  const word=(a,b,txt,x,y,col,sz=30,rot=-8)=>{if(t>=a&&t<b){const k=back(seg(t,a,a+.25));fx+=`<text x="${x}" y="${y}" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="${sz}" fill="${col}" stroke="#000" stroke-width="5" paint-order="stroke" transform="translate(${x},${y}) scale(${k}) rotate(${rot}) translate(${-x},${-y})">${txt}</text>`}};
+  word(L[1]+2.1,L[2],'HA HA HA','120','380','#fff',28);
+  word(L[2]+.3,L[2]+1.6,'VRRROOOM','250','300','#ffd23b',32);
+  word(L[3]-.6,L[3],'BEEP BEEP!','235','250','#fff',26,6);
+  word(TF0+.3,TF0+1,'CHK!','70','200','#7cf',28);word(TF0+.9,TF0+1.6,'KA-CHUNK!','285','170','#7cf',26,8);
+  word(TF1,TF1+1.1,'🤖 JEEPNEY-BOT','180','150','#ffd23b',30,0);
+  word(L[6],L[6]+1,'🎤 !!!','90','170','#ff3cac',34);
+  // сердечки
+  if(t>L[4]&&t<L[5]) for(let k=0;k<6;k++){const ph3=((t*.9+k/6)%1);fx+=`<text x="${[70,130,250][k%3]+Math.sin((t+k)*3)*10}" y="${430-ph3*120}" font-size="20" opacity="${1-ph3}">❤️</text>`}
+  // ноты
+  if(t>L[6]) for(let k=0;k<6;k++){const ph3=((t*.8+k/6)%1);fx+=`<text x="${60+k*45+Math.sin((t+k)*3)*12}" y="${440-ph3*200}" font-size="22" opacity="${1-ph3}" fill="${['#ff3cac','#ffe066','#7cf'][k%3]}" stroke="#111" stroke-width="1" font-family="DejaVu Sans">${k%2?'♪':'♫'}</text>`}
+  // искры трансформации
+  if(t>TF0&&t<TF1+.3) for(let k=0;k<10;k++){const a=k*0.63+t*3,r=60+((t*200+k*40)%120);fx+=`<circle cx="${180+Math.cos(a)*r}" cy="${260+Math.sin(a)*r}" r="3" fill="#ffe066"/>`}
+  $('fx').innerHTML=fx;
+  $('endcard').setAttribute('opacity',seg(t,L[7],L[7]+.3));
+  const ek=back(seg(t,L[7],L[7]+.4));$('endcard').setAttribute('transform',`translate(180,270) scale(${t>=L[7]?ek:1}) translate(-180,-270)`);
+}
+
+window.draw=draw;window.DUR=DUR;
+if(!location.search.includes('render')){
+  const audio=new Audio('jeepney-audio.m4a');let t0=null;
+  document.body.onclick=()=>{audio.currentTime=0;audio.play().catch(()=>{});t0=performance.now()};
+  (function loop(now){const t=t0===null?0:((now-t0)/1000)%DUR;draw(t);requestAnimationFrame(loop)})(performance.now());
+} else {document.body.classList.add('render');draw(0)}
+</script>
+</body>
+</html>
