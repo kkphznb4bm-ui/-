@@ -7,6 +7,7 @@
 | `index.html` | интерактивные TikTok-тренды countryball-шариков (12 стран, 7 трендов) |
 | `skit.html` → `uchitel-vyshel.mp4` | скетч «POV: учитель вышел из класса» (RU-подписи) |
 | `jeepney.html` → `jeepney-transformer.mp4` | «Poor Philippine-ball has a JEEPNEY TRANSFORMER!» (английская озвучка) |
+| `short5.html?clip=1..3` → `shorts/*.mp4` | 5-секундные шортсы с хуком и бесшовным циклом: «Wait for it», «Who wins?», «Everyone was scared» |
 | `part3.html` → `part3-winter-robots.mp4` | Part 3: снегопад, Russia-бот из снегоуборщика раздаёт ушанки, зимнее караоке; `part3-winter-robots-no-music.mp4` — без музыки |
 | `part2.html` → `part2-robot-battle.mp4` | Part 2: USA-бот против Jeepney-бота; `part2-robot-battle-no-music.mp4` — без музыки (голос + эффекты), чтобы добавить трендовый звук в TikTok/Shorts |
 
@@ -37,4 +38,10 @@ tools/mix.sh voice/part3-take1.mp3 voice/p3-sfx.wav voice/p3-music.wav 24.8 part
 tools/mix.sh voice/part3-take1.mp3 voice/p3-sfx.wav - 24.8 voice/part3-audio-nomusic.m4a
 node tools/render_video.js part3.html part3-audio.m4a part3-winter-robots.mp4
 ffmpeg -y -i part3-winter-robots.mp4 -i voice/part3-audio-nomusic.m4a -map 0:v -map 1:a -c copy part3-winter-robots-no-music.mp4
+
+# 5-секундные шортсы
+for c in 1 2 3; do python3 tools/short5_audio.py $c voice/s$c.wav && ffmpeg -y -i voice/s$c.wav -c:a aac short$c-audio.m4a; done
+node tools/render_video.js "short5.html?clip=1" short1-audio.m4a shorts/short1-wait-for-it.mp4
+node tools/render_video.js "short5.html?clip=2" short2-audio.m4a shorts/short2-who-wins.mp4
+node tools/render_video.js "short5.html?clip=3" short3-audio.m4a shorts/short3-scared-russia-bot.mp4
 ```

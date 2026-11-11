@@ -11,7 +11,7 @@ const fs=require('fs'), path=require('path'), os=require('os');
   const dir=fs.mkdtempSync(path.join(os.tmpdir(),'frames-'));
   const b=await chromium.launch(); const p=await b.newPage({viewport:{width:360,height:640},deviceScaleFactor:2});
   p.on('pageerror',e=>{console.error(e);process.exit(1)});
-  await p.goto('file://'+path.join(root,page)+'?render');
+  await p.goto('file://'+path.join(root,page)+(page.includes('?')?'&':'?')+'render');
   const DUR=await p.evaluate(()=>DUR); const svg=await p.$('#v');
   const N=Math.round(DUR*FPS);
   for(let f=0;f<N;f++){

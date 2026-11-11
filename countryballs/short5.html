@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Five Second Shorts</title>
+<style>
+  html,body{margin:0;background:#111;height:100%}
+  body{display:flex;align-items:center;justify-content:center}
+  #v{height:100vh;max-width:100vw;aspect-ratio:9/16;display:block;background:#8fd3ff}
+  body.render #v{height:640px;width:360px}
+</style>
+</head>
+<body>
+<svg id="v" viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ec8ff"/><stop offset="1" stop-color="#d9f3ff"/></linearGradient>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#b9c2cc"/><stop offset="1" stop-color="#eef2f5"/></linearGradient>
+    <clipPath id="frame"><rect width="360" height="640"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+  <g id="cam">
+    <rect x="-40" y="-40" width="440" height="720" fill="url(#sky)"/>
+    <circle cx="300" cy="80" r="34" fill="#ffe066"/>
+    <g fill="#fff" opacity=".9"><g id="cl1"><ellipse rx="40" ry="16"/><ellipse cx="22" cy="-10" rx="24" ry="16"/></g><g id="cl2"><ellipse rx="34" ry="13"/><ellipse cx="-16" cy="-8" rx="20" ry="13"/></g></g>
+    <g fill="#a9c7dc"><rect x="-10" y="250" width="40" height="110"/><rect x="34" y="220" width="30" height="140"/><rect x="70" y="270" width="46" height="90"/><rect x="250" y="240" width="36" height="120"/><rect x="292" y="210" width="44" height="150"/><rect x="340" y="260" width="40" height="100"/></g>
+    <g id="palms"></g>
+    <rect x="-40" y="355" width="440" height="60" fill="#666b73"/>
+    <g id="dashes"></g>
+    <rect x="-40" y="410" width="440" height="270" fill="#7ccf63"/>
+    <path d="M-40,410 H400" stroke="#5aa647" stroke-width="5"/>
+    <g id="disco" opacity="0"><rect x="-40" y="-40" width="440" height="720" fill="#12002b" opacity=".75"/><g id="beams"></g></g>
+    <rect id="snowground" x="-40" y="405" width="440" height="275" fill="#f4f8ff" opacity="0"/>
+    <rect id="gloom" x="-40" y="-40" width="440" height="720" fill="#6f7f99" opacity="0"/>
+    <g id="robots"></g>
+    <g id="waves"></g>
+    <g id="actors"></g>
+    <g id="hats"></g>
+    <g id="snow"></g>
+    <g id="fx"></g>
+  </g>
+  <rect id="flash" width="360" height="640" fill="#fff" opacity="0"/>
+  <text id="sub" x="180" y="92" text-anchor="middle" font-family="DejaVu Sans, Arial" font-weight="bold" font-size="34" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"></text>
+  <text id="sub2" x="180" y="132" text-anchor="middle" font-family="DejaVu Sans, Arial" font-weight="bold" font-size="34" fill="#ffe066" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"></text>
+  </g>
+</svg>
+<script src="balls.js"></script>
+<script src="actors.js"></script>
+<script src="robots.js"></script>
+<script>
+// 5-секундные шортсы с хуком и бесшовным циклом. ?clip=1|2|3
+const $=id=>document.getElementById(id);
+const CLIP=+(new URLSearchParams(location.search).get('clip')||1);
+const DUR=5;
+let pl='';[[-6,410],[128,412],[352,410]].forEach(([x,y])=>{pl+=`<g transform="translate(${x},${y})"><path d="M0,0 Q6,-60 -2,-120" stroke="#8b5a2b" stroke-width="8" fill="none"/>${[-60,-20,20,60,100].map(a=>`<ellipse cx="0" cy="-120" rx="34" ry="8" fill="#2f9e44" transform="rotate(${a} -2 -120) translate(28,0)"/>`).join('')}</g>`});
+$('palms').innerHTML=pl;
+let ds='';for(let i=0;i<10;i++)ds+=`<rect x="${i*50-40}" y="381" width="26" height="5" fill="#fff"/>`;$('dashes').innerHTML=ds;
+let bm='';['#ff3cac','#2bd2ff','#ffe53b','#7cff6b','#b06bff'].forEach((c,i)=>bm+=`<polygon id="beam${i}" points="0,0 -45,800 45,800" fill="${c}" opacity=".35"/>`);$('beams').innerHTML=bm;
+const FL=[...Array(60)].map((_,i)=>({x:(i*97)%380-10,v:40+(i*37)%40,ph:(i*53)%640,r:1.5+(i%4)*.8}));
+const HAT=`<g stroke="#111" stroke-width="2.5"><ellipse cx="-42" cy="-2" rx="11" ry="24" fill="#2a2a2a"/><ellipse cx="42" cy="-2" rx="11" ry="24" fill="#2a2a2a"/><path d="M-44,-22 Q-44,-70 0,-72 Q44,-70 44,-22Z" fill="#333"/><rect x="-48" y="-40" width="96" height="20" rx="10" fill="#222"/></g>`;
+const rp=(x,y,s,rot,px,py)=>{const a=rot*Math.PI/180;return [x+s*(px*Math.cos(a)-py*Math.sin(a)), y+s*(px*Math.sin(a)+py*Math.cos(a))]};
+function fit(el,txt,base=34,max=330){if(el.textContent!==txt){el.textContent=txt;el.setAttribute('font-size',base);const w=txt?el.getComputedTextLength():0;if(w>max)el.setAttribute('font-size',(base*max/w).toFixed(1))}}
+function caption(t,a,b,l1,l2){ // крупная подпись сверху с «попом»
+  if(t>=a&&t<b){fit($('sub'),l1);fit($('sub2'),l2);const k=1+.18*(1-seg(t,a,a+.12));
+    $('sub').setAttribute('transform',`translate(180,92) scale(${k}) translate(-180,-92)`);$('sub2').setAttribute('transform',`translate(180,132) scale(${k}) translate(-180,-132)`);return true}
+  return false}
+let FX='';
+const word=(t,a,b,txt,x,y,col,sz=30,rot=-8)=>{if(t>=a&&t<b){const k=back(seg(t,a,a+.2));FX+=`<text x="${x}" y="${y}" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="${sz}" fill="${col}" stroke="#000" stroke-width="5" paint-order="stroke" transform="translate(${x},${y}) scale(${k}) rotate(${rot}) translate(${-x},${-y})">${txt}</text>`}};
+const notes=(t,y0=450)=>{for(let k=0;k<6;k++){const p=((t*.9+k/6)%1);FX+=`<text x="${40+k*55+Math.sin((t+k)*3)*12}" y="${y0-p*200}" font-size="24" opacity="${1-p}" fill="${['#ff3cac','#ffe066','#7cf'][k%3]}" stroke="#111" stroke-width="1" font-family="DejaVu Sans">${k%2?'♪':'♫'}</text>`}};
+const sparks=(t,cx,cy)=>{for(let k=0;k<12;k++){const a=k*.52+t*4,r=50+((t*260+k*40)%120);FX+=`<circle cx="${cx+Math.cos(a)*r}" cy="${cy+Math.sin(a)*r}" r="3.5" fill="#ffe066"/>`}};
+function common(t){
+  $('disco').setAttribute('opacity',0);$('snowground').setAttribute('opacity',0);$('gloom').setAttribute('opacity',0);$('snow').innerHTML='';
+  for(let i=0;i<5;i++)$('beam'+i).setAttribute('transform',`translate(180,-20) rotate(${Math.sin(t*2.6+i*1.3)*50})`);
+  $('cl1').setAttribute('transform',`translate(${(60+t*8)%460-50},170)`);$('cl2').setAttribute('transform',`translate(${(260+t*6)%460-50},210)`);
+  fit($('sub'),'');fit($('sub2'),'');FX='';
+}
+
+/* ===== CLIP 1: «Wait for it» — джипни → робот → джипни (цикл) ===== */
+function clip1(){
+  const R=buildRobot($('robots'),JEEPNEY_PARTS());
+  const ph=makeBall('philippines',{mic:true});$('actors').appendChild(ph.g);
+  const S=.95, X=185, Y=520;
+  return t=>{
+    common(t);
+    // k: 0 (машина) → 1 (робот) → 0
+    const k=t<1.0?0:t<2.1?seg(t,1.0,2.1):t<3.9?1:1-seg(t,3.9,4.85);
+    const idle=k===0?-Math.abs(Math.sin(t*14))*3:0;            // мотор работает
+    const hop=(k>0&&k<1)?-Math.abs(Math.sin(k*Math.PI*3))*14:0;
+    const alive=t>2.1&&t<3.9, sing=t>2.9&&t<3.9;
+    const rot=sing?Math.sin(t*12)*5:0;
+    poseRobot(R,{x:X,y:Y+idle+hop,s:S,k,rot,life:id=>{
+      if(id==='armR'){ if(sing) return {rot:-150,dx:-6,dy:-16}; if(alive) return {rot:-90-Math.abs(Math.sin(t*9))*50}}
+      if(id==='armL'&&sing) return {rot:18+Math.sin(t*12)*25};
+    }});
+    R.g.querySelector('.bigmic').setAttribute('opacity',sing?1:0);
+    // глаза-фары: моргают (машина «живая»)
+    const blink=(t>.35&&t<.5)||(t>.7&&t<.8);
+    R.g.querySelectorAll('.lamp').forEach(l=>{l.setAttribute('fill',alive?'#7cf':'#fff59d');l.setAttribute('transform',blink?'scale(1,.15)':'');l.style.transformBox='fill-box';l.style.transformOrigin='center'});
+    // Филиппины: на крыше машины → на плече робота
+    const kk=ease(k);
+    const car=rp(X,Y+idle,S,0,-40,-138), bot=rp(X,Y+hop,S,rot,62,-300);
+    pose(ph,{x:lerp(car[0],bot[0],kk),y:lerp(car[1],bot[1],kk)-Math.sin(kk*Math.PI)*40,s:.5,eyes:t<1?'W':'H',look:-1,mouth:sing?7+5*Math.abs(Math.sin(t*8)):(alive?4:0),hr:sing?[-32,-38]:[0,0],hl:[0,0]});
+    $('disco').setAttribute('opacity',sing?1:0);
+    // подписи
+    caption(t,0,1.0,'WAIT FOR IT… 👀','') || caption(t,1.0,2.1,'NO WAY 😳','') || caption(t,2.1,2.9,'JEEPNEY-BOT 🤖','') ||
+    caption(t,2.9,3.9,'KARAOKE','FIRST! 🎤') || caption(t,3.9,5,'…and back 😂','');
+    word(t,.3,1.0,'BEEP BEEP!','250','300','#fff',26,8);
+    word(t,1.2,1.9,'KA-CHUNK!','90','250','#7cf',26);
+    if(k>0&&k<1) sparks(t,X,Y-150);
+    if(sing) notes(t);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',Math.max(t>=1.0?.6*(1-seg(t,1.0,1.25)):0,t>=2.1?.8*(1-seg(t,2.1,2.4)):0));
+    $('cam').setAttribute('transform',`translate(${t>2.1&&t<2.45?Math.sin(t*90)*6:0},0)`);
+  };
+}
+
+/* ===== CLIP 2: «Who wins?» — битва, побеждает караоке ===== */
+function clip2(){
+  const J=buildRobot($('robots'),JEEPNEY_PARTS()), U=buildRobot($('robots'),TRUCK_PARTS());
+  const S=.72, Y=500;
+  const ph=makeBall('philippines',{mic:true}), us=makeBall('usa');$('actors').append(ph.g,us.g);
+  return t=>{
+    common(t);
+    const fight=t<2.0, sing=t>=2.0, dance=t>3.0;
+    const push=fight?Math.max(0,Math.sin(t*9)):0;
+    const jx=88+push*12, ux=272-(fight?Math.max(0,Math.sin(t*9+Math.PI))*12:0);
+    const jr=fight?Math.sin(t*9)*4:Math.sin(t*12)*5, ur=fight?Math.sin(t*9+Math.PI)*4:dance?Math.sin(t*12)*12:Math.sin(t*40)*1.5;
+    const bounce=dance?Math.abs(Math.sin(t*6))*14:0;
+    poseRobot(J,{x:jx,y:Y,s:S,k:1,rot:jr,life:id=>{
+      if(fight){if(id==='armR')return {rot:-60+Math.sin(t*16)*20};if(id==='armL')return {rot:60+Math.sin(t*16+1)*20}}
+      if(id==='armR') return {rot:-150,dx:-6,dy:-16};
+      if(id==='armL') return {rot:18+Math.sin(t*12)*25};
+    }});
+    J.g.querySelector('.bigmic').setAttribute('opacity',sing?1:0);
+    poseRobot(U,{x:ux,y:Y-bounce,s:S,k:1,rot:ur,life:id=>{
+      if(fight){if(id==='armL')return {rot:60+Math.sin(t*16)*20};if(id==='armR')return {rot:-60+Math.sin(t*16+1)*20}}
+      if(!dance){if(id==='armL')return {rot:150};if(id==='armR')return {rot:-150}}
+      if(id==='armL')return {rot:120+Math.sin(t*13)*50};if(id==='armR')return {rot:-120+Math.sin(t*13+2)*50};
+      if(id==='legL')return {rot:Math.sin(t*13)*25};if(id==='legR')return {rot:-Math.sin(t*13)*25};
+    }});
+    J.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',fight?'#ff6b6b':'#7cf'));
+    U.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',fight?'#ff6b6b':dance?'#ff9de2':'#fff'));
+    const a=rp(jx,Y,S,jr,62,-300), b=rp(ux,Y-bounce,S,ur,-62,-310);
+    pose(ph,{x:a[0],y:a[1],s:.42,look:1,eyes:fight?'N':'H',mouth:sing?7+5*Math.abs(Math.sin(t*8)):0,hr:sing?[-32,-38]:[0,0],hl:fight?[0,-30]:[0,0]});
+    pose(us,{x:b[0],y:b[1],s:.42,look:-1,eyes:fight?'N':dance?'H':'W',shades:fight||dance?1:0,sweat:sing&&!dance?1:0,mouth:dance?6:0,hl:fight?[0,-30]:[0,0]});
+    $('disco').setAttribute('opacity',sing?1:0);
+    caption(t,0,2.0,'WHO WINS? 🤔','') || caption(t,2.0,3.0,'SECRET WEAPON… 🎤','') || caption(t,3.0,5,'KARAOKE WINS 😂','');
+    word(t,0,2.0,'VS','180','420','#ff3b3b',64,0);
+    if(fight&&Math.sin(t*25)>0) FX+=`<path d="M180,300 l-14,30 h18 l-16,36" stroke="#ffe066" stroke-width="6" fill="none"/>`;
+    if(sing&&!dance){for(let k=0;k<4;k++){const p=((t*1.8+k/4)%1),r=20+p*120;FX+=`<path d="M${jx+40+r*.3},${270-r*.5} A${r},${r} 0 0,1 ${jx+40+r*.3},${270+r*.5}" fill="none" stroke="#ff3cac" stroke-width="${6-p*4}" opacity="${1-p}"/>`}}
+    if(dance){notes(t);word(t,3.0,5,'💃🕺','272','190','#fff',40,0)}
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',t>=2.0?.6*(1-seg(t,2.0,2.3)):0);
+    const cs=fight?Math.sin(t*50)*3:0;$('cam').setAttribute('transform',`translate(${cs},${cs*.6})`);
+  };
+}
+
+/* ===== CLIP 3: «Everyone was scared» — Russia-бот раздаёт ушанки ===== */
+function clip3(){
+  const R=buildRobot($('robots'),SNOWTRUCK_PARTS());
+  const cast=['philippines','usa','brazil','japan'], B={};cast.forEach(c=>{B[c]=makeBall(c);$('actors').appendChild(B[c].g)});
+  const HX=[52,132,228,308], S=.82, X=180, Y=510;
+  return t=>{
+    common(t);
+    $('snowground').setAttribute('opacity',.95);$('gloom').setAttribute('opacity',t<2.0?.45:.15);
+    let sn='';FL.forEach((f,i)=>{const y=(f.ph+t*f.v)%660-10,x=f.x+Math.sin(t*1.5+i)*10;sn+=`<circle cx="${x}" cy="${y}" r="${f.r}" fill="#fff" opacity=".9"/>`});$('snow').innerHTML=sn;
+    const scary=t<2.0, give=t>=2.0&&t<2.9, happy=t>=3.2;
+    const step=scary?Math.max(0,Math.sin(t*Math.PI*2/.9)):0;
+    const squat=happy?Math.abs(Math.sin(t*Math.PI*2*1.1/2)):0;
+    poseRobot(R,{x:X,y:Y+squat*14,s:S,k:1,rot:scary?Math.sin(t*Math.PI*2/.9)*3:0,life:id=>{
+      if(give&&id==='armR') return {rot:-100};
+      if(happy){const kk=Math.sin(t*Math.PI*1.1);if(id==='armL')return {rot:95};if(id==='armR')return {rot:-95};
+        if(id==='legL')return {rot:kk>0?-70*kk:0};if(id==='legR')return {rot:kk<0?70*kk:0}}
+    }});
+    R.g.querySelector('.hats').setAttribute('opacity',give&&t<2.4?1:0);
+    R.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',scary?'#ff3b3b':happy?'#9fffb0':'#fff59d'));
+    // шарики впереди: дрожат → получают шапки → танцуют
+    let ht='';
+    cast.forEach((c,i)=>{
+      const p={x:HX[i],y:560,s:.5,eyes:'W',look:i<2?1:-1,hl:[18,-4],hr:[-18,-4],sweat:1};
+      if(scary)p.squash=Math.sin(t*50+i)*.05;
+      if(happy){p.eyes='H';p.sweat=0;p.mouth=6+4*Math.abs(Math.sin(t*8+i));p.y=560-Math.abs(Math.sin(t*6+i))*14;p.rot=Math.sin(t*6+i)*12;p.hl=[-8,-36];p.hr=[8,-36]}
+      else if(t>=2.0){p.eyes='N';p.sweat=0;p.hl=[0,0];p.hr=[0,0]}
+      pose(B[c],p);
+      const a=2.15+i*.15, k=seg(t,a,a+.5);
+      if(t>=a){const kk=ease(k), fx=X+70, fy=Y-170;
+        const x=lerp(fx,p.x,kk), y=lerp(fy,p.y-6,kk)-Math.sin(k*Math.PI)*110;
+        ht+=`<g transform="translate(${x},${y}) rotate(${(1-kk)*540}) scale(${lerp(.3,p.s*(1+(p.squash||0)),kk)})">${HAT}</g>`}
+    });
+    $('hats').innerHTML=ht;
+    $('disco').setAttribute('opacity',happy?.8:0);
+    caption(t,0,2.0,'EVERYONE WAS','SCARED… 😨') || caption(t,2.0,3.2,'BUT HE JUST','BROUGHT HATS 🧣') || caption(t,3.2,5,'WARM HATS 😂','');
+    for(let k=0;k<3;k++) word(t,k*.9,k*.9+.45,'BOOM','300','330','#fff',26,0);
+    if(happy) notes(t,500);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',t>=3.2?.5*(1-seg(t,3.2,3.45)):0);
+    const cs=step*4;$('cam').setAttribute('transform',`translate(${Math.sin(t*60)*cs*.5},${cs})`);
+  };
+}
+
+const draw=({1:clip1,2:clip2,3:clip3}[CLIP]||clip1)();
+window.draw=draw;window.DUR=DUR;
+if(!location.search.includes('render')){
+  const audio=new Audio(`short${CLIP}-audio.m4a`);audio.loop=true;let t0=null;
+  document.body.onclick=()=>{audio.currentTime=0;audio.play().catch(()=>{});t0=performance.now()};
+  (function loop(now){const t=t0===null?0:((now-t0)/1000)%DUR;draw(t);requestAnimationFrame(loop)})(performance.now());
+} else {document.body.classList.add('render');draw(0)}
+</script>
+</body>
+</html>
