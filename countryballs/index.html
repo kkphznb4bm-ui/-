@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Countryball Тренды</title>
+<style>
+:root{
+  --bg:#0f0f14; --panel:#1b1b24; --text:#f3f3f7; --muted:#9a9ab0; --accent:#fe2c55; --accent2:#25f4ee;
+  --beat:.5s;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:16px}
+h1{font-size:20px;margin:4px 0 12px;letter-spacing:.3px}
+h1 span{color:var(--accent)}
+.wrap{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;align-items:flex-start;width:100%;max-width:980px}
+/* ---------- phone ---------- */
+.phone{position:relative;width:min(380px,100%);aspect-ratio:9/16;border-radius:28px;overflow:hidden;background:#000;box-shadow:0 20px 60px #0008, 0 0 0 6px #222;user-select:none;cursor:pointer}
+.stage{position:absolute;inset:0;background:linear-gradient(180deg,#ffe9a8,#ffc4d6 55%,#c9b8ff);transition:background .4s}
+.stage svg.scene{position:absolute;inset:0;width:100%;height:100%}
+.topbar{position:absolute;top:14px;left:0;right:0;text-align:center;font-weight:700;font-size:15px;color:#fff;text-shadow:0 1px 3px #0009;z-index:5}
+.topbar b{border-bottom:2px solid #fff;padding-bottom:3px;margin-left:12px}
+.topbar i{font-style:normal;opacity:.75}
+.side{position:absolute;right:10px;bottom:120px;display:flex;flex-direction:column;gap:16px;align-items:center;z-index:5;color:#fff;font-size:12px;font-weight:600;text-shadow:0 1px 3px #000a}
+.side .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#0004;font-size:22px}
+.side .liked{color:var(--accent)}
+.avatar{width:46px;height:46px;border-radius:50%;border:2px solid #fff;overflow:hidden;background:#fff}
+.disc{width:42px;height:42px;border-radius:50%;background:conic-gradient(#333,#111,#333,#111,#333);display:grid;place-items:center;animation:spin 3s linear infinite}
+.disc::after{content:"";width:16px;height:16px;border-radius:50%;background:var(--accent)}
+.caption{position:absolute;left:14px;right:70px;bottom:22px;color:#fff;z-index:5;text-shadow:0 1px 3px #000c;font-size:14px;line-height:1.35}
+.caption .user{font-weight:800;margin-bottom:4px}
+.caption .sound{margin-top:6px;font-size:13px;white-space:nowrap;overflow:hidden}
+.caption .sound span{display:inline-block;animation:marq 8s linear infinite}
+.bigtext{position:absolute;left:0;right:0;top:12%;text-align:center;z-index:4;font-weight:900;font-size:28px;color:#fff;-webkit-text-stroke:1.5px #000;paint-order:stroke fill;text-shadow:3px 3px 0 #000;padding:0 16px;transition:transform .15s}
+.bigtext.pop{transform:scale(1.18)}
+.progress{position:absolute;left:0;bottom:0;height:3px;background:#fff;z-index:6;width:0}
+.heart{position:absolute;font-size:80px;pointer-events:none;z-index:7;animation:heart .9s ease-out forwards}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:6}
+.flash.on{animation:flash .45s ease-out}
+.tap{position:absolute;inset:0;display:grid;place-items:center;z-index:8;background:#0006;color:#fff;font-size:20px;font-weight:700}
+.tap div{background:var(--accent);padding:14px 22px;border-radius:40px}
+/* ---------- controls ---------- */
+.panel{flex:1;min-width:280px;max-width:520px;background:var(--panel);border-radius:18px;padding:16px}
+.panel h2{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:6px 0 10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{border:1px solid #333;background:#24242f;color:var(--text);border-radius:30px;padding:8px 12px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.chip.on{background:var(--accent);border-color:var(--accent)}
+.chip svg{width:20px;height:20px}
+.trend.on{background:linear-gradient(90deg,var(--accent),#ff7a59);border-color:transparent}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;background:#2e2e3b;color:var(--text);font-size:14px}
+.btn.main{background:var(--accent2);color:#000}
+.hint{color:var(--muted);font-size:13px;margin-top:10px;line-height:1.4}
+
+/* ---------- ball parts ---------- */
+.ball{transform-box:fill-box;transform-origin:50% 100%}
+.ball .body{transform-box:fill-box;transform-origin:50% 50%}
+.ball .lid{transform-box:fill-box;transform-origin:50% 0;animation:blink 4s infinite}
+.ball .handL,.ball .handR{transform-box:fill-box;transform-origin:50% 50%}
+.ball .shades{opacity:0;transform:translateY(-90px);transition:all .35s cubic-bezier(.3,1.6,.5,1)}
+.ball.drip .shades{opacity:1;transform:translateY(0)}
+.ball .crown{opacity:0;transform:translateY(-60px) scale(.5);transform-box:fill-box;transform-origin:50% 100%;transition:all .35s cubic-bezier(.3,1.6,.5,1)}
+.ball.king .crown{opacity:1;transform:none}
+
+/* trend: Прыжки волной */
+.t-jump .ball{animation:jump calc(var(--beat)*2) cubic-bezier(.3,0,.4,1) infinite;animation-delay:calc(var(--i)*var(--beat)/3)}
+.t-jump .ball .handL{animation:raiseL calc(var(--beat)*2) infinite;animation-delay:calc(var(--i)*var(--beat)/3)}
+.t-jump .ball .handR{animation:raiseR calc(var(--beat)*2) infinite;animation-delay:calc(var(--i)*var(--beat)/3)}
+/* trend: Вайб */
+.t-vibe .ball .body{animation:bob calc(var(--beat)*2) ease-in-out infinite}
+.t-vibe .ball{animation:sway calc(var(--beat)*4) ease-in-out infinite}
+.t-vibe .ball .handL{animation:snapL var(--beat) infinite}
+.t-vibe .ball .handR{animation:snapR var(--beat) infinite}
+/* trend: Спин */
+.t-spin .ball .body{animation:spinball calc(var(--beat)*4) cubic-bezier(.6,0,.3,1) infinite;animation-delay:calc(var(--i)*var(--beat))}
+.t-spin .ball{animation:squash var(--beat) infinite}
+/* trend: Танец рук */
+.t-arms .ball .handL{animation:armsL calc(var(--beat)*4) steps(1) infinite}
+.t-arms .ball .handR{animation:armsR calc(var(--beat)*4) steps(1) infinite}
+.t-arms .ball{animation:squash var(--beat) infinite}
+/* trend: Glow up */
+.t-glow .ball{animation:squash var(--beat) infinite}
+.t-glow .ball.king{animation:kingbob var(--beat) infinite}
+/* trend: Батл */
+.t-battle .ball{transition:transform .2s}
+.t-battle .ball.active{animation:battle var(--beat) infinite}
+.t-battle .ball.idle .body{animation:bob calc(var(--beat)*2) ease-in-out infinite}
+/* trend: Сквад */
+.t-squad .ball{animation:enter .6s cubic-bezier(.3,1.5,.5,1) both, jump calc(var(--beat)*2) cubic-bezier(.3,0,.4,1) infinite;animation-delay:calc(var(--i)*.35s), calc(1.2s + var(--n)*.35s)}
+
+@keyframes jump{0%,100%{transform:translateY(0) scale(1.08,.92)}15%{transform:translateY(0) scale(.92,1.08)}45%{transform:translateY(-70px) scale(1)}75%{transform:translateY(0) scale(1.12,.88)}}
+@keyframes raiseL{0%,100%{transform:none}45%{transform:translate(-6px,-38px) rotate(-20deg)}}
+@keyframes raiseR{0%,100%{transform:none}45%{transform:translate(6px,-38px) rotate(20deg)}}
+@keyframes bob{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+@keyframes sway{0%,100%{transform:translateX(-10px)}50%{transform:translateX(10px)}}
+@keyframes snapL{0%,100%{transform:none}50%{transform:translate(-4px,-14px)}}
+@keyframes snapR{0%,100%{transform:translate(4px,-14px)}50%{transform:none}}
+@keyframes spinball{0%,40%{transform:rotate(0)}70%,100%{transform:rotate(360deg)}}
+@keyframes squash{0%,100%{transform:scale(1.06,.94)}50%{transform:scale(.97,1.03) translateY(-6px)}}
+@keyframes armsL{0%{transform:translate(0,-40px)}25%{transform:translate(-10px,10px)}50%{transform:translate(30px,-20px)}75%{transform:translate(-14px,-30px)}}
+@keyframes armsR{0%{transform:translate(0,10px)}25%{transform:translate(10px,-40px)}50%{transform:translate(-30px,-20px)}75%{transform:translate(14px,-30px)}}
+@keyframes kingbob{0%,100%{transform:scale(1.1)}50%{transform:scale(1.18) translateY(-10px)}}
+@keyframes battle{0%,100%{transform:scale(1.2) translateY(0)}50%{transform:scale(1.28) translateY(-18px)}}
+@keyframes enter{0%{transform:translateY(-700px)}100%{transform:none}}
+@keyframes blink{0%,92%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes heart{0%{transform:translate(-50%,-50%) scale(.3) rotate(-15deg);opacity:0}25%{transform:translate(-50%,-50%) scale(1.2) rotate(-15deg);opacity:1}100%{transform:translate(-50%,-140%) scale(1) rotate(-15deg);opacity:0}}
+@keyframes flash{0%{opacity:.9}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.ball,.ball *{animation-duration:2s!important}}
+</style>
+</head>
+<body>
+<h1>Countryball <span>Тренды</span> 🌍</h1>
+<div class="wrap">
+  <div class="phone" id="phone">
+    <div class="stage" id="stage"><svg class="scene" id="scene" viewBox="0 0 360 640" preserveAspectRatio="xMidYMid slice"></svg></div>
+    <div class="topbar"><i>Подписки</i><b>Для вас</b></div>
+    <div class="bigtext" id="bigtext"></div>
+    <div class="side">
+      <div class="avatar" id="avatar"></div>
+      <div><div class="ic" id="likeIc">❤</div><div id="likes">48.2K</div></div>
+      <div><div class="ic">💬</div><div>1.9K</div></div>
+      <div><div class="ic">↗</div><div>12K</div></div>
+      <div class="disc"></div>
+    </div>
+    <div class="caption">
+      <div class="user">@countryball.world</div>
+      <div id="captext"></div>
+      <div class="sound">♫ <span id="sound"></span></div>
+    </div>
+    <div class="flash" id="flash"></div>
+    <div class="progress" id="progress"></div>
+    <div class="tap" id="tap"><div>▶ Нажми, чтобы начать</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Тренд</h2>
+    <div class="chips" id="trends"></div>
+    <h2>Страны (до 6)</h2>
+    <div class="chips" id="countries"></div>
+    <div class="row">
+      <button class="btn main" id="sound-btn">🔊 Звук: вкл</button>
+      <button class="btn" id="random-btn">🎲 Случайно</button>
+      <button class="btn" id="auto-btn">⏭ Автолента: выкл</button>
+    </div>
+    <div class="hint">Двойной тап по видео — лайк ❤. Чтобы выложить в TikTok, запиши экран телефона/ПК во время анимации (вертикальный формат 9:16 уже готов).</div>
+  </div>
+</div>
+
+<script>
+/* ================== ФЛАГИ (в квадрате -50..50) ================== */
+const star=(cx,cy,r,fill)=>{let p=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.42:r;p.push((cx+rr*Math.cos(a)).toFixed(1)+','+(cy+rr*Math.sin(a)).toFixed(1))}return `<polygon points="${p.join(' ')}" fill="${fill}"/>`};
+const hstripes=(cols)=>{const h=100/cols.length;return cols.map((c,i)=>`<rect x="-50" y="${-50+i*h}" width="100" height="${h+.5}" fill="${c}"/>`).join('')};
+const vstripes=(cols)=>{const w=100/cols.length;return cols.map((c,i)=>`<rect y="-50" x="${-50+i*w}" height="100" width="${w+.5}" fill="${c}"/>`).join('')};
+const sun=(cx,cy,r,rays,fill)=>{let s='';for(let i=0;i<rays;i++){const a=i*2*Math.PI/rays;s+=`<line x1="${cx}" y1="${cy}" x2="${(cx+Math.cos(a)*r*1.9).toFixed(1)}" y2="${(cy+Math.sin(a)*r*1.9).toFixed(1)}" stroke="${fill}" stroke-width="${r*.35}"/>`}return s+`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}"/>`};
+
+const C = {
+  usa:{name:'Америка',emoji:'🇺🇸',acc:'cap',flag:()=>{let s='';for(let i=0;i<13;i++)s+=`<rect x="-50" y="${-50+i*100/13}" width="100" height="${100/13+.3}" fill="${i%2?'#fff':'#B22234'}"/>`;s+=`<rect x="-50" y="-50" width="52" height="${700/13}" fill="#3C3B6E"/>`;for(let r=0;r<5;r++)for(let c=0;c<6;c++)s+=star(-44+c*8.4+(r%2)*4,-44+r*9.6,2.6,'#fff');return s}},
+  russia:{name:'Россия',emoji:'🇷🇺',acc:'ushanka',flag:()=>hstripes(['#fff','#0039A6','#D52B1E'])},
+  philippines:{name:'Филиппины',emoji:'🇵🇭',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="50" fill="#0038A8"/><rect x="-50" y="0" width="100" height="50" fill="#CE1126"/><polygon points="-50,-50 15,0 -50,50" fill="#fff"/>${sun(-24,0,7,8,'#FCD116')}${star(-43,-36,4,'#FCD116')}${star(-43,36,4,'#FCD116')}${star(5,0,4,'#FCD116')}`},
+  iran:{name:'Иран',emoji:'🇮🇷',acc:'none',flag:()=>hstripes(['#239F40','#fff','#DA0000'])+`<path d="M0,-11 C-9,-6 -9,8 0,11 C9,8 9,-6 0,-11Z M0,-6 L0,9" fill="none" stroke="#DA0000" stroke-width="3"/><rect x="-50" y="-17.5" width="100" height="1.6" fill="#239F40" opacity=".6"/><rect x="-50" y="16" width="100" height="1.6" fill="#DA0000" opacity=".6"/>`},
+  japan:{name:'Япония',emoji:'🇯🇵',acc:'headband',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#fff"/><circle r="22" fill="#BC002D"/>`},
+  brazil:{name:'Бразилия',emoji:'🇧🇷',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#009C3B"/><polygon points="0,-40 46,0 0,40 -46,0" fill="#FFDF00"/><circle r="20" fill="#002776"/><path d="M-20,-4 Q0,-10 20,4" stroke="#fff" stroke-width="3.5" fill="none"/>`},
+  germany:{name:'Германия',emoji:'🇩🇪',acc:'none',flag:()=>hstripes(['#000','#DD0000','#FFCE00'])},
+  tajikistan:{name:'Таджикистан',emoji:'🇹🇯',acc:'toqi',flag:()=>`<rect x="-50" y="-50" width="100" height="30" fill="#CC0000"/><rect x="-50" y="-20" width="100" height="42" fill="#fff"/><rect x="-50" y="22" width="100" height="28" fill="#006600"/><path d="M-9,8 L-9,0 L-4,4 L0,-3 L4,4 L9,0 L9,8Z" fill="#F8C300"/>${[-3,-2,-1,0,1,2,3].map(k=>{const a=-Math.PI/2+k*.36;return star(Math.cos(a)*15,4+Math.sin(a)*15,2.4,'#F8C300')}).join('')}`},
+  kazakhstan:{name:'Казахстан',emoji:'🇰🇿',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#00AFCA"/>${sun(0,-6,10,16,'#FEC50C')}<path d="M-18,12 Q0,2 18,12 Q0,8 -18,12Z" fill="#FEC50C"/>`},
+  turkey:{name:'Турция',emoji:'🇹🇷',acc:'fez',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#E30A17"/><circle cx="-6" r="20" fill="#fff"/><circle cx="-1" r="16" fill="#E30A17"/>${star(18,0,8,'#fff')}`},
+  france:{name:'Франция',emoji:'🇫🇷',acc:'beret',flag:()=>vstripes(['#0055A4','#fff','#EF4135'])},
+  india:{name:'Индия',emoji:'🇮🇳',acc:'none',flag:()=>hstripes(['#FF9933','#fff','#138808'])+`<circle r="12" fill="none" stroke="#000080" stroke-width="2"/>${[...Array(12)].map((_,i)=>`<line x1="0" y1="0" x2="${(Math.cos(i*Math.PI/6)*12).toFixed(1)}" y2="${(Math.sin(i*Math.PI/6)*12).toFixed(1)}" stroke="#000080" stroke-width="1"/>`).join('')}`},
+};
+
+/* ================== АКСЕССУАРЫ ================== */
+const ACC = {
+  ushanka:`<g stroke="#111" stroke-width="2.5"><ellipse cx="-44" cy="-4" rx="13" ry="26" fill="#2a2a2a"/><ellipse cx="44" cy="-4" rx="13" ry="26" fill="#2a2a2a"/><path d="M-46,-26 Q-46,-74 0,-76 Q46,-74 46,-26Z" fill="#333"/><rect x="-50" y="-44" width="100" height="22" rx="11" fill="#222"/></g><g transform="translate(0,-60) scale(.55)"><path d="M0,-14 L-14,-6 L-20,-14 L-18,4 L-8,10 L0,14 L8,10 L18,4 L20,-14 L14,-6Z" fill="#E8B923" stroke="#8a6410" stroke-width="1.5"/><rect x="-5" y="-4" width="10" height="11" fill="#D52B1E"/></g>`,
+  cap:`<g stroke="#111" stroke-width="2.5"><path d="M-40,-24 Q-38,-64 0,-64 Q38,-64 40,-24Z" fill="#B22234"/><path d="M0,-25 L68,-22 Q70,-14 40,-16Z" fill="#3C3B6E"/></g><text x="0" y="-36" text-anchor="middle" font-size="14" font-weight="900" fill="#fff" font-family="Arial">USA</text>`,
+  headband:`<rect x="-46" y="-34" width="92" height="12" fill="#fff" stroke="#111" stroke-width="2"/><circle cx="0" cy="-28" r="4.5" fill="#BC002D"/><path d="M44,-30 l16,-6 l-4,12 z M44,-26 l14,10 l-14,0z" fill="#fff" stroke="#111" stroke-width="2"/>`,
+  toqi:`<path d="M-30,-36 Q-28,-62 0,-62 Q28,-62 30,-36 Z" fill="#111" stroke="#111" stroke-width="2.5"/>${[-18,-6,6,18].map(x=>`<path d="M${x},-44 q-4,-5 0,-10 q4,5 0,10z" fill="#fff"/>`).join('')}`,
+  fez:`<path d="M-22,-38 L-16,-70 L16,-70 L22,-38 Z" fill="#B2122B" stroke="#111" stroke-width="2.5"/><path d="M0,-70 Q14,-62 18,-48" stroke="#111" stroke-width="2.5" fill="none"/><circle cx="18" cy="-46" r="4" fill="#111"/>`,
+  beret:`<ellipse cx="-6" cy="-40" rx="36" ry="13" fill="#1a1a1a" stroke="#111" stroke-width="2.5" transform="rotate(-12)"/><rect x="-10" y="-58" width="4" height="8" fill="#111" transform="rotate(-12)"/>`,
+  none:'',
+};
+
+/* ================== РИСУЕМ ШАР ================== */
+let uid=0;
+function ballSVG(code,x,y,s,i,n){
+  const c=C[code], id='cb'+(uid++);
+  const acc=ACC[c.acc]||'';
+  const behind=c.acc==='ushanka'?acc:'';
+  const front=c.acc==='ushanka'?'':acc;
+  return `<g transform="translate(${x},${y}) scale(${s})"><g class="ball" data-code="${code}" style="--i:${i};--n:${n}">
+    <ellipse cx="0" cy="66" rx="40" ry="7" fill="#0003"/>
+    <g stroke="#111" stroke-width="3"><path d="M-30,48 L-24,56" /><path d="M30,48 L24,56"/>
+      <path d="M-40,66 Q-42,52 -24,52 Q-8,52 -8,66Z" fill="#1d1d1d"/><path d="M40,66 Q42,52 24,52 Q8,52 8,66Z" fill="#1d1d1d"/>
+      <path d="M-38,64 H-10 M38,64 H10" stroke="#fff" stroke-width="3"/></g>
+    <g class="body">
+      ${behind}
+      <clipPath id="${id}"><circle r="45"/></clipPath>
+      <g clip-path="url(#${id})"><g transform="scale(.92)">${c.flag()}</g><ellipse cx="-14" cy="-24" rx="18" ry="9" fill="#fff" opacity=".28" transform="rotate(-25 -14 -24)"/><path d="M-45,20 A45,45 0 0,0 45,20 L45,45 L-45,45Z" fill="#000" opacity=".12"/></g>
+      <circle r="45" fill="none" stroke="#111" stroke-width="3.5"/>
+      ${front}
+      <g stroke="#111" stroke-width="3" fill="#fff">
+        <path d="M-30,-6 H-6 A12,12 0 0,1 -30,-6Z"/><path d="M6,-6 H30 A12,12 0 0,1 6,-6Z"/>
+      </g>
+      <g class="lid"><rect x="-31" y="-7" width="26" height="14" fill="${'#0000'}"/></g>
+      <g class="shades"><path d="M-36,-12 H36 V-8 H32 Q30,8 14,8 Q4,8 4,-8 H-4 Q-4,8 -14,8 Q-30,8 -32,-8 H-36Z" fill="#111"/><path d="M-26,-6 l6,-3 M12,-6 l6,-3" stroke="#fff" stroke-width="2"/></g>
+      <g class="crown"><path d="M-22,-42 L-24,-66 L-11,-54 L0,-72 L11,-54 L24,-66 L22,-42Z" fill="#FFD43B" stroke="#111" stroke-width="2.5"/><circle cx="0" cy="-52" r="3.5" fill="#fe2c55"/></g>
+    </g>
+    <g class="handL"><circle cx="-52" cy="18" r="11" fill="#fff" stroke="#111" stroke-width="3"/></g>
+    <g class="handR"><circle cx="52" cy="18" r="11" fill="#fff" stroke="#111" stroke-width="3"/></g>
+  </g></g>`;
+}
+function iconSVG(code){return `<svg viewBox="-60 -80 120 160">${ballSVG(code,0,0,1,0,0).replace(/class="ball"/,'class="ball-ic"')}</svg>`}
+
+/* ================== ТРЕНДЫ ================== */
+const TRENDS = {
+  jump:{name:'🔥 Прыжки волной',bg:'linear-gradient(180deg,#ffe9a8,#ffc4d6 55%,#c9b8ff)',bpm:124,
+    texts:['Когда включили гимн 🔥','Все страны на одной волне 🌊','ЕЩЁ РАЗ!!!'],cap:'Когда объявили, что лето продлили 😂 #countryballs #тренд #рекомендации'},
+  vibe:{name:'😎 Вайб-чек',bg:'linear-gradient(180deg,#1b1240,#5b2a86 60%,#ff6fb5)',bpm:96,drip:true,
+    texts:['Вайб-чек ✅','Когда пятница 😎','Ничего не скажу… просто вайб'],cap:'POV: ты главный по вайбу на районе 😎 #vibecheck #countryballs'},
+  spin:{name:'🌀 Спин-челлендж',bg:'linear-gradient(180deg,#a8f0ff,#b8ffcf 60%,#fff6a8)',bpm:120,
+    texts:['Спин-челлендж 🌀','Кто следующий?','Голова закружилась 😵‍💫'],cap:'Повтори, если сможешь 🌀 #spinchallenge #countryballs #fyp'},
+  arms:{name:'🙌 Танец руками',bg:'linear-gradient(180deg,#ffd1a8,#ff8fa3 60%,#8f6bff)',bpm:116,
+    texts:['Выучили танец за 5 минут 🙌','Влево… вправо… ВВЕРХ!','Хореограф плачет 😭'],cap:'Наш новый танец, оцените 1–10 🙌 #dance #countryballs #тренд'},
+  glow:{name:'✨ Glow Up',bg:'linear-gradient(180deg,#2b2b3a,#4a4a6a)',bg2:'linear-gradient(180deg,#ffe066,#ff9a3c 55%,#ff3c7a)',bpm:110,
+    texts:['Я до…','…и я ПОСЛЕ ✨👑'],cap:'Glow up 2026 ✨ до/после #glowup #countryballs #transition'},
+  battle:{name:'⚔️ Батл 1 на 1',bg:'linear-gradient(90deg,#ff9aa2,#fff 50%,#a0c4ff)',bpm:128,
+    texts:[],cap:'Кто победил? Пиши в комменты 👇 #battle #countryballs #vs'},
+  squad:{name:'👥 Сквад-выход',bg:'linear-gradient(180deg,#c3f0ff,#e6d3ff 60%,#ffd6e8)',bpm:120,
+    texts:['Мой сквад заходит…','Представьте нас 😎','СКВАД В СБОРЕ 🔥'],cap:'Отметь свой сквад 👥 #squad #countryballs #друзья'},
+};
+
+/* ================== СОСТОЯНИЕ ================== */
+let sel=['usa','russia','philippines','iran'];
+let trend='jump', soundOn=true, auto=false, started=false;
+const $=id=>document.getElementById(id);
+const scene=$('scene'), stage=$('stage'), big=$('bigtext');
+
+function layout(n){
+  // позиции шаров в кадре 360x640
+  const rows = n<=3?[n]: n===4?[2,2]: n===5?[2,3]:[3,3];
+  const s = n<=2?1.15: n<=4?.9:.75;
+  const pos=[]; const rowH=rows.length===1?0:180*s;
+  const y0= 390 - (rows.length-1)*rowH/2;
+  rows.forEach((cnt,r)=>{for(let k=0;k<cnt;k++){pos.push([165+(k-(cnt-1)/2)*(310/(cnt+.2)),y0+r*rowH])}});
+  return {pos,s};
+}
+
+function render(){
+  uid=0;
+  const T=TRENDS[trend];
+  document.documentElement.style.setProperty('--beat',(60/T.bpm)+'s');
+  stage.className='stage t-'+trend;
+  stage.style.background=T.bg;
+  let list=sel.slice();
+  if(trend==='battle') list=list.slice(0,2).length===2?list.slice(0,2):['usa','russia'];
+  const {pos,s}=layout(list.length);
+  let html='';
+  if(trend==='battle'){
+    html+=`<text x="170" y="300" text-anchor="middle" font-size="54" font-weight="900" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke" font-family="Arial Black,Arial">VS</text>`;
+    html+=ballSVG(list[0],90,410,.95,0,2)+ballSVG(list[1],250,410,.95,1,2);
+  } else list.forEach((c,i)=>html+=ballSVG(c,pos[i][0],pos[i][1],s,i,list.length));
+  scene.innerHTML=html;
+  // подпись
+  $('captext').textContent=T.cap;
+  const names=list.map(c=>C[c].name).join(' × ');
+  $('sound').textContent=(`оригинальный звук — ${names} · ${T.name.replace(/^\S+\s/,'')} · `).repeat(2);
+  $('avatar').innerHTML=iconSVG(list[0]);
+  if(T.drip) setTimeout(()=>scene.querySelectorAll('.ball').forEach(b=>b.classList.add('drip')),60);
+  resetTimeline();
+}
+
+/* ================== ТАЙМЛАЙН (тексты, glow-up, батл) ================== */
+let tick=0, timer=null, clipLen=16;
+function resetTimeline(){tick=0;clearInterval(timer);onBeat();timer=setInterval(onBeat,60000/TRENDS[trend].bpm)}
+function popText(t){big.textContent=t;big.classList.add('pop');setTimeout(()=>big.classList.remove('pop'),150)}
+function onBeat(){
+  const T=TRENDS[trend], beat=tick%clipLen, balls=[...scene.querySelectorAll('.ball')];
+  $('progress').style.width=((beat+1)/clipLen*100)+'%';
+  if(trend==='glow'){
+    const after=beat>=8;
+    if(beat===8){$('flash').classList.remove('on');void $('flash').offsetWidth;$('flash').classList.add('on')}
+    balls.forEach(b=>{b.classList.toggle('king',after);b.classList.toggle('drip',after)});
+    stage.style.background=after?T.bg2:T.bg;
+    if(beat===0||beat===8) popText(T.texts[after?1:0]);
+  } else if(trend==='battle'){
+    const turn=Math.floor(beat/4)%2;
+    balls.forEach((b,i)=>{b.classList.toggle('active',i===turn);b.classList.toggle('idle',i!==turn)});
+    const n=balls.map(b=>C[b.dataset.code].name);
+    if(beat%4===0) popText(beat>=12?'Кто победил? 👇':`Раунд ${Math.floor(beat/4)+1}: ${n[turn]} 🎤`);
+    if(beat===12) balls.forEach(b=>b.classList.add('active'));
+  } else if(beat%Math.floor(clipLen/T.texts.length)===0){
+    popText(T.texts[Math.floor(beat/(clipLen/T.texts.length))%T.texts.length]);
+  }
+  if(trend==='squad' && beat===0){render0Squad()}
+  if(started && soundOn) playBeat(beat);
+  tick++;
+  if(beat===clipLen-1 && auto){const k=Object.keys(TRENDS);setTimeout(()=>{trend=k[(k.indexOf(trend)+1)%k.length];buildTrends();render()},60000/T.bpm)}
+}
+function render0Squad(){ // перезапуск анимации входа
+  if(tick===0) return;
+  scene.querySelectorAll('.ball').forEach(b=>{b.style.animation='none';void b.getBBox();b.style.animation=''});
+}
+
+/* ================== ЗВУК (WebAudio бит) ================== */
+let ac=null;
+function playBeat(beat){
+  if(!ac) return;
+  const t=ac.currentTime, T=TRENDS[trend];
+  // бочка
+  const o=ac.createOscillator(),g=ac.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(40,t+.15);
+  g.gain.setValueAtTime(.9,t);g.gain.exponentialRampToValueAtTime(.001,t+.25);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+.26);
+  // хэт на офф-бит
+  const half=30/T.bpm, len=ac.sampleRate*.05, buf=ac.createBuffer(1,len,ac.sampleRate), d=buf.getChannelData(0);
+  for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*(1-i/len);
+  const ns=ac.createBufferSource(),hp=ac.createBiquadFilter(),hg=ac.createGain();ns.buffer=buf;hp.type='highpass';hp.frequency.value=7000;hg.gain.value=.25;
+  ns.connect(hp).connect(hg).connect(ac.destination);ns.start(t+half);
+  // клэп на 2 и 4
+  if(beat%2===1){const n2=ac.createBufferSource(),bp=ac.createBiquadFilter(),cg=ac.createGain();n2.buffer=buf;bp.type='bandpass';bp.frequency.value=1500;cg.gain.value=.6;n2.connect(bp).connect(cg).connect(ac.destination);n2.start(t)}
+  // бас + мелодия
+  const scale={jump:[0,3,5,7],vibe:[0,-2,-5,-7],spin:[0,4,7,4],arms:[0,5,3,7],glow:[0,0,3,3,7,7,10,12],battle:[0,0,-2,3],squad:[0,7,5,3]}[trend];
+  const note=scale[Math.floor(beat/2)%scale.length];
+  const b=ac.createOscillator(),bg=ac.createGain();b.type='sawtooth';b.frequency.value=55*Math.pow(2,note/12);
+  const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=400;
+  bg.gain.setValueAtTime(.18,t);bg.gain.exponentialRampToValueAtTime(.001,t+half*1.8);b.connect(lp).connect(bg).connect(ac.destination);b.start(t);b.stop(t+half*2);
+  if(beat%2===0){const m=ac.createOscillator(),mg=ac.createGain();m.type='square';m.frequency.value=440*Math.pow(2,(note+12*(beat%4?0:1))/12)/2;
+    mg.gain.setValueAtTime(.05,t+half);mg.gain.exponentialRampToValueAtTime(.001,t+half*1.9);m.connect(mg).connect(ac.destination);m.start(t+half);m.stop(t+half*2)}
+}
+
+/* ================== UI ================== */
+function buildTrends(){
+  $('trends').innerHTML=Object.entries(TRENDS).map(([k,v])=>`<button class="chip trend ${k===trend?'on':''}" data-t="${k}">${v.name}</button>`).join('');
+}
+function buildCountries(){
+  $('countries').innerHTML=Object.entries(C).map(([k,v])=>`<button class="chip ${sel.includes(k)?'on':''}" data-c="${k}">${iconSVG(k)}${v.name}</button>`).join('');
+}
+$('trends').onclick=e=>{const b=e.target.closest('[data-t]');if(!b)return;trend=b.dataset.t;buildTrends();render()};
+$('countries').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;const k=b.dataset.c;
+  if(sel.includes(k)){if(sel.length>1)sel=sel.filter(x=>x!==k)}else{if(sel.length>=6)sel.shift();sel.push(k)}
+  buildCountries();render()};
+$('sound-btn').onclick=()=>{soundOn=!soundOn;$('sound-btn').textContent='🔊 Звук: '+(soundOn?'вкл':'выкл');$('sound-btn').classList.toggle('main',soundOn)};
+$('auto-btn').onclick=()=>{auto=!auto;$('auto-btn').textContent='⏭ Автолента: '+(auto?'вкл':'выкл')};
+$('random-btn').onclick=()=>{const keys=Object.keys(C).sort(()=>Math.random()-.5);sel=keys.slice(0,2+Math.floor(Math.random()*4));
+  const tk=Object.keys(TRENDS);trend=tk[Math.floor(Math.random()*tk.length)];buildTrends();buildCountries();render()};
+$('tap').onclick=e=>{e.stopPropagation();started=true;$('tap').remove();try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(_){}};
+let lastTap=0, likes=48200;
+$('phone').addEventListener('click',e=>{
+  const now=Date.now();
+  if(now-lastTap<320){const r=$('phone').getBoundingClientRect(),h=document.createElement('div');h.className='heart';h.textContent='❤️';
+    h.style.left=(e.clientX-r.left)+'px';h.style.top=(e.clientY-r.top)+'px';$('phone').appendChild(h);setTimeout(()=>h.remove(),900);
+    likes+=1;$('likes').textContent=(likes/1000).toFixed(1)+'K';$('likeIc').classList.add('liked')}
+  lastTap=now;
+});
+buildTrends();buildCountries();render();
+</script>
+</body>
+</html>
