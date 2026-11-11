@@ -7,6 +7,7 @@
 | `index.html` | интерактивные TikTok-тренды countryball-шариков (12 стран, 7 трендов) |
 | `skit.html` → `uchitel-vyshel.mp4` | скетч «POV: учитель вышел из класса» (RU-подписи) |
 | `jeepney.html` → `jeepney-transformer.mp4` | «Poor Philippine-ball has a JEEPNEY TRANSFORMER!» (английская озвучка) |
+| `part3.html` → `part3-winter-robots.mp4` | Part 3: снегопад, Russia-бот из снегоуборщика раздаёт ушанки, зимнее караоке; `part3-winter-robots-no-music.mp4` — без музыки |
 | `part2.html` → `part2-robot-battle.mp4` | Part 2: USA-бот против Jeepney-бота; `part2-robot-battle-no-music.mp4` — без музыки (голос + эффекты), чтобы добавить трендовый звук в TikTok/Shorts |
 
 ## Пересобрать видео
@@ -29,4 +30,11 @@ tools/mix.sh voice/part2-take1.mp3 voice/p2-sfx.wav voice/p2-music.wav 27.3 part
 tools/mix.sh voice/part2-take1.mp3 voice/p2-sfx.wav - 27.3 voice/part2-audio-nomusic.m4a
 node tools/render_video.js part2.html part2-audio.m4a part2-robot-battle.mp4
 ffmpeg -y -i part2-robot-battle.mp4 -i voice/part2-audio-nomusic.m4a -map 0:v -map 1:a -c copy part2-robot-battle-no-music.mp4
+
+# Part 3
+python3 tools/part3_audio.py voice/p3-sfx.wav voice/p3-music.wav
+tools/mix.sh voice/part3-take1.mp3 voice/p3-sfx.wav voice/p3-music.wav 24.8 part3-audio.m4a
+tools/mix.sh voice/part3-take1.mp3 voice/p3-sfx.wav - 24.8 voice/part3-audio-nomusic.m4a
+node tools/render_video.js part3.html part3-audio.m4a part3-winter-robots.mp4
+ffmpeg -y -i part3-winter-robots.mp4 -i voice/part3-audio-nomusic.m4a -map 0:v -map 1:a -c copy part3-winter-robots-no-music.mp4
 ```

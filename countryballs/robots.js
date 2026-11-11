@@ -60,3 +60,28 @@ function poseRobot(R,{x,y,s=1,rot=0,k=0,wheelSpin=0,flip=false,life}){
     p.g.setAttribute('transform',`translate(${v[0]+dx},${v[1]+dy}) rotate(${r}) scale(${sx},${sy})`);
   });
 }
+
+// Снегоуборщик России -> Russia-бот (оранжевый КамАЗ-стиль с отвалом и триколором)
+function SNOWTRUCK_PARTS(){
+  const tri=(x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h/3}" fill="#fff"/><rect x="${x}" y="${y+h/3}" width="${w}" height="${h/3}" fill="#0039A6"/><rect x="${x}" y="${y+2*h/3}" width="${w}" height="${h/3}" fill="#D52B1E"/>`;
+  const leg=`<rect x="-16" y="-60" width="32" height="120" rx="6" fill="#ff8c1a" stroke="#111" stroke-width="3"/>${tri(-16,-30,32,24)}`;
+  const arm=`<rect x="-13" y="-58" width="26" height="116" rx="8" fill="#ff8c1a" stroke="#111" stroke-width="3"/><rect x="-13" y="-20" width="26" height="10" fill="#333"/><circle cy="62" r="16" fill="#d9dde3" stroke="#111" stroke-width="3"/>`;
+  const wheel=`<circle r="25" fill="#222" stroke="#111" stroke-width="3"/><circle r="10" fill="#ff8c1a" stroke="#111" stroke-width="2"/><path d="M0,-20V20M-20,0H20" stroke="#555" stroke-width="3"/>`;
+  return [
+    {id:'legL',svg:leg,car:[-40,-30,0,0,0],bot:[-34,-80,0,1,1],t:[.25,.65]},
+    {id:'legR',svg:leg,car:[40,-30,0,0,0],bot:[34,-80,0,1,1],t:[.25,.65]},
+    {id:'armL',svg:arm,car:[0,-60,0,0,0],bot:[-80,-210,18,1,1],t:[.45,.85]},
+    {id:'armR',svg:arm+`<g class="hats" opacity="0" transform="translate(0,70)"><g transform="scale(.9)"><path d="M-30,0 Q-30,-28 0,-30 Q30,-28 30,0Z" fill="#333" stroke="#111" stroke-width="3"/><rect x="-32" y="-8" width="64" height="12" rx="6" fill="#222"/></g></g>`,car:[0,-60,0,0,0],bot:[80,-210,-18,1,1],t:[.45,.85]},
+    {id:'body',svg:`<rect x="-115" y="-36" width="230" height="72" rx="8" fill="#ff8c1a" stroke="#111" stroke-width="3"/>${tri(-115,-8,230,30)}
+       <rect x="20" y="-30" width="85" height="20" rx="3" fill="#ffd8a8" stroke="#111" stroke-width="2"/><text x="62" y="-15" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="12" fill="#c92a2a">СНЕГ</text>`,car:[0,-62,0,1,1],bot:[0,-208,90,.55,1.3],t:[.1,.6]},
+    {id:'roof',svg:`<rect x="-70" y="-7" width="140" height="14" rx="5" fill="#333" stroke="#111" stroke-width="3"/><circle cx="-50" cy="-8" r="7" fill="#ffa94d" stroke="#111" stroke-width="2"/><circle cx="50" cy="-8" r="7" fill="#ffa94d" stroke="#111" stroke-width="2"/>`,car:[-60,-110,0,1,1],bot:[0,-274,0,1,1.5],t:[.2,.7]},
+    {id:'sign',svg:`<rect x="-36" y="-12" width="72" height="24" rx="4" fill="#fff" stroke="#111" stroke-width="2.5"/><text x="0" y="6" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="14" fill="#0039A6">RUS ❄</text>`,car:[-60,-90,0,0,0],bot:[0,-224,0,.95,.95],t:[.5,.9]},
+    {id:'hood',svg:`<rect x="-30" y="-34" width="60" height="68" rx="8" fill="#ff8c1a" stroke="#111" stroke-width="3"/><rect x="-24" y="-28" width="48" height="22" rx="3" fill="#9fd3ff" stroke="#111" stroke-width="2"/>
+       <circle class="lamp" cx="-14" cy="6" r="7" fill="#fff59d" stroke="#111" stroke-width="2.5"/><circle class="lamp" cx="14" cy="6" r="7" fill="#fff59d" stroke="#111" stroke-width="2.5"/>
+       <path d="M-18,20 H18 M-18,26 H18" stroke="#333" stroke-width="3"/>
+       <g class="botHat"><path d="M-40,-30 Q-40,-72 0,-74 Q40,-72 40,-30Z" fill="#333" stroke="#111" stroke-width="3"/><rect x="-44" y="-44" width="88" height="18" rx="9" fill="#222"/><ellipse cx="-42" cy="-12" rx="10" ry="22" fill="#2a2a2a" stroke="#111" stroke-width="3"/><ellipse cx="42" cy="-12" rx="10" ry="22" fill="#2a2a2a" stroke="#111" stroke-width="3"/><path d="M0,-66 l-8,4 -3,-4 1,9 6,4 4,-4 4,4 6,-4 1,-9 -3,4z" fill="#E8B923"/></g>`,car:[-142,-62,0,1,1],bot:[0,-318,0,1,1],t:[.35,.8]},
+    {id:'plow',svg:`<path d="M-20,-40 Q10,0 -20,40 L-8,40 Q22,0 -8,-40Z" fill="#c9ced6" stroke="#111" stroke-width="3"/><path d="M-18,-30 l10,0 M-14,-10 l10,0 M-14,10 l10,0 M-18,30 l10,0" stroke="#D52B1E" stroke-width="4"/>`,car:[-185,-40,0,1,1],bot:[-80,-150,-90,.0,.0],t:[.05,.4]},
+    {id:'wheelB',svg:wheel,car:[75,-25,0,1,1],bot:[34,-14,0,1,1],t:[.15,.55],spin:true},
+    {id:'wheelF',svg:wheel,car:[-85,-25,0,1,1],bot:[-34,-14,0,1,1],t:[.15,.55],spin:true},
+  ];
+}
