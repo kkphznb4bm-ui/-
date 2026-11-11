@@ -1,0 +1,63 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,DejaVu Sans,88,&H00FFFFFF,&H00FFFFFF,&H00D0501F,&HA0100818,-1,0,0,0,100,100,1,0,1,9,5,2,60,60,600,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.07,0:00:00.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТЫ ПОДОШЁЛ К
+Dialogue: 0,0:00:00.84,0:00:01.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЛУНЕ!{\c&HFFFFFF&}
+Dialogue: 0,0:00:01.84,0:00:03.12,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВБЛИЗИ ОНА ОКАЗАЛАСЬ
+Dialogue: 0,0:00:03.12,0:00:03.44,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МЕНЬШЕ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:03.44,0:00:04.69,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЧЕМ ПО ТЕЛЕВИЗОРУ.
+Dialogue: 0,0:00:04.69,0:00:05.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТЫ ВЗЯЛСЯ ЗА
+Dialogue: 0,0:00:05.32,0:00:06.96,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КРАЙ И {\c&H3AD2FF&}ПРИПОДНЯЛ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:06.96,0:00:07.76,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МЯЧА{\c&HFFFFFF&} ТАМ НЕ
+Dialogue: 0,0:00:07.76,0:00:08.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}БЫЛО.
+Dialogue: 0,0:00:08.32,0:00:09.20,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПОД {\c&H3AD2FF&}ЛУНОЙ{\c&HFFFFFF&} СИДЕЛ
+Dialogue: 0,0:00:09.20,0:00:10.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}МАЛЕНЬКИЙ ЗЕЛЁНЫЙ
+Dialogue: 0,0:00:10.04,0:00:11.65,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ИНОПЛАНЕТЯНИН{\c&HFFFFFF&} И ДЕРЖАЛ
+Dialogue: 0,0:00:11.65,0:00:12.47,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТВОЙ {\c&H3AD2FF&}МЯЧ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:12.47,0:00:13.68,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}«НАКОНЕЦ-ТО!{\c&HFFFFFF&}
+Dialogue: 0,0:00:13.68,0:00:14.72,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}МЫ {\c&H3AD2FF&}ТРИДЦАТЬ{\c&HFFFFFF&} ЛЕТ
+Dialogue: 0,0:00:14.72,0:00:16.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЗАКАТЫВАЛИ СЮДА {\c&H3AD2FF&}МЯЧИ».{\c&HFFFFFF&}
+Dialogue: 0,0:00:16.32,0:00:17.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ОКАЗАЛОСЬ,
+Dialogue: 0,0:00:17.04,0:00:18.21,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЭТО БЫЛ {\c&H3AD2FF&}ЭКЗАМЕН.{\c&HFFFFFF&}
+Dialogue: 0,0:00:18.21,0:00:19.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В {\c&H3AD2FF&}ГАЛАКТИЧЕСКИЙ{\c&HFFFFFF&} СОВЕТ
+Dialogue: 0,0:00:19.32,0:00:20.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРИНИМАЮТ ТОЛЬКО ТЕ
+Dialogue: 0,0:00:20.32,0:00:20.80,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПЛАНЕТЫ,
+Dialogue: 0,0:00:20.80,0:00:21.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ГДЕ КТО-ТО МОЖЕТ
+Dialogue: 0,0:00:21.84,0:00:23.20,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПОДНЯТЬ СВОЙ {\c&H3AD2FF&}СПУТНИК.{\c&HFFFFFF&}
+Dialogue: 0,0:00:23.20,0:00:24.28,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЗЕМЛЯ{\c&HFFFFFF&} {\c&H3AD2FF&}СДАЛА{\c&HFFFFFF&} С
+Dialogue: 0,0:00:24.28,0:00:25.56,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПЕРВОЙ ПОПЫТКИ!
+Dialogue: 0,0:00:25.56,0:00:25.89,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПРАВДА,
+Dialogue: 0,0:00:25.89,0:00:27.28,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПОПЫТКА ДЛИЛАСЬ {\c&H3AD2FF&}ЧЕТЫРЕ{\c&HFFFFFF&}
+Dialogue: 0,0:00:27.28,0:00:28.31,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МИЛЛИАРДА{\c&HFFFFFF&} ЛЕТ.
+Dialogue: 0,0:00:28.31,0:00:29.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТЕБЕ ВРУЧИЛИ {\c&H3AD2FF&}ДИПЛОМ,{\c&HFFFFFF&}
+Dialogue: 0,0:00:29.60,0:00:30.48,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЗНАЧОК…
+Dialogue: 0,0:00:30.48,0:00:31.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}А ПРЕЗИДЕНТ {\c&H3AD2FF&}ГАЛАКТИКИ{\c&HFFFFFF&}
+Dialogue: 0,0:00:31.60,0:00:32.32,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}КАК РАЗ УШЁЛ
+Dialogue: 0,0:00:32.32,0:00:33.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}В {\c&H3AD2FF&}ОТПУСК.{\c&HFFFFFF&}
+Dialogue: 0,0:00:33.04,0:00:33.92,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТАК ЗА ДВА
+Dialogue: 0,0:00:33.92,0:00:34.68,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ДНЯ ТЫ СТАЛ
+Dialogue: 0,0:00:34.68,0:00:36.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ПРЕЗИДЕНТОМ{\c&HFFFFFF&} ВСЕЙ {\c&H3AD2FF&}ГАЛАКТИКИ!{\c&HFFFFFF&}
+Dialogue: 0,0:00:36.88,0:00:38.00,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПЕРВЫЙ {\c&H3AD2FF&}УКАЗ:{\c&HFFFFFF&}
+Dialogue: 0,0:00:38.00,0:00:39.04,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}ЛУНУ{\c&HFFFFFF&} ПОЛОЖИТЬ НА
+Dialogue: 0,0:00:39.04,0:00:39.60,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}МЕСТО.
+Dialogue: 0,0:00:39.60,0:00:39.88,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}А ТО В
+Dialogue: 0,0:00:39.88,0:00:41.36,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}БИШКЕКЕ{\c&HFFFFFF&} ВНЕЗАПНО ПОЯВИЛОСЬ
+Dialogue: 0,0:00:41.36,0:00:42.08,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МОРЕ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:42.08,0:00:43.20,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ВТОРОЙ {\c&H3AD2FF&}УКАЗ:{\c&HFFFFFF&}
+Dialogue: 0,0:00:43.20,0:00:44.21,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}МОРЕ{\c&HFFFFFF&} ОСТАВИТЬ.
+Dialogue: 0,0:00:44.21,0:00:45.43,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ЛЮДЯМ {\c&H3AD2FF&}ПОНРАВИЛОСЬ.{\c&HFFFFFF&}
+Dialogue: 0,0:00:45.43,0:00:46.64,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}А ПОТОМ ЗАЗВОНИЛ
+Dialogue: 0,0:00:46.64,0:00:47.97,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}КРАСНЫЙ{\c&HFFFFFF&} {\c&H3AD2FF&}ТЕЛЕФОН.{\c&HFFFFFF&}
+Dialogue: 0,0:00:47.97,0:00:49.09,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}«ЭТО {\c&H3AD2FF&}СОСЕД.{\c&HFFFFFF&}
+Dialogue: 0,0:00:49.09,0:00:49.84,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ТЫ ЗАЧЕМ МОЮ
+Dialogue: 0,0:00:49.84,0:00:50.64,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}{\c&H3AD2FF&}КЛУМБУ{\c&HFFFFFF&} НА {\c&H3AD2FF&}МАРС{\c&HFFFFFF&}
+Dialogue: 0,0:00:50.64,0:00:51.77,Cap,,0,0,0,,{\fscx70\fscy70\t(0,90,\fscx108\fscy108)\t(90,160,\fscx100\fscy100)}ПЕРЕСТАВИЛ?»
