@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Учитель вышел</title>
+<style>
+  html,body{margin:0;background:#111;height:100%}
+  body{display:flex;align-items:center;justify-content:center}
+  #v{height:100vh;max-width:100vw;aspect-ratio:9/16;display:block;background:#f4e3c3}
+  body.render #v{height:640px;width:360px}
+</style>
+</head>
+<body>
+<svg id="v" viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="spot" cx="50%" cy="0%" r="100%"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <clipPath id="frame"><rect width="360" height="640"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <!-- класс -->
+    <rect width="360" height="640" fill="#f2dfb8"/>
+    <rect y="470" width="360" height="170" fill="#b98552"/>
+    <g id="floorlines"></g>
+    <rect x="18" y="110" width="262" height="150" rx="6" fill="#2f5d46" stroke="#7a4f2a" stroke-width="8"/>
+    <text x="149" y="160" text-anchor="middle" fill="#fff" font-family="Comic Sans MS, DejaVu Sans" font-size="20" opacity=".9">Урок: География</text>
+    <text x="149" y="195" text-anchor="middle" fill="#fff" font-family="Comic Sans MS, DejaVu Sans" font-size="16" opacity=".75">2 + 2 = 🌍 ?</text>
+    <g id="clock" transform="translate(320,70)"><circle r="20" fill="#fff" stroke="#333" stroke-width="3"/><line id="hand" x2="0" y2="-14" stroke="#333" stroke-width="3" stroke-linecap="round"/></g>
+    <!-- дверь -->
+    <rect x="292" y="150" width="62" height="190" fill="#3b2a1d"/>
+    <g id="door"><rect x="292" y="150" width="62" height="190" fill="#8b5a2b" stroke="#5a3a1b" stroke-width="3"/><circle cx="345" cy="250" r="4" fill="#e3c04d"/></g>
+    <g id="teacherLayer"></g>
+    <rect x="292" y="340" width="62" height="6" fill="#5a3a1b"/>
+    <!-- дискотека -->
+    <g id="disco" opacity="0">
+      <rect width="360" height="640" fill="#14002e" opacity=".72"/>
+      <g id="beams"></g>
+      <g transform="translate(180,40)"><line y1="-40" y2="0" stroke="#aaa" stroke-width="2"/><circle id="dball" r="22" fill="#cfd6e6" stroke="#666" stroke-width="2"/></g>
+    </g>
+    <g id="students"></g>
+    <g id="desks"></g>
+    <g id="notes"></g>
+    <g id="fx"></g>
+    <rect id="flash" width="360" height="640" fill="#fff" opacity="0"/>
+    <!-- подписи -->
+    <g id="capg"><rect id="capbg" x="10" y="20" width="340" height="62" rx="14" fill="#fff"/><text id="cap" x="180" y="60" text-anchor="middle" font-family="DejaVu Sans, Arial" font-weight="bold" font-size="20" fill="#111"></text></g>
+    <text id="sub" x="180" y="610" text-anchor="middle" font-family="DejaVu Sans, Arial" font-weight="bold" font-size="22" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"></text>
+  </g>
+</svg>
+<script src="balls.js"></script>
+<script>
+const NS='http://www.w3.org/2000/svg';
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const lerp=(a,b,k)=>a+(b-a)*k;
+const ease=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+const back=k=>{const c=1.7;return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2)};
+const DUR=20;
+
+// пол
+let fl='';for(let i=0;i<8;i++)fl+=`<line x1="${i*52}" y1="470" x2="${i*52-60}" y2="640" stroke="#9c6c3e" stroke-width="2"/>`;$('floorlines').innerHTML=fl;
+// лучи диско
+let bm='';['#ff3cac','#2bd2ff','#ffe53b','#7cff6b','#b06bff'].forEach((c,i)=>bm+=`<polygon id="beam${i}" points="0,0 -40,700 40,700" fill="${c}" opacity=".35"/>`);$('beams').innerHTML=bm;
+
+/* ---------- шар со сменными частями ---------- */
+function makeBall(code,{teacher=false,mic=false}={}){
+  const id='k'+(uid++), c=C[code]||{};
+  const flag=teacher
+    ? `<rect x="-50" y="-50" width="100" height="100" fill="#4b92db"/><g fill="none" stroke="#fff" stroke-width="2.5"><circle r="16"/><circle r="8"/><path d="M-16,0H16M0,-16V16"/><path d="M-22,14 Q-28,-6 -18,-22 M22,14 Q28,-6 18,-22"/></g>`
+    : c.flag();
+  const hat=teacher?'':(ACC[c.acc]||'');
+  const g=document.createElementNS(NS,'g');
+  g.innerHTML=`
+   <g class="feet" stroke="#111" stroke-width="3"><path d="M-40,66 Q-42,52 -24,52 Q-8,52 -8,66Z" fill="#1d1d1d"/><path d="M40,66 Q42,52 24,52 Q8,52 8,66Z" fill="#1d1d1d"/><path d="M-36,63H-12M36,63H12" stroke="#fff"/></g>
+   <g class="hatBack">${code==='russia'?hat:''}</g>
+   <g class="body">
+     <clipPath id="${id}"><circle r="45"/></clipPath>
+     <g clip-path="url(#${id})"><g transform="scale(.92)">${flag}</g><ellipse cx="-14" cy="-24" rx="18" ry="9" fill="#fff" opacity=".28" transform="rotate(-25 -14 -24)"/><path d="M-45,20 A45,45 0 0,0 45,20 L45,45 L-45,45Z" fill="#000" opacity=".12"/></g>
+     <circle r="45" fill="none" stroke="#111" stroke-width="3.5"/>
+     <g class="eyes">
+       <g class="eN" stroke="#111" stroke-width="3" fill="#fff"><path d="M-30,-6 H-6 A12,12 0 0,1 -30,-6Z"/><path d="M6,-6 H30 A12,12 0 0,1 6,-6Z"/></g>
+       <g class="eW" stroke="#111" stroke-width="3" fill="#fff" opacity="0"><circle cx="-17" cy="-6" r="13"/><circle cx="17" cy="-6" r="13"/><circle class="pup" cx="-17" cy="-6" r="3" fill="#111"/><circle class="pup" cx="17" cy="-6" r="3" fill="#111"/></g>
+       <g class="eH" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round" opacity="0"><path d="M-29,-2 Q-18,-16 -7,-2"/><path d="M7,-2 Q18,-16 29,-2"/></g>
+     </g>
+     <ellipse class="mouth" cx="0" cy="22" rx="8" ry="0" fill="#5a0d0d" stroke="#111" stroke-width="2.5"/>
+     ${teacher?`<g fill="none" stroke="#111" stroke-width="3"><circle cx="-17" cy="-4" r="15"/><circle cx="17" cy="-4" r="15"/><path d="M-2,-4H2M-32,-6L-45,-10M32,-6L45,-10"/></g>`:''}
+     <g class="shades" opacity="0"><path d="M-36,-12 H36 V-8 H32 Q30,8 14,8 Q4,8 4,-8 H-4 Q-4,8 -14,8 Q-30,8 -32,-8 H-36Z" fill="#111"/><path d="M-26,-6 l6,-3 M12,-6 l6,-3" stroke="#fff" stroke-width="2"/></g>
+     <g class="sweat" opacity="0"><path d="M38,-30 q6,10 0,14 q-6,-4 0,-14z" fill="#7fd3ff" stroke="#111" stroke-width="1.5"/></g>
+   </g>
+   <g class="hatFront">${code!=='russia'?hat:''}</g>
+   <g class="handL"><circle cx="-52" cy="18" r="11" fill="#fff" stroke="#111" stroke-width="3"/></g>
+   <g class="handR"><circle cx="52" cy="18" r="11" fill="#fff" stroke="#111" stroke-width="3"/>${mic?`<g transform="translate(52,10)"><rect x="-4" y="-2" width="8" height="26" rx="3" fill="#333"/><circle cy="-8" r="9" fill="#999" stroke="#111" stroke-width="2.5"/></g>`:''}
+     ${teacher?`<g class="sign" opacity="0" transform="translate(58,-30)"><rect x="-4" y="0" width="6" height="50" fill="#8b5a2b"/><rect x="-30" y="-56" width="60" height="58" rx="6" fill="#fff" stroke="#111" stroke-width="3"/><text x="0" y="-12" text-anchor="middle" font-size="44" font-weight="bold" fill="#d00" font-family="DejaVu Sans">2</text></g>`:''}</g>`;
+  const q=s=>g.querySelector(s), qa=s=>[...g.querySelectorAll(s)];
+  return {g,body:q('.body'),hL:q('.handL'),hR:q('.handR'),hatB:q('.hatBack'),hatF:q('.hatFront'),
+    eN:q('.eN'),eW:q('.eW'),eH:q('.eH'),pups:qa('.pup'),mouth:q('.mouth'),shades:q('.shades'),sweat:q('.sweat'),sign:q('.sign'),eyes:q('.eyes')};
+}
+function pose(b,{x,y,s=1,rot=0,squash=0,hl=[0,0],hr=[0,0],eyes='N',look=0,mouth=0,shades=0,sweat=0,hat=[0,0,0],op=1,sign=0}){
+  b.g.setAttribute('transform',`translate(${x},${y}) scale(${s*(1+squash)},${s*(1-squash)})`);
+  b.g.setAttribute('opacity',op);
+  b.body.setAttribute('transform',`rotate(${rot})`);
+  b.hL.setAttribute('transform',`translate(${hl[0]},${hl[1]})`);
+  b.hR.setAttribute('transform',`translate(${hr[0]},${hr[1]})`);
+  b.eN.setAttribute('opacity',eyes==='N'?1:0);b.eW.setAttribute('opacity',eyes==='W'?1:0);b.eH.setAttribute('opacity',eyes==='H'?1:0);
+  b.eyes.setAttribute('transform',`translate(${look*7},0)`);
+  b.pups.forEach(p=>p.setAttribute('transform',`translate(${look*6},0)`));
+  b.mouth.setAttribute('ry',mouth);
+  b.shades.setAttribute('opacity',shades);b.sweat.setAttribute('opacity',sweat);
+  const ht=`translate(${hat[0]},${hat[1]}) rotate(${hat[2]})`;b.hatB.setAttribute('transform',ht);b.hatF.setAttribute('transform',ht);
+  if(b.sign)b.sign.setAttribute('opacity',sign);
+}
+
+/* ---------- актёры ---------- */
+const ORDER=['usa','russia','philippines','iran'];
+const SX=[52,136,220,304], SY=438, SS=.78;
+const st={};
+ORDER.forEach(c=>{st[c]=makeBall(c,{mic:c==='philippines'});$('students').appendChild(st[c].g)});
+const teacher=makeBall('un',{teacher:true});$('teacherLayer').appendChild(teacher.g);
+let dk='';SX.forEach(x=>dk+=`<rect x="${x-40}" y="462" width="80" height="16" rx="3" fill="#c98b4b" stroke="#6b4422" stroke-width="3"/><rect x="${x-34}" y="478" width="68" height="46" fill="#a86d36" stroke="#6b4422" stroke-width="3"/><rect x="${x-30}" y="524" width="6" height="40" fill="#6b4422"/><rect x="${x+24}" y="524" width="6" height="40" fill="#6b4422"/>`);
+$('desks').innerHTML=dk;
+
+/* ---------- сценарий ---------- */
+const CAPS=[[0,3.2,'POV: учитель вышел из класса 🤫'],[3.2,4.3,'…'],[4.3,11,'Тем временем: 🪩🔥'],[11,12.4,'*шаги в коридоре* 👣'],
+  [12.4,15.4,'Учитель вернулся 👀'],[15.4,16.3,'Филиппины: 😳'],[16.3,17.6,'Шапка России вернулась 😂'],[17.6,DUR,'Отметь друга, который палится 😂']];
+const SUBS=[[0.3,2.8,'«Сидите тихо, я на минутку»'],[13.2,15.3,'🎤 «Я звезда карао-о-оке!»'],[17.8,DUR,'Филиппины: «это был урок музыки!»']];
+
+const fitCache={};
+function fit(el,txt,base,max){if(el.textContent!==txt){el.textContent=txt;el.setAttribute('font-size',base);const w=txt?el.getComputedTextLength():0;if(w>max)el.setAttribute('font-size',(base*max/w).toFixed(1))}}
+function draw(t){
+  // часы
+  $('hand').setAttribute('transform',`rotate(${t*30})`);
+  // подписи
+  const cp=CAPS.find(c=>t>=c[0]&&t<c[1])||CAPS[0];
+  const pop=1+.12*(1-seg(t,cp[0],cp[0]+.18));
+  fit($('cap'),cp[2],20,322);$('capg').setAttribute('transform',`translate(180,51) scale(${pop}) translate(-180,-51)`);
+  const sb=SUBS.find(c=>t>=c[0]&&t<c[1]);fit($('sub'),sb?sb[2]:'',22,340);
+
+  // ---- учитель ----
+  const out=seg(t,2.4,3.1), back_=seg(t,12.3,12.9);
+  let tx=150, top=1, tsign=0, tlook=0;
+  if(t<2.4){tx=150; tlook=t>1.6?1:0}
+  else if(t<12.3){tx=lerp(150,330,ease(out)); top=1-seg(t,2.9,3.1)}
+  else {tx=lerp(330,250,ease(back_)); top=seg(t,12.3,12.45); tlook=t<16.3?0.4:0}
+  if(t>17.6) tsign=seg(t,17.6,17.9);
+  const walk=(t>2.4&&t<3.1)||(t>12.3&&t<12.9);
+  pose(teacher,{x:tx,y:290+(walk?-Math.abs(Math.sin(t*14))*8:0),s:.72,op:top,look:t>12.9?.9:tlook,eyes:t>13.4&&t<17.6?'W':'N',
+    hr:t>17.6?[-6,-20]:[0,0],sign:tsign,rot:t>13.5&&t<15.4?Math.sin(t*3)*3:0,mouth:t>17.6?6:(t<2.8&&t>.3?3+3*Math.abs(Math.sin(t*9)):0)});
+  // дверь
+  const dopen=Math.max(seg(t,2.6,2.85)*(1-seg(t,2.95,3.05)), seg(t,12.1,12.3)*(1-seg(t,12.6,12.8)));
+  $('door').setAttribute('transform',`translate(${292+62},0) scale(${1-dopen*.85},1) translate(${-292-62},0)`);
+
+  // ---- дискотека ----
+  const party=seg(t,4.2,4.35)*(1-seg(t,10.95,11.05));
+  $('disco').setAttribute('opacity',party);
+  for(let i=0;i<5;i++)$('beam'+i).setAttribute('transform',`translate(180,40) rotate(${Math.sin(t*2.4+i*1.3)*55})`);
+  $('dball').setAttribute('fill',`hsl(${t*200%360},60%,80%)`);
+  // вспышка при «дропе» и при заморозке
+  $('flash').setAttribute('opacity',Math.max(t>=4.2?.8*(1-seg(t,4.2,4.5)):0,t>=12.4?.5*(1-seg(t,12.4,12.7)):0));
+
+  const beat=(t-4.2)*128/60, bf=beat-Math.floor(beat), bounce=Math.pow(Math.sin(Math.PI*bf),2);
+  // ---- ученики ----
+  ORDER.forEach((c,i)=>{
+    const p={x:SX[i],y:SY,s:SS,hl:[8,40],hr:[-8,40],eyes:'N',look:0,hat:[0,0,0]};
+    if(t<3.2){ p.look=t>2.4? 1:0; }                                   // смотрят на учителя
+    else if(t<4.2){ p.eyes='W'; p.look=[1,-1,1,-1][i]*Math.sign(Math.sin(t*5)); } // переглядываются
+    else if(t<11.4){ // ВЕЧЕРИНКА
+      const lead=seg(t,4.2,4.5);
+      p.y=SY-lerp(0,60,lead)-bounce*40*lead; p.squash=(1-bounce)*.08*lead;
+      if(c==='usa'){p.rot=(t-4.2)*400;p.shades=1;p.hl=[-10,-30];p.hr=[10,-30];p.eyes='H'}
+      if(c==='russia'){p.eyes='H';p.hl=[-8,-50+bounce*20];p.hr=[8,-50+bounce*20];p.hat=[0,-lerp(0,600,ease(seg(t,4.3,5.3))),seg(t,4.3,5.3)*720]}
+      if(c==='iran'){p.eyes='H';const w=Math.sin(t*16)*22;p.hl=[w-10,-45];p.hr=[w+10,-45];p.rot=Math.sin(t*8)*12}
+      if(c==='philippines'){p.eyes='H';p.rot=Math.sin(t*5)*14;p.hr=[-32,-38];p.mouth=7+5*Math.abs(Math.sin(t*7))}
+      if(t>11){ // паника и бег на места
+        const k=ease(seg(t,11,11.4));
+        p.y=lerp(p.y,SY,k);p.rot=lerp(p.rot||0,0,k);p.eyes='W';p.sweat=1;p.mouth=6;
+        if(c==='philippines'){p.eyes='H';p.sweat=0;p.mouth=8}
+      }
+      if(c==='russia') p.hat[1]=-600;
+    } else { // заморозка
+      p.hl=[8,40];p.hr=[-8,40];
+      if(c==='russia') p.hat=[0,-600,0];
+      if(c==='philippines'){
+        if(t<15.4){p.eyes='H';p.rot=Math.sin(t*5)*14;p.hr=[-32,-38];p.mouth=7+5*Math.abs(Math.sin(t*7));p.y=SY-Math.abs(Math.sin(t*5))*8}
+        else {p.eyes='W';p.hr=[-32,-38];p.sweat=1;p.squash=-.04*(1-seg(t,15.4,15.6))}
+      } else {
+        p.eyes=t>13.6?'W':'N'; // каменные лица
+        p.look=t>13.6 ? (SX[i]<SX[2]?1:-1)*ease(seg(t,13.6,14.2)) : 0;
+        if(t>15.4) p.sweat=1;
+      }
+      if(c==='russia'&&t>15.9){ // шапка падает
+        const k=seg(t,15.9,16.35); p.hat=[0,lerp(-600,0,k*k),0];
+        if(t>16.35){const bk=seg(t,16.35,16.7);p.squash=.22*Math.sin(bk*Math.PI)*(1-bk);p.eyes='W';p.look=0}
+      }
+      if(t>17.6){p.look=0; if(c!=='philippines'){p.eyes='H';p.mouth=4+3*Math.abs(Math.sin(t*14));p.y=SY-Math.abs(Math.sin(t*14))*5}}
+    }
+    pose(st[c],p);
+  });
+
+  // ноты от караоке
+  let nt='';
+  const singing=(t>4.4&&t<11)||(t>12.4&&t<15.4);
+  if(singing)for(let k=0;k<4;k++){const ph=((t*.8+k/4)%1);nt+=`<text x="${SX[2]+20+Math.sin((t+k)*3)*14+ph*30}" y="${400-ph*140}" font-size="${22}" opacity="${1-ph}" fill="#ff3cac" stroke="#111" stroke-width="1" font-family="DejaVu Sans">${k%2?'♪':'♫'}</text>`}
+  $('notes').innerHTML=nt;
+  // эффекты-надписи
+  let fx='';
+  const word=(tt,a,b,txt,x,y,col,sz=30)=>{if(tt>=a&&tt<b){const k=back(seg(tt,a,a+.25));fx+=`<text x="${x}" y="${y}" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="${sz}" fill="${col}" stroke="#000" stroke-width="4" paint-order="stroke" transform="translate(${x},${y}) scale(${k}) rotate(-8) translate(${-x},${-y})">${txt}</text>`}};
+  word(t,3.0,3.8,'ХЛОП!','290','140','#ffd23b');
+  word(t,4.2,5.2,'ДРОП! 🔊','180','300','#ff3cac',36);
+  word(t,11,11.6,'ВЖЖЖУХ','180','330','#fff');
+  word(t,16.35,17.2,'БОНК!','136','330','#ffd23b',34);
+  $('fx').innerHTML=fx;
+}
+
+/* ---------- предпросмотр в браузере ---------- */
+window.draw=draw; window.DUR=DUR;
+if(!location.search.includes('render')){
+  const audio=new Audio('skit-audio.wav'); let t0=null;
+  document.body.onclick=()=>{audio.currentTime=0;audio.play().catch(()=>{});t0=performance.now()};
+  (function loop(now){const t=t0===null?0:((now-t0)/1000)%DUR;draw(t);requestAnimationFrame(loop)})(performance.now());
+} else { document.body.classList.add('render'); draw(0); }
+</script>
+</body>
+</html>
