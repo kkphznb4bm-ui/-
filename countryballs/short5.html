@@ -198,7 +198,114 @@ function clip3(){
   };
 }
 
-const draw=({1:clip1,2:clip2,3:clip3}[CLIP]||clip1)();
+
+/* ===== CLIP 4: Япония — «Blink and you'll miss it» ===== */
+function speedLines(t,amt){if(amt<=0)return;for(let k=0;k<14;k++){const y=60+k*37%560, x=((k*131)-t*2400)%520+480;FX+=`<rect x="${x-60}" y="${y}" width="${80+(k%3)*40}" height="3" fill="#fff" opacity="${.7*amt}"/>`}}
+function clip4(){
+  const R=buildRobot($('robots'),SHINKANSEN_PARTS());
+  const jp=makeBall('japan');$('actors').appendChild(jp.g);
+  const S=.95, X0=185, Y=520;
+  return t=>{
+    common(t);
+    let x=X0;
+    if(t<.5) x=lerp(760,X0,1-Math.pow(1-t/.5,3));
+    if(t>4.0) x=lerp(X0,-500,Math.pow(seg(t,4.0,4.5),2));
+    const k=t<.6?0:t<.9?seg(t,.6,.9):t<3.75?1:1-seg(t,3.75,4.0);
+    const bow=t>2.6&&t<3.6, ninja=t>.9&&t<2.6;
+    poseRobot(R,{x,y:Y,s:S,k,rot:0,wheelSpin:-t*2000,life:id=>{
+      if(ninja){if(id==='armL')return {rot:-40};if(id==='armR')return {rot:40};if(id==='legL')return {rot:20,dx:-6};if(id==='legR')return {rot:-20,dx:6}}
+      if(bow){if(id==='hood')return {rot:0,dy:44};if(id==='armL')return {rot:-8,dy:10};if(id==='armR')return {rot:8,dy:10};if(id==='roof')return {rot:0,dy:18}}
+    }});
+    R.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',ninja?'#ff3b3b':'#fff59d'));
+    const kk=ease(k), car=rp(x,Y,S,0,30,-100), bot=rp(x,Y,S,0,62,-300);
+    pose(jp,{x:lerp(car[0],bot[0],kk),y:lerp(car[1],bot[1],kk)+(bow?30:0),s:.48,eyes:ninja?'N':'H',look:-1,mouth:bow?4:0,hl:[0,0],hr:[0,0],op:x>-80&&x<440?1:0});
+    speedLines(t,t<.6?1:t>3.95?1:0);
+    caption(t,0,.9,"BLINK AND YOU'LL",'MISS IT 👀') || caption(t,.9,2.6,'JAPAN-BOT 🥷','0.3 SEC ⚡') || caption(t,2.6,3.75,'ARIGATO! 🙇','') || caption(t,3.75,5,'…GONE 💨','');
+    word(t,.6,1.1,'SHING!','90','240','#7cf',30);
+    word(t,1.2,2.5,'⚔️','290','220','#fff',44,0);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',t>=.9?.8*(1-seg(t,.9,1.15)):0);
+    $('cam').setAttribute('transform',`translate(${t>.9&&t<1.2?Math.sin(t*90)*6:0},0)`);
+  };
+}
+
+/* ===== CLIP 5: Бразилия — «Don't kick it too hard» ===== */
+function clip5(){
+  const R=buildRobot($('robots'),JEEPNEY_PARTS());
+  const ph=makeBall('philippines'), br=makeBall('brazil');$('actors').append(ph.g,br.g);
+  const S=.8, X=120, Y=505;
+  return t=>{
+    common(t);
+    const k=t<2.3?1:t<3.0?1-seg(t,2.3,3.0):t<4.3?0:seg(t,4.3,4.9);
+    const dizzy=t>1.8&&t<2.3, wob=dizzy?Math.sin(t*30)*8:0;
+    poseRobot(R,{x:X,y:Y,s:S,k,rot:wob,life:id=>{
+      if(t<1.8&&id==='armR') return {rot:-90-Math.abs(Math.sin(t*6))*40};
+      if(dizzy&&id==='hood') return {rot:Math.sin(t*25)*25};
+      if(t>4.9&&id==='armL') return {rot:70};
+    }});
+    R.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',dizzy?'#fff':'#7cf'));
+    // Филиппины: на плече → падает на крышу → злится
+    const kk=ease(k), car=rp(X,Y,S,0,-40,-138), bot=rp(X,Y,S,wob,62,-300);
+    const angry=t>3.0&&t<4.9;
+    pose(ph,{x:lerp(car[0],bot[0],kk),y:lerp(car[1],bot[1],kk),s:.45,look:1,eyes:dizzy?'W':angry?'N':'H',sweat:0,mouth:0,hl:[0,0],hr:angry?[0,-14]:[0,0],rot:angry?-8:0});
+    // Бразилия и мяч
+    let bx=292, bs=0;
+    if(t<1.3){bx=lerp(292,312,seg(t,.3,1.3));bs=-.05*seg(t,.3,1.3)}
+    else if(t<1.6){bx=lerp(312,268,seg(t,1.3,1.45));bs=.08}
+    const scared=t>3.0;
+    pose(br,{x:bx,y:560,s:.55,look:-1,eyes:scared?'W':'N',sweat:scared?1:0,squash:bs,hl:scared?[0,-36]:[0,0],hr:scared?[0,-36]:[0,0],mouth:t>4.2?4:0});
+    // мяч
+    let mx=250,my=575,mr=0;
+    if(t>=1.45&&t<1.8){const q=seg(t,1.45,1.8);mx=lerp(250,X+8,q);my=lerp(575,Y-S*318,q)-Math.sin(q*Math.PI)*120;mr=t*1500}
+    else if(t>=1.8&&t<2.6){const q=seg(t,1.8,2.6);mx=lerp(X+8,-60,q);my=lerp(Y-S*318,80,q)-Math.sin(q*Math.PI)*60;mr=t*1500}
+    else if(t>=2.6&&t<4.3){mx=-80}
+    else if(t>=4.3){mx=lerp(420,250,seg(t,4.3,4.9));my=575;mr=-t*700}
+    FX+=`<g transform="translate(${mx},${my}) rotate(${mr})"><circle r="11" fill="#fff" stroke="#111" stroke-width="2"/><path d="M0,-5 l5,3.5 -2,5.5 h-6 l-2,-5.5z" fill="#111"/></g>`;
+    if(dizzy) for(let q=0;q<4;q++){const a=t*8+q*1.57;FX+=`<text x="${X+Math.cos(a)*34}" y="${Y-S*350+Math.sin(a)*10}" font-size="16" text-anchor="middle">⭐</text>`}
+    caption(t,0,1.8,"DON'T KICK IT",'TOO HARD… 😬') || caption(t,1.8,3.0,'OOPS 😬','') || caption(t,3.0,4.3,'BRAZIL… 😑','') || caption(t,4.3,5,'SORRY 😅','');
+    word(t,1.8,2.4,'BONK!','190','230','#ffd23b',34);
+    word(t,3.1,4.3,'💢','150','300','#fff',40,0);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',t>=1.8?.5*(1-seg(t,1.8,2.0)):0);
+    $('cam').setAttribute('transform',`translate(${t>1.8&&t<2.1?Math.sin(t*90)*7:0},0)`);
+  };
+}
+
+/* ===== CLIP 6: «PICK ONE: 1, 2 or 3?» — танцевальный баттл ===== */
+function clip6(){
+  const RB=[buildRobot($('robots'),JEEPNEY_PARTS()),buildRobot($('robots'),TRUCK_PARTS()),buildRobot($('robots'),SNOWTRUCK_PARTS())];
+  const BL=['philippines','usa','russia'].map(c=>{const b=makeBall(c,{mic:c==='philippines'});$('actors').appendChild(b.g);return b});
+  const XS=[62,180,298], S=.63, Y=530, SH=[-300,-310,-300];
+  return t=>{
+    common(t);
+    $('disco').setAttribute('opacity',1);
+    const turn=t<1.5?0:t<3?1:t<4.5?2:3;
+    for(let i=0;i<3;i++){
+      const on=turn===i||turn===3, ph=t*2*Math.PI*1.6;
+      let rot=0, y=Y, life=()=>null;
+      if(on){
+        if(i===0){rot=Math.sin(ph)*8;life=id=>id==='armR'?{rot:-150,dx:-6,dy:-16}:id==='armL'?{rot:18+Math.sin(ph)*30}:null}
+        if(i===1){rot=Math.sin(ph)*12;y=Y-Math.abs(Math.sin(ph))*14;life=id=>id==='armL'?{rot:120+Math.sin(t*13)*50}:id==='armR'?{rot:-120+Math.sin(t*13+2)*50}:id==='legL'?{rot:Math.sin(t*13)*25}:id==='legR'?{rot:-Math.sin(t*13)*25}:null}
+        if(i===2){const kk=Math.sin(ph/2);y=Y+Math.abs(kk)*12;life=id=>id==='armL'?{rot:95}:id==='armR'?{rot:-95}:id==='legL'?{rot:kk>0?-70*kk:0}:id==='legR'?{rot:kk<0?70*kk:0}:null}
+      }
+      poseRobot(RB[i],{x:XS[i],y,s:S,k:1,rot,life});
+      RB[i].g.setAttribute('opacity',on?1:.45);
+      if(i===0)RB[0].g.querySelector('.bigmic').setAttribute('opacity',on?1:0);
+      const p=rp(XS[i],y,S,rot,i===1?-62:62,SH[i]);
+      pose(BL[i],{x:p[0],y:p[1],s:.34,eyes:on?'H':'N',mouth:on?6:0,look:i===2?-1:1,hl:[0,0],hr:i===0&&on?[-32,-38]:[0,0],op:1});
+      // номер
+      const big=on&&turn!==3?1.25+.1*Math.sin(t*12):1;
+      FX+=`<g transform="translate(${XS[i]},590) scale(${big})"><circle r="24" fill="${on?'#fe2c55':'#444'}" stroke="#fff" stroke-width="3"/><text y="11" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="30" fill="#fff">${i+1}</text></g>`;
+      if(on&&turn!==3) FX+=`<polygon points="${XS[i]},-20 ${XS[i]-75},560 ${XS[i]+75},560" fill="#fff" opacity=".18"/>`;
+    }
+    caption(t,0,4.5,'PICK ONE 👇','1, 2 or 3?') || caption(t,4.5,5,'COMMENT! 👇','');
+    notes(t,470);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',[0,1.5,3,4.5].reduce((m,a)=>Math.max(m,t>=a?.35*(1-seg(t,a,a+.2)):0),0));
+  };
+}
+
+const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6}[CLIP]||clip1)();
 window.draw=draw;window.DUR=DUR;
 if(!location.search.includes('render')){
   const audio=new Audio(`short${CLIP}-audio.m4a`);audio.loop=true;let t0=null;

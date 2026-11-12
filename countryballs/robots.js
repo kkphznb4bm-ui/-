@@ -85,3 +85,29 @@ function SNOWTRUCK_PARTS(){
     {id:'wheelF',svg:wheel,car:[-85,-25,0,1,1],bot:[-34,-14,0,1,1],t:[.15,.55],spin:true},
   ];
 }
+
+// Синкансэн Японии -> Japan-бот (белый с синей полосой, нос поезда становится головой)
+function SHINKANSEN_PARTS(){
+  const leg=`<rect x="-14" y="-60" width="28" height="120" rx="8" fill="#f8f9fa" stroke="#111" stroke-width="3"/><rect x="-14" y="-6" width="28" height="9" fill="#1c3f94"/>`;
+  const arm=`<rect x="-12" y="-58" width="24" height="116" rx="10" fill="#f8f9fa" stroke="#111" stroke-width="3"/><rect x="-12" y="-14" width="24" height="8" fill="#1c3f94"/><circle cy="62" r="14" fill="#dee2e6" stroke="#111" stroke-width="3"/>`;
+  const wheel=`<circle r="16" fill="#495057" stroke="#111" stroke-width="3"/><circle r="6" fill="#ced4da"/>`;
+  return [
+    {id:'legL',svg:leg,car:[-40,-20,0,0,0],bot:[-32,-76,0,1,1],t:[.25,.65]},
+    {id:'legR',svg:leg,car:[40,-20,0,0,0],bot:[32,-76,0,1,1],t:[.25,.65]},
+    {id:'armL',svg:arm,car:[0,-40,0,0,0],bot:[-76,-205,18,1,1],t:[.45,.85]},
+    {id:'armR',svg:arm,car:[0,-40,0,0,0],bot:[76,-205,-18,1,1],t:[.45,.85]},
+    {id:'body',svg:`<rect x="-120" y="-30" width="240" height="60" rx="14" fill="#f8f9fa" stroke="#111" stroke-width="3"/>
+       <rect x="-120" y="6" width="240" height="8" fill="#1c3f94"/><rect x="-120" y="16" width="240" height="3" fill="#1c3f94"/>
+       ${[...Array(9)].map((_,i)=>`<rect x="${-108+i*25}" y="-18" width="16" height="14" rx="3" fill="#264b7a"/>`).join('')}
+       <circle cx="80" cy="-4" r="10" fill="#fff" stroke="#BC002D" stroke-width="3"/><circle cx="80" cy="-4" r="5" fill="#BC002D"/>`,car:[0,-50,0,1,1],bot:[0,-205,90,.55,1.35],t:[.1,.6]},
+    {id:'roof',svg:`<rect x="-60" y="-5" width="120" height="10" rx="5" fill="#adb5bd" stroke="#111" stroke-width="2.5"/><path d="M-20,-5 l10,-14 l10,14" fill="none" stroke="#111" stroke-width="2.5"/>`,car:[10,-84,0,1,1],bot:[0,-270,0,1.05,1.4],t:[.2,.7]},
+    {id:'sign',svg:`<rect x="-38" y="-11" width="76" height="22" rx="4" fill="#fff" stroke="#111" stroke-width="2.5"/><text x="0" y="6" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="13" fill="#BC002D">JAPAN ⚡</text>`,car:[-40,-50,0,0,0],bot:[0,-222,0,.95,.95],t:[.5,.9]},
+    {id:'hood',svg:`<path d="M-30,24 L-30,-6 Q-26,-46 0,-52 Q26,-46 30,-6 L30,24Z" fill="#f8f9fa" stroke="#111" stroke-width="3"/>
+       <path d="M-22,-8 Q0,-30 22,-8 L18,2 Q0,-12 -18,2Z" fill="#264b7a"/>
+       <circle class="lamp" cx="-14" cy="10" r="5" fill="#fff59d" stroke="#111" stroke-width="2"/><circle class="lamp" cx="14" cy="10" r="5" fill="#fff59d" stroke="#111" stroke-width="2"/>
+       <rect x="-30" y="16" width="60" height="6" fill="#1c3f94"/>
+       <g class="band"><rect x="-32" y="-26" width="64" height="9" fill="#fff" stroke="#111" stroke-width="2"/><circle cx="0" cy="-21.5" r="3.5" fill="#BC002D"/><path d="M30,-24 l14,-6 -2,10z M30,-20 l12,8 -12,0z" fill="#fff" stroke="#111" stroke-width="2"/></g>`,car:[-150,-48,-90,1,1],bot:[0,-312,0,1.1,1.1],t:[.35,.8]},
+    {id:'wheelB',svg:wheel,car:[80,-16,0,1,1],bot:[32,-12,0,1.1,1.1],t:[.15,.55],spin:true},
+    {id:'wheelF',svg:wheel,car:[-80,-16,0,1,1],bot:[-32,-12,0,1.1,1.1],t:[.15,.55],spin:true},
+  ];
+}
