@@ -111,3 +111,34 @@ function SHINKANSEN_PARTS(){
     {id:'wheelF',svg:wheel,car:[-80,-16,0,1,1],bot:[-32,-12,0,1.1,1.1],t:[.15,.55],spin:true},
   ];
 }
+
+// Универсальный робот по цветовой схеме: o = {leg, arm, body, bodyDecor, roof, sign, signColor, hood, hoodDecor, wheel, bodyW}
+function GENERIC_PARTS(o){
+  const W=o.bodyW||220;
+  const leg=`<rect x="-15" y="-60" width="30" height="120" rx="7" fill="${o.leg}" stroke="#111" stroke-width="3"/><rect x="-15" y="-8" width="30" height="10" fill="${o.accent||'#111'}"/>`;
+  const arm=`<rect x="-12" y="-58" width="24" height="116" rx="9" fill="${o.arm}" stroke="#111" stroke-width="3"/><rect x="-12" y="-16" width="24" height="9" fill="${o.accent||'#111'}"/><circle cy="62" r="15" fill="#dee2e6" stroke="#111" stroke-width="3"/>${o.handItem||''}`;
+  const wheel=`<circle r="${o.wheelR||20}" fill="#222" stroke="#111" stroke-width="3"/><circle r="${(o.wheelR||20)*.45}" fill="${o.wheel||'#ccc'}"/>`;
+  return [
+    {id:'legL',svg:leg,car:[-40,-25,0,0,0],bot:[-34,-78,0,1,1],t:[.25,.65]},
+    {id:'legR',svg:leg,car:[40,-25,0,0,0],bot:[34,-78,0,1,1],t:[.25,.65]},
+    {id:'armL',svg:arm,car:[0,-50,0,0,0],bot:[-78,-205,18,1,1],t:[.45,.85]},
+    {id:'armR',svg:arm.replace(o.handItem||'§',''),car:[0,-50,0,0,0],bot:[78,-205,-18,1,1],t:[.45,.85]},
+    {id:'body',svg:`<rect x="${-W/2}" y="-34" width="${W}" height="68" rx="12" fill="${o.body}" stroke="#111" stroke-width="3"/>${o.bodyDecor||''}`,car:[0,-58,0,1,1],bot:[0,-205,90,.55*220/W,1.3],t:[.1,.6]},
+    {id:'roof',svg:`<rect x="-70" y="-7" width="140" height="14" rx="6" fill="${o.roof}" stroke="#111" stroke-width="3"/>`,car:[-10,-98,0,1,1],bot:[0,-272,0,1,1.5],t:[.2,.7]},
+    {id:'sign',svg:`<rect x="-40" y="-12" width="80" height="24" rx="4" fill="#fff" stroke="#111" stroke-width="2.5"/><text x="0" y="6" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="14" fill="${o.signColor||'#111'}">${o.sign}</text>`,car:[30,-58,0,0,0],bot:[0,-222,0,.95,.95],t:[.5,.9]},
+    {id:'hood',svg:`<rect x="-28" y="-28" width="56" height="56" rx="9" fill="${o.hood}" stroke="#111" stroke-width="3"/>
+       <circle class="lamp" cx="-13" cy="-6" r="7.5" fill="#fff59d" stroke="#111" stroke-width="2.5"/><circle class="lamp" cx="13" cy="-6" r="7.5" fill="#fff59d" stroke="#111" stroke-width="2.5"/>
+       <rect x="-16" y="9" width="32" height="10" rx="2" fill="#444" stroke="#111" stroke-width="2"/>${o.hoodDecor||''}`,car:[-W/2-28,-45,0,1,1],bot:[0,-312,0,1.12,1.12],t:[.35,.8]},
+    {id:'wheelB',svg:wheel,car:[W/2-40,-20,0,1,1],bot:[34,-14,0,1.1,1.1],t:[.15,.55],spin:true},
+    {id:'wheelF',svg:wheel,car:[-W/2+30,-20,0,1,1],bot:[-34,-14,0,1.1,1.1],t:[.15,.55],spin:true},
+  ];
+}
+const GERMANY_PARTS=()=>GENERIC_PARTS({leg:'#2b2b2b',arm:'#2b2b2b',accent:'#FFCE00',body:'#1f1f1f',roof:'#DD0000',sign:'DE ⚙',signColor:'#DD0000',hood:'#c9ced6',
+  bodyDecor:`<rect x="-110" y="-2" width="220" height="10" fill="#DD0000"/><rect x="-110" y="8" width="220" height="10" fill="#FFCE00"/><rect x="-90" y="-26" width="70" height="20" rx="4" fill="#9fd3ff"/><rect x="0" y="-26" width="70" height="20" rx="4" fill="#9fd3ff"/>`,
+  hoodDecor:`<circle cy="-21" r="5" fill="#fff" stroke="#111" stroke-width="1.5"/>`});
+const INDIA_PARTS=()=>GENERIC_PARTS({leg:'#138808',arm:'#138808',accent:'#FF9933',body:'#ffd43b',roof:'#138808',sign:'IN 🛺',signColor:'#FF9933',hood:'#ffd43b',bodyW:150,wheelR:16,
+  bodyDecor:`<rect x="-75" y="-34" width="150" height="14" fill="#138808"/><rect x="-60" y="-16" width="50" height="22" rx="4" fill="#9fd3ff"/><circle cx="35" cy="5" r="11" fill="none" stroke="#000080" stroke-width="2.5"/>`,
+  hoodDecor:`<rect x="-28" y="-28" width="56" height="10" fill="#FF9933"/>`});
+const TURKEY_PARTS=()=>GENERIC_PARTS({leg:'#E30A17',arm:'#E30A17',accent:'#fff',body:'#E30A17',roof:'#b30812',sign:'TR ☕',signColor:'#E30A17',hood:'#f1f3f5',
+  bodyDecor:`<circle cx="-10" cy="0" r="20" fill="#fff"/><circle cx="-4" cy="0" r="16" fill="#E30A17"/><polygon points="20,0 9,4 13,-7 13,7 9,-4" fill="#fff" transform="translate(4,0) scale(1.2)"/>`,
+  hoodDecor:`<path d="M-14,-28 L-10,-46 L10,-46 L14,-28Z" fill="#B2122B" stroke="#111" stroke-width="2"/><path d="M0,-46 Q10,-40 12,-30" stroke="#111" stroke-width="2" fill="none"/>`});

@@ -16,6 +16,7 @@
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ec8ff"/><stop offset="1" stop-color="#d9f3ff"/></linearGradient>
     <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#b9c2cc"/><stop offset="1" stop-color="#eef2f5"/></linearGradient>
+    <filter id="sil"><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/></filter>
     <clipPath id="frame"><rect width="360" height="640"/></clipPath>
   </defs>
   <g clip-path="url(#frame)">
@@ -51,7 +52,7 @@
 // 5-секундные шортсы с хуком и бесшовным циклом. ?clip=1|2|3
 const $=id=>document.getElementById(id);
 const CLIP=+(new URLSearchParams(location.search).get('clip')||1);
-const DUR=5;
+const DUR=CLIP>=7?5.5:5;
 let pl='';[[-6,410],[128,412],[352,410]].forEach(([x,y])=>{pl+=`<g transform="translate(${x},${y})"><path d="M0,0 Q6,-60 -2,-120" stroke="#8b5a2b" stroke-width="8" fill="none"/>${[-60,-20,20,60,100].map(a=>`<ellipse cx="0" cy="-120" rx="34" ry="8" fill="#2f9e44" transform="rotate(${a} -2 -120) translate(28,0)"/>`).join('')}</g>`});
 $('palms').innerHTML=pl;
 let ds='';for(let i=0;i<10;i++)ds+=`<rect x="${i*50-40}" y="381" width="26" height="5" fill="#fff"/>`;$('dashes').innerHTML=ds;
@@ -305,7 +306,116 @@ function clip6(){
   };
 }
 
-const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6}[CLIP]||clip1)();
+/* ===== CLIP 7: Германия vs Филиппины — кто трансформируется лучше ===== */
+function clip7(){
+  const G=buildRobot($('robots'),GERMANY_PARTS()), J=buildRobot($('robots'),JEEPNEY_PARTS());
+  const de=makeBall('germany'), ph=makeBall('philippines');$('actors').append(de.g,ph.g);
+  const S=.62, Y=520, GX=95, JX=268;
+  const MESS={hood:{rot:200,dx:70,dy:290},wheelF:{dx:34,dy:-330},wheelB:{dx:-20,dy:-350},armL:{rot:190},legR:{rot:85,dx:20,dy:-30},sign:{rot:180},roof:{rot:35,dx:10}};
+  return t=>{
+    common(t);
+    const gk=seg(t,.5,1.5), jk=seg(t,2.0,3.0);
+    poseRobot(G,{x:GX,y:Y,s:S,k:gk,life:id=>{
+      if(t>1.6&&id==='armR')return {rot:-150};                // «класс»
+      if(t>3.3){if(id==='armL')return {rot:60};if(id==='armR')return {rot:-60}}   // facepalm-ish
+    }});
+    G.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',gk>=1?'#7cf':'#fff59d'));
+    const mess=jk>=1;
+    poseRobot(J,{x:JX,y:Y,s:S*.95,k:jk,rot:mess?Math.sin(t*5)*4:0,life:id=>{
+      const m=MESS[id]; if(!m) return (id==='armR'&&t>3.4)?{rot:-90-Math.abs(Math.sin(t*8))*50}:null;
+      return {rot:m.rot??0,dx:m.dx||0,dy:m.dy||0};
+    }});
+    J.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',mess?'#ff9de2':'#fff59d'));
+    // шарики сидят на земле впереди
+    pose(de,{x:GX+50,y:585,s:.42,eyes:t>3.3?'N':'H',look:1,mouth:0,hl:[0,0],hr:t>1.6&&t<3.3?[0,-30]:[0,0]});
+    const shrug=t>3.3;
+    pose(ph,{x:JX-50,y:585,s:.42,eyes:t>2.9&&t<3.3?'W':'H',look:-1,mouth:shrug?5:0,hl:shrug?[-10,-26]:[0,0],hr:shrug?[10,-26]:[0,0],sweat:t>2.9?1:0});
+    caption(t,0,.5,'WHO TRANSFORMS','BETTER? 🤔') || caption(t,.5,2.0,'GERMANY 🇩🇪','100% ✅') || caption(t,2.0,3.3,'PHILIPPINES 🇵🇭','99% 😅') || caption(t,3.3,5.5,'IT STILL WORKS 😂','');
+    if(gk>0&&gk<1)sparks(t,GX,Y-110);
+    for(let q=0;q<3;q++) word(t,1.5+q*.12,2.0,'✅',String(GX-45+q*45),String(260-q*14),'#fff',26,0);
+    word(t,3.0,3.6,'BRZZT!','268','260','#ff3cac',26,8);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',Math.max(t>=1.5?.5*(1-seg(t,1.5,1.7)):0,t>=3.0?.5*(1-seg(t,3.0,3.2)):0));
+    $('cam').setAttribute('transform',`translate(${t>3.0&&t<3.3?Math.sin(t*90)*6:0},0)`);
+  };
+}
+
+/* ===== CLIP 8: Индия — крошечный тук-тук поднимает USA-бота ===== */
+function clip8(){
+  const U=buildRobot($('robots'),TRUCK_PARTS()), I=buildRobot($('robots'),INDIA_PARTS());
+  const inb=makeBall('india'), us=makeBall('usa');$('actors').append(inb.g,us.g);
+  const US=.7, UY=520, IS=.33;
+  return t=>{
+    common(t);
+    // тук-тук въезжает и превращается
+    let ix=lerp(460,120,1-Math.pow(1-seg(t,0,.8),3));
+    const ik=seg(t,1.1,1.8);
+    const lift=seg(t,2.6,3.3), hold=t>3.3;
+    if(t>2.4) ix=lerp(120,180,ease(seg(t,2.4,2.7)));
+    const iy=520-(hold?Math.abs(Math.sin(t*10))*4:0);
+    poseRobot(I,{x:ix,y:iy,s:IS,k:ik,wheelSpin:-t*1500,life:id=>{
+      if(t>2.5){if(id==='armL')return {rot:170};if(id==='armR')return {rot:-170}}   // руки вверх — держит
+      if(t>1.8&&id==='armR')return {rot:-60};
+    }});
+    I.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',t>2.5?'#ff3b3b':'#fff59d'));
+    // USA-бот: стоит и смеётся → поднят над головой малыша
+    let ux=255, uy=UY, ur=0;
+    const laugh=t>1.8&&t<2.6;
+    if(laugh){ur=Math.sin(t*20)*4}
+    if(t>2.6){const k=ease(lift);ux=lerp(255,180-US*175,k);uy=lerp(UY,iy-IS*335-US*48,k);ur=lerp(0,90,k)+(hold?Math.sin(t*10)*3:0)}
+    poseRobot(U,{x:ux,y:uy,s:US,k:1,rot:ur,life:id=>{
+      if(laugh){if(id==='armL')return {rot:60+Math.sin(t*20)*10};if(id==='armR')return {rot:-60-Math.sin(t*20)*10}}
+      if(t>2.6){if(id==='armL')return {rot:Math.sin(t*14)*40};if(id==='armR')return {rot:Math.sin(t*14+1)*40};if(id==='legL')return {rot:Math.sin(t*14)*30};if(id==='legR')return {rot:-Math.sin(t*14)*30}}
+    }});
+    U.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',t>2.6?'#fff':'#fff59d'));
+    const ush=rp(ux,uy,US,ur,-62,-310);
+    pose(us,{x:ush[0],y:ush[1],s:.4,eyes:t>2.6?'W':laugh?'H':'N',mouth:laugh?7:t>2.6?6:0,shades:t<2.6?1:0,sweat:t>2.6?1:0,look:-1,hl:[0,0],hr:[0,0]});
+    const kk=ease(ik), car=rp(ix,iy,IS,0,-10,-110), bot=rp(ix,iy,IS,0,62,-300);
+    pose(inb,{x:lerp(car[0],bot[0],kk),y:lerp(car[1],bot[1],kk),s:.3,eyes:t>2.5?'N':'H',look:1,mouth:0,hl:[0,0],hr:[0,0]});
+    caption(t,0,1.1,'WAIT…','A TUK-TUK? 🛺') || caption(t,1.1,1.8,'TINY-BOT 🤏','') || caption(t,1.8,2.6,'USA-BOT:','"HA HA" 😂') || caption(t,2.6,3.6,'SMALL BUT… 💪','') || caption(t,3.6,5.5,'STRONGEST BOT','🇮🇳💪');
+    word(t,.2,.9,'BEEP BEEP','230','590','#fff',22,8);
+    word(t,1.8,2.6,'HA HA HA','270','150','#fff',26);
+    word(t,3.3,5.5,'💪','110','430','#fff',40,0);
+    if(ik>0&&ik<1)sparks(t,ix,470);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',t>=3.3?.5*(1-seg(t,3.3,3.5)):0);
+    $('cam').setAttribute('transform',`translate(${t>3.3&&t<3.6?Math.sin(t*90)*6:0},0)`);
+  };
+}
+
+/* ===== CLIP 9: Турция — «Guess the country» силуэт и отсчёт ===== */
+function clip9(){
+  const R=buildRobot($('robots'),TURKEY_PARTS());
+  const tr=makeBall('turkey');$('actors').appendChild(tr.g);
+  const S=.9, X=180, Y=525;
+  const TEA=`<g><path d="M-9,-14 h18 l-3,22 h-12z" fill="#c2410c" opacity=".85" stroke="#111" stroke-width="2"/><ellipse cy="10" rx="13" ry="4" fill="#fff" stroke="#111" stroke-width="2"/><path d="M-4,-20 q3,-6 0,-10 M4,-20 q3,-6 0,-10" stroke="#aaa" stroke-width="2" fill="none"/></g>`;
+  return t=>{
+    common(t);
+    const reveal=t>=3.0;
+    const dance=t>3.5;
+    poseRobot(R,{x:X,y:Y-(dance?Math.abs(Math.sin(t*6.5))*10:0),s:S,k:1,rot:dance?Math.sin(t*6.5)*6:Math.sin(t*2)*2,life:id=>{
+      if(!reveal&&id==='armR')return {rot:-40+Math.sin(t*3)*10};
+      if(dance){if(id==='armR')return {rot:-120};if(id==='armL')return {rot:120+Math.sin(t*13)*30};if(id==='legL')return {rot:Math.sin(t*13)*20};if(id==='legR')return {rot:-Math.sin(t*13)*20}}
+    }});
+    R.g.setAttribute('filter',reveal?'':'url(#sil)');
+    $('actors').setAttribute('filter',reveal?'':'url(#sil)');
+    const sh=rp(X,Y,S,0,62,-300);
+    pose(tr,{x:sh[0],y:sh[1]-(dance?Math.abs(Math.sin(t*6.5))*10:0),s:.48,eyes:'H',look:-1,mouth:dance?6:0,hl:[0,0],hr:[0,0]});
+    // фон затемнён до раскрытия
+    $('gloom').setAttribute('opacity',reveal?0:.55);$('disco').setAttribute('opacity',dance?.8:0);
+    if(!reveal){const n=3-Math.floor(t);const k=back(seg(t%1,0,.25));FX+=`<text x="180" y="330" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="${120*k}" fill="#ffe066" stroke="#000" stroke-width="8" paint-order="stroke" opacity="${1-seg(t%1,.7,1)}">${n}</text>`;
+      FX+=`<text x="300" y="230" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="60" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke">?</text>`}
+    // чай в руке
+    if(reveal){const h=rp(X,Y-(dance?Math.abs(Math.sin(t*6.5))*10:0),S,dance?Math.sin(t*6.5)*6:0,dance?-130:-95,dance?-330:-140);FX+=`<g transform="translate(${h[0]},${h[1]}) scale(1.3)">${TEA}</g>`}
+    caption(t,0,3.0,'GUESS THE','COUNTRY 🤔') || caption(t,3.0,4.3,'TURKEY! 🇹🇷','') || caption(t,4.3,5.5,'DID YOU GUESS? 👇','');
+    if(dance) notes(t,480);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',reveal?.9*(1-seg(t,3.0,3.35)):0);
+    $('cam').setAttribute('transform',`translate(${t>3.0&&t<3.3?Math.sin(t*90)*6:0},0)`);
+  };
+}
+
+const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6,7:clip7,8:clip8,9:clip9}[CLIP]||clip1)();
 window.draw=draw;window.DUR=DUR;
 if(!location.search.includes('render')){
   const audio=new Audio(`short${CLIP}-audio.m4a`);audio.loop=true;let t0=null;

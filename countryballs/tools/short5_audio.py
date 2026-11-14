@@ -2,9 +2,9 @@
 python3 tools/short5_audio.py <clip 1|2|3> <out.wav>"""
 import sys, os; sys.path.insert(0, os.path.dirname(__file__))
 from sfx import *
-clip = int(sys.argv[1]); DUR = 5.0
+clip = int(sys.argv[1]); DUR = 5.5 if clip >= 7 else 5.0
 tr = Track(DUR); add = tr.add
-B = 60 / 96  # 96 BPM: 8 долей = ровно 5 с -> музыка зацикливается
+B = DUR / 8  # 8 долей = ровно длина ролика -> музыка зацикливается
 def beat(t0, t1, bass, lead, g=1.0, drums=True):
     n = int(round((t1 - t0) / B))
     for i in range(n):
@@ -55,6 +55,29 @@ elif clip == 5:
 elif clip == 6:
     beat(0, 5.0, [45, 45, 52, 50, 43, 43, 50, 48], [69, 72, 76, 72, 74, 77, 81, 77], 1.1)
     for a in (1.5, 3.0, 4.5): add(a, sweep(300, 1500, .2), .2)
+elif clip == 7:
+    for i, n in enumerate([60, 64, 67]): add(i * .15, tone(midi(n), .14, 'square', .005, .05), .12)   # «кто лучше?»
+    kachunk(.5, 1.5); boom(1.5)
+    for q in range(3): add(1.5 + q * .12, tone(midi(84 + q * 4), .12, 'sine', .002, .1), .25)          # ✅ дзинь
+    kachunk(2.0, 3.0)
+    s_ = T(.5); add(3.0, np.sign(np.sin(2 * np.pi * 60 * s_)) * lp(noise(.5), .5) * env(len(s_), .01, .1), .4)  # BRZZT
+    for i, n in enumerate([58, 57, 56, 55]): add(3.3 + i * .25, lp(tone(midi(n), .24, 'saw', .02, .05, vib=.02 if i == 3 else .004), .12), .3)
+    beat(4.3, 5.5, [45, 45], [69, 72, 76, 72], .8)
+elif clip == 8:
+    horn(.2); horn(.4)
+    add(0, lp(np.sign(np.sin(2 * np.pi * np.cumsum(90 + 20 * np.sin(T(1.0) * 40)) / SR)), .2) * env(int(SR), .05, .2), .2)  # мопедный мотор
+    kachunk(1.1, 1.8); add(1.8, tone(1800, .15, 'sine', .002, .1), .2)       # «пиу» — маленький
+    for k in np.arange(1.85, 2.55, .15): add(k, tone(rng.uniform(150, 220), .1, 'square', .005, .05), .12)   # низкий «ха-ха»
+    add(2.6, sweep(200, 900, .7, 'saw') * .4, .35)                             # подъём
+    boom(3.3)
+    beat(3.3, 5.5, [40, 40, 47, 45], [64, 67, 71, 74, 71, 67], 1.0)
+elif clip == 9:
+    for k in range(3):                                                         # отсчёт 3-2-1
+        add(k, tone(880, .15, 'sine', .002, .1), .3); add(k, kick(), .4)
+    add(0, lp(noise(3.0), .02) * .5, .6)                                       # напряжённый гул
+    add(2.6, sweep(300, 2500, .4), .3)
+    boom(3.0); add(3.0, tone(midi(72), .5, 'tri', .005, .4) + tone(midi(76), .5, 'tri', .005, .4), .2)
+    beat(3.5 - B * 0, 5.5, [45, 45, 50, 52], [69, 71, 72, 74, 76, 74, 72, 71], 1.0)
 else:
     for k in (0, .9, 1.8): boom(k)                               # тяжёлые шаги
     add(0, lp(noise(2.0), .03) * env(int(2.0 * SR), .2, .3), 1.2)    # ветер
