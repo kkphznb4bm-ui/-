@@ -14,7 +14,7 @@
 <body>
 <svg id="v" viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ec8ff"/><stop offset="1" stop-color="#d9f3ff"/></linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop id="sky0" offset="0" stop-color="#5ec8ff"/><stop id="sky1" offset="1" stop-color="#d9f3ff"/></linearGradient>
     <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#b9c2cc"/><stop offset="1" stop-color="#eef2f5"/></linearGradient>
     <filter id="sil"><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/></filter>
     <clipPath id="frame"><rect width="360" height="640"/></clipPath>
@@ -22,14 +22,15 @@
   <g clip-path="url(#frame)">
   <g id="cam">
     <rect x="-40" y="-40" width="440" height="720" fill="url(#sky)"/>
-    <circle cx="300" cy="80" r="34" fill="#ffe066"/>
+    <circle id="sun" cx="300" cy="200" r="34" fill="#ffe066"/>
     <g fill="#fff" opacity=".9"><g id="cl1"><ellipse rx="40" ry="16"/><ellipse cx="22" cy="-10" rx="24" ry="16"/></g><g id="cl2"><ellipse rx="34" ry="13"/><ellipse cx="-16" cy="-8" rx="20" ry="13"/></g></g>
-    <g fill="#a9c7dc"><rect x="-10" y="250" width="40" height="110"/><rect x="34" y="220" width="30" height="140"/><rect x="70" y="270" width="46" height="90"/><rect x="250" y="240" width="36" height="120"/><rect x="292" y="210" width="44" height="150"/><rect x="340" y="260" width="40" height="100"/></g>
+    <g id="scenery"></g>
     <g id="palms"></g>
-    <rect x="-40" y="355" width="440" height="60" fill="#666b73"/>
+    <rect id="road" x="-40" y="355" width="440" height="60" fill="#666b73"/>
     <g id="dashes"></g>
-    <rect x="-40" y="410" width="440" height="270" fill="#7ccf63"/>
-    <path d="M-40,410 H400" stroke="#5aa647" stroke-width="5"/>
+    <rect id="grass" x="-40" y="410" width="440" height="270" fill="#7ccf63"/>
+    <path id="grassLine" d="M-40,410 H400" stroke="#5aa647" stroke-width="5"/>
+    <g id="foreground"></g>
     <g id="disco" opacity="0"><rect x="-40" y="-40" width="440" height="720" fill="#12002b" opacity=".75"/><g id="beams"></g></g>
     <rect id="snowground" x="-40" y="405" width="440" height="275" fill="#f4f8ff" opacity="0"/>
     <rect id="gloom" x="-40" y="-40" width="440" height="720" fill="#6f7f99" opacity="0"/>
@@ -54,7 +55,7 @@ const $=id=>document.getElementById(id);
 const CLIP=+(new URLSearchParams(location.search).get('clip')||1);
 const DUR=CLIP>=7?5.5:5;
 let pl='';[[-6,410],[128,412],[352,410]].forEach(([x,y])=>{pl+=`<g transform="translate(${x},${y})"><path d="M0,0 Q6,-60 -2,-120" stroke="#8b5a2b" stroke-width="8" fill="none"/>${[-60,-20,20,60,100].map(a=>`<ellipse cx="0" cy="-120" rx="34" ry="8" fill="#2f9e44" transform="rotate(${a} -2 -120) translate(28,0)"/>`).join('')}</g>`});
-$('palms').innerHTML=pl;
+
 let ds='';for(let i=0;i<10;i++)ds+=`<rect x="${i*50-40}" y="381" width="26" height="5" fill="#fff"/>`;$('dashes').innerHTML=ds;
 let bm='';['#ff3cac','#2bd2ff','#ffe53b','#7cff6b','#b06bff'].forEach((c,i)=>bm+=`<polygon id="beam${i}" points="0,0 -45,800 45,800" fill="${c}" opacity=".35"/>`);$('beams').innerHTML=bm;
 const FL=[...Array(60)].map((_,i)=>({x:(i*97)%380-10,v:40+(i*37)%40,ph:(i*53)%640,r:1.5+(i%4)*.8}));
@@ -415,6 +416,61 @@ function clip9(){
   };
 }
 
+
+/* ---------- ФОНЫ: свой для каждого ролика ---------- */
+const palm=(x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M0,0 Q6,-60 -2,-120" stroke="#8b5a2b" stroke-width="8" fill="none"/>${[-60,-20,20,60,100].map(a=>`<ellipse cx="0" cy="-120" rx="34" ry="8" fill="#2f9e44" transform="rotate(${a} -2 -120) translate(28,0)"/>`).join('')}</g>`;
+const pine=(x,y,s=1,snow=false)=>`<g transform="translate(${x},${y}) scale(${s})"><rect x="-5" y="-10" width="10" height="14" fill="#6b4422"/>${[0,1,2].map(i=>`<polygon points="0,${-90+i*24} ${-34+i*-6},${-34+i*14} ${34+i*6},${-34+i*14}" fill="#1f6f43"/>${snow?`<polygon points="0,${-90+i*24} ${-12},${-70+i*24} ${12},${-70+i*24}" fill="#fff"/>`:''}`).join('')}</g>`;
+const sakura=(x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M0,0 Q-4,-40 6,-70 M2,-40 Q20,-55 30,-60" stroke="#5c3b28" stroke-width="7" fill="none"/>${[[0,-80,30],[24,-66,24],[-22,-64,24],[34,-82,18],[-8,-100,20]].map(([cx,cy,r])=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#ffb3d1"/>`).join('')}</g>`;
+const balloon=(x,y,s,c1,c2)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M0,-40 C-30,-40 -30,0 -8,18 L8,18 C30,0 30,-40 0,-40Z" fill="${c1}" stroke="#333" stroke-width="2"/><path d="M0,-40 C-10,-40 -12,0 -4,18 L4,18 C12,0 10,-40 0,-40Z" fill="${c2}"/><path d="M-8,18 L-6,28 M8,18 L6,28" stroke="#333" stroke-width="1.5"/><rect x="-7" y="28" width="14" height="10" fill="#8b5a2b"/></g>`;
+const THEMES={
+  manila:{sky:['#ff9a62','#ffe0a3'],sun:[290,250,'#ffef9f'],road:'#666b73',grass:'#7ccf63',line:'#5aa647',
+    scen:`<rect x="-40" y="300" width="440" height="58" fill="#3fa7d6"/><path d="M-40,300 Q20,292 80,300 T200,300 T320,300 T440,300" stroke="#fff" stroke-width="3" fill="none" opacity=".7"/>
+          <polygon points="-40,300 40,250 120,300" fill="#4f7f5a"/><polygon points="230,300 300,240 380,300" fill="#3d6b49"/>`,
+    palms:palm(-6,410)+palm(150,412,.8)+palm(352,410)},
+  neon:{sky:['#0b0626','#3a1b6b'],sun:[300,140,'#fdf6e3',22],road:'#2b2b38',grass:'#3b3b4f',line:'#ff3cac',
+    scen:[...Array(9)].map((_,i)=>{const x=-20+i*44,h=120+(i*53)%110,c=['#2a1f5c','#1f2a5c','#341f5c'][i%3];let w='';for(let r=0;r<Math.floor(h/18);r++)for(let k=0;k<3;k++)if((i*7+r*3+k)%4)w+=`<rect x="${x+6+k*11}" y="${355-h+8+r*18}" width="6" height="8" fill="${['#ffe066','#7cf','#ff9de2'][(i+r+k)%3]}" opacity=".85"/>`;return `<rect x="${x}" y="${355-h}" width="40" height="${h}" fill="${c}"/>${w}`}).join(''),
+    palms:''},
+  winter:{sky:['#9db4d6','#e8f0fb'],sun:[300,190,'#fff7d6',26],road:'#7d8597',grass:'#f4f8ff',line:'#d0dcf0',
+    scen:`<polygon points="-40,330 60,200 160,330" fill="#c5d3ea"/><polygon points="60,200 82,228 38,228" fill="#fff"/><polygon points="120,330 250,180 380,330" fill="#b3c4e0"/><polygon points="250,180 276,212 224,212" fill="#fff"/>`+[...Array(8)].map((_,i)=>pine(-10+i*52,358,.7+(i%3)*.15,true)).join(''),
+    palms:''},
+  fuji:{sky:['#ffb6c9','#fff1e6'],sun:[80,180,'#ff5d5d',30],road:'#8a8f99',grass:'#9bd18b',line:'#78b56a',
+    scen:`<polygon points="40,355 180,170 320,355" fill="#7d8fb3"/><path d="M148,212 L180,170 L212,212 L198,206 L188,218 L176,204 L164,218Z" fill="#fff"/>
+          <g transform="translate(300,358)"><rect x="-34" y="-110" width="8" height="110" fill="#d9381e"/><rect x="26" y="-110" width="8" height="110" fill="#d9381e"/><rect x="-46" y="-118" width="92" height="10" fill="#d9381e"/><rect x="-40" y="-96" width="80" height="7" fill="#d9381e"/></g>`,
+    palms:sakura(20,412,1)+sakura(120,412,.7)+sakura(372,412,.9)},
+  rio:{sky:['#33b5ff','#c8f0ff'],sun:[70,190,'#ffe066',30],road:'#e6c98f',grass:'#f2d59b',line:'#e0bd7a',
+    scen:`<rect x="-40" y="290" width="440" height="68" fill="#1e9bd7"/><path d="M-40,300 Q30,292 100,300 T240,300 T400,300" stroke="#fff" stroke-width="3" fill="none" opacity=".8"/>
+          <path d="M150,292 Q160,170 205,180 Q232,190 240,292Z" fill="#3e7d55"/><path d="M250,292 Q262,230 290,236 Q310,245 318,292Z" fill="#4f8f63"/>`,
+    palms:palm(-6,410)+palm(352,410,.9)},
+  stage:{sky:['#1a0f2e','#3b1f4f'],sun:[-100,-100,'#000',1],road:'#4a2f1d',grass:'#2d1c12',line:'#ffd43b',
+    scen:`<rect x="-40" y="-40" width="70" height="460" fill="#9b1c31"/><rect x="330" y="-40" width="70" height="460" fill="#9b1c31"/>${[0,1,2,3].map(i=>`<path d="M${-30+i*14},-40 V420" stroke="#7a1526" stroke-width="4"/><path d="M${340+i*14},-40 V420" stroke="#7a1526" stroke-width="4"/>`).join('')}
+          <path d="M-40,-40 H400 V20 Q180,60 -40,20Z" fill="#b5223a"/>`,
+    palms:''},
+  castle:{sky:['#7cc6ff','#e3f6ff'],sun:[70,180,'#ffe066',28],road:'#8d8f94',grass:'#6cbf5a',line:'#4f9c43',
+    scen:`<path d="M-40,355 Q60,280 160,330 T400,320 V360 H-40Z" fill="#4f9c43"/>
+          <g transform="translate(250,300)" fill="#d9d4cc" stroke="#7a746b" stroke-width="2"><rect x="-40" y="-40" width="80" height="60"/><rect x="-55" y="-80" width="24" height="100"/><rect x="31" y="-70" width="24" height="90"/><rect x="-10" y="-95" width="20" height="60"/>
+          <polygon points="-55,-80 -43,-110 -31,-80" fill="#2f6fb5"/><polygon points="31,-70 43,-100 55,-70" fill="#2f6fb5"/><polygon points="-10,-95 0,-130 10,-95" fill="#2f6fb5"/><rect x="-8" y="-5" width="16" height="25" fill="#5a4a3a"/></g>`+[...Array(5)].map((_,i)=>pine(-10+i*40,360,.6)).join(''),
+    palms:''},
+  sunset:{sky:['#ff7b3a','#ffd29a'],sun:[180,280,'#fff1b8',40],road:'#b9875a',grass:'#d9a066',line:'#c48850',
+    scen:`<g fill="#f6e7d8" stroke="#c9b29a" stroke-width="2" transform="translate(180,355)"><rect x="-90" y="-60" width="180" height="60"/><path d="M-40,-60 Q-40,-130 0,-140 Q40,-130 40,-60Z"/><path d="M0,-140 v-14" stroke-width="3"/>
+          <rect x="-125" y="-120" width="10" height="120"/><rect x="115" y="-120" width="10" height="120"/><circle cx="-120" cy="-124" r="8"/><circle cx="120" cy="-124" r="8"/>
+          <path d="M-70,-60 Q-70,-85 -55,-88 Q-40,-85 -40,-60Z"/><path d="M40,-60 Q40,-85 55,-88 Q70,-85 70,-60Z"/><path d="M-12,0 V-30 Q0,-44 12,-30 V0Z" fill="#c9b29a"/></g>`,
+    palms:palm(-6,410,.8)+palm(352,410,.8)},
+  cappadocia:{sky:['#6fb6ff','#ffe9c9'],sun:[70,170,'#ffe066',26],road:'#c9a67a',grass:'#e8cfa3',line:'#d4b483',
+    scen:[[20,140],[80,110],[290,150],[350,120],[150,90]].map(([x,h])=>`<path d="M${x-28},355 Q${x-20},${355-h} ${x},${355-h-14} Q${x+20},${355-h} ${x+28},355Z" fill="#e0b98c" stroke="#c4996a" stroke-width="2"/><circle cx="${x-6}" cy="${355-h*.5}" r="5" fill="#8a6a48"/>`).join('')+
+      balloon(60,150,.9,'#ff6b6b','#ffd43b')+balloon(230,110,.7,'#4dabf7','#ffffff')+balloon(320,190,.6,'#69db7c','#ff922b')+balloon(140,210,.5,'#e64980','#ffd43b'),
+    palms:''},
+};
+function setTheme(name){
+  const th=THEMES[name]; if(!th) return;
+  $('sky0').setAttribute('stop-color',th.sky[0]);$('sky1').setAttribute('stop-color',th.sky[1]);
+  const [sx,sy,sc,sr]=th.sun;$('sun').setAttribute('cx',sx);$('sun').setAttribute('cy',sy);$('sun').setAttribute('fill',sc);$('sun').setAttribute('r',sr||34);
+  $('scenery').innerHTML=th.scen;$('palms').innerHTML=th.palms;
+  $('road').setAttribute('fill',th.road);$('grass').setAttribute('fill',th.grass);$('grassLine').setAttribute('stroke',th.line);
+  $('dashes').style.display=(name==='stage'||name==='rio'||name==='cappadocia'||name==='sunset')?'none':'';
+  document.querySelectorAll('#cl1,#cl2').forEach(c=>c.style.display=(name==='neon'||name==='stage')?'none':'');
+}
+
+setTheme({1:'manila',2:'neon',3:'winter',4:'fuji',5:'rio',6:'stage',7:'castle',8:'sunset',9:'cappadocia'}[CLIP]);
 const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6,7:clip7,8:clip8,9:clip9}[CLIP]||clip1)();
 window.draw=draw;window.DUR=DUR;
 if(!location.search.includes('render')){
