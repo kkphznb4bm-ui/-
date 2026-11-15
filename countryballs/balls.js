@@ -17,6 +17,8 @@ const C = {
   turkey:{name:'Турция',emoji:'🇹🇷',acc:'fez',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#E30A17"/><circle cx="-6" r="20" fill="#fff"/><circle cx="-1" r="16" fill="#E30A17"/>${star(18,0,8,'#fff')}`},
   france:{name:'Франция',emoji:'🇫🇷',acc:'beret',flag:()=>vstripes(['#0055A4','#fff','#EF4135'])},
   india:{name:'Индия',emoji:'🇮🇳',acc:'none',flag:()=>hstripes(['#FF9933','#fff','#138808'])+`<circle r="12" fill="none" stroke="#000080" stroke-width="2"/>${[...Array(12)].map((_,i)=>`<line x1="0" y1="0" x2="${(Math.cos(i*Math.PI/6)*12).toFixed(1)}" y2="${(Math.sin(i*Math.PI/6)*12).toFixed(1)}" stroke="#000080" stroke-width="1"/>`).join('')}`},
+  egypt:{name:'Египет',emoji:'🇪🇬',acc:'none',flag:()=>hstripes(['#CE1126','#fff','#000'])+`<path d="M0,-10 l-6,4 -8,-2 4,6 -2,10 12,-4 12,4 -2,-10 4,-6 -8,2z" fill="#C09300"/>`},
+  korea:{name:'Корея',emoji:'🇰🇷',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#fff"/><g transform="rotate(34)"><path d="M-17,0 A17,17 0 0,1 17,0 A8.5,8.5 0 0,1 0,0 A8.5,8.5 0 0,0 -17,0Z" fill="#CD2E3A"/><path d="M-17,0 A17,17 0 0,0 17,0 A8.5,8.5 0 0,0 0,0 A8.5,8.5 0 0,1 -17,0Z" fill="#0047A0"/></g>${[[-33,-24,34],[33,-24,-34],[-33,24,-34],[33,24,34]].map(([x,y,r])=>`<g transform="translate(${x},${y}) rotate(${r})">${[-6,0,6].map(d=>`<rect x="-9" y="${d-2}" width="18" height="4" fill="#000"/>`).join('')}</g>`).join('')}`},
 };
 
 /* ================== АКСЕССУАРЫ ================== */

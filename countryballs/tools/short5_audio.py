@@ -78,6 +78,34 @@ elif clip == 9:
     add(2.6, sweep(300, 2500, .4), .3)
     boom(3.0); add(3.0, tone(midi(72), .5, 'tri', .005, .4) + tone(midi(76), .5, 'tri', .005, .4), .2)
     beat(3.5 - B * 0, 5.5, [45, 45, 50, 52], [69, 71, 72, 74, 76, 74, 72, 71], 1.0)
+elif clip == 10:
+    for k in (.2, .6): add(k, sweep(2200, 1500, .25), .15)                     # крик орла
+    kachunk(1.0, 1.8); boom(1.8)
+    add(1.8, sweep(400, 1600, .5), .3)                                         # «золотой режим»
+    for i, n in enumerate([72, 76, 79, 84]): add(1.9 + i * .12, tone(midi(n), .3, 'tri', .005, .25), .15)
+    for k in np.arange(2.3, 4.3, .2): add(k, lp(noise(.12), .2) * env(int(.12 * SR), .02, .08), .5)   # взмахи крыльев
+    add(2.8, sweep(200, 1200, 1.2, 'saw') * .4, .3)                            # взлёт
+    add(4.3, sweep(1800, 300, .65), .2)                                        # падение
+    boom(4.95)
+    beat(1.8, 4.3, [45, 45, 52, 50], [69, 72, 76, 81], .7)
+elif clip == 11:
+    for k in np.arange(0, 1.2, .55): add(k, lp(noise(.5), .06) * env(int(.5 * SR), .1, .3), .5)   # храп
+    add(.8, tone(1500, .08, 'sine', .002, .05), .2)                           # «дзынь» — открылся глаз
+    add(1.2, lp(noise(.8), .02), 2.0); boom(1.2)                              # грохот, встаёт
+    for i, n in enumerate([62, 63, 66, 67, 70]): add(1.3 + i * .14, tone(midi(n), .14, 'saw', .01, .05) * .5, .2)  # «египетская» гамма
+    add(2.3, lp(sweep(300, 120, 1.2, 'saw'), .1) * env(int(1.2 * SR), .1, .4), .6)   # зевок
+    add(3.6, lp(noise(.9), .02), 1.6)                                          # садится
+    for k in np.arange(4.5, 5.5, .55): add(k, lp(noise(.45), .06) * env(int(.45 * SR), .1, .3), .5)
+elif clip == 12:
+    b = .375
+    for i in range(int(5.5 / b)):
+        tt = i * b
+        add(tt, kick(), .8); add(tt + b / 2, hat(), .3)
+        if i % 2: add(tt, clap(), .5)
+        add(tt, lp(tone(midi([45, 45, 48, 50, 52, 50, 48, 47][i % 8]), b * .9, 'saw', .005, .08), .08), .45)
+        for k in range(2): add(tt + k * b / 2, tone(midi([81, 79, 76, 79, 84, 81, 79, 76][(i * 2 + k) % 8]), b * .4, 'square', .003, .05), .06)
+    add(3.2, sweep(900, 200, .35), .2); add(3.55, tone(1100, .12, 'sine', .001, .1) * np.exp(-T(.12) * 20), .6); boom(3.55)
+    for k in np.arange(3.65, 4.5, .1): add(k, tone(rng.uniform(1500, 2500), .08, 'sine', .002, .06), .08)
 else:
     for k in (0, .9, 1.8): boom(k)                               # тяжёлые шаги
     add(0, lp(noise(2.0), .03) * env(int(2.0 * SR), .2, .3), 1.2)    # ветер

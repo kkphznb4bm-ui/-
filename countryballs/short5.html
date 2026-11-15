@@ -423,6 +423,20 @@ const pine=(x,y,s=1,snow=false)=>`<g transform="translate(${x},${y}) scale(${s})
 const sakura=(x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M0,0 Q-4,-40 6,-70 M2,-40 Q20,-55 30,-60" stroke="#5c3b28" stroke-width="7" fill="none"/>${[[0,-80,30],[24,-66,24],[-22,-64,24],[34,-82,18],[-8,-100,20]].map(([cx,cy,r])=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#ffb3d1"/>`).join('')}</g>`;
 const balloon=(x,y,s,c1,c2)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M0,-40 C-30,-40 -30,0 -8,18 L8,18 C30,0 30,-40 0,-40Z" fill="${c1}" stroke="#333" stroke-width="2"/><path d="M0,-40 C-10,-40 -12,0 -4,18 L4,18 C12,0 10,-40 0,-40Z" fill="${c2}"/><path d="M-8,18 L-6,28 M8,18 L6,28" stroke="#333" stroke-width="1.5"/><rect x="-7" y="28" width="14" height="10" fill="#8b5a2b"/></g>`;
 const THEMES={
+  steppe:{sky:['#4dc3ff','#e6f7ff'],sun:[300,180,'#ffe066',30],road:'#a39a7a',grass:'#c9d66b',line:'#a8b84f',
+    scen:`<polygon points="-40,330 50,200 140,330" fill="#8aa1c1"/><polygon points="50,200 70,228 30,228" fill="#fff"/><polygon points="90,330 210,170 330,330" fill="#7a92b5"/><polygon points="210,170 236,206 184,206" fill="#fff"/><polygon points="260,330 340,220 420,330" fill="#8aa1c1"/>
+          <path d="M-40,330 Q100,310 200,325 T400,320 V358 H-40Z" fill="#b5c45a"/>
+          <g transform="translate(60,352)"><path d="M-26,0 V-22 Q0,-44 26,-22 V0Z" fill="#f8f1e3" stroke="#a07a4a" stroke-width="2"/><path d="M-26,-14 H26" stroke="#c0392b" stroke-width="3"/><rect x="-6" y="-14" width="12" height="14" fill="#c0392b"/></g>`,
+    palms:''},
+  desert:{sky:['#ffb347','#fff0c9'],sun:[300,170,'#fff4b8',32],road:'#e8c27a',grass:'#f0cf8b',line:'#d9b06a',
+    scen:`<polygon points="10,355 70,280 130,355" fill="#e2b25f"/><polygon points="70,280 130,355 95,355" fill="#c99649"/><polygon points="290,355 335,300 380,355" fill="#e2b25f"/><polygon points="335,300 380,355 352,355" fill="#c99649"/>
+          <path d="M-40,355 Q60,330 160,350 T400,345 V360 H-40Z" fill="#eac17d"/>`,
+    palms:palm(-10,410,.7)+palm(368,412,.6)},
+  seoul:{sky:['#120a2e','#2c1250'],sun:[60,160,'#fdf6e3',18],road:'#262635',grass:'#34344a',line:'#25f4ee',
+    scen:`<g transform="translate(250,360)"><rect x="-4" y="-200" width="8" height="140" fill="#9aa"/><rect x="-14" y="-215" width="28" height="22" rx="6" fill="#cfd8dc"/><rect x="-1.5" y="-245" width="3" height="32" fill="#cfd8dc"/><path d="M-30,-60 L-4,-120 M30,-60 L4,-120" stroke="#9aa" stroke-width="4"/><rect x="-30" y="-60" width="60" height="60" fill="#3b2a6b"/></g>`+
+      [...Array(8)].map((_,i)=>{const x=-30+i*52,h=90+(i*41)%90,c=['#3a1f6b','#22306b','#4a1f5b'][i%3];let w='';for(let r=0;r<Math.floor(h/20);r++)for(let k=0;k<3;k++)if((i*5+r*7+k)%3)w+=`<rect x="${x+6+k*12}" y="${360-h+8+r*20}" width="7" height="9" fill="${['#ff4fd8','#25f4ee','#ffe066'][(i+r+k)%3]}" opacity=".9"/>`;return `<rect x="${x}" y="${360-h}" width="44" height="${h}" fill="${c}"/>${w}`}).join('')+
+      `<rect x="10" y="232" width="70" height="26" rx="6" fill="none" stroke="#ff4fd8" stroke-width="3"/><text x="45" y="251" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="14" fill="#ff4fd8">K-POP</text>`,
+    palms:''},
   manila:{sky:['#ff9a62','#ffe0a3'],sun:[290,250,'#ffef9f'],road:'#666b73',grass:'#7ccf63',line:'#5aa647',
     scen:`<rect x="-40" y="300" width="440" height="58" fill="#3fa7d6"/><path d="M-40,300 Q20,292 80,300 T200,300 T320,300 T440,300" stroke="#fff" stroke-width="3" fill="none" opacity=".7"/>
           <polygon points="-40,300 40,250 120,300" fill="#4f7f5a"/><polygon points="230,300 300,240 380,300" fill="#3d6b49"/>`,
@@ -466,12 +480,134 @@ function setTheme(name){
   const [sx,sy,sc,sr]=th.sun;$('sun').setAttribute('cx',sx);$('sun').setAttribute('cy',sy);$('sun').setAttribute('fill',sc);$('sun').setAttribute('r',sr||34);
   $('scenery').innerHTML=th.scen;$('palms').innerHTML=th.palms;
   $('road').setAttribute('fill',th.road);$('grass').setAttribute('fill',th.grass);$('grassLine').setAttribute('stroke',th.line);
-  $('dashes').style.display=(name==='stage'||name==='rio'||name==='cappadocia'||name==='sunset')?'none':'';
-  document.querySelectorAll('#cl1,#cl2').forEach(c=>c.style.display=(name==='neon'||name==='stage')?'none':'');
+  $('dashes').style.display=(name==='stage'||name==='rio'||name==='cappadocia'||name==='sunset'||name==='desert'||name==='steppe')?'none':'';
+  document.querySelectorAll('#cl1,#cl2').forEach(c=>c.style.display=(name==='neon'||name==='stage'||name==='seoul')?'none':'');
 }
 
-setTheme({1:'manila',2:'neon',3:'winter',4:'fuji',5:'rio',6:'stage',7:'castle',8:'sunset',9:'cappadocia'}[CLIP]);
-const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6,7:clip7,8:clip8,9:clip9}[CLIP]||clip1)();
+/* ===== CLIP 10: Казахстан — «Wait… it can fly?» ===== */
+function clip10(){
+  const wings=document.createElementNS(NS,'g');$('robots').appendChild(wings);
+  const R=buildRobot($('robots'),KAZAKH_PARTS());
+  const kz=makeBall('kazakhstan');$('actors').appendChild(kz.g);
+  const S=.8, X=180, Y0=525;
+  const WING=(dir)=>`<g transform="scale(${dir},1)"><path d="M0,0 C40,-60 120,-90 190,-70 C150,-50 160,-30 120,-20 C150,-5 130,10 95,8 C110,25 80,30 60,20 C50,30 25,25 0,10Z" fill="#FEC50C" stroke="#8a6a00" stroke-width="3"/><path d="M30,-10 C70,-40 120,-60 170,-62 M30,0 C70,-20 110,-25 140,-24" stroke="#c99a00" stroke-width="3" fill="none"/></g>`;
+  return t=>{
+    common(t);
+    const k=t<1.0?0:t<1.8?seg(t,1.0,1.8):t<4.3?1:0;
+    const fly=seg(t,2.8,4.2), land=seg(t,4.3,5.0);
+    let y=Y0;
+    if(t>2.8&&t<4.3) y=Y0-Math.pow(fly,1.6)*760;
+    if(t>=4.3) y=lerp(-260,Y0,1-Math.pow(1-land,2));
+    const flap=Math.sin(t*22);
+    poseRobot(R,{x:X,y,s:S,k,rot:t>2.8&&t<4.3?Math.sin(t*6)*4:0,life:id=>{
+      if(t>1.8&&t<2.8&&id==='armR') return {rot:-150};
+      if(t>2.8){if(id==='armL')return {rot:160};if(id==='armR')return {rot:-160};if(id==='legL')return {rot:10};if(id==='legR')return {rot:-10}}
+    }});
+    R.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',k>=1?'#ffe066':'#fff59d'));
+    // крылья
+    const wk=t<1.8?0:t<4.3?back(seg(t,1.8,2.3)):0;
+    const wp=rp(X,y,S,0,0,-250), wa=t>2.3&&t<4.3?flap*25:0;
+    wings.innerHTML=wk>0?`<g transform="translate(${wp[0]},${wp[1]}) scale(${S*wk})"><g transform="rotate(${-wa})">${WING(1)}</g><g transform="rotate(${wa})">${WING(-1)}</g></g>`:'';
+    const kk=ease(k), car=rp(X,y,S,0,-10,-110), bot=rp(X,y,S,0,62,-300);
+    pose(kz,{x:lerp(car[0],bot[0],kk),y:lerp(car[1],bot[1],kk),s:.48,eyes:t>2.8&&t<4.3?'W':'H',look:-1,mouth:t>2.8&&t<4.3?7:0,hl:[0,0],hr:[0,0]});
+    // орёл кружит до трансформации
+    if(t<1.1){const a=t*5;FX+=`<text x="${180+Math.cos(a)*90}" y="${230+Math.sin(a)*30}" font-size="38" text-anchor="middle">🦅</text>`}
+    caption(t,0,1.0,'WAIT…','IT CAN FLY? 🦅') || caption(t,1.0,2.8,'GOLDEN EAGLE','MODE ✨') || caption(t,2.8,4.3,'BYE 👋','') || caption(t,4.3,5.5,'…LANDED 😎','');
+    if(k>0&&k<1) sparks(t,X,Y0-130);
+    if(t>2.8&&t<4.3) for(let q=0;q<6;q++){const p2=((t*2+q/6)%1);FX+=`<circle cx="${X-40+q*16}" cy="${y+10+p2*120}" r="${6-p2*5}" fill="#fff" opacity="${1-p2}"/>`}
+    word(t,4.95,5.5,'THUD','260','560','#fff',24,0);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',t>=1.8?.6*(1-seg(t,1.8,2.05)):0);
+    $('cam').setAttribute('transform',`translate(0,${t>4.95&&t<5.2?Math.sin(t*90)*6:0})`);
+  };
+}
+
+/* ===== CLIP 11: Египет — пирамида просыпается ===== */
+function clip11(){
+  const P=document.createElementNS(NS,'g');$('robots').appendChild(P);
+  const eg=makeBall('egypt');$('actors').appendChild(eg.g);
+  const X=180, BASE=470, W=280, H=210;
+  return t=>{
+    common(t);
+    const up=t<1.2?0:t<2.0?seg(t,1.2,2.0):t<3.6?1:1-seg(t,3.6,4.6);
+    const rise=ease(up)*80, shake=(t>1.2&&t<2.0)||(t>3.6&&t<4.6)?Math.sin(t*60)*2:0;
+    const by=BASE-rise;
+    const eyeL=t<.8?0:t<1.2?(t<1.0?1:.15):(t>4.0?Math.max(0,1-seg(t,4.0,4.5)):1), eyeR=t<1.2?0:(t>4.0?Math.max(0,1-seg(t,4.0,4.5)):1);
+    const yawn=t>2.3&&t<3.5?Math.sin(seg(t,2.3,3.5)*Math.PI):0;
+    const armUp=yawn;
+    const legH=rise;
+    let g='';
+    // ноги
+    if(legH>2) [-55,55].forEach(dx=>{g+=`<rect x="${X+dx-16}" y="${by-4}" width="32" height="${legH+6}" fill="#d9a85b" stroke="#111" stroke-width="3"/><rect x="${X+dx-22}" y="${BASE-6}" width="44" height="14" rx="6" fill="#8a6a3a" stroke="#111" stroke-width="3"/>`});
+    // руки
+    if(up>0.05){const L=90*up;[-1,1].forEach(d=>{const ax=X+d*95, ay=by-80, ang=d*(armUp>0?-150*armUp-20:-20)+(d>0?0:0);
+      g+=`<g transform="translate(${ax},${ay}) rotate(${d<0?20+armUp*130:-20-armUp*130})"><rect x="-12" y="0" width="24" height="${L}" rx="10" fill="#d9a85b" stroke="#111" stroke-width="3"/><circle cy="${L}" r="14" fill="#f1d5a0" stroke="#111" stroke-width="3"/></g>`})}
+    // пирамида
+    g+=`<polygon points="${X-W/2},${by} ${X},${by-H} ${X+W/2},${by}" fill="#e7bb6a" stroke="#111" stroke-width="3.5"/><polygon points="${X},${by-H} ${X+W/2},${by} ${X+30},${by}" fill="#cf9f4f"/>`;
+    for(let r=1;r<6;r++){const yy=by-r*H/6, half=W/2*(1-r/6);g+=`<line x1="${X-half}" y1="${yy}" x2="${X+half}" y2="${yy}" stroke="#b9873f" stroke-width="2"/>`}
+    // глаза
+    [[-34,eyeL],[34,eyeR]].forEach(([dx,o])=>{const cx=X+dx, cy=by-95;
+      g+= o>0.05?`<ellipse cx="${cx}" cy="${cy}" rx="18" ry="${16*o}" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="${cx+(t>2.0&&t<2.3?6:0)}" cy="${cy}" r="${6*o}" fill="#111"/>`:`<path d="M${cx-16},${cy} Q${cx},${cy+8} ${cx+16},${cy}" stroke="#111" stroke-width="3.5" fill="none"/>`});
+    // рот (зевок)
+    if(yawn>0.05) g+=`<ellipse cx="${X}" cy="${by-45}" rx="${22*yawn}" ry="${26*yawn}" fill="#5a0d0d" stroke="#111" stroke-width="3"/>`;
+    P.setAttribute('transform',`translate(${shake},0)`);P.innerHTML=g;
+    // Египет на вершине
+    const awake=t>1.6&&t<4.2;
+    pose(eg,{x:X+shake,y:by-H-20,s:.45,eyes:awake?'W':'N',look:0,mouth:awake&&t<2.3?6:0,sweat:awake?1:0,hl:awake?[0,-20]:[0,0],hr:awake?[0,-20]:[0,0]});
+    // песок, Zzz, верблюд
+    if(t>1.2&&t<2.0) for(let q=0;q<10;q++){const p2=((t*3+q/10)%1);FX+=`<circle cx="${X-W/2+q*W/9}" cy="${by-10+p2*60}" r="3" fill="#c99649" opacity="${1-p2}"/>`}
+    const sleepy=t<.8||t>4.4;
+    if(sleepy) for(let q=0;q<3;q++){const p2=((t*.7+q/3)%1);FX+=`<text x="${X+60+p2*40}" y="${by-150-p2*80}" font-family="DejaVu Sans" font-weight="bold" font-size="${18+p2*14}" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke" opacity="${1-p2}">Z</text>`}
+    FX+=`<text x="${40+Math.sin(t*1.5)*6}" y="585" font-size="44">🐪</text>`;
+    caption(t,0,1.2,'LOOK AT THE','PYRAMID 👀') || caption(t,1.2,2.3,"IT'S ALIVE 😱",'') || caption(t,2.3,3.6,'5000 YEAR NAP 😴','') || caption(t,3.6,5.5,'…GOOD NIGHT 💤','');
+    $('fx').innerHTML=FX;
+    $('cam').setAttribute('transform',`translate(${shake*2},${shake})`);
+  };
+}
+
+/* ===== CLIP 12: Корея — K-pop стажёр: день 1 vs день 365 ===== */
+function clip12(){
+  const A=buildRobot($('robots'),KOREA_PARTS()), Bt=buildRobot($('robots'),KOREA_PARTS());
+  const k1=makeBall('korea'), k2=makeBall('korea');$('actors').append(k1.g,k2.g);
+  const S=.6, Y=520, AX=95, BX=265;
+  // хореография: позы рук/ног на каждую долю
+  const MOVES=[{L:120,R:-120,l:0,r:0},{L:60,R:-160,l:20,r:-10},{L:160,R:-60,l:10,r:-20},{L:90,R:-90,l:30,r:-30},{L:170,R:-170,l:0,r:0},{L:20,R:-150,l:-20,r:20}];
+  return t=>{
+    common(t);
+    $('disco').setAttribute('opacity',.6);
+    const b=Math.floor(t/.375), m=MOVES[b%MOVES.length], snap=seg(t%.375,0,.08);
+    // профи
+    poseRobot(Bt,{x:BX,y:Y-Math.abs(Math.sin(t*Math.PI/.375))*8,s:S,k:1,rot:[0,6,-6,0,0,8][b%6],life:id=>({armL:{rot:m.L},armR:{rot:m.R},legL:{rot:m.l},legR:{rot:m.r}})[id]});
+    Bt.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill','#25f4ee'));
+    // новичок: опаздывает, путает, падает
+    const fall=seg(t,3.2,3.6), lie=t>3.6&&t<4.6, getup=seg(t,4.6,5.2);
+    const mb=MOVES[Math.max(0,b-1)%MOVES.length];
+    let ar=Math.sin(t*9)*10, ay=Y;
+    if(t>3.2){ar=lerp(0,-95,ease(fall))*(1-ease(getup)); ay=Y-Math.sin(fall*Math.PI)*20*(1-getup)}
+    const mess=t<3.2;
+    const axx=t>3.2?lerp(AX,205,ease(fall))*(1-ease(getup))+AX*ease(getup):AX;
+    poseRobot(A,{x:axx,y:ay,s:S,k:1,rot:ar,life:id=>{
+      if(mess) return ({armL:{rot:-mb.R+Math.sin(t*13)*30},armR:{rot:-mb.L+Math.sin(t*11)*30},legL:{rot:mb.r*1.5},legR:{rot:mb.l*1.5}})[id];
+      if(lie) return ({armL:{rot:60},armR:{rot:-60},legL:{rot:30},legR:{rot:-30}})[id];
+    }});
+    A.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',lie?'#fff':'#ffd43b'));
+    const pa=rp(axx,ay,S,ar,62,-300), pb=rp(BX,Y,S,0,62,-300);
+    pose(k1,{x:pa[0],y:pa[1],s:.36,eyes:lie?'W':'N',sweat:1,look:1,mouth:0,hl:[0,0],hr:[0,0]});
+    pose(k2,{x:pb[0],y:pb[1]-Math.abs(Math.sin(t*Math.PI/.375))*8,s:.36,eyes:'H',shades:1,look:-1,mouth:5,hl:[-8,-30],hr:[8,-30]});
+    // таблички
+    [[AX,'DAY 1','#666'],[BX,'DAY 365','#fe2c55']].forEach(([x,txt,c])=>{FX+=`<g transform="translate(${x},585)"><rect x="-58" y="-20" width="116" height="38" rx="19" fill="${c}" stroke="#fff" stroke-width="3"/><text y="8" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="20" fill="#fff">${txt}</text></g>`});
+    FX+=`<polygon points="${BX},-20 ${BX-80},560 ${BX+80},560" fill="#fff" opacity=".14"/>`;
+    if(lie) for(let q=0;q<4;q++){const a=t*8+q*1.57;FX+=`<text x="${110+Math.cos(a)*30}" y="${440+Math.sin(a)*8}" font-size="16" text-anchor="middle">⭐</text>`}
+    caption(t,0,3.2,'K-POP TRAINEE 🎤','DAY 1 vs DAY 365') || caption(t,3.2,4.6,'DAY 1: 😵','') || caption(t,4.6,5.5,'KEEP PRACTICING 💪','');
+    word(t,3.55,4.1,'BONK','120','400','#ffd23b',26);
+    notes(t,470);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',t>=3.55?.4*(1-seg(t,3.55,3.75)):0);
+  };
+}
+
+setTheme({1:'manila',2:'neon',3:'winter',4:'fuji',5:'rio',6:'stage',7:'castle',8:'sunset',9:'cappadocia',10:'steppe',11:'desert',12:'seoul'}[CLIP]);
+const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6,7:clip7,8:clip8,9:clip9,10:clip10,11:clip11,12:clip12}[CLIP]||clip1)();
 window.draw=draw;window.DUR=DUR;
 if(!location.search.includes('render')){
   const audio=new Audio(`short${CLIP}-audio.m4a`);audio.loop=true;let t0=null;
