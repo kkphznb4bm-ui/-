@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render src/index.ts Rainbow out/rainbow.mp4"
+    "render": "remotion render src/index.ts Rainbow out/rainbow.mp4",
+    "render:island": "remotion render src/index.ts Island out/island-shorts.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.539",
