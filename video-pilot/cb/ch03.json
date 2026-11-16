@@ -1,0 +1,133 @@
+{
+ "id": "ch03",
+ "num": 3,
+ "title": "THE FIRST NIGHT",
+ "next": "THE SECRET IN THE FOREST",
+ "places": {
+  "beach": {
+   "uk": 380,
+   "fra": 640,
+   "usa": 900,
+   "rus": 1180,
+   "chn": 1460,
+   "jpn": 1740,
+   "ita": 2020,
+   "ger": 2300,
+   "kgz": 2580
+  }
+ },
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "beach",
+   "tod": 2
+  },
+  {
+   "who": "narr",
+   "text": "Previously... the island's first election ended in chaos. And a giant door revealed the first challenge: survive the night.",
+   "act": "recap",
+   "min": 8
+  },
+  {
+   "who": "narr",
+   "text": "As the sun went down, the countries realized they needed somewhere to sleep. So everyone started building.",
+   "cam": "group",
+   "min": 9
+  },
+  {
+   "who": "usa",
+   "text": "The biggest building on the island. You're welcome.",
+   "act": "build-usa",
+   "emo": "happy",
+   "pose": "flex",
+   "min": 6
+  },
+  {
+   "who": "chn",
+   "text": "I built a whole city. In five minutes.",
+   "act": "build-chn",
+   "emo": "smug",
+   "min": 6
+  },
+  {
+   "who": "ger",
+   "text": "Everything in perfect rows. As it should be.",
+   "act": "build-ger",
+   "emo": "happy",
+   "min": 6
+  },
+  {
+   "who": "kgz",
+   "text": "An old family design. It never fails.",
+   "act": "build-kgz",
+   "emo": "happy",
+   "min": 6
+  },
+  {
+   "who": "fra",
+   "text": "A cafe. Because life without croissants is not life.",
+   "act": "build-fra",
+   "emo": "happy",
+   "min": 6
+  },
+  {
+   "who": "rus",
+   "text": "Why is everyone building houses? We need a fortress!",
+   "emo": "angry",
+   "pose": "point"
+  },
+  {
+   "act": "build-rus",
+   "min": 6
+  },
+  {
+   "who": "narr",
+   "text": "That night, a terrible storm hit the island.",
+   "act": "nightfall",
+   "tod": 3,
+   "min": 6
+  },
+  {
+   "act": "rain",
+   "min": 7,
+   "weather": "storm"
+  },
+  {
+   "act": "flood",
+   "min": 9
+  },
+  {
+   "who": "ita",
+   "text": "My pizza oven! NOOOO!",
+   "emo": "shock",
+   "pose": "up"
+  },
+  {
+   "who": "usa",
+   "text": "HOW IS YOUR HOUSE STILL STANDING?!",
+   "emo": "shock",
+   "pose": "up"
+  },
+  {
+   "who": "kgz",
+   "text": "Simple. It's a yurt.",
+   "emo": "smug"
+  },
+  {
+   "act": "yurt-proud",
+   "min": 4.5
+  },
+  {
+   "who": "narr",
+   "text": "But later that night, someone noticed a strange light... deep in the forest.",
+   "act": "forest-light",
+   "weather": "none",
+   "min": 9
+  },
+  {
+   "act": "next",
+   "min": 5
+  }
+ ]
+}

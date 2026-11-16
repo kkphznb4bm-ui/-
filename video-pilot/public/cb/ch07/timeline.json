@@ -1,0 +1,758 @@
+{
+ "id": "ch07",
+ "num": 7,
+ "title": "THE FINAL PLAN",
+ "fps": 30,
+ "total": 3365,
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "city",
+   "screen": "47:12:09",
+   "i": 0,
+   "start": 0,
+   "len": 135
+  },
+  {
+   "who": "narr",
+   "text": "Previously... the countries found an underground city. And a countdown: forty-eight hours until the island disappears.",
+   "act": "recap",
+   "min": 8,
+   "i": 1,
+   "start": 135,
+   "audio": "b01_narr.mp3",
+   "voiceAt": 141,
+   "words": [
+    {
+     "w": "Previously",
+     "f": 144
+    },
+    {
+     "w": "the",
+     "f": 176
+    },
+    {
+     "w": "countries",
+     "f": 180
+    },
+    {
+     "w": "found",
+     "f": 194
+    },
+    {
+     "w": "an",
+     "f": 204
+    },
+    {
+     "w": "underground",
+     "f": 208
+    },
+    {
+     "w": "city",
+     "f": 225
+    },
+    {
+     "w": "And",
+     "f": 267
+    },
+    {
+     "w": "a",
+     "f": 273
+    },
+    {
+     "w": "countdown",
+     "f": 276
+    },
+    {
+     "w": "forty-eight",
+     "f": 303
+    },
+    {
+     "w": "hours",
+     "f": 320
+    },
+    {
+     "w": "until",
+     "f": 334
+    },
+    {
+     "w": "the",
+     "f": 344
+    },
+    {
+     "w": "island",
+     "f": 348
+    },
+    {
+     "w": "disappears",
+     "f": 361
+    }
+   ],
+   "voiceEnd": 414,
+   "len": 299
+  },
+  {
+   "who": "ger",
+   "text": "We need a plan. Immediately.",
+   "pose": "point",
+   "i": 2,
+   "start": 434,
+   "audio": "b02_ger.mp3",
+   "voiceAt": 440,
+   "words": [
+    {
+     "w": "We",
+     "f": 443
+    },
+    {
+     "w": "need",
+     "f": 448
+    },
+    {
+     "w": "a",
+     "f": 456
+    },
+    {
+     "w": "plan",
+     "f": 458
+    },
+    {
+     "w": "Immediately",
+     "f": 492
+    }
+   ],
+   "voiceEnd": 542,
+   "len": 128
+  },
+  {
+   "who": "chn",
+   "text": "I can repair the computer.",
+   "emo": "smug",
+   "i": 3,
+   "start": 562,
+   "audio": "b03_chn.mp3",
+   "voiceAt": 568,
+   "words": [
+    {
+     "w": "I",
+     "f": 571
+    },
+    {
+     "w": "can",
+     "f": 575
+    },
+    {
+     "w": "repair",
+     "f": 580
+    },
+    {
+     "w": "the",
+     "f": 591
+    },
+    {
+     "w": "computer",
+     "f": 594
+    }
+   ],
+   "voiceEnd": 641,
+   "len": 99
+  },
+  {
+   "who": "jpn",
+   "text": "I can help with the technology.",
+   "emo": "happy",
+   "i": 4,
+   "start": 661,
+   "audio": "b04_jpn.mp3",
+   "voiceAt": 667,
+   "words": [
+    {
+     "w": "I",
+     "f": 670
+    },
+    {
+     "w": "can",
+     "f": 675
+    },
+    {
+     "w": "help",
+     "f": 680
+    },
+    {
+     "w": "with",
+     "f": 688
+    },
+    {
+     "w": "the",
+     "f": 692
+    },
+    {
+     "w": "technology",
+     "f": 695
+    }
+   ],
+   "voiceEnd": 743,
+   "len": 102
+  },
+  {
+   "who": "usa",
+   "text": "I'll organize everyone.",
+   "pose": "wave",
+   "i": 5,
+   "start": 763,
+   "audio": "b05_usa.mp3",
+   "voiceAt": 769,
+   "words": [
+    {
+     "w": "I'll",
+     "f": 772
+    },
+    {
+     "w": "organize",
+     "f": 780
+    },
+    {
+     "w": "everyone",
+     "f": 796
+    }
+   ],
+   "voiceEnd": 836,
+   "len": 93
+  },
+  {
+   "who": "rus",
+   "text": "I'll help move the equipment.",
+   "pose": "flex",
+   "i": 6,
+   "start": 856,
+   "audio": "b06_rus.mp3",
+   "voiceAt": 862,
+   "words": [
+    {
+     "w": "I'll",
+     "f": 865
+    },
+    {
+     "w": "help",
+     "f": 874
+    },
+    {
+     "w": "move",
+     "f": 881
+    },
+    {
+     "w": "the",
+     "f": 890
+    },
+    {
+     "w": "equipment",
+     "f": 892
+    }
+   ],
+   "voiceEnd": 942,
+   "len": 106
+  },
+  {
+   "who": "kgz",
+   "text": "I found another entrance!",
+   "emo": "wide",
+   "pose": "wave",
+   "i": 7,
+   "start": 962,
+   "audio": "b07_kgz.mp3",
+   "voiceAt": 968,
+   "words": [
+    {
+     "w": "I",
+     "f": 972
+    },
+    {
+     "w": "found",
+     "f": 974
+    },
+    {
+     "w": "another",
+     "f": 982
+    },
+    {
+     "w": "entrance",
+     "f": 991
+    }
+   ],
+   "voiceEnd": 1020,
+   "len": 78
+  },
+  {
+   "who": "uk",
+   "text": "And I'll make the tea.",
+   "emo": "happy",
+   "i": 8,
+   "start": 1040,
+   "audio": "b08_uk.mp3",
+   "voiceAt": 1046,
+   "words": [
+    {
+     "w": "And",
+     "f": 1049
+    },
+    {
+     "w": "I'll",
+     "f": 1055
+    },
+    {
+     "w": "make",
+     "f": 1060
+    },
+    {
+     "w": "the",
+     "f": 1067
+    },
+    {
+     "w": "tea",
+     "f": 1071
+    }
+   ],
+   "voiceEnd": 1111,
+   "len": 91
+  },
+  {
+   "who": "fra",
+   "text": "And we will cook. Nobody saves the world on an empty stomach.",
+   "emo": "happy",
+   "i": 9,
+   "start": 1131,
+   "audio": "b09_fra.mp3",
+   "voiceAt": 1137,
+   "words": [
+    {
+     "w": "And",
+     "f": 1140
+    },
+    {
+     "w": "we",
+     "f": 1144
+    },
+    {
+     "w": "will",
+     "f": 1148
+    },
+    {
+     "w": "cook",
+     "f": 1153
+    },
+    {
+     "w": "Nobody",
+     "f": 1189
+    },
+    {
+     "w": "saves",
+     "f": 1200
+    },
+    {
+     "w": "the",
+     "f": 1209
+    },
+    {
+     "w": "world",
+     "f": 1211
+    },
+    {
+     "w": "on",
+     "f": 1221
+    },
+    {
+     "w": "an",
+     "f": 1225
+    },
+    {
+     "w": "empty",
+     "f": 1229
+    },
+    {
+     "w": "stomach",
+     "f": 1237
+    }
+   ],
+   "voiceEnd": 1276,
+   "len": 165
+  },
+  {
+   "who": "ita",
+   "text": "Pizza for everyone!",
+   "emo": "happy",
+   "pose": "up",
+   "i": 10,
+   "start": 1296,
+   "audio": "b10_ita.mp3",
+   "voiceAt": 1302,
+   "words": [
+    {
+     "w": "Pizza",
+     "f": 1304
+    },
+    {
+     "w": "for",
+     "f": 1314
+    },
+    {
+     "w": "everyone",
+     "f": 1320
+    }
+   ],
+   "voiceEnd": 1348,
+   "len": 72
+  },
+  {
+   "who": "narr",
+   "text": "For the first time, the countries started working together.",
+   "act": "teamwork",
+   "min": 14,
+   "i": 11,
+   "start": 1368,
+   "audio": "b11_narr.mp3",
+   "voiceAt": 1374,
+   "words": [
+    {
+     "w": "For",
+     "f": 1377
+    },
+    {
+     "w": "the",
+     "f": 1383
+    },
+    {
+     "w": "first",
+     "f": 1386
+    },
+    {
+     "w": "time",
+     "f": 1397
+    },
+    {
+     "w": "the",
+     "f": 1415
+    },
+    {
+     "w": "countries",
+     "f": 1419
+    },
+    {
+     "w": "started",
+     "f": 1433
+    },
+    {
+     "w": "working",
+     "f": 1445
+    },
+    {
+     "w": "together",
+     "f": 1456
+    }
+   ],
+   "voiceEnd": 1501,
+   "len": 525
+  },
+  {
+   "who": "narr",
+   "text": "Together, they discovered that the central computer needed three keys to start.",
+   "act": "keys",
+   "min": 11,
+   "i": 12,
+   "start": 1893,
+   "audio": "b12_narr.mp3",
+   "voiceAt": 1899,
+   "words": [
+    {
+     "w": "Together",
+     "f": 1902
+    },
+    {
+     "w": "they",
+     "f": 1925
+    },
+    {
+     "w": "discovered",
+     "f": 1930
+    },
+    {
+     "w": "that",
+     "f": 1947
+    },
+    {
+     "w": "the",
+     "f": 1951
+    },
+    {
+     "w": "central",
+     "f": 1954
+    },
+    {
+     "w": "computer",
+     "f": 1966
+    },
+    {
+     "w": "needed",
+     "f": 1980
+    },
+    {
+     "w": "three",
+     "f": 1991
+    },
+    {
+     "w": "keys",
+     "f": 2001
+    },
+    {
+     "w": "to",
+     "f": 2013
+    },
+    {
+     "w": "start",
+     "f": 2017
+    }
+   ],
+   "voiceEnd": 2061,
+   "len": 413
+  },
+  {
+   "who": "chn",
+   "text": "Key number one: found.",
+   "emo": "smug",
+   "act": "keys",
+   "i": 13,
+   "start": 2306,
+   "audio": "b13_chn.mp3",
+   "voiceAt": 2312,
+   "words": [
+    {
+     "w": "Key",
+     "f": 2315
+    },
+    {
+     "w": "number",
+     "f": 2324
+    },
+    {
+     "w": "one",
+     "f": 2333
+    },
+    {
+     "w": "found",
+     "f": 2349
+    }
+   ],
+   "voiceEnd": 2395,
+   "len": 109
+  },
+  {
+   "who": "jpn",
+   "text": "Key number two: found!",
+   "emo": "happy",
+   "act": "keys",
+   "i": 14,
+   "start": 2415,
+   "audio": "b14_jpn.mp3",
+   "voiceAt": 2421,
+   "words": [
+    {
+     "w": "Key",
+     "f": 2424
+    },
+    {
+     "w": "number",
+     "f": 2431
+    },
+    {
+     "w": "two",
+     "f": 2440
+    },
+    {
+     "w": "found",
+     "f": 2464
+    }
+   ],
+   "voiceEnd": 2503,
+   "len": 108
+  },
+  {
+   "who": "narr",
+   "text": "Two keys were found quickly. But the last one was hidden in the most dangerous place on the island... deep inside the volcano.",
+   "act": "volcano-key",
+   "min": 13,
+   "i": 15,
+   "start": 2523,
+   "audio": "b15_narr.mp3",
+   "voiceAt": 2529,
+   "words": [
+    {
+     "w": "Two",
+     "f": 2532
+    },
+    {
+     "w": "keys",
+     "f": 2542
+    },
+    {
+     "w": "were",
+     "f": 2554
+    },
+    {
+     "w": "found",
+     "f": 2558
+    },
+    {
+     "w": "quickly",
+     "f": 2570
+    },
+    {
+     "w": "But",
+     "f": 2614
+    },
+    {
+     "w": "the",
+     "f": 2618
+    },
+    {
+     "w": "last",
+     "f": 2622
+    },
+    {
+     "w": "one",
+     "f": 2633
+    },
+    {
+     "w": "was",
+     "f": 2639
+    },
+    {
+     "w": "hidden",
+     "f": 2644
+    },
+    {
+     "w": "in",
+     "f": 2653
+    },
+    {
+     "w": "the",
+     "f": 2655
+    },
+    {
+     "w": "most",
+     "f": 2658
+    },
+    {
+     "w": "dangerous",
+     "f": 2667
+    },
+    {
+     "w": "place",
+     "f": 2681
+    },
+    {
+     "w": "on",
+     "f": 2693
+    },
+    {
+     "w": "the",
+     "f": 2696
+    },
+    {
+     "w": "island",
+     "f": 2699
+    },
+    {
+     "w": "deep",
+     "f": 2720
+    },
+    {
+     "w": "inside",
+     "f": 2728
+    },
+    {
+     "w": "the",
+     "f": 2743
+    },
+    {
+     "w": "volcano",
+     "f": 2745
+    }
+   ],
+   "voiceEnd": 2796,
+   "len": 488
+  },
+  {
+   "who": "usa",
+   "text": "Of course it's in a volcano.",
+   "emo": "smug",
+   "i": 16,
+   "start": 3011,
+   "audio": "b16_usa.mp3",
+   "voiceAt": 3017,
+   "words": [
+    {
+     "w": "Of",
+     "f": 3020
+    },
+    {
+     "w": "course",
+     "f": 3025
+    },
+    {
+     "w": "it's",
+     "f": 3034
+    },
+    {
+     "w": "in",
+     "f": 3039
+    },
+    {
+     "w": "a",
+     "f": 3043
+    },
+    {
+     "w": "volcano",
+     "f": 3045
+    }
+   ],
+   "voiceEnd": 3089,
+   "len": 98
+  },
+  {
+   "who": "rus",
+   "text": "It's always a volcano.",
+   "emo": "smug",
+   "i": 17,
+   "start": 3109,
+   "audio": "b17_rus.mp3",
+   "voiceAt": 3115,
+   "words": [
+    {
+     "w": "It's",
+     "f": 3118
+    },
+    {
+     "w": "always",
+     "f": 3125
+    },
+    {
+     "w": "a",
+     "f": 3139
+    },
+    {
+     "w": "volcano",
+     "f": 3141
+    }
+   ],
+   "voiceEnd": 3195,
+   "len": 106
+  },
+  {
+   "act": "next",
+   "min": 5,
+   "i": 18,
+   "start": 3215,
+   "len": 150
+  }
+ ]
+}

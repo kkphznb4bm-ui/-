@@ -1,0 +1,723 @@
+{
+ "id": "ch03",
+ "num": 3,
+ "title": "THE FIRST NIGHT",
+ "fps": 30,
+ "total": 4131,
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "beach",
+   "tod": 2,
+   "i": 0,
+   "start": 0,
+   "len": 135
+  },
+  {
+   "who": "narr",
+   "text": "Previously... the island's first election ended in chaos. And a giant door revealed the first challenge: survive the night.",
+   "act": "recap",
+   "min": 8,
+   "i": 1,
+   "start": 135,
+   "audio": "b01_narr.mp3",
+   "voiceAt": 141,
+   "words": [
+    {
+     "w": "Previously",
+     "f": 144
+    },
+    {
+     "w": "the",
+     "f": 176
+    },
+    {
+     "w": "island's",
+     "f": 181
+    },
+    {
+     "w": "first",
+     "f": 196
+    },
+    {
+     "w": "election",
+     "f": 206
+    },
+    {
+     "w": "ended",
+     "f": 223
+    },
+    {
+     "w": "in",
+     "f": 232
+    },
+    {
+     "w": "chaos",
+     "f": 237
+    },
+    {
+     "w": "And",
+     "f": 287
+    },
+    {
+     "w": "a",
+     "f": 293
+    },
+    {
+     "w": "giant",
+     "f": 295
+    },
+    {
+     "w": "door",
+     "f": 310
+    },
+    {
+     "w": "revealed",
+     "f": 319
+    },
+    {
+     "w": "the",
+     "f": 334
+    },
+    {
+     "w": "first",
+     "f": 337
+    },
+    {
+     "w": "challenge",
+     "f": 348
+    },
+    {
+     "w": "survive",
+     "f": 373
+    },
+    {
+     "w": "the",
+     "f": 390
+    },
+    {
+     "w": "night",
+     "f": 392
+    }
+   ],
+   "voiceEnd": 433,
+   "len": 318
+  },
+  {
+   "who": "narr",
+   "text": "As the sun went down, the countries realized they needed somewhere to sleep. So everyone started building.",
+   "cam": "group",
+   "min": 9,
+   "i": 2,
+   "start": 453,
+   "audio": "b02_narr.mp3",
+   "voiceAt": 459,
+   "words": [
+    {
+     "w": "As",
+     "f": 462
+    },
+    {
+     "w": "the",
+     "f": 470
+    },
+    {
+     "w": "sun",
+     "f": 474
+    },
+    {
+     "w": "went",
+     "f": 485
+    },
+    {
+     "w": "down",
+     "f": 492
+    },
+    {
+     "w": "the",
+     "f": 512
+    },
+    {
+     "w": "countries",
+     "f": 515
+    },
+    {
+     "w": "realized",
+     "f": 530
+    },
+    {
+     "w": "they",
+     "f": 549
+    },
+    {
+     "w": "needed",
+     "f": 553
+    },
+    {
+     "w": "somewhere",
+     "f": 563
+    },
+    {
+     "w": "to",
+     "f": 575
+    },
+    {
+     "w": "sleep",
+     "f": 578
+    },
+    {
+     "w": "So",
+     "f": 621
+    },
+    {
+     "w": "everyone",
+     "f": 631
+    },
+    {
+     "w": "started",
+     "f": 646
+    },
+    {
+     "w": "building",
+     "f": 659
+    }
+   ],
+   "voiceEnd": 703,
+   "len": 270
+  },
+  {
+   "who": "usa",
+   "text": "The biggest building on the island. You're welcome.",
+   "act": "build-usa",
+   "emo": "happy",
+   "pose": "flex",
+   "min": 6,
+   "i": 3,
+   "start": 723,
+   "audio": "b03_usa.mp3",
+   "voiceAt": 729,
+   "words": [
+    {
+     "w": "The",
+     "f": 732
+    },
+    {
+     "w": "biggest",
+     "f": 737
+    },
+    {
+     "w": "building",
+     "f": 749
+    },
+    {
+     "w": "on",
+     "f": 759
+    },
+    {
+     "w": "the",
+     "f": 763
+    },
+    {
+     "w": "island",
+     "f": 767
+    },
+    {
+     "w": "You're",
+     "f": 805
+    },
+    {
+     "w": "welcome",
+     "f": 813
+    }
+   ],
+   "voiceEnd": 853,
+   "len": 225
+  },
+  {
+   "who": "chn",
+   "text": "I built a whole city. In five minutes.",
+   "act": "build-chn",
+   "emo": "smug",
+   "min": 6,
+   "i": 4,
+   "start": 948,
+   "audio": "b04_chn.mp3",
+   "voiceAt": 954,
+   "words": [
+    {
+     "w": "I",
+     "f": 957
+    },
+    {
+     "w": "built",
+     "f": 962
+    },
+    {
+     "w": "a",
+     "f": 970
+    },
+    {
+     "w": "whole",
+     "f": 972
+    },
+    {
+     "w": "city",
+     "f": 982
+    },
+    {
+     "w": "In",
+     "f": 1021
+    },
+    {
+     "w": "five",
+     "f": 1028
+    },
+    {
+     "w": "minutes",
+     "f": 1041
+    }
+   ],
+   "voiceEnd": 1085,
+   "len": 225
+  },
+  {
+   "who": "ger",
+   "text": "Everything in perfect rows. As it should be.",
+   "act": "build-ger",
+   "emo": "happy",
+   "min": 6,
+   "i": 5,
+   "start": 1173,
+   "audio": "b05_ger.mp3",
+   "voiceAt": 1179,
+   "words": [
+    {
+     "w": "Everything",
+     "f": 1182
+    },
+    {
+     "w": "in",
+     "f": 1199
+    },
+    {
+     "w": "perfect",
+     "f": 1202
+    },
+    {
+     "w": "rows",
+     "f": 1215
+    },
+    {
+     "w": "As",
+     "f": 1252
+    },
+    {
+     "w": "it",
+     "f": 1259
+    },
+    {
+     "w": "should",
+     "f": 1262
+    },
+    {
+     "w": "be",
+     "f": 1269
+    }
+   ],
+   "voiceEnd": 1305,
+   "len": 225
+  },
+  {
+   "who": "kgz",
+   "text": "An old family design. It never fails.",
+   "act": "build-kgz",
+   "emo": "happy",
+   "min": 6,
+   "i": 6,
+   "start": 1398,
+   "audio": "b06_kgz.mp3",
+   "voiceAt": 1404,
+   "words": [
+    {
+     "w": "An",
+     "f": 1407
+    },
+    {
+     "w": "old",
+     "f": 1411
+    },
+    {
+     "w": "family",
+     "f": 1417
+    },
+    {
+     "w": "design",
+     "f": 1429
+    },
+    {
+     "w": "It",
+     "f": 1455
+    },
+    {
+     "w": "never",
+     "f": 1457
+    },
+    {
+     "w": "fails",
+     "f": 1465
+    }
+   ],
+   "voiceEnd": 1497,
+   "len": 225
+  },
+  {
+   "who": "fra",
+   "text": "A cafe. Because life without croissants is not life.",
+   "act": "build-fra",
+   "emo": "happy",
+   "min": 6,
+   "i": 7,
+   "start": 1623,
+   "audio": "b07_fra.mp3",
+   "voiceAt": 1629,
+   "words": [
+    {
+     "w": "A",
+     "f": 1632
+    },
+    {
+     "w": "cafe",
+     "f": 1635
+    },
+    {
+     "w": "Because",
+     "f": 1676
+    },
+    {
+     "w": "life",
+     "f": 1685
+    },
+    {
+     "w": "without",
+     "f": 1692
+    },
+    {
+     "w": "croissants",
+     "f": 1701
+    },
+    {
+     "w": "is",
+     "f": 1717
+    },
+    {
+     "w": "not",
+     "f": 1721
+    },
+    {
+     "w": "life",
+     "f": 1727
+    }
+   ],
+   "voiceEnd": 1766,
+   "len": 225
+  },
+  {
+   "who": "rus",
+   "text": "Why is everyone building houses? We need a fortress!",
+   "emo": "angry",
+   "pose": "point",
+   "i": 8,
+   "start": 1848,
+   "audio": "b08_rus.mp3",
+   "voiceAt": 1854,
+   "words": [
+    {
+     "w": "Why",
+     "f": 1857
+    },
+    {
+     "w": "is",
+     "f": 1867
+    },
+    {
+     "w": "everyone",
+     "f": 1873
+    },
+    {
+     "w": "building",
+     "f": 1886
+    },
+    {
+     "w": "houses",
+     "f": 1899
+    },
+    {
+     "w": "We",
+     "f": 1948
+    },
+    {
+     "w": "need",
+     "f": 1954
+    },
+    {
+     "w": "a",
+     "f": 1962
+    },
+    {
+     "w": "fortress",
+     "f": 1964
+    }
+   ],
+   "voiceEnd": 2018,
+   "len": 190
+  },
+  {
+   "act": "build-rus",
+   "min": 6,
+   "i": 9,
+   "start": 2038,
+   "len": 252
+  },
+  {
+   "who": "narr",
+   "text": "That night, a terrible storm hit the island.",
+   "act": "nightfall",
+   "tod": 3,
+   "min": 6,
+   "i": 10,
+   "start": 2290,
+   "audio": "b10_narr.mp3",
+   "voiceAt": 2296,
+   "words": [
+    {
+     "w": "That",
+     "f": 2299
+    },
+    {
+     "w": "night",
+     "f": 2309
+    },
+    {
+     "w": "a",
+     "f": 2327
+    },
+    {
+     "w": "terrible",
+     "f": 2330
+    },
+    {
+     "w": "storm",
+     "f": 2344
+    },
+    {
+     "w": "hit",
+     "f": 2356
+    },
+    {
+     "w": "the",
+     "f": 2362
+    },
+    {
+     "w": "island",
+     "f": 2366
+    }
+   ],
+   "voiceEnd": 2412,
+   "len": 225
+  },
+  {
+   "act": "rain",
+   "min": 7,
+   "weather": "storm",
+   "i": 11,
+   "start": 2515,
+   "len": 294
+  },
+  {
+   "act": "flood",
+   "min": 9,
+   "i": 12,
+   "start": 2809,
+   "len": 378
+  },
+  {
+   "who": "ita",
+   "text": "My pizza oven! NOOOO!",
+   "emo": "shock",
+   "pose": "up",
+   "i": 13,
+   "start": 3187,
+   "audio": "b13_ita.mp3",
+   "voiceAt": 3193,
+   "words": [
+    {
+     "w": "My",
+     "f": 3195
+    },
+    {
+     "w": "pizza",
+     "f": 3198
+    },
+    {
+     "w": "oven",
+     "f": 3211
+    },
+    {
+     "w": "NOOOO",
+     "f": 3233
+    }
+   ],
+   "voiceEnd": 3251,
+   "len": 84
+  },
+  {
+   "who": "usa",
+   "text": "HOW IS YOUR HOUSE STILL STANDING?!",
+   "emo": "shock",
+   "pose": "up",
+   "i": 14,
+   "start": 3271,
+   "audio": "b14_usa.mp3",
+   "voiceAt": 3277,
+   "words": [
+    {
+     "w": "HOW",
+     "f": 3280
+    },
+    {
+     "w": "IS",
+     "f": 3287
+    },
+    {
+     "w": "YOUR",
+     "f": 3291
+    },
+    {
+     "w": "HOUSE",
+     "f": 3295
+    },
+    {
+     "w": "STILL",
+     "f": 3303
+    },
+    {
+     "w": "STANDING",
+     "f": 3311
+    }
+   ],
+   "voiceEnd": 3352,
+   "len": 101
+  },
+  {
+   "who": "kgz",
+   "text": "Simple. It's a yurt.",
+   "emo": "smug",
+   "i": 15,
+   "start": 3372,
+   "audio": "b15_kgz.mp3",
+   "voiceAt": 3378,
+   "words": [
+    {
+     "w": "Simple",
+     "f": 3381
+    },
+    {
+     "w": "It's",
+     "f": 3405
+    },
+    {
+     "w": "a",
+     "f": 3409
+    },
+    {
+     "w": "yurt",
+     "f": 3410
+    }
+   ],
+   "voiceEnd": 3434,
+   "len": 82
+  },
+  {
+   "act": "yurt-proud",
+   "min": 4.5,
+   "i": 16,
+   "start": 3454,
+   "len": 189
+  },
+  {
+   "who": "narr",
+   "text": "But later that night, someone noticed a strange light... deep in the forest.",
+   "act": "forest-light",
+   "weather": "none",
+   "min": 9,
+   "i": 17,
+   "start": 3643,
+   "audio": "b17_narr.mp3",
+   "voiceAt": 3649,
+   "words": [
+    {
+     "w": "But",
+     "f": 3652
+    },
+    {
+     "w": "later",
+     "f": 3659
+    },
+    {
+     "w": "that",
+     "f": 3669
+    },
+    {
+     "w": "night",
+     "f": 3676
+    },
+    {
+     "w": "someone",
+     "f": 3695
+    },
+    {
+     "w": "noticed",
+     "f": 3708
+    },
+    {
+     "w": "a",
+     "f": 3720
+    },
+    {
+     "w": "strange",
+     "f": 3723
+    },
+    {
+     "w": "light",
+     "f": 3737
+    },
+    {
+     "w": "deep",
+     "f": 3754
+    },
+    {
+     "w": "in",
+     "f": 3763
+    },
+    {
+     "w": "the",
+     "f": 3766
+    },
+    {
+     "w": "forest",
+     "f": 3769
+    }
+   ],
+   "voiceEnd": 3818,
+   "len": 338
+  },
+  {
+   "act": "next",
+   "min": 5,
+   "i": 18,
+   "start": 3981,
+   "len": 150
+  }
+ ]
+}

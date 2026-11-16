@@ -18,20 +18,24 @@ VOICES = {
     "ita": ("en-US-BrianNeural", "+20Hz", "+12%"),
     "voice": ("en-US-ChristopherNeural", "-28Hz", "-18%"),
 }
-PRE, POST = 6, 14  # frames before / after each spoken line
+PRE, POST = 6, 20  # frames before / after each spoken line
+
+FALLBACK = {"en-US-AndrewNeural": "en-US-AndrewMultilingualNeural", "en-US-BrianNeural": "en-US-BrianMultilingualNeural"}
 
 async def tts(who, text, path):
-    for attempt in range(4):
+    for attempt in range(5):
         try:
-            return await _tts(who, text, path)
+            return await _tts(who, text if attempt < 3 else text.replace("'", "\u2019"), path, fallback=attempt >= 2)
         except Exception as e:  # edge-tts occasionally drops a stream; retry
             print("retry", who, attempt, type(e).__name__)
             await asyncio.sleep(2 + attempt * 2)
     raise RuntimeError(f"tts failed for {who}: {text}")
 
-async def _tts(who, text, path):
+async def _tts(who, text, path, fallback=False):
     import edge_tts
     v, p, r = VOICES[who]
+    if fallback:
+        v = FALLBACK.get(v, v)
     com = edge_tts.Communicate(text, v, pitch=p, rate=r, proxy=os.environ.get("HTTPS_PROXY"), boundary="WordBoundary")
     audio, words = bytearray(), []
     async for ch in com.stream():
@@ -53,7 +57,10 @@ async def main():
     t, beats = 0, []
     for i, b in enumerate(spec["beats"]):
         nb = dict(b, i=i, start=t)
-        length = math.ceil(b.get("min", 0) * FPS)
+        mn = b.get("min", 0)
+        if b.get("act") and b.get("act") not in ("title", "next", "recap"):
+            mn *= 1.25 if b.get("text") else 1.4  # give the visual gags room to play
+        length = math.ceil(mn * FPS)
         if b.get("text"):
             fn = f"b{i:02d}_{b['who']}.mp3"
             dur, words = await tts(b["who"], b["text"], os.path.join(OUT, fn))

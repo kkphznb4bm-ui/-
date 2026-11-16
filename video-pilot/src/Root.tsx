@@ -4,6 +4,7 @@ import { Rainbow, TOTAL_FRAMES } from './Rainbow';
 import { Island, ISLAND_FRAMES } from './Island';
 import { LifeOfAStar, STAR_FRAMES } from './Star';
 import { Ch01, CH01_FRAMES } from './cb/Ch01';
+import { CbChapters } from './cb/Chapters';
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -32,5 +33,6 @@ export const RemotionRoot: React.FC = () => (
       height={1920}
     />
     <Composition id="CB-Ch01" component={Ch01} durationInFrames={CH01_FRAMES} fps={30} width={1920} height={1080} />
+    <CbChapters />
   </>
 );

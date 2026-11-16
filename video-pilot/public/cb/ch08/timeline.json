@@ -1,0 +1,591 @@
+{
+ "id": "ch08",
+ "num": 8,
+ "title": "THE VOLCANO",
+ "fps": 30,
+ "total": 3425,
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "volcano",
+   "i": 0,
+   "start": 0,
+   "len": 135
+  },
+  {
+   "who": "narr",
+   "text": "Previously... the countries finally started working together. But the last key was hidden inside the volcano.",
+   "act": "recap",
+   "min": 8,
+   "i": 1,
+   "start": 135,
+   "audio": "b01_narr.mp3",
+   "voiceAt": 141,
+   "words": [
+    {
+     "w": "Previously",
+     "f": 144
+    },
+    {
+     "w": "the",
+     "f": 176
+    },
+    {
+     "w": "countries",
+     "f": 180
+    },
+    {
+     "w": "finally",
+     "f": 194
+    },
+    {
+     "w": "started",
+     "f": 208
+    },
+    {
+     "w": "working",
+     "f": 221
+    },
+    {
+     "w": "together",
+     "f": 233
+    },
+    {
+     "w": "But",
+     "f": 277
+    },
+    {
+     "w": "the",
+     "f": 282
+    },
+    {
+     "w": "last",
+     "f": 286
+    },
+    {
+     "w": "key",
+     "f": 299
+    },
+    {
+     "w": "was",
+     "f": 307
+    },
+    {
+     "w": "hidden",
+     "f": 312
+    },
+    {
+     "w": "inside",
+     "f": 322
+    },
+    {
+     "w": "the",
+     "f": 338
+    },
+    {
+     "w": "volcano",
+     "f": 340
+    }
+   ],
+   "voiceEnd": 391,
+   "len": 276
+  },
+  {
+   "who": "narr",
+   "text": "The countries set off for the volcano to find the last key.",
+   "act": "climb",
+   "min": 8,
+   "i": 2,
+   "start": 411,
+   "audio": "b02_narr.mp3",
+   "voiceAt": 417,
+   "words": [
+    {
+     "w": "The",
+     "f": 420
+    },
+    {
+     "w": "countries",
+     "f": 425
+    },
+    {
+     "w": "set",
+     "f": 439
+    },
+    {
+     "w": "off",
+     "f": 445
+    },
+    {
+     "w": "for",
+     "f": 453
+    },
+    {
+     "w": "the",
+     "f": 457
+    },
+    {
+     "w": "volcano",
+     "f": 459
+    },
+    {
+     "w": "to",
+     "f": 479
+    },
+    {
+     "w": "find",
+     "f": 484
+    },
+    {
+     "w": "the",
+     "f": 493
+    },
+    {
+     "w": "last",
+     "f": 495
+    },
+    {
+     "w": "key",
+     "f": 507
+    }
+   ],
+   "voiceEnd": 547,
+   "len": 300
+  },
+  {
+   "who": "jpn",
+   "text": "It's getting really hot...",
+   "emo": "wide",
+   "act": "climb",
+   "i": 3,
+   "start": 711,
+   "audio": "b03_jpn.mp3",
+   "voiceAt": 717,
+   "words": [
+    {
+     "w": "It's",
+     "f": 720
+    },
+    {
+     "w": "getting",
+     "f": 727
+    },
+    {
+     "w": "really",
+     "f": 735
+    },
+    {
+     "w": "hot",
+     "f": 743
+    }
+   ],
+   "voiceEnd": 779,
+   "len": 88
+  },
+  {
+   "who": "ger",
+   "text": "Forty degrees. Fifty. SIXTY!",
+   "emo": "wide",
+   "act": "climb",
+   "i": 4,
+   "start": 799,
+   "audio": "b04_ger.mp3",
+   "voiceAt": 805,
+   "words": [
+    {
+     "w": "Forty",
+     "f": 808
+    },
+    {
+     "w": "degrees",
+     "f": 820
+    },
+    {
+     "w": "Fifty",
+     "f": 861
+    },
+    {
+     "w": "SIXTY",
+     "f": 897
+    }
+   ],
+   "voiceEnd": 946,
+   "len": 167
+  },
+  {
+   "act": "erupt",
+   "min": 6,
+   "i": 5,
+   "start": 966,
+   "len": 252
+  },
+  {
+   "who": "usa",
+   "text": "WE NEED TO MOVE!",
+   "emo": "shock",
+   "pose": "up",
+   "i": 6,
+   "start": 1218,
+   "audio": "b06_usa.mp3",
+   "voiceAt": 1224,
+   "words": [
+    {
+     "w": "WE",
+     "f": 1227
+    },
+    {
+     "w": "NEED",
+     "f": 1233
+    },
+    {
+     "w": "TO",
+     "f": 1240
+    },
+    {
+     "w": "MOVE",
+     "f": 1244
+    }
+   ],
+   "voiceEnd": 1282,
+   "len": 84
+  },
+  {
+   "who": "fra",
+   "text": "I KNEW THIS WAS A TERRIBLE IDEA!",
+   "emo": "shock",
+   "pose": "up",
+   "i": 7,
+   "start": 1302,
+   "audio": "b07_fra.mp3",
+   "voiceAt": 1308,
+   "words": [
+    {
+     "w": "I",
+     "f": 1311
+    },
+    {
+     "w": "KNEW",
+     "f": 1316
+    },
+    {
+     "w": "THIS",
+     "f": 1320
+    },
+    {
+     "w": "WAS",
+     "f": 1326
+    },
+    {
+     "w": "A",
+     "f": 1329
+    },
+    {
+     "w": "TERRIBLE",
+     "f": 1333
+    },
+    {
+     "w": "IDEA",
+     "f": 1344
+    }
+   ],
+   "voiceEnd": 1385,
+   "len": 103
+  },
+  {
+   "who": "rus",
+   "text": "Keep going!",
+   "emo": "angry",
+   "pose": "point",
+   "i": 8,
+   "start": 1405,
+   "audio": "b08_rus.mp3",
+   "voiceAt": 1411,
+   "words": [
+    {
+     "w": "Keep",
+     "f": 1414
+    },
+    {
+     "w": "going",
+     "f": 1423
+    }
+   ],
+   "voiceEnd": 1468,
+   "len": 83
+  },
+  {
+   "act": "run",
+   "min": 8,
+   "i": 9,
+   "start": 1488,
+   "len": 336
+  },
+  {
+   "who": "chn",
+   "text": "There's no way through!",
+   "emo": "shock",
+   "act": "run",
+   "i": 10,
+   "start": 1824,
+   "audio": "b10_chn.mp3",
+   "voiceAt": 1830,
+   "words": [
+    {
+     "w": "There's",
+     "f": 1833
+    },
+    {
+     "w": "no",
+     "f": 1840
+    },
+    {
+     "w": "way",
+     "f": 1847
+    },
+    {
+     "w": "through",
+     "f": 1856
+    }
+   ],
+   "voiceEnd": 1897,
+   "len": 93
+  },
+  {
+   "act": "passage",
+   "min": 4.5,
+   "i": 11,
+   "start": 1917,
+   "len": 189
+  },
+  {
+   "who": "kgz",
+   "text": "Everyone! This way!",
+   "emo": "wide",
+   "pose": "point",
+   "i": 12,
+   "start": 2106,
+   "audio": "b12_kgz.mp3",
+   "voiceAt": 2112,
+   "words": [
+    {
+     "w": "Everyone",
+     "f": 2115
+    },
+    {
+     "w": "This",
+     "f": 2142
+    },
+    {
+     "w": "way",
+     "f": 2146
+    }
+   ],
+   "voiceEnd": 2166,
+   "len": 80
+  },
+  {
+   "who": "narr",
+   "text": "Inside the passage, glowing in the dark... was the final key.",
+   "act": "key-found",
+   "min": 10,
+   "i": 13,
+   "start": 2186,
+   "audio": "b13_narr.mp3",
+   "voiceAt": 2192,
+   "words": [
+    {
+     "w": "Inside",
+     "f": 2195
+    },
+    {
+     "w": "the",
+     "f": 2211
+    },
+    {
+     "w": "passage",
+     "f": 2214
+    },
+    {
+     "w": "glowing",
+     "f": 2239
+    },
+    {
+     "w": "in",
+     "f": 2252
+    },
+    {
+     "w": "the",
+     "f": 2255
+    },
+    {
+     "w": "dark",
+     "f": 2258
+    },
+    {
+     "w": "was",
+     "f": 2276
+    },
+    {
+     "w": "the",
+     "f": 2282
+    },
+    {
+     "w": "final",
+     "f": 2286
+    },
+    {
+     "w": "key",
+     "f": 2298
+    }
+   ],
+   "voiceEnd": 2340,
+   "len": 375
+  },
+  {
+   "who": "usa",
+   "text": "We did it! We actually did it!",
+   "emo": "happy",
+   "pose": "up",
+   "act": "key-found",
+   "i": 14,
+   "start": 2561,
+   "audio": "b14_usa.mp3",
+   "voiceAt": 2567,
+   "words": [
+    {
+     "w": "We",
+     "f": 2570
+    },
+    {
+     "w": "did",
+     "f": 2576
+    },
+    {
+     "w": "it",
+     "f": 2583
+    },
+    {
+     "w": "We",
+     "f": 2614
+    },
+    {
+     "w": "actually",
+     "f": 2620
+    },
+    {
+     "w": "did",
+     "f": 2634
+    },
+    {
+     "w": "it",
+     "f": 2640
+    }
+   ],
+   "voiceEnd": 2672,
+   "len": 131
+  },
+  {
+   "who": "voice",
+   "text": "YOU HAVE FAILED THE TEST.",
+   "act": "fail",
+   "i": 15,
+   "start": 2692,
+   "audio": "b15_voice.mp3",
+   "voiceAt": 2698,
+   "words": [
+    {
+     "w": "YOU",
+     "f": 2701
+    },
+    {
+     "w": "HAVE",
+     "f": 2708
+    },
+    {
+     "w": "FAILED",
+     "f": 2714
+    },
+    {
+     "w": "THE",
+     "f": 2728
+    },
+    {
+     "w": "TEST",
+     "f": 2732
+    }
+   ],
+   "voiceEnd": 2793,
+   "len": 121
+  },
+  {
+   "act": "freeze",
+   "min": 6,
+   "i": 16,
+   "start": 2813,
+   "len": 252
+  },
+  {
+   "who": "usa",
+   "text": "...What?",
+   "emo": "wide",
+   "i": 17,
+   "start": 3065,
+   "audio": "b17_usa.mp3",
+   "voiceAt": 3071,
+   "words": [
+    {
+     "w": "What",
+     "f": 3074
+    }
+   ],
+   "voiceEnd": 3113,
+   "len": 68
+  },
+  {
+   "who": "chn",
+   "text": "Failed? But we found the key!",
+   "emo": "angry",
+   "pose": "up",
+   "i": 18,
+   "start": 3133,
+   "audio": "b18_chn.mp3",
+   "voiceAt": 3139,
+   "words": [
+    {
+     "w": "Failed",
+     "f": 3142
+    },
+    {
+     "w": "But",
+     "f": 3188
+    },
+    {
+     "w": "we",
+     "f": 3194
+    },
+    {
+     "w": "found",
+     "f": 3198
+    },
+    {
+     "w": "the",
+     "f": 3209
+    },
+    {
+     "w": "key",
+     "f": 3212
+    }
+   ],
+   "voiceEnd": 3255,
+   "len": 142
+  },
+  {
+   "act": "next",
+   "min": 5,
+   "i": 19,
+   "start": 3275,
+   "len": 150
+  }
+ ]
+}

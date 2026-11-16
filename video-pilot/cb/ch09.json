@@ -1,0 +1,145 @@
+{
+ "id": "ch09",
+ "num": 9,
+ "title": "THE TRUTH",
+ "next": null,
+ "places": {
+  "city": {
+   "uk": 420,
+   "fra": 700,
+   "usa": 980,
+   "rus": 1260,
+   "chn": 1540,
+   "jpn": 1820,
+   "ger": 2100,
+   "kgz": 2380,
+   "ita": 2660
+  },
+  "home": {
+   "usa": 600,
+   "rus": 1300,
+   "chn": 1600
+  },
+  "lab": {}
+ },
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "city",
+   "screen": "00:59:41"
+  },
+  {
+   "who": "narr",
+   "text": "Previously... the countries found the final key. But then a voice told them they had failed the test.",
+   "act": "recap",
+   "min": 8
+  },
+  {
+   "who": "narr",
+   "text": "The countries rushed back to the underground city.",
+   "act": "return",
+   "min": 6
+  },
+  {
+   "act": "creator",
+   "min": 5
+  },
+  {
+   "who": "voice",
+   "text": "You were brought here to answer one question.",
+   "act": "creator"
+  },
+  {
+   "who": "usa",
+   "text": "What question?",
+   "emo": "wide"
+  },
+  {
+   "who": "voice",
+   "text": "Can the world survive without fighting?",
+   "act": "creator"
+  },
+  {
+   "act": "quiet",
+   "min": 5
+  },
+  {
+   "who": "ger",
+   "text": "So... this was a test the whole time.",
+   "emo": "wide"
+  },
+  {
+   "who": "chn",
+   "text": "We almost destroyed ourselves.",
+   "emo": "closed"
+  },
+  {
+   "who": "rus",
+   "text": "But we worked together."
+  },
+  {
+   "who": "jpn",
+   "text": "Maybe that's the point.",
+   "emo": "happy"
+  },
+  {
+   "who": "kgz",
+   "text": "Maybe we should remember this when we go home.",
+   "emo": "happy"
+  },
+  {
+   "act": "keys-insert",
+   "min": 8
+  },
+  {
+   "act": "timer-stop",
+   "min": 6
+  },
+  {
+   "who": "narr",
+   "text": "The countdown stopped. The island began to glow... and one by one, every country was sent home.",
+   "act": "glow",
+   "set": "sky",
+   "min": 11
+  },
+  {
+   "act": "fly-home",
+   "min": 6
+  },
+  {
+   "who": "usa",
+   "text": "Well... that was crazy.",
+   "set": "home",
+   "emo": "happy"
+  },
+  {
+   "who": "rus",
+   "text": "Never doing that again.",
+   "emo": "smug"
+  },
+  {
+   "who": "chn",
+   "text": "Agreed.",
+   "emo": "happy"
+  },
+  {
+   "act": "laugh",
+   "min": 5
+  },
+  {
+   "act": "lab-screen",
+   "min": 7,
+   "set": "lab"
+  },
+  {
+   "who": "voice",
+   "text": "Phase Two begins tomorrow.",
+   "act": "lab-voice"
+  },
+  {
+   "act": "tbc",
+   "min": 7
+  }
+ ]
+}

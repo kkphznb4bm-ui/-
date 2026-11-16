@@ -1,0 +1,127 @@
+{
+ "id": "ch08",
+ "num": 8,
+ "title": "THE VOLCANO",
+ "next": "THE TRUTH",
+ "places": {
+  "volcano": {
+   "usa": 700,
+   "fra": 950,
+   "rus": 1200,
+   "kgz": 1450,
+   "chn": 1700,
+   "jpn": 1950,
+   "ger": 2200
+  }
+ },
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "volcano"
+  },
+  {
+   "who": "narr",
+   "text": "Previously... the countries finally started working together. But the last key was hidden inside the volcano.",
+   "act": "recap",
+   "min": 8
+  },
+  {
+   "who": "narr",
+   "text": "The countries set off for the volcano to find the last key.",
+   "act": "climb",
+   "min": 8
+  },
+  {
+   "who": "jpn",
+   "text": "It's getting really hot...",
+   "emo": "wide",
+   "act": "climb"
+  },
+  {
+   "who": "ger",
+   "text": "Forty degrees. Fifty. SIXTY!",
+   "emo": "wide",
+   "act": "climb"
+  },
+  {
+   "act": "erupt",
+   "min": 6
+  },
+  {
+   "who": "usa",
+   "text": "WE NEED TO MOVE!",
+   "emo": "shock",
+   "pose": "up"
+  },
+  {
+   "who": "fra",
+   "text": "I KNEW THIS WAS A TERRIBLE IDEA!",
+   "emo": "shock",
+   "pose": "up"
+  },
+  {
+   "who": "rus",
+   "text": "Keep going!",
+   "emo": "angry",
+   "pose": "point"
+  },
+  {
+   "act": "run",
+   "min": 8
+  },
+  {
+   "who": "chn",
+   "text": "There's no way through!",
+   "emo": "shock",
+   "act": "run"
+  },
+  {
+   "act": "passage",
+   "min": 4.5
+  },
+  {
+   "who": "kgz",
+   "text": "Everyone! This way!",
+   "emo": "wide",
+   "pose": "point"
+  },
+  {
+   "who": "narr",
+   "text": "Inside the passage, glowing in the dark... was the final key.",
+   "act": "key-found",
+   "min": 10
+  },
+  {
+   "who": "usa",
+   "text": "We did it! We actually did it!",
+   "emo": "happy",
+   "pose": "up",
+   "act": "key-found"
+  },
+  {
+   "who": "voice",
+   "text": "YOU HAVE FAILED THE TEST.",
+   "act": "fail"
+  },
+  {
+   "act": "freeze",
+   "min": 6
+  },
+  {
+   "who": "usa",
+   "text": "...What?",
+   "emo": "wide"
+  },
+  {
+   "who": "chn",
+   "text": "Failed? But we found the key!",
+   "emo": "angry",
+   "pose": "up"
+  },
+  {
+   "act": "next",
+   "min": 5
+  }
+ ]
+}

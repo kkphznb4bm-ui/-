@@ -1,0 +1,621 @@
+{
+ "id": "ch04",
+ "num": 4,
+ "title": "THE SECRET IN THE FOREST",
+ "fps": 30,
+ "total": 3750,
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "forest",
+   "tod": 3,
+   "i": 0,
+   "start": 0,
+   "len": 135
+  },
+  {
+   "who": "narr",
+   "text": "Previously... a storm destroyed every house on the island. Except one. And a strange light appeared in the forest.",
+   "act": "recap",
+   "min": 8,
+   "i": 1,
+   "start": 135,
+   "audio": "b01_narr.mp3",
+   "voiceAt": 141,
+   "words": [
+    {
+     "w": "Previously",
+     "f": 144
+    },
+    {
+     "w": "a",
+     "f": 177
+    },
+    {
+     "w": "storm",
+     "f": 179
+    },
+    {
+     "w": "destroyed",
+     "f": 191
+    },
+    {
+     "w": "every",
+     "f": 208
+    },
+    {
+     "w": "house",
+     "f": 216
+    },
+    {
+     "w": "on",
+     "f": 227
+    },
+    {
+     "w": "the",
+     "f": 230
+    },
+    {
+     "w": "island",
+     "f": 233
+    },
+    {
+     "w": "Except",
+     "f": 278
+    },
+    {
+     "w": "one",
+     "f": 293
+    },
+    {
+     "w": "And",
+     "f": 332
+    },
+    {
+     "w": "a",
+     "f": 337
+    },
+    {
+     "w": "strange",
+     "f": 339
+    },
+    {
+     "w": "light",
+     "f": 355
+    },
+    {
+     "w": "appeared",
+     "f": 363
+    },
+    {
+     "w": "in",
+     "f": 375
+    },
+    {
+     "w": "the",
+     "f": 378
+    },
+    {
+     "w": "forest",
+     "f": 380
+    }
+   ],
+   "voiceEnd": 428,
+   "len": 313
+  },
+  {
+   "who": "narr",
+   "text": "Japan, Kyrgyzstan and Germany went to investigate.",
+   "act": "walk",
+   "min": 8,
+   "move": {
+    "jpn": [
+     -300,
+     900
+    ],
+    "kgz": [
+     -600,
+     1200
+    ],
+    "ger": [
+     -900,
+     1500
+    ]
+   },
+   "i": 2,
+   "start": 448,
+   "audio": "b02_narr.mp3",
+   "voiceAt": 454,
+   "words": [
+    {
+     "w": "Japan",
+     "f": 457
+    },
+    {
+     "w": "Kyrgyzstan",
+     "f": 483
+    },
+    {
+     "w": "and",
+     "f": 508
+    },
+    {
+     "w": "Germany",
+     "f": 513
+    },
+    {
+     "w": "went",
+     "f": 527
+    },
+    {
+     "w": "to",
+     "f": 534
+    },
+    {
+     "w": "investigate",
+     "f": 538
+    }
+   ],
+   "voiceEnd": 592,
+   "len": 300
+  },
+  {
+   "who": "jpn",
+   "text": "It's so dark in here...",
+   "emo": "wide",
+   "i": 3,
+   "start": 748,
+   "audio": "b03_jpn.mp3",
+   "voiceAt": 754,
+   "words": [
+    {
+     "w": "It's",
+     "f": 757
+    },
+    {
+     "w": "so",
+     "f": 764
+    },
+    {
+     "w": "dark",
+     "f": 770
+    },
+    {
+     "w": "in",
+     "f": 781
+    },
+    {
+     "w": "here",
+     "f": 783
+    }
+   ],
+   "voiceEnd": 819,
+   "len": 91
+  },
+  {
+   "who": "ger",
+   "text": "Stay close. And watch your step.",
+   "pose": "point",
+   "i": 4,
+   "start": 839,
+   "audio": "b04_ger.mp3",
+   "voiceAt": 845,
+   "words": [
+    {
+     "w": "Stay close",
+     "f": 848
+    },
+    {
+     "w": "And",
+     "f": 896
+    },
+    {
+     "w": "watch",
+     "f": 901
+    },
+    {
+     "w": "your",
+     "f": 910
+    },
+    {
+     "w": "step",
+     "f": 915
+    }
+   ],
+   "voiceEnd": 956,
+   "len": 137
+  },
+  {
+   "who": "narr",
+   "text": "Deep in the jungle, hidden under the vines, they found an old laboratory.",
+   "act": "lab-found",
+   "min": 9,
+   "i": 5,
+   "start": 976,
+   "audio": "b05_narr.mp3",
+   "voiceAt": 982,
+   "words": [
+    {
+     "w": "Deep",
+     "f": 985
+    },
+    {
+     "w": "in",
+     "f": 995
+    },
+    {
+     "w": "the",
+     "f": 997
+    },
+    {
+     "w": "jungle",
+     "f": 1001
+    },
+    {
+     "w": "hidden",
+     "f": 1024
+    },
+    {
+     "w": "under",
+     "f": 1032
+    },
+    {
+     "w": "the",
+     "f": 1039
+    },
+    {
+     "w": "vines",
+     "f": 1042
+    },
+    {
+     "w": "they",
+     "f": 1066
+    },
+    {
+     "w": "found",
+     "f": 1071
+    },
+    {
+     "w": "an",
+     "f": 1082
+    },
+    {
+     "w": "old",
+     "f": 1085
+    },
+    {
+     "w": "laboratory",
+     "f": 1093
+    }
+   ],
+   "voiceEnd": 1144,
+   "len": 338
+  },
+  {
+   "act": "lab-enter",
+   "min": 5,
+   "set": "lab",
+   "i": 6,
+   "start": 1314,
+   "len": 210
+  },
+  {
+   "act": "map",
+   "min": 5,
+   "i": 7,
+   "start": 1524,
+   "len": 210
+  },
+  {
+   "who": "kgz",
+   "text": "This place must be very old.",
+   "emo": "wide",
+   "i": 8,
+   "start": 1734,
+   "audio": "b08_kgz.mp3",
+   "voiceAt": 1740,
+   "words": [
+    {
+     "w": "This place",
+     "f": 1743
+    },
+    {
+     "w": "must",
+     "f": 1758
+    },
+    {
+     "w": "be",
+     "f": 1765
+    },
+    {
+     "w": "very",
+     "f": 1768
+    },
+    {
+     "w": "old",
+     "f": 1778
+    }
+   ],
+   "voiceEnd": 1800,
+   "len": 86
+  },
+  {
+   "who": "ger",
+   "text": "Wait... this island is not natural.",
+   "emo": "wide",
+   "i": 9,
+   "start": 1820,
+   "audio": "b09_ger.mp3",
+   "voiceAt": 1826,
+   "words": [
+    {
+     "w": "Wait",
+     "f": 1829
+    },
+    {
+     "w": "this",
+     "f": 1856
+    },
+    {
+     "w": "island",
+     "f": 1862
+    },
+    {
+     "w": "is",
+     "f": 1875
+    },
+    {
+     "w": "not",
+     "f": 1880
+    },
+    {
+     "w": "natural",
+     "f": 1888
+    }
+   ],
+   "voiceEnd": 1934,
+   "len": 134
+  },
+  {
+   "who": "jpn",
+   "text": "Look at these symbols.",
+   "pose": "point",
+   "i": 10,
+   "start": 1954,
+   "audio": "b10_jpn.mp3",
+   "voiceAt": 1960,
+   "words": [
+    {
+     "w": "Look",
+     "f": 1963
+    },
+    {
+     "w": "at",
+     "f": 1970
+    },
+    {
+     "w": "these",
+     "f": 1973
+    },
+    {
+     "w": "symbols",
+     "f": 1979
+    }
+   ],
+   "voiceEnd": 2020,
+   "len": 86
+  },
+  {
+   "who": "kgz",
+   "text": "There's something written here.",
+   "pose": "point",
+   "i": 11,
+   "start": 2040,
+   "audio": "b11_kgz.mp3",
+   "voiceAt": 2046,
+   "words": [
+    {
+     "w": "There's",
+     "f": 2049
+    },
+    {
+     "w": "something",
+     "f": 2053
+    },
+    {
+     "w": "written",
+     "f": 2063
+    },
+    {
+     "w": "here",
+     "f": 2069
+    }
+   ],
+   "voiceEnd": 2091,
+   "len": 71
+  },
+  {
+   "act": "message",
+   "min": 8,
+   "i": 12,
+   "start": 2111,
+   "len": 336
+  },
+  {
+   "who": "jpn",
+   "text": "Who built this place?",
+   "emo": "wide",
+   "i": 13,
+   "start": 2447,
+   "audio": "b13_jpn.mp3",
+   "voiceAt": 2453,
+   "words": [
+    {
+     "w": "Who",
+     "f": 2456
+    },
+    {
+     "w": "built",
+     "f": 2461
+    },
+    {
+     "w": "this",
+     "f": 2469
+    },
+    {
+     "w": "place",
+     "f": 2474
+    }
+   ],
+   "voiceEnd": 2513,
+   "len": 86
+  },
+  {
+   "act": "screen-on",
+   "min": 3,
+   "i": 14,
+   "start": 2533,
+   "len": 126
+  },
+  {
+   "who": "voice",
+   "text": "Welcome, countries. Your cooperation will determine your future.",
+   "act": "screen-talk",
+   "i": 15,
+   "start": 2659,
+   "audio": "b15_voice.mp3",
+   "voiceAt": 2665,
+   "words": [
+    {
+     "w": "Welcome",
+     "f": 2668
+    },
+    {
+     "w": "countries",
+     "f": 2698
+    },
+    {
+     "w": "Your",
+     "f": 2754
+    },
+    {
+     "w": "cooperation",
+     "f": 2763
+    },
+    {
+     "w": "will",
+     "f": 2794
+    },
+    {
+     "w": "determine",
+     "f": 2798
+    },
+    {
+     "w": "your",
+     "f": 2815
+    },
+    {
+     "w": "future",
+     "f": 2820
+    }
+   ],
+   "voiceEnd": 2881,
+   "len": 242
+  },
+  {
+   "act": "lights-off",
+   "min": 3.5,
+   "i": 16,
+   "start": 2901,
+   "len": 147
+  },
+  {
+   "act": "exit",
+   "min": 6,
+   "set": "forest",
+   "move": {
+    "jpn": [
+     1500,
+     2300
+    ],
+    "kgz": [
+     1250,
+     2050
+    ],
+    "ger": [
+     1000,
+     1800
+    ]
+   },
+   "i": 17,
+   "start": 3048,
+   "len": 252
+  },
+  {
+   "who": "narr",
+   "text": "As they left, none of them noticed... that someone was watching.",
+   "act": "watched",
+   "min": 8,
+   "i": 18,
+   "start": 3300,
+   "audio": "b18_narr.mp3",
+   "voiceAt": 3306,
+   "words": [
+    {
+     "w": "As",
+     "f": 3309
+    },
+    {
+     "w": "they",
+     "f": 3316
+    },
+    {
+     "w": "left",
+     "f": 3321
+    },
+    {
+     "w": "none",
+     "f": 3340
+    },
+    {
+     "w": "of",
+     "f": 3348
+    },
+    {
+     "w": "them",
+     "f": 3351
+    },
+    {
+     "w": "noticed",
+     "f": 3357
+    },
+    {
+     "w": "that",
+     "f": 3380
+    },
+    {
+     "w": "someone",
+     "f": 3385
+    },
+    {
+     "w": "was",
+     "f": 3398
+    },
+    {
+     "w": "watching",
+     "f": 3403
+    }
+   ],
+   "voiceEnd": 3450,
+   "len": 300
+  },
+  {
+   "act": "next",
+   "min": 5,
+   "i": 19,
+   "start": 3600,
+   "len": 150
+  }
+ ]
+}

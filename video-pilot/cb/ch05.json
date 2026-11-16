@@ -1,0 +1,129 @@
+{
+ "id": "ch05",
+ "num": 5,
+ "title": "THE GREAT BETRAYAL",
+ "next": "THE UNDERGROUND CITY",
+ "places": {
+  "beach": {
+   "uk": 380,
+   "fra": 640,
+   "usa": 900,
+   "rus": 1180,
+   "chn": 1460,
+   "jpn": 1740,
+   "ita": 2020,
+   "ger": 2300,
+   "kgz": 2580
+  }
+ },
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "beach",
+   "tod": 1
+  },
+  {
+   "who": "narr",
+   "text": "Previously... three countries discovered a secret laboratory. And a voice said their cooperation would decide their future.",
+   "act": "recap",
+   "min": 8
+  },
+  {
+   "who": "narr",
+   "text": "The next morning, news about the laboratory spread fast.",
+   "act": "camp",
+   "min": 6
+  },
+  {
+   "who": "usa",
+   "text": "You found a secret lab? Show me. NOW!",
+   "emo": "angry",
+   "pose": "point"
+  },
+  {
+   "who": "rus",
+   "text": "Why didn't you tell everyone?",
+   "emo": "angry"
+  },
+  {
+   "who": "ger",
+   "text": "We wanted to understand what we found first.",
+   "pose": "shrug"
+  },
+  {
+   "who": "usa",
+   "text": "Or maybe you're hiding something!",
+   "emo": "angry",
+   "pose": "point"
+  },
+  {
+   "act": "argue",
+   "min": 8
+  },
+  {
+   "who": "fra",
+   "text": "This is ridiculous!",
+   "emo": "angry",
+   "pose": "hips"
+  },
+  {
+   "who": "uk",
+   "text": "Gentlemen, PLEASE!",
+   "emo": "wide",
+   "pose": "up"
+  },
+  {
+   "who": "chn",
+   "text": "Stop! Fighting won't help us.",
+   "emo": "angry",
+   "pose": "up"
+  },
+  {
+   "who": "narr",
+   "text": "And at that exact moment... the map of the island disappeared.",
+   "act": "map-gone",
+   "min": 8
+  },
+  {
+   "who": "usa",
+   "text": "Who took it?!",
+   "emo": "angry",
+   "pose": "up"
+  },
+  {
+   "who": "rus",
+   "text": "Don't look at me.",
+   "emo": "smug"
+  },
+  {
+   "who": "chn",
+   "text": "Someone here is lying.",
+   "emo": "angry"
+  },
+  {
+   "who": "jpn",
+   "text": "But everyone was standing right here...",
+   "emo": "wide"
+  },
+  {
+   "act": "suspect",
+   "min": 10
+  },
+  {
+   "act": "thief",
+   "min": 11
+  },
+  {
+   "who": "kgz",
+   "text": "Guys... look. Footprints.",
+   "emo": "wide",
+   "pose": "point",
+   "act": "footprints"
+  },
+  {
+   "act": "next",
+   "min": 5
+  }
+ ]
+}

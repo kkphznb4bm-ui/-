@@ -1,0 +1,136 @@
+{
+ "id": "ch02",
+ "num": 2,
+ "title": "WHO WILL RULE THE ISLAND?",
+ "next": "THE FIRST NIGHT",
+ "places": {
+  "beach": {
+   "uk": 380,
+   "fra": 640,
+   "usa": 900,
+   "rus": 1180,
+   "chn": 1460,
+   "jpn": 1740,
+   "ita": 2020,
+   "ger": 2300,
+   "kgz": 2580
+  }
+ },
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "beach",
+   "tod": 1
+  },
+  {
+   "who": "narr",
+   "text": "Previously... every country woke up on a mysterious island. And a message on the cliff gave them only thirty days.",
+   "act": "recap",
+   "min": 8
+  },
+  {
+   "who": "narr",
+   "text": "After the shock wore off, the countries agreed on one thing: the island needed a temporary government.",
+   "cam": "group",
+   "min": 8
+  },
+  {
+   "who": "usa",
+   "text": "I should be the president!",
+   "emo": "happy",
+   "pose": "flex"
+  },
+  {
+   "who": "chn",
+   "text": "Absolutely not. We need a system.",
+   "emo": "smug",
+   "pose": "point"
+  },
+  {
+   "who": "rus",
+   "text": "Maybe we need someone who knows how to survive in difficult conditions.",
+   "emo": "smug"
+  },
+  {
+   "who": "uk",
+   "text": "Can we please have a civilized discussion?",
+   "pose": "shrug"
+  },
+  {
+   "who": "fra",
+   "text": "First, we need good food.",
+   "emo": "happy"
+  },
+  {
+   "who": "ita",
+   "text": "FINALLY! Someone understands!",
+   "emo": "happy",
+   "pose": "up"
+  },
+  {
+   "who": "ger",
+   "text": "Food can wait. First, we need rules. Lots of rules.",
+   "emo": "smug",
+   "pose": "point"
+  },
+  {
+   "who": "uk",
+   "text": "And tea. Rules... and tea.",
+   "emo": "happy"
+  },
+  {
+   "who": "narr",
+   "text": "And so, the very first island election began.",
+   "act": "ballot",
+   "min": 8
+  },
+  {
+   "who": "narr",
+   "text": "The results were in. Three votes for the USA. Three for Russia. Three for China. And one vote... for Kyrgyzstan.",
+   "act": "tally",
+   "min": 12
+  },
+  {
+   "who": "kgz",
+   "text": "Wait... WHO voted for me?",
+   "emo": "wide",
+   "pose": "shrug"
+  },
+  {
+   "act": "flashback",
+   "min": 7
+  },
+  {
+   "act": "laugh",
+   "min": 6
+  },
+  {
+   "who": "usa",
+   "text": "Okay, okay. I demand a recount!",
+   "emo": "angry",
+   "pose": "up"
+  },
+  {
+   "who": "chn",
+   "text": "There will be no recount.",
+   "emo": "smug"
+  },
+  {
+   "act": "quake",
+   "min": 5
+  },
+  {
+   "act": "door",
+   "min": 9
+  },
+  {
+   "act": "shock",
+   "min": 4
+  },
+  {
+   "act": "next",
+   "min": 5
+  }
+ ]
+}

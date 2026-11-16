@@ -1,0 +1,656 @@
+{
+ "id": "ch06",
+ "num": 6,
+ "title": "THE UNDERGROUND CITY",
+ "fps": 30,
+ "total": 3562,
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "cave",
+   "i": 0,
+   "start": 0,
+   "len": 135
+  },
+  {
+   "who": "narr",
+   "text": "Previously... the map of the island was stolen. And a mysterious figure vanished into a cave.",
+   "act": "recap",
+   "min": 8,
+   "i": 1,
+   "start": 135,
+   "audio": "b01_narr.mp3",
+   "voiceAt": 141,
+   "words": [
+    {
+     "w": "Previously",
+     "f": 144
+    },
+    {
+     "w": "the",
+     "f": 176
+    },
+    {
+     "w": "map",
+     "f": 180
+    },
+    {
+     "w": "of",
+     "f": 189
+    },
+    {
+     "w": "the",
+     "f": 193
+    },
+    {
+     "w": "island",
+     "f": 196
+    },
+    {
+     "w": "was",
+     "f": 210
+    },
+    {
+     "w": "stolen",
+     "f": 215
+    },
+    {
+     "w": "And",
+     "f": 261
+    },
+    {
+     "w": "a",
+     "f": 267
+    },
+    {
+     "w": "mysterious",
+     "f": 269
+    },
+    {
+     "w": "figure",
+     "f": 290
+    },
+    {
+     "w": "vanished",
+     "f": 300
+    },
+    {
+     "w": "into",
+     "f": 315
+    },
+    {
+     "w": "a",
+     "f": 323
+    },
+    {
+     "w": "cave",
+     "f": 326
+    }
+   ],
+   "voiceEnd": 372,
+   "len": 257
+  },
+  {
+   "who": "narr",
+   "text": "Following the strange tracks, the countries found a tunnel... leading deep beneath the island.",
+   "act": "descend",
+   "min": 10,
+   "i": 2,
+   "start": 392,
+   "audio": "b02_narr.mp3",
+   "voiceAt": 398,
+   "words": [
+    {
+     "w": "Following",
+     "f": 401
+    },
+    {
+     "w": "the",
+     "f": 418
+    },
+    {
+     "w": "strange",
+     "f": 422
+    },
+    {
+     "w": "tracks",
+     "f": 436
+    },
+    {
+     "w": "the",
+     "f": 459
+    },
+    {
+     "w": "countries",
+     "f": 463
+    },
+    {
+     "w": "found",
+     "f": 476
+    },
+    {
+     "w": "a",
+     "f": 485
+    },
+    {
+     "w": "tunnel",
+     "f": 487
+    },
+    {
+     "w": "leading",
+     "f": 509
+    },
+    {
+     "w": "deep",
+     "f": 520
+    },
+    {
+     "w": "beneath",
+     "f": 529
+    },
+    {
+     "w": "the",
+     "f": 541
+    },
+    {
+     "w": "island",
+     "f": 544
+    }
+   ],
+   "voiceEnd": 590,
+   "len": 375
+  },
+  {
+   "who": "kgz",
+   "text": "The footprints go all the way down.",
+   "emo": "wide",
+   "pose": "point",
+   "i": 3,
+   "start": 767,
+   "audio": "b03_kgz.mp3",
+   "voiceAt": 773,
+   "words": [
+    {
+     "w": "The",
+     "f": 777
+    },
+    {
+     "w": "footprints",
+     "f": 778
+    },
+    {
+     "w": "go",
+     "f": 793
+    },
+    {
+     "w": "all",
+     "f": 804
+    },
+    {
+     "w": "the",
+     "f": 810
+    },
+    {
+     "w": "way",
+     "f": 812
+    },
+    {
+     "w": "down",
+     "f": 818
+    }
+   ],
+   "voiceEnd": 841,
+   "len": 94
+  },
+  {
+   "who": "usa",
+   "text": "Great. A dark, scary tunnel. Love it.",
+   "emo": "smug",
+   "i": 4,
+   "start": 861,
+   "audio": "b04_usa.mp3",
+   "voiceAt": 867,
+   "words": [
+    {
+     "w": "Great",
+     "f": 870
+    },
+    {
+     "w": "A",
+     "f": 909
+    },
+    {
+     "w": "dark",
+     "f": 914
+    },
+    {
+     "w": "scary",
+     "f": 928
+    },
+    {
+     "w": "tunnel",
+     "f": 940
+    },
+    {
+     "w": "Love",
+     "f": 977
+    },
+    {
+     "w": "it",
+     "f": 987
+    }
+   ],
+   "voiceEnd": 1019,
+   "len": 178
+  },
+  {
+   "who": "narr",
+   "text": "There, they discovered an enormous underground city. Abandoned buildings. Strange computers. Maps of every country on Earth. And one giant central screen.",
+   "act": "reveal",
+   "set": "city",
+   "min": 15,
+   "i": 5,
+   "start": 1039,
+   "audio": "b05_narr.mp3",
+   "voiceAt": 1045,
+   "words": [
+    {
+     "w": "There",
+     "f": 1048
+    },
+    {
+     "w": "they",
+     "f": 1066
+    },
+    {
+     "w": "discovered",
+     "f": 1070
+    },
+    {
+     "w": "an",
+     "f": 1086
+    },
+    {
+     "w": "enormous",
+     "f": 1090
+    },
+    {
+     "w": "underground",
+     "f": 1106
+    },
+    {
+     "w": "city",
+     "f": 1124
+    },
+    {
+     "w": "Abandoned",
+     "f": 1166
+    },
+    {
+     "w": "buildings",
+     "f": 1187
+    },
+    {
+     "w": "Strange",
+     "f": 1235
+    },
+    {
+     "w": "computers",
+     "f": 1254
+    },
+    {
+     "w": "Maps",
+     "f": 1305
+    },
+    {
+     "w": "of",
+     "f": 1319
+    },
+    {
+     "w": "every",
+     "f": 1323
+    },
+    {
+     "w": "country",
+     "f": 1332
+    },
+    {
+     "w": "on",
+     "f": 1345
+    },
+    {
+     "w": "Earth",
+     "f": 1351
+    },
+    {
+     "w": "And",
+     "f": 1391
+    },
+    {
+     "w": "one",
+     "f": 1398
+    },
+    {
+     "w": "giant",
+     "f": 1407
+    },
+    {
+     "w": "central",
+     "f": 1420
+    },
+    {
+     "w": "screen",
+     "f": 1432
+    }
+   ],
+   "voiceEnd": 1477,
+   "len": 563
+  },
+  {
+   "who": "usa",
+   "text": "This place is bigger than we thought.",
+   "emo": "wide",
+   "i": 6,
+   "start": 1602,
+   "audio": "b06_usa.mp3",
+   "voiceAt": 1608,
+   "words": [
+    {
+     "w": "This place",
+     "f": 1611
+    },
+    {
+     "w": "is",
+     "f": 1625
+    },
+    {
+     "w": "bigger",
+     "f": 1630
+    },
+    {
+     "w": "than",
+     "f": 1640
+    },
+    {
+     "w": "we",
+     "f": 1645
+    },
+    {
+     "w": "thought",
+     "f": 1648
+    }
+   ],
+   "voiceEnd": 1686,
+   "len": 104
+  },
+  {
+   "who": "rus",
+   "text": "Someone planned all of this.",
+   "emo": "smug",
+   "i": 7,
+   "start": 1706,
+   "audio": "b07_rus.mp3",
+   "voiceAt": 1712,
+   "words": [
+    {
+     "w": "Someone",
+     "f": 1715
+    },
+    {
+     "w": "planned",
+     "f": 1731
+    },
+    {
+     "w": "all",
+     "f": 1744
+    },
+    {
+     "w": "of",
+     "f": 1751
+    },
+    {
+     "w": "this",
+     "f": 1754
+    }
+   ],
+   "voiceEnd": 1798,
+   "len": 112
+  },
+  {
+   "who": "ger",
+   "text": "These computers are decades old.",
+   "emo": "wide",
+   "i": 8,
+   "start": 1818,
+   "audio": "b08_ger.mp3",
+   "voiceAt": 1824,
+   "words": [
+    {
+     "w": "These",
+     "f": 1827
+    },
+    {
+     "w": "computers",
+     "f": 1834
+    },
+    {
+     "w": "are",
+     "f": 1850
+    },
+    {
+     "w": "decades",
+     "f": 1854
+    },
+    {
+     "w": "old",
+     "f": 1869
+    }
+   ],
+   "voiceEnd": 1909,
+   "len": 111
+  },
+  {
+   "who": "fra",
+   "text": "And there's no cafe. Of course.",
+   "emo": "smug",
+   "i": 9,
+   "start": 1929,
+   "audio": "b09_fra.mp3",
+   "voiceAt": 1935,
+   "words": [
+    {
+     "w": "And",
+     "f": 1938
+    },
+    {
+     "w": "there's",
+     "f": 1942
+    },
+    {
+     "w": "no",
+     "f": 1948
+    },
+    {
+     "w": "cafe",
+     "f": 1954
+    },
+    {
+     "w": "Of",
+     "f": 1996
+    },
+    {
+     "w": "course",
+     "f": 2000
+    }
+   ],
+   "voiceEnd": 2039,
+   "len": 130
+  },
+  {
+   "who": "jpn",
+   "text": "Look at the screen!",
+   "emo": "wide",
+   "pose": "point",
+   "i": 10,
+   "start": 2059,
+   "audio": "b10_jpn.mp3",
+   "voiceAt": 2065,
+   "words": [
+    {
+     "w": "Look",
+     "f": 2068
+    },
+    {
+     "w": "at",
+     "f": 2074
+    },
+    {
+     "w": "the",
+     "f": 2077
+    },
+    {
+     "w": "screen",
+     "f": 2080
+    }
+   ],
+   "voiceEnd": 2119,
+   "len": 80
+  },
+  {
+   "act": "timer",
+   "min": 7,
+   "screen": "48:00:00",
+   "i": 11,
+   "start": 2139,
+   "len": 294
+  },
+  {
+   "who": "kgz",
+   "text": "Wait... what happens when the timer reaches zero?",
+   "emo": "wide",
+   "i": 12,
+   "start": 2433,
+   "audio": "b12_kgz.mp3",
+   "voiceAt": 2439,
+   "words": [
+    {
+     "w": "Wait",
+     "f": 2443
+    },
+    {
+     "w": "what",
+     "f": 2462
+    },
+    {
+     "w": "happens",
+     "f": 2466
+    },
+    {
+     "w": "when",
+     "f": 2478
+    },
+    {
+     "w": "the",
+     "f": 2482
+    },
+    {
+     "w": "timer",
+     "f": 2485
+    },
+    {
+     "w": "reaches",
+     "f": 2496
+    },
+    {
+     "w": "zero",
+     "f": 2505
+    }
+   ],
+   "voiceEnd": 2531,
+   "len": 118
+  },
+  {
+   "act": "disappear",
+   "min": 7,
+   "screen": "THE ISLAND WILL DISAPPEAR.",
+   "i": 13,
+   "start": 2551,
+   "len": 294
+  },
+  {
+   "act": "panic",
+   "min": 9,
+   "i": 14,
+   "start": 2845,
+   "len": 378
+  },
+  {
+   "who": "uk",
+   "text": "Everybody, PLEASE stay calm!",
+   "emo": "wide",
+   "pose": "up",
+   "i": 15,
+   "start": 3223,
+   "audio": "b15_uk.mp3",
+   "voiceAt": 3229,
+   "words": [
+    {
+     "w": "Everybody",
+     "f": 3232
+    },
+    {
+     "w": "PLEASE",
+     "f": 3255
+    },
+    {
+     "w": "stay",
+     "f": 3264
+    },
+    {
+     "w": "calm",
+     "f": 3272
+    }
+   ],
+   "voiceEnd": 3314,
+   "len": 111
+  },
+  {
+   "who": "ita",
+   "text": "WE'RE ALL GONNA DISAPPEAR!",
+   "emo": "shock",
+   "pose": "up",
+   "i": 16,
+   "start": 3334,
+   "audio": "b16_ita.mp3",
+   "voiceAt": 3340,
+   "words": [
+    {
+     "w": "WE'RE",
+     "f": 3342
+    },
+    {
+     "w": "ALL",
+     "f": 3347
+    },
+    {
+     "w": "GONNA",
+     "f": 3354
+    },
+    {
+     "w": "DISAPPEAR",
+     "f": 3361
+    }
+   ],
+   "voiceEnd": 3392,
+   "len": 78
+  },
+  {
+   "act": "next",
+   "min": 5,
+   "i": 17,
+   "start": 3412,
+   "len": 150
+  }
+ ]
+}

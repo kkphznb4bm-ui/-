@@ -1,0 +1,148 @@
+{
+ "id": "ch04",
+ "num": 4,
+ "title": "THE SECRET IN THE FOREST",
+ "next": "THE GREAT BETRAYAL",
+ "places": {
+  "forest": {
+   "jpn": 900,
+   "kgz": 1200,
+   "ger": 1500
+  },
+  "lab": {
+   "jpn": 900,
+   "kgz": 1200,
+   "ger": 1500
+  }
+ },
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "forest",
+   "tod": 3
+  },
+  {
+   "who": "narr",
+   "text": "Previously... a storm destroyed every house on the island. Except one. And a strange light appeared in the forest.",
+   "act": "recap",
+   "min": 8
+  },
+  {
+   "who": "narr",
+   "text": "Japan, Kyrgyzstan and Germany went to investigate.",
+   "act": "walk",
+   "min": 8,
+   "move": {
+    "jpn": [
+     -300,
+     900
+    ],
+    "kgz": [
+     -600,
+     1200
+    ],
+    "ger": [
+     -900,
+     1500
+    ]
+   }
+  },
+  {
+   "who": "jpn",
+   "text": "It's so dark in here...",
+   "emo": "wide"
+  },
+  {
+   "who": "ger",
+   "text": "Stay close. And watch your step.",
+   "pose": "point"
+  },
+  {
+   "who": "narr",
+   "text": "Deep in the jungle, hidden under the vines, they found an old laboratory.",
+   "act": "lab-found",
+   "min": 9
+  },
+  {
+   "act": "lab-enter",
+   "min": 5,
+   "set": "lab"
+  },
+  {
+   "act": "map",
+   "min": 5
+  },
+  {
+   "who": "kgz",
+   "text": "This place must be very old.",
+   "emo": "wide"
+  },
+  {
+   "who": "ger",
+   "text": "Wait... this island is not natural.",
+   "emo": "wide"
+  },
+  {
+   "who": "jpn",
+   "text": "Look at these symbols.",
+   "pose": "point"
+  },
+  {
+   "who": "kgz",
+   "text": "There's something written here.",
+   "pose": "point"
+  },
+  {
+   "act": "message",
+   "min": 8
+  },
+  {
+   "who": "jpn",
+   "text": "Who built this place?",
+   "emo": "wide"
+  },
+  {
+   "act": "screen-on",
+   "min": 3
+  },
+  {
+   "who": "voice",
+   "text": "Welcome, countries. Your cooperation will determine your future.",
+   "act": "screen-talk"
+  },
+  {
+   "act": "lights-off",
+   "min": 3.5
+  },
+  {
+   "act": "exit",
+   "min": 6,
+   "set": "forest",
+   "move": {
+    "jpn": [
+     1500,
+     2300
+    ],
+    "kgz": [
+     1250,
+     2050
+    ],
+    "ger": [
+     1000,
+     1800
+    ]
+   }
+  },
+  {
+   "who": "narr",
+   "text": "As they left, none of them noticed... that someone was watching.",
+   "act": "watched",
+   "min": 8
+  },
+  {
+   "act": "next",
+   "min": 5
+  }
+ ]
+}

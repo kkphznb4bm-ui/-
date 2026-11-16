@@ -1,0 +1,128 @@
+{
+ "id": "ch06",
+ "num": 6,
+ "title": "THE UNDERGROUND CITY",
+ "next": "THE FINAL PLAN",
+ "places": {
+  "cave": {
+   "uk": 420,
+   "fra": 700,
+   "usa": 980,
+   "rus": 1260,
+   "chn": 1540,
+   "jpn": 1820,
+   "ger": 2100,
+   "kgz": 2380,
+   "ita": 2660
+  },
+  "city": {
+   "uk": 420,
+   "fra": 700,
+   "usa": 980,
+   "rus": 1260,
+   "chn": 1540,
+   "jpn": 1820,
+   "ger": 2100,
+   "kgz": 2380,
+   "ita": 2660
+  }
+ },
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "cave"
+  },
+  {
+   "who": "narr",
+   "text": "Previously... the map of the island was stolen. And a mysterious figure vanished into a cave.",
+   "act": "recap",
+   "min": 8
+  },
+  {
+   "who": "narr",
+   "text": "Following the strange tracks, the countries found a tunnel... leading deep beneath the island.",
+   "act": "descend",
+   "min": 10
+  },
+  {
+   "who": "kgz",
+   "text": "The footprints go all the way down.",
+   "emo": "wide",
+   "pose": "point"
+  },
+  {
+   "who": "usa",
+   "text": "Great. A dark, scary tunnel. Love it.",
+   "emo": "smug"
+  },
+  {
+   "who": "narr",
+   "text": "There, they discovered an enormous underground city. Abandoned buildings. Strange computers. Maps of every country on Earth. And one giant central screen.",
+   "act": "reveal",
+   "set": "city",
+   "min": 15
+  },
+  {
+   "who": "usa",
+   "text": "This place is bigger than we thought.",
+   "emo": "wide"
+  },
+  {
+   "who": "rus",
+   "text": "Someone planned all of this.",
+   "emo": "smug"
+  },
+  {
+   "who": "ger",
+   "text": "These computers are decades old.",
+   "emo": "wide"
+  },
+  {
+   "who": "fra",
+   "text": "And there's no cafe. Of course.",
+   "emo": "smug"
+  },
+  {
+   "who": "jpn",
+   "text": "Look at the screen!",
+   "emo": "wide",
+   "pose": "point"
+  },
+  {
+   "act": "timer",
+   "min": 7,
+   "screen": "48:00:00"
+  },
+  {
+   "who": "kgz",
+   "text": "Wait... what happens when the timer reaches zero?",
+   "emo": "wide"
+  },
+  {
+   "act": "disappear",
+   "min": 7,
+   "screen": "THE ISLAND WILL DISAPPEAR."
+  },
+  {
+   "act": "panic",
+   "min": 9
+  },
+  {
+   "who": "uk",
+   "text": "Everybody, PLEASE stay calm!",
+   "emo": "wide",
+   "pose": "up"
+  },
+  {
+   "who": "ita",
+   "text": "WE'RE ALL GONNA DISAPPEAR!",
+   "emo": "shock",
+   "pose": "up"
+  },
+  {
+   "act": "next",
+   "min": 5
+  }
+ ]
+}

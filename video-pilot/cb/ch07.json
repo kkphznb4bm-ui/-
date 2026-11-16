@@ -1,0 +1,124 @@
+{
+ "id": "ch07",
+ "num": 7,
+ "title": "THE FINAL PLAN",
+ "next": "THE VOLCANO",
+ "places": {
+  "city": {
+   "uk": 420,
+   "fra": 700,
+   "usa": 980,
+   "rus": 1260,
+   "chn": 1540,
+   "jpn": 1820,
+   "ger": 2100,
+   "kgz": 2380,
+   "ita": 2660
+  }
+ },
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "city",
+   "screen": "47:12:09"
+  },
+  {
+   "who": "narr",
+   "text": "Previously... the countries found an underground city. And a countdown: forty-eight hours until the island disappears.",
+   "act": "recap",
+   "min": 8
+  },
+  {
+   "who": "ger",
+   "text": "We need a plan. Immediately.",
+   "pose": "point"
+  },
+  {
+   "who": "chn",
+   "text": "I can repair the computer.",
+   "emo": "smug"
+  },
+  {
+   "who": "jpn",
+   "text": "I can help with the technology.",
+   "emo": "happy"
+  },
+  {
+   "who": "usa",
+   "text": "I'll organize everyone.",
+   "pose": "wave"
+  },
+  {
+   "who": "rus",
+   "text": "I'll help move the equipment.",
+   "pose": "flex"
+  },
+  {
+   "who": "kgz",
+   "text": "I found another entrance!",
+   "emo": "wide",
+   "pose": "wave"
+  },
+  {
+   "who": "uk",
+   "text": "And I'll make the tea.",
+   "emo": "happy"
+  },
+  {
+   "who": "fra",
+   "text": "And we will cook. Nobody saves the world on an empty stomach.",
+   "emo": "happy"
+  },
+  {
+   "who": "ita",
+   "text": "Pizza for everyone!",
+   "emo": "happy",
+   "pose": "up"
+  },
+  {
+   "who": "narr",
+   "text": "For the first time, the countries started working together.",
+   "act": "teamwork",
+   "min": 14
+  },
+  {
+   "who": "narr",
+   "text": "Together, they discovered that the central computer needed three keys to start.",
+   "act": "keys",
+   "min": 11
+  },
+  {
+   "who": "chn",
+   "text": "Key number one: found.",
+   "emo": "smug",
+   "act": "keys"
+  },
+  {
+   "who": "jpn",
+   "text": "Key number two: found!",
+   "emo": "happy",
+   "act": "keys"
+  },
+  {
+   "who": "narr",
+   "text": "Two keys were found quickly. But the last one was hidden in the most dangerous place on the island... deep inside the volcano.",
+   "act": "volcano-key",
+   "min": 13
+  },
+  {
+   "who": "usa",
+   "text": "Of course it's in a volcano.",
+   "emo": "smug"
+  },
+  {
+   "who": "rus",
+   "text": "It's always a volcano.",
+   "emo": "smug"
+  },
+  {
+   "act": "next",
+   "min": 5
+  }
+ ]
+}

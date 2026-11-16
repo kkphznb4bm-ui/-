@@ -1,0 +1,801 @@
+{
+ "id": "ch02",
+ "num": 2,
+ "title": "WHO WILL RULE THE ISLAND?",
+ "fps": 30,
+ "total": 4268,
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "beach",
+   "tod": 1,
+   "i": 0,
+   "start": 0,
+   "len": 135
+  },
+  {
+   "who": "narr",
+   "text": "Previously... every country woke up on a mysterious island. And a message on the cliff gave them only thirty days.",
+   "act": "recap",
+   "min": 8,
+   "i": 1,
+   "start": 135,
+   "audio": "b01_narr.mp3",
+   "voiceAt": 141,
+   "words": [
+    {
+     "w": "Previously",
+     "f": 144
+    },
+    {
+     "w": "every",
+     "f": 176
+    },
+    {
+     "w": "country",
+     "f": 186
+    },
+    {
+     "w": "woke",
+     "f": 199
+    },
+    {
+     "w": "up",
+     "f": 208
+    },
+    {
+     "w": "on",
+     "f": 214
+    },
+    {
+     "w": "a",
+     "f": 218
+    },
+    {
+     "w": "mysterious",
+     "f": 219
+    },
+    {
+     "w": "island",
+     "f": 239
+    },
+    {
+     "w": "And",
+     "f": 284
+    },
+    {
+     "w": "a",
+     "f": 290
+    },
+    {
+     "w": "message",
+     "f": 291
+    },
+    {
+     "w": "on",
+     "f": 305
+    },
+    {
+     "w": "the",
+     "f": 308
+    },
+    {
+     "w": "cliff",
+     "f": 311
+    },
+    {
+     "w": "gave",
+     "f": 324
+    },
+    {
+     "w": "them",
+     "f": 331
+    },
+    {
+     "w": "only",
+     "f": 336
+    },
+    {
+     "w": "thirty",
+     "f": 344
+    },
+    {
+     "w": "days",
+     "f": 355
+    }
+   ],
+   "voiceEnd": 401,
+   "len": 286
+  },
+  {
+   "who": "narr",
+   "text": "After the shock wore off, the countries agreed on one thing: the island needed a temporary government.",
+   "cam": "group",
+   "min": 8,
+   "i": 2,
+   "start": 421,
+   "audio": "b02_narr.mp3",
+   "voiceAt": 427,
+   "words": [
+    {
+     "w": "After",
+     "f": 430
+    },
+    {
+     "w": "the",
+     "f": 441
+    },
+    {
+     "w": "shock",
+     "f": 444
+    },
+    {
+     "w": "wore",
+     "f": 457
+    },
+    {
+     "w": "off",
+     "f": 466
+    },
+    {
+     "w": "the",
+     "f": 484
+    },
+    {
+     "w": "countries",
+     "f": 488
+    },
+    {
+     "w": "agreed",
+     "f": 502
+    },
+    {
+     "w": "on",
+     "f": 514
+    },
+    {
+     "w": "one",
+     "f": 519
+    },
+    {
+     "w": "thing",
+     "f": 527
+    },
+    {
+     "w": "the",
+     "f": 547
+    },
+    {
+     "w": "island",
+     "f": 552
+    },
+    {
+     "w": "needed",
+     "f": 565
+    },
+    {
+     "w": "a",
+     "f": 574
+    },
+    {
+     "w": "temporary",
+     "f": 577
+    },
+    {
+     "w": "government",
+     "f": 594
+    }
+   ],
+   "voiceEnd": 641,
+   "len": 240
+  },
+  {
+   "who": "usa",
+   "text": "I should be the president!",
+   "emo": "happy",
+   "pose": "flex",
+   "i": 3,
+   "start": 661,
+   "audio": "b03_usa.mp3",
+   "voiceAt": 667,
+   "words": [
+    {
+     "w": "I",
+     "f": 670
+    },
+    {
+     "w": "should",
+     "f": 675
+    },
+    {
+     "w": "be",
+     "f": 684
+    },
+    {
+     "w": "the",
+     "f": 687
+    },
+    {
+     "w": "president",
+     "f": 691
+    }
+   ],
+   "voiceEnd": 733,
+   "len": 92
+  },
+  {
+   "who": "chn",
+   "text": "Absolutely not. We need a system.",
+   "emo": "smug",
+   "pose": "point",
+   "i": 4,
+   "start": 753,
+   "audio": "b04_chn.mp3",
+   "voiceAt": 759,
+   "words": [
+    {
+     "w": "Absolutely",
+     "f": 762
+    },
+    {
+     "w": "not",
+     "f": 785
+    },
+    {
+     "w": "We",
+     "f": 825
+    },
+    {
+     "w": "need",
+     "f": 832
+    },
+    {
+     "w": "a",
+     "f": 839
+    },
+    {
+     "w": "system",
+     "f": 841
+    }
+   ],
+   "voiceEnd": 886,
+   "len": 153
+  },
+  {
+   "who": "rus",
+   "text": "Maybe we need someone who knows how to survive in difficult conditions.",
+   "emo": "smug",
+   "i": 5,
+   "start": 906,
+   "audio": "b05_rus.mp3",
+   "voiceAt": 912,
+   "words": [
+    {
+     "w": "Maybe",
+     "f": 915
+    },
+    {
+     "w": "we",
+     "f": 927
+    },
+    {
+     "w": "need",
+     "f": 931
+    },
+    {
+     "w": "someone",
+     "f": 938
+    },
+    {
+     "w": "who",
+     "f": 950
+    },
+    {
+     "w": "knows",
+     "f": 955
+    },
+    {
+     "w": "how",
+     "f": 965
+    },
+    {
+     "w": "to",
+     "f": 969
+    },
+    {
+     "w": "survive",
+     "f": 972
+    },
+    {
+     "w": "in",
+     "f": 990
+    },
+    {
+     "w": "difficult",
+     "f": 994
+    },
+    {
+     "w": "conditions",
+     "f": 1009
+    }
+   ],
+   "voiceEnd": 1063,
+   "len": 177
+  },
+  {
+   "who": "uk",
+   "text": "Can we please have a civilized discussion?",
+   "pose": "shrug",
+   "i": 6,
+   "start": 1083,
+   "audio": "b06_uk.mp3",
+   "voiceAt": 1089,
+   "words": [
+    {
+     "w": "Can",
+     "f": 1092
+    },
+    {
+     "w": "we",
+     "f": 1096
+    },
+    {
+     "w": "please",
+     "f": 1100
+    },
+    {
+     "w": "have",
+     "f": 1110
+    },
+    {
+     "w": "a",
+     "f": 1115
+    },
+    {
+     "w": "civilized",
+     "f": 1117
+    },
+    {
+     "w": "discussion",
+     "f": 1135
+    }
+   ],
+   "voiceEnd": 1179,
+   "len": 116
+  },
+  {
+   "who": "fra",
+   "text": "First, we need good food.",
+   "emo": "happy",
+   "i": 7,
+   "start": 1199,
+   "audio": "b07_fra.mp3",
+   "voiceAt": 1205,
+   "words": [
+    {
+     "w": "First",
+     "f": 1208
+    },
+    {
+     "w": "we",
+     "f": 1226
+    },
+    {
+     "w": "need",
+     "f": 1230
+    },
+    {
+     "w": "good",
+     "f": 1236
+    },
+    {
+     "w": "food",
+     "f": 1241
+    }
+   ],
+   "voiceEnd": 1279,
+   "len": 100
+  },
+  {
+   "who": "ita",
+   "text": "FINALLY! Someone understands!",
+   "emo": "happy",
+   "pose": "up",
+   "i": 8,
+   "start": 1299,
+   "audio": "b08_ita.mp3",
+   "voiceAt": 1305,
+   "words": [
+    {
+     "w": "FINALLY",
+     "f": 1307
+    },
+    {
+     "w": "Someone",
+     "f": 1333
+    },
+    {
+     "w": "understands",
+     "f": 1345
+    }
+   ],
+   "voiceEnd": 1380,
+   "len": 101
+  },
+  {
+   "who": "ger",
+   "text": "Food can wait. First, we need rules. Lots of rules.",
+   "emo": "smug",
+   "pose": "point",
+   "i": 9,
+   "start": 1400,
+   "audio": "b09_ger.mp3",
+   "voiceAt": 1406,
+   "words": [
+    {
+     "w": "Food",
+     "f": 1409
+    },
+    {
+     "w": "can",
+     "f": 1419
+    },
+    {
+     "w": "wait",
+     "f": 1424
+    },
+    {
+     "w": "First",
+     "f": 1458
+    },
+    {
+     "w": "we",
+     "f": 1474
+    },
+    {
+     "w": "need",
+     "f": 1478
+    },
+    {
+     "w": "rules",
+     "f": 1485
+    },
+    {
+     "w": "Lots",
+     "f": 1522
+    },
+    {
+     "w": "of",
+     "f": 1533
+    },
+    {
+     "w": "rules",
+     "f": 1537
+    }
+   ],
+   "voiceEnd": 1580,
+   "len": 200
+  },
+  {
+   "who": "uk",
+   "text": "And tea. Rules... and tea.",
+   "emo": "happy",
+   "i": 10,
+   "start": 1600,
+   "audio": "b10_uk.mp3",
+   "voiceAt": 1606,
+   "words": [
+    {
+     "w": "And",
+     "f": 1609
+    },
+    {
+     "w": "tea",
+     "f": 1615
+    },
+    {
+     "w": "Rules",
+     "f": 1653
+    },
+    {
+     "w": "and",
+     "f": 1673
+    },
+    {
+     "w": "tea",
+     "f": 1678
+    }
+   ],
+   "voiceEnd": 1720,
+   "len": 140
+  },
+  {
+   "who": "narr",
+   "text": "And so, the very first island election began.",
+   "act": "ballot",
+   "min": 8,
+   "i": 11,
+   "start": 1740,
+   "audio": "b11_narr.mp3",
+   "voiceAt": 1746,
+   "words": [
+    {
+     "w": "And",
+     "f": 1749
+    },
+    {
+     "w": "so",
+     "f": 1756
+    },
+    {
+     "w": "the",
+     "f": 1775
+    },
+    {
+     "w": "very",
+     "f": 1778
+    },
+    {
+     "w": "first",
+     "f": 1788
+    },
+    {
+     "w": "island",
+     "f": 1800
+    },
+    {
+     "w": "election",
+     "f": 1811
+    },
+    {
+     "w": "began",
+     "f": 1826
+    }
+   ],
+   "voiceEnd": 1870,
+   "len": 300
+  },
+  {
+   "who": "narr",
+   "text": "The results were in. Three votes for the USA. Three for Russia. Three for China. And one vote... for Kyrgyzstan.",
+   "act": "tally",
+   "min": 12,
+   "i": 12,
+   "start": 2040,
+   "audio": "b12_narr.mp3",
+   "voiceAt": 2046,
+   "words": [
+    {
+     "w": "The",
+     "f": 2049
+    },
+    {
+     "w": "results",
+     "f": 2053
+    },
+    {
+     "w": "were",
+     "f": 2069
+    },
+    {
+     "w": "in",
+     "f": 2074
+    },
+    {
+     "w": "Three",
+     "f": 2112
+    },
+    {
+     "w": "votes",
+     "f": 2123
+    },
+    {
+     "w": "for",
+     "f": 2136
+    },
+    {
+     "w": "the",
+     "f": 2141
+    },
+    {
+     "w": "USA",
+     "f": 2143
+    },
+    {
+     "w": "Three",
+     "f": 2194
+    },
+    {
+     "w": "for",
+     "f": 2206
+    },
+    {
+     "w": "Russia",
+     "f": 2214
+    },
+    {
+     "w": "Three",
+     "f": 2257
+    },
+    {
+     "w": "for",
+     "f": 2269
+    },
+    {
+     "w": "China",
+     "f": 2275
+    },
+    {
+     "w": "And",
+     "f": 2319
+    },
+    {
+     "w": "one",
+     "f": 2326
+    },
+    {
+     "w": "vote",
+     "f": 2335
+    },
+    {
+     "w": "for",
+     "f": 2354
+    },
+    {
+     "w": "Kyrgyzstan",
+     "f": 2361
+    }
+   ],
+   "voiceEnd": 2413,
+   "len": 450
+  },
+  {
+   "who": "kgz",
+   "text": "Wait... WHO voted for me?",
+   "emo": "wide",
+   "pose": "shrug",
+   "i": 13,
+   "start": 2490,
+   "audio": "b13_kgz.mp3",
+   "voiceAt": 2496,
+   "words": [
+    {
+     "w": "Wait",
+     "f": 2499
+    },
+    {
+     "w": "WHO",
+     "f": 2521
+    },
+    {
+     "w": "voted",
+     "f": 2524
+    },
+    {
+     "w": "for",
+     "f": 2532
+    },
+    {
+     "w": "me",
+     "f": 2537
+    }
+   ],
+   "voiceEnd": 2554,
+   "len": 84
+  },
+  {
+   "act": "flashback",
+   "min": 7,
+   "i": 14,
+   "start": 2574,
+   "len": 294
+  },
+  {
+   "act": "laugh",
+   "min": 6,
+   "i": 15,
+   "start": 2868,
+   "len": 252
+  },
+  {
+   "who": "usa",
+   "text": "Okay, okay. I demand a recount!",
+   "emo": "angry",
+   "pose": "up",
+   "i": 16,
+   "start": 3120,
+   "audio": "b16_usa.mp3",
+   "voiceAt": 3126,
+   "words": [
+    {
+     "w": "Okay",
+     "f": 3129
+    },
+    {
+     "w": "okay",
+     "f": 3145
+    },
+    {
+     "w": "I",
+     "f": 3182
+    },
+    {
+     "w": "demand",
+     "f": 3187
+    },
+    {
+     "w": "a",
+     "f": 3200
+    },
+    {
+     "w": "recount",
+     "f": 3202
+    }
+   ],
+   "voiceEnd": 3245,
+   "len": 145
+  },
+  {
+   "who": "chn",
+   "text": "There will be no recount.",
+   "emo": "smug",
+   "i": 17,
+   "start": 3265,
+   "audio": "b17_chn.mp3",
+   "voiceAt": 3271,
+   "words": [
+    {
+     "w": "There",
+     "f": 3274
+    },
+    {
+     "w": "will",
+     "f": 3280
+    },
+    {
+     "w": "be",
+     "f": 3285
+    },
+    {
+     "w": "no",
+     "f": 3289
+    },
+    {
+     "w": "recount",
+     "f": 3296
+    }
+   ],
+   "voiceEnd": 3342,
+   "len": 97
+  },
+  {
+   "act": "quake",
+   "min": 5,
+   "i": 18,
+   "start": 3362,
+   "len": 210
+  },
+  {
+   "act": "door",
+   "min": 9,
+   "i": 19,
+   "start": 3572,
+   "len": 378
+  },
+  {
+   "act": "shock",
+   "min": 4,
+   "i": 20,
+   "start": 3950,
+   "len": 168
+  },
+  {
+   "act": "next",
+   "min": 5,
+   "i": 21,
+   "start": 4118,
+   "len": 150
+  }
+ ]
+}

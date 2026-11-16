@@ -1,0 +1,624 @@
+{
+ "id": "ch05",
+ "num": 5,
+ "title": "THE GREAT BETRAYAL",
+ "fps": 30,
+ "total": 3608,
+ "beats": [
+  {
+   "act": "title",
+   "min": 4.5,
+   "set": "beach",
+   "tod": 1,
+   "i": 0,
+   "start": 0,
+   "len": 135
+  },
+  {
+   "who": "narr",
+   "text": "Previously... three countries discovered a secret laboratory. And a voice said their cooperation would decide their future.",
+   "act": "recap",
+   "min": 8,
+   "i": 1,
+   "start": 135,
+   "audio": "b01_narr.mp3",
+   "voiceAt": 141,
+   "words": [
+    {
+     "w": "Previously",
+     "f": 144
+    },
+    {
+     "w": "three",
+     "f": 176
+    },
+    {
+     "w": "countries",
+     "f": 185
+    },
+    {
+     "w": "discovered",
+     "f": 199
+    },
+    {
+     "w": "a",
+     "f": 214
+    },
+    {
+     "w": "secret",
+     "f": 217
+    },
+    {
+     "w": "laboratory",
+     "f": 231
+    },
+    {
+     "w": "And",
+     "f": 281
+    },
+    {
+     "w": "a",
+     "f": 287
+    },
+    {
+     "w": "voice",
+     "f": 289
+    },
+    {
+     "w": "said",
+     "f": 303
+    },
+    {
+     "w": "their",
+     "f": 309
+    },
+    {
+     "w": "cooperation",
+     "f": 314
+    },
+    {
+     "w": "would",
+     "f": 341
+    },
+    {
+     "w": "decide",
+     "f": 345
+    },
+    {
+     "w": "their",
+     "f": 359
+    },
+    {
+     "w": "future",
+     "f": 364
+    }
+   ],
+   "voiceEnd": 409,
+   "len": 294
+  },
+  {
+   "who": "narr",
+   "text": "The next morning, news about the laboratory spread fast.",
+   "act": "camp",
+   "min": 6,
+   "i": 2,
+   "start": 429,
+   "audio": "b02_narr.mp3",
+   "voiceAt": 435,
+   "words": [
+    {
+     "w": "The",
+     "f": 438
+    },
+    {
+     "w": "next",
+     "f": 442
+    },
+    {
+     "w": "morning",
+     "f": 452
+    },
+    {
+     "w": "news",
+     "f": 472
+    },
+    {
+     "w": "about",
+     "f": 482
+    },
+    {
+     "w": "the",
+     "f": 490
+    },
+    {
+     "w": "laboratory",
+     "f": 493
+    },
+    {
+     "w": "spread",
+     "f": 513
+    },
+    {
+     "w": "fast",
+     "f": 523
+    }
+   ],
+   "voiceEnd": 569,
+   "len": 225
+  },
+  {
+   "who": "usa",
+   "text": "You found a secret lab? Show me. NOW!",
+   "emo": "angry",
+   "pose": "point",
+   "i": 3,
+   "start": 654,
+   "audio": "b03_usa.mp3",
+   "voiceAt": 660,
+   "words": [
+    {
+     "w": "You",
+     "f": 663
+    },
+    {
+     "w": "found",
+     "f": 668
+    },
+    {
+     "w": "a",
+     "f": 676
+    },
+    {
+     "w": "secret",
+     "f": 678
+    },
+    {
+     "w": "lab",
+     "f": 690
+    },
+    {
+     "w": "Show",
+     "f": 724
+    },
+    {
+     "w": "me",
+     "f": 733
+    },
+    {
+     "w": "NOW",
+     "f": 768
+    }
+   ],
+   "voiceEnd": 808,
+   "len": 174
+  },
+  {
+   "who": "rus",
+   "text": "Why didn't you tell everyone?",
+   "emo": "angry",
+   "i": 4,
+   "start": 828,
+   "audio": "b04_rus.mp3",
+   "voiceAt": 834,
+   "words": [
+    {
+     "w": "Why",
+     "f": 837
+    },
+    {
+     "w": "didn't",
+     "f": 845
+    },
+    {
+     "w": "you",
+     "f": 852
+    },
+    {
+     "w": "tell",
+     "f": 856
+    },
+    {
+     "w": "everyone",
+     "f": 866
+    }
+   ],
+   "voiceEnd": 912,
+   "len": 104
+  },
+  {
+   "who": "ger",
+   "text": "We wanted to understand what we found first.",
+   "pose": "shrug",
+   "i": 5,
+   "start": 932,
+   "audio": "b05_ger.mp3",
+   "voiceAt": 938,
+   "words": [
+    {
+     "w": "We",
+     "f": 941
+    },
+    {
+     "w": "wanted",
+     "f": 945
+    },
+    {
+     "w": "to",
+     "f": 956
+    },
+    {
+     "w": "understand",
+     "f": 960
+    },
+    {
+     "w": "what",
+     "f": 979
+    },
+    {
+     "w": "we",
+     "f": 984
+    },
+    {
+     "w": "found",
+     "f": 988
+    },
+    {
+     "w": "first",
+     "f": 997
+    }
+   ],
+   "voiceEnd": 1043,
+   "len": 131
+  },
+  {
+   "who": "usa",
+   "text": "Or maybe you're hiding something!",
+   "emo": "angry",
+   "pose": "point",
+   "i": 6,
+   "start": 1063,
+   "audio": "b06_usa.mp3",
+   "voiceAt": 1069,
+   "words": [
+    {
+     "w": "Or",
+     "f": 1072
+    },
+    {
+     "w": "maybe",
+     "f": 1078
+    },
+    {
+     "w": "you're",
+     "f": 1086
+    },
+    {
+     "w": "hiding",
+     "f": 1091
+    },
+    {
+     "w": "something",
+     "f": 1102
+    }
+   ],
+   "voiceEnd": 1139,
+   "len": 96
+  },
+  {
+   "act": "argue",
+   "min": 8,
+   "i": 7,
+   "start": 1159,
+   "len": 336
+  },
+  {
+   "who": "fra",
+   "text": "This is ridiculous!",
+   "emo": "angry",
+   "pose": "hips",
+   "i": 8,
+   "start": 1495,
+   "audio": "b08_fra.mp3",
+   "voiceAt": 1501,
+   "words": [
+    {
+     "w": "This",
+     "f": 1504
+    },
+    {
+     "w": "is",
+     "f": 1510
+    },
+    {
+     "w": "ridiculous",
+     "f": 1513
+    }
+   ],
+   "voiceEnd": 1558,
+   "len": 83
+  },
+  {
+   "who": "uk",
+   "text": "Gentlemen, PLEASE!",
+   "emo": "wide",
+   "pose": "up",
+   "i": 9,
+   "start": 1578,
+   "audio": "b09_uk.mp3",
+   "voiceAt": 1584,
+   "words": [
+    {
+     "w": "Gentlemen",
+     "f": 1587
+    },
+    {
+     "w": "PLEASE",
+     "f": 1611
+    }
+   ],
+   "voiceEnd": 1655,
+   "len": 97
+  },
+  {
+   "who": "chn",
+   "text": "Stop! Fighting won't help us.",
+   "emo": "angry",
+   "pose": "up",
+   "i": 10,
+   "start": 1675,
+   "audio": "b10_chn.mp3",
+   "voiceAt": 1681,
+   "words": [
+    {
+     "w": "Stop",
+     "f": 1684
+    },
+    {
+     "w": "Fighting",
+     "f": 1729
+    },
+    {
+     "w": "won't",
+     "f": 1745
+    },
+    {
+     "w": "help",
+     "f": 1752
+    },
+    {
+     "w": "us",
+     "f": 1760
+    }
+   ],
+   "voiceEnd": 1797,
+   "len": 142
+  },
+  {
+   "who": "narr",
+   "text": "And at that exact moment... the map of the island disappeared.",
+   "act": "map-gone",
+   "min": 8,
+   "i": 11,
+   "start": 1817,
+   "audio": "b11_narr.mp3",
+   "voiceAt": 1823,
+   "words": [
+    {
+     "w": "And",
+     "f": 1826
+    },
+    {
+     "w": "at",
+     "f": 1832
+    },
+    {
+     "w": "that",
+     "f": 1837
+    },
+    {
+     "w": "exact",
+     "f": 1842
+    },
+    {
+     "w": "moment",
+     "f": 1858
+    },
+    {
+     "w": "the",
+     "f": 1880
+    },
+    {
+     "w": "map",
+     "f": 1884
+    },
+    {
+     "w": "of",
+     "f": 1894
+    },
+    {
+     "w": "the",
+     "f": 1898
+    },
+    {
+     "w": "island",
+     "f": 1901
+    },
+    {
+     "w": "disappeared",
+     "f": 1915
+    }
+   ],
+   "voiceEnd": 1967,
+   "len": 300
+  },
+  {
+   "who": "usa",
+   "text": "Who took it?!",
+   "emo": "angry",
+   "pose": "up",
+   "i": 12,
+   "start": 2117,
+   "audio": "b12_usa.mp3",
+   "voiceAt": 2123,
+   "words": [
+    {
+     "w": "Who",
+     "f": 2126
+    },
+    {
+     "w": "took",
+     "f": 2132
+    },
+    {
+     "w": "it",
+     "f": 2140
+    }
+   ],
+   "voiceEnd": 2172,
+   "len": 75
+  },
+  {
+   "who": "rus",
+   "text": "Don't look at me.",
+   "emo": "smug",
+   "i": 13,
+   "start": 2192,
+   "audio": "b13_rus.mp3",
+   "voiceAt": 2198,
+   "words": [
+    {
+     "w": "Don't",
+     "f": 2201
+    },
+    {
+     "w": "look",
+     "f": 2210
+    },
+    {
+     "w": "at",
+     "f": 2216
+    },
+    {
+     "w": "me",
+     "f": 2219
+    }
+   ],
+   "voiceEnd": 2258,
+   "len": 86
+  },
+  {
+   "who": "chn",
+   "text": "Someone here is lying.",
+   "emo": "angry",
+   "i": 14,
+   "start": 2278,
+   "audio": "b14_chn.mp3",
+   "voiceAt": 2284,
+   "words": [
+    {
+     "w": "Someone",
+     "f": 2287
+    },
+    {
+     "w": "here",
+     "f": 2300
+    },
+    {
+     "w": "is",
+     "f": 2310
+    },
+    {
+     "w": "lying",
+     "f": 2316
+    }
+   ],
+   "voiceEnd": 2359,
+   "len": 101
+  },
+  {
+   "who": "jpn",
+   "text": "But everyone was standing right here...",
+   "emo": "wide",
+   "i": 15,
+   "start": 2379,
+   "audio": "b15_jpn.mp3",
+   "voiceAt": 2385,
+   "words": [
+    {
+     "w": "But",
+     "f": 2388
+    },
+    {
+     "w": "everyone",
+     "f": 2394
+    },
+    {
+     "w": "was",
+     "f": 2406
+    },
+    {
+     "w": "standing",
+     "f": 2411
+    },
+    {
+     "w": "right",
+     "f": 2422
+    },
+    {
+     "w": "here",
+     "f": 2428
+    }
+   ],
+   "voiceEnd": 2464,
+   "len": 105
+  },
+  {
+   "act": "suspect",
+   "min": 10,
+   "i": 16,
+   "start": 2484,
+   "len": 420
+  },
+  {
+   "act": "thief",
+   "min": 11,
+   "i": 17,
+   "start": 2904,
+   "len": 462
+  },
+  {
+   "who": "kgz",
+   "text": "Guys... look. Footprints.",
+   "emo": "wide",
+   "pose": "point",
+   "act": "footprints",
+   "i": 18,
+   "start": 3366,
+   "audio": "b18_kgz.mp3",
+   "voiceAt": 3372,
+   "words": [
+    {
+     "w": "Guys",
+     "f": 3375
+    },
+    {
+     "w": "look",
+     "f": 3386
+    },
+    {
+     "w": "Footprints",
+     "f": 3408
+    }
+   ],
+   "voiceEnd": 3438,
+   "len": 92
+  },
+  {
+   "act": "next",
+   "min": 5,
+   "i": 19,
+   "start": 3458,
+   "len": 150
+  }
+ ]
+}
