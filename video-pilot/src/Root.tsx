@@ -2,6 +2,7 @@ import React from 'react';
 import { Composition } from 'remotion';
 import { Rainbow, TOTAL_FRAMES } from './Rainbow';
 import { Island, ISLAND_FRAMES } from './Island';
+import { LifeOfAStar, STAR_FRAMES } from './Star';
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -17,6 +18,14 @@ export const RemotionRoot: React.FC = () => (
       id="Island"
       component={Island}
       durationInFrames={ISLAND_FRAMES}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+    <Composition
+      id="LifeOfAStar"
+      component={LifeOfAStar}
+      durationInFrames={STAR_FRAMES}
       fps={30}
       width={1080}
       height={1920}
