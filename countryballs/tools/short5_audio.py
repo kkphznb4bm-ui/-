@@ -106,6 +106,33 @@ elif clip == 12:
         for k in range(2): add(tt + k * b / 2, tone(midi([81, 79, 76, 79, 84, 81, 79, 76][(i * 2 + k) % 8]), b * .4, 'square', .003, .05), .06)
     add(3.2, sweep(900, 200, .35), .2); add(3.55, tone(1100, .12, 'sine', .001, .1) * np.exp(-T(.12) * 20), .6); boom(3.55)
     for k in np.arange(3.65, 4.5, .1): add(k, tone(rng.uniform(1500, 2500), .08, 'sine', .002, .06), .08)
+elif clip == 13:
+    for i, n in enumerate([67, 71, 74, 71]): add(i * .15, tone(midi(n), .14, 'tri', .005, .08), .15)  # гитарка
+    for h in (.6, 1.4, 2.2):
+        add(h - .15, sweep(300, 900, .15), .15); add(h, lp(noise(.1), .3) * np.exp(-T(.1) * 30), 1.0); add(h, kick(), .5)
+    boom(2.5); add(2.5, lp(noise(.5), .5) * np.exp(-T(.5) * 6), .8)          # POP
+    for i, n in enumerate([72, 76, 79, 84]): add(2.55 + i * .08, tone(midi(n), .2, 'square', .003, .15), .08)  # «та-да»
+    b = DUR / 8
+    for i in range(int((DUR - 3.2) / (b / 2))):                                # мариачи-бит
+        tt = 3.2 + i * b / 2
+        add(tt, kick() if i % 2 == 0 else hat(), .6)
+        add(tt, tone(midi([67, 71, 74, 79, 76, 74, 71, 69][i % 8]), b * .4, 'square', .003, .06), .08)
+        add(tt, lp(noise(.04), .8) * np.exp(-T(.04) * 60), .2)                 # маракасы
+elif clip == 14:
+    for i, n in enumerate([72, 76, 79, 76, 72, 74, 77, 74]): add(i * .3, tone(midi(n), .28, 'tri', .01, .1), .12)   # мандолина
+    add(1.0, sweep(200, 600, 1.5), .12); add(2.5, sweep(600, 1400, .8), .2)    # раскрутка
+    add(3.3, sweep(1400, 300, .45), .25); add(3.75, lp(noise(.3), .1) * np.exp(-T(.3) * 10), 1.6); boom(3.75)   # SPLAT
+    add(4.6, sweep(800, 200, .4), .2)
+    for i, n in enumerate([76, 74, 72]): add(4.7 + i * .2, tone(midi(n), .3, 'tri', .01, .2, vib=.01), .2)     # «мамма мия»
+elif clip == 15:
+    for i in range(18):                                                        # дутар-мотив
+        add(i * .3, tone(midi([62, 65, 67, 69, 67, 65][i % 6]), .25, 'tri', .005, .15), .12)
+        add(i * .3, lp(noise(.03), .7) * np.exp(-T(.03) * 80), .12)
+    add(0, lp(noise(2.0), .05) * .4, .4)                                       # шкворчание
+    add(1.0, sweep(500, 900, .6), .12)                                         # «запах»
+    for i in range(4): add(2.0 + i * .12, lp(noise(.3), .3) * env(int(.3 * SR), .05, .1), .3); add(2.0 + i * .12, sweep(300, 900, .2), .1)   # бег
+    for i in range(4): add(3.4 + i * .2, tone(midi(79 + i * 2), .1, 'sine', .002, .08), .15)  # шлёп на тарелку
+    for i, n in enumerate([72, 76, 79, 84]): add(4.4 + i * .1, tone(midi(n), .3, 'tri', .005, .25), .15)
 else:
     for k in (0, .9, 1.8): boom(k)                               # тяжёлые шаги
     add(0, lp(noise(2.0), .03) * env(int(2.0 * SR), .2, .3), 1.2)    # ветер

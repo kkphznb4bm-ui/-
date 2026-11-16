@@ -423,6 +423,23 @@ const pine=(x,y,s=1,snow=false)=>`<g transform="translate(${x},${y}) scale(${s})
 const sakura=(x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M0,0 Q-4,-40 6,-70 M2,-40 Q20,-55 30,-60" stroke="#5c3b28" stroke-width="7" fill="none"/>${[[0,-80,30],[24,-66,24],[-22,-64,24],[34,-82,18],[-8,-100,20]].map(([cx,cy,r])=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#ffb3d1"/>`).join('')}</g>`;
 const balloon=(x,y,s,c1,c2)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M0,-40 C-30,-40 -30,0 -8,18 L8,18 C30,0 30,-40 0,-40Z" fill="${c1}" stroke="#333" stroke-width="2"/><path d="M0,-40 C-10,-40 -12,0 -4,18 L4,18 C12,0 10,-40 0,-40Z" fill="${c2}"/><path d="M-8,18 L-6,28 M8,18 L6,28" stroke="#333" stroke-width="1.5"/><rect x="-7" y="28" width="14" height="10" fill="#8b5a2b"/></g>`;
 const THEMES={
+  fiesta:{sky:['#ff7eb3','#ffd29a'],sun:[300,200,'#fff1b8',28],road:'#d9a066',grass:'#e8b97a',line:'#cf9a5a',
+    scen:`${[0,1].map(r=>`<path d="M-40,${160+r*40} Q180,${190+r*40} 400,${160+r*40}" stroke="#555" stroke-width="1.5" fill="none"/>`+[...Array(10)].map((_,i)=>{const x=-20+i*42,y=162+r*40+Math.sin(i/9*Math.PI)*28;return `<path d="M${x},${y} h30 v22 l-7,-5 -8,5 -8,-5 -7,5z" fill="${['#ff3c6e','#ffd43b','#25c4ee','#7cdb5a','#b06bff'][(i+r)%5]}"/>`}).join('')).join('')}
+          <g fill="#f2c08a" stroke="#b07a45" stroke-width="2"><rect x="-10" y="290" width="90" height="68"/><rect x="250" y="280" width="120" height="78"/><rect x="20" y="315" width="16" height="22" fill="#6b4a2b"/><rect x="290" y="310" width="18" height="20" fill="#6b4a2b"/></g>
+          ${[[120,358,1],[205,358,.8]].map(([x,y,k])=>`<g transform="translate(${x},${y}) scale(${k})" fill="#2f9e44" stroke="#1f6f30" stroke-width="2"><rect x="-10" y="-80" width="20" height="80" rx="10"/><path d="M-10,-40 h-16 v-24" stroke-width="10" stroke-linecap="round" fill="none"/><path d="M10,-50 h14 v-20" stroke-width="10" stroke-linecap="round" fill="none"/></g>`).join('')}`,
+    palms:''},
+  rome:{sky:['#6ec1ff','#e8f6ff'],sun:[300,180,'#ffe066',28],road:'#b8b0a2',grass:'#d6cdb8',line:'#bfb49b',
+    scen:`<g transform="translate(180,358)"><path d="M-170,0 V-130 Q0,-160 170,-130 V0Z" fill="#d9c7a3" stroke="#a8916a" stroke-width="2"/>
+          ${[0,1,2].map(r=>[...Array(9)].map((_,i)=>`<path d="M${-150+i*34},${-r*42-6} v-22 q12,-14 24,0 v22z" fill="#8f7a55"/>`).join('')).join('')}
+          <path d="M60,-150 L170,-160 V0 H120Z" fill="#c9b48c"/></g>`+[[-10,1],[30,.8],[340,1],[372,.8]].map(([x,k])=>`<g transform="translate(${x},360) scale(${k})"><path d="M0,0 Q-14,-60 0,-120 Q14,-60 0,0Z" fill="#2b5f3a"/></g>`).join(''),
+    palms:''},
+  samarkand:{sky:['#7ccfff','#f0faff'],sun:[60,170,'#ffe066',26],road:'#d9c6a0',grass:'#e6d6b4',line:'#cdb88e',
+    scen:`<g transform="translate(180,358)"><rect x="-150" y="-110" width="300" height="110" fill="#e8d5b0" stroke="#b8a07a" stroke-width="2"/>
+          <rect x="-50" y="-170" width="100" height="170" fill="#e2cfa6" stroke="#b8a07a" stroke-width="2"/><path d="M-32,0 V-110 Q0,-150 32,-110 V0Z" fill="#1f6fb5"/><path d="M-24,0 V-104 Q0,-136 24,-104 V0Z" fill="#2fb3d6"/>
+          ${[-1,1].map(d=>`<path d="M${d*100-34},-110 Q${d*100-34},-160 ${d*100},-166 Q${d*100+34},-160 ${d*100+34},-110Z" fill="#20a4c9" stroke="#13708a" stroke-width="2"/><path d="M${d*100},-166 v-12" stroke="#c9a227" stroke-width="3"/>
+          <rect x="${d*165-8}" y="-190" width="16" height="190" fill="#e2cfa6" stroke="#b8a07a" stroke-width="2"/><rect x="${d*165-8}" y="-150" width="16" height="10" fill="#2fb3d6"/><rect x="${d*165-8}" y="-100" width="16" height="10" fill="#2fb3d6"/>`).join('')}
+          ${[...Array(10)].map((_,i)=>`<rect x="${-145+i*30}" y="-104" width="20" height="8" fill="#2fb3d6"/>`).join('')}</g>`,
+    palms:''},
   steppe:{sky:['#4dc3ff','#e6f7ff'],sun:[300,180,'#ffe066',30],road:'#a39a7a',grass:'#c9d66b',line:'#a8b84f',
     scen:`<polygon points="-40,330 50,200 140,330" fill="#8aa1c1"/><polygon points="50,200 70,228 30,228" fill="#fff"/><polygon points="90,330 210,170 330,330" fill="#7a92b5"/><polygon points="210,170 236,206 184,206" fill="#fff"/><polygon points="260,330 340,220 420,330" fill="#8aa1c1"/>
           <path d="M-40,330 Q100,310 200,325 T400,320 V358 H-40Z" fill="#b5c45a"/>
@@ -480,7 +497,7 @@ function setTheme(name){
   const [sx,sy,sc,sr]=th.sun;$('sun').setAttribute('cx',sx);$('sun').setAttribute('cy',sy);$('sun').setAttribute('fill',sc);$('sun').setAttribute('r',sr||34);
   $('scenery').innerHTML=th.scen;$('palms').innerHTML=th.palms;
   $('road').setAttribute('fill',th.road);$('grass').setAttribute('fill',th.grass);$('grassLine').setAttribute('stroke',th.line);
-  $('dashes').style.display=(name==='stage'||name==='rio'||name==='cappadocia'||name==='sunset'||name==='desert'||name==='steppe')?'none':'';
+  $('dashes').style.display=(name==='stage'||name==='rio'||name==='cappadocia'||name==='sunset'||name==='desert'||name==='steppe'||name==='fiesta'||name==='samarkand')?'none':'';
   document.querySelectorAll('#cl1,#cl2').forEach(c=>c.style.display=(name==='neon'||name==='stage'||name==='seoul')?'none':'');
 }
 
@@ -606,8 +623,124 @@ function clip12(){
   };
 }
 
-setTheme({1:'manila',2:'neon',3:'winter',4:'fuji',5:'rio',6:'stage',7:'castle',8:'sunset',9:'cappadocia',10:'steppe',11:'desert',12:'seoul'}[CLIP]);
-const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6,7:clip7,8:clip8,9:clip9,10:clip10,11:clip11,12:clip12}[CLIP]||clip1)();
+/* ===== CLIP 13: Мексика — что внутри пиньяты? ===== */
+function clip13(){
+  const R=buildRobot($('robots'),MEXICO_PARTS());
+  const mx=makeBall('mexico');$('actors').appendChild(mx.g);
+  const PX=210, PY=300, S=.55, GY=545, HITS=[.6,1.4,2.2], BURST=2.5;
+  return t=>{
+    common(t);
+    // пиньята качается после каждого удара
+    let sw=0;HITS.forEach(h=>{if(t>h&&t<BURST)sw+=Math.sin((t-h)*12)*22*Math.exp(-(t-h)*3)});
+    if(t<BURST){
+      FX+=`<path d="M${PX},40 L${PX+Math.sin(sw*Math.PI/180)*-120},${PY-40}" stroke="#555" stroke-width="2"/>`;
+      let star='';for(let i=0;i<5;i++){const a=-Math.PI/2+i*2*Math.PI/5;star+=`<polygon points="0,0 ${Math.cos(a-.35)*34},${Math.sin(a-.35)*34} ${Math.cos(a)*78},${Math.sin(a)*78} ${Math.cos(a+.35)*34},${Math.sin(a+.35)*34}" fill="${['#ff3c6e','#ffd43b','#25c4ee','#7cdb5a','#b06bff'][i]}" stroke="#111" stroke-width="2.5"/><path d="M${Math.cos(a)*78},${Math.sin(a)*78} l${Math.cos(a)*14},${Math.sin(a)*14+12}" stroke="${['#ff3c6e','#ffd43b','#25c4ee','#7cdb5a','#b06bff'][(i+2)%5]}" stroke-width="5"/>`}
+      FX+=`<g transform="translate(${PX},40) rotate(${sw}) translate(0,${PY-40})"><circle r="36" fill="#ffd43b" stroke="#111" stroke-width="3"/>${star}<circle r="30" fill="#ff922b" stroke="#111" stroke-width="2.5"/><circle cx="-10" cy="-6" r="5" fill="#111"/><circle cx="10" cy="-6" r="5" fill="#111"/></g>`;
+    }
+    // Мексика с палкой
+    const swing=HITS.reduce((m,h)=>Math.max(m,t>h-.2&&t<h+.1?1-Math.abs(t-h+.05)/.15:0),0);
+    const happy=t>2.6;
+    pose(mx,{x:80,y:560-(happy?Math.abs(Math.sin(t*8))*14:0),s:.55,eyes:happy?'H':'N',look:1,mouth:happy?7:0,hl:[0,0],hr:[0,0]});
+    if(t<BURST){const a=-60+swing*90;FX+=`<g transform="translate(108,545) rotate(${a})"><rect x="-4" y="-110" width="8" height="110" rx="3" fill="#8b5a2b" stroke="#111" stroke-width="2"/></g>`}
+    // взрыв: конфеты
+    if(t>=BURST&&t<4){const k=seg(t,BURST,4);for(let q=0;q<22;q++){const a=q*.285,v=140+(q*37)%120;FX+=`<g transform="translate(${PX+Math.cos(a)*v*k},${PY+Math.sin(a)*v*k+300*k*k}) rotate(${t*400+q*30})"><rect x="-6" y="-3" width="12" height="6" rx="2" fill="${['#ff3c6e','#ffd43b','#25c4ee','#7cdb5a','#b06bff'][q%5]}"/></g>`}}
+    // робот
+    const drop=seg(t,BURST,3.0);
+    const dance=t>3.2;
+    const ry=t<BURST?-500:lerp(PY+60,GY,drop*drop)-(dance?Math.abs(Math.sin(t*7))*10:0);
+    poseRobot(R,{x:PX,y:ry,s:S,k:1,rot:dance?Math.sin(t*7)*8:0,life:id=>{
+      if(dance){if(id==='armL')return {rot:140+Math.sin(t*14)*25};if(id==='armR')return {rot:-140-Math.sin(t*14)*25};if(id==='legL')return {rot:Math.sin(t*7)*20};if(id==='legR')return {rot:-Math.sin(t*7)*20}}
+      if(t>=BURST){if(id==='armL')return {rot:160};if(id==='armR')return {rot:-160}}
+    }});
+    R.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill','#7cdb5a'));
+    if(dance) [[-1,0],[1,1]].forEach(([d,o])=>{const h=rp(PX,ry,S,Math.sin(t*7)*8,d*120,-330-Math.sin(t*14+o)*20);FX+=`<g transform="translate(${h[0]},${h[1]}) rotate(${Math.sin(t*14+o)*30})"><ellipse cx="0" cy="-10" rx="10" ry="13" fill="${o?'#ff3c6e':'#ffd43b'}" stroke="#111" stroke-width="2"/><rect x="-2" y="2" width="4" height="16" fill="#8b5a2b"/></g>`});
+    HITS.forEach((h,i)=>word(t,h,h+.4,String(i+1),String(PX+60),String(PY-60),'#fff',36,0));
+    word(t,BURST,BURST+.6,'POP! 🎉','180','260','#ffd43b',34);
+    caption(t,0,BURST,"WHAT'S INSIDE THE",'PIÑATA? 🤔') || caption(t,BURST,3.6,'A ROBOT?! 😱','') || caption(t,3.6,5.5,'FIESTA! 🎉🌮','');
+    if(dance) notes(t,480);
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',t>=BURST?.8*(1-seg(t,BURST,BURST+.3)):0);
+    $('cam').setAttribute('transform',`translate(${HITS.some(h=>t>h&&t<h+.12)?Math.sin(t*90)*5:0},0)`);
+  };
+}
+
+/* ===== CLIP 14: Италия — пицца летит в камеру ===== */
+function clip14(){
+  const R=buildRobot($('robots'),ITALY_PARTS());
+  const it=makeBall('italy');$('actors').appendChild(it.g);
+  const S=.78, X=170, Y=530;
+  const pizza=(r,spin,top)=>{let g=`<g transform="rotate(${spin})"><circle r="${r}" fill="#f2c27a" stroke="#c98a3e" stroke-width="${Math.max(2,r*.06)}"/>`;
+    if(top){g+=`<circle r="${r*.86}" fill="#d9381e"/><circle r="${r*.8}" fill="#ffd27a" opacity=".85"/>`;for(let q=0;q<9;q++){const a=q*.7,d=r*(.25+.5*((q*37)%10)/10);g+=`<circle cx="${Math.cos(a)*d}" cy="${Math.sin(a)*d}" r="${r*.11}" fill="#b02a1a"/>`}
+      for(let q=0;q<5;q++){const a=q*1.3+.4,d=r*.55;g+=`<ellipse cx="${Math.cos(a)*d}" cy="${Math.sin(a)*d}" rx="${r*.08}" ry="${r*.04}" fill="#2f9e44" transform="rotate(${q*40} ${Math.cos(a)*d} ${Math.sin(a)*d})"/>`}}
+    else g+=`<path d="M${-r*.6},0 Q0,${-r*.3} ${r*.6},0" stroke="#e0a95a" stroke-width="${Math.max(1.5,r*.05)}" fill="none"/>`;
+    return g+'</g>'};
+  return t=>{
+    common(t);
+    poseRobot(R,{x:X,y:Y,s:S,k:1,rot:Math.sin(t*3)*2,life:id=>{
+      if(id==='armR') return {rot:-150,dx:-6,dy:-16};
+      if(id==='armL') return {rot:t>3.3&&t<4.6?150:30+Math.sin(t*6)*10};
+    }});
+    const hand=rp(X,Y,S,Math.sin(t*3)*2,103,-300);
+    const sh=rp(X,Y,S,0,-62,-300);
+    const oops=t>3.3&&t<4.6;
+    pose(it,{x:sh[0],y:sh[1],s:.45,eyes:oops?'W':t>2.5?'W':'H',look:1,mouth:oops?8:3,hl:[0,0],hr:[0,0]});
+    let r=22, cx=hand[0], cy=hand[1]-10, sq=.35;
+    if(t>1&&t<2.5) r=lerp(22,60,seg(t,1,2.5));
+    if(t>=2.5&&t<3.3) r=lerp(60,105,seg(t,2.5,3.3));
+    if(t>=3.3&&t<4.6){const k=ease(seg(t,3.3,3.8));r=lerp(105,560,k);cx=lerp(hand[0],180,k);cy=lerp(hand[1]-10,320,k);sq=lerp(.35,1,k)}
+    if(t>=4.6&&t<5.0){r=560;cx=180;cy=lerp(320,1300,ease(seg(t,4.6,5.0)));sq=1}
+    if(t>=5.0) r=22;
+    const spin=t*(t<2.5?900:1500);
+    FX+=`<g transform="translate(${cx},${cy}) scale(1,${sq})">${pizza(r,spin,sq>.8)}</g>`;
+    caption(t,0,1,'HOW ITALY MAKES','PIZZA 🍕') || caption(t,1,2.5,'BIGGER… 🤌','') || caption(t,2.5,3.3,'BIGGER!!! 😳','') || caption(t,3.3,4.6,'…OOPS 🍕','') || caption(t,4.6,5.5,'MAMMA MIA 🤌','');
+    word(t,3.3,3.9,'SPLAT!','180','470','#fff',40,0);
+    $('fx').innerHTML=FX;
+    $('cam').setAttribute('transform',`translate(${t>3.75&&t<4.0?Math.sin(t*90)*6:0},0)`);
+  };
+}
+
+/* ===== CLIP 15: Узбекистан — плов для всех ===== */
+function clip15(){
+  const R=buildRobot($('robots'),UZBEK_PARTS());
+  const uz=makeBall('uzbekistan');$('actors').appendChild(uz.g);
+  const GUESTS=['usa','russia','japan','brazil'].map(c=>{const b=makeBall(c);$('actors').appendChild(b.g);return b});
+  const S=.62, X=180, Y=535;
+  return t=>{
+    common(t);
+    const stir=Math.sin(t*6);
+    const serve=t>3.2&&t<4.4;
+    poseRobot(R,{x:X,y:Y,s:S,k:1,life:id=>{
+      if(id==='armR') return {rot:serve?-60+Math.sin(t*10)*20:-20+stir*25};
+      if(id==='armL') return {rot:serve?60:20-stir*25};
+    }});
+    R.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill','#ffd43b'));
+    const sh=rp(X,Y,S,0,62,-300);
+    pose(uz,{x:sh[0],y:sh[1],s:.4,eyes:'H',look:-1,mouth:4,hl:[0,0],hr:[0,0]});
+    // половник и казан (поверх нижней части робота)
+    const hand=rp(X,Y,S,0,78+Math.sin((-20+stir*25)*Math.PI/180)*-62,-205+Math.cos((-20+stir*25)*Math.PI/180)*62);
+    if(!serve) FX+=`<path d="M${hand[0]},${hand[1]} L${180+stir*30},480" stroke="#8b5a2b" stroke-width="6" stroke-linecap="round"/>`;
+    FX+=`<ellipse cx="180" cy="468" rx="125" ry="22" fill="#e8a33d" stroke="#111" stroke-width="3"/>${[...Array(14)].map((_,q)=>`<rect x="${80+q*14}" y="${462+(q%3)*4}" width="8" height="3" rx="1.5" fill="#e8590c"/>`).join('')}
+      <path d="M55,468 Q60,548 180,555 Q300,548 305,468" fill="#2b2b2b" stroke="#111" stroke-width="3"/><path d="M55,468 h-14 M305,468 h14" stroke="#111" stroke-width="8" stroke-linecap="round"/>`;
+    // пар / запах
+    for(let q=0;q<6;q++){const p2=((t*.6+q/6)%1);const x=120+q*24+Math.sin(t*3+q)*8;FX+=`<path d="M${x},${458-p2*120} q8,-10 0,-20 q-8,-10 0,-20" stroke="#fff" stroke-width="${4-p2*3}" fill="none" opacity="${.8*(1-p2)}"/>`}
+    if(t>1.0&&t<2.2){const k=seg(t,1.0,2.2);[-1,1].forEach(d=>FX+=`<path d="M180,330 Q${180+d*100*k},${280} ${180+d*220*k},${320}" stroke="#ffd43b" stroke-width="4" fill="none" stroke-dasharray="8 6" opacity=".9"/><text x="${180+d*200*k}" y="312" font-size="24" text-anchor="middle">👃</text>`)}
+    // гости прибегают с тарелками
+    const POS=[[40,1],[100,1],[260,-1],[320,-1]];
+    GUESTS.forEach((b,i)=>{
+      const [hx,dir]=POS[i], run=seg(t,2.0+i*.12,2.9+i*.12);
+      const x=lerp(dir>0?-60:420,hx,ease(run)), eat=t>4.4;
+      const y=605-(run>0&&run<1?Math.abs(Math.sin(t*20))*12:0)-(eat?Math.abs(Math.sin(t*8+i))*8:0);
+      pose(b,{x,y,s:.42,eyes:eat?'H':run<1?'W':'N',look:-dir,mouth:eat?6:t>2&&t<3.2?6:0,hl:[0,-34],hr:[0,-34],op:t>2?1:0});
+      if(t>2){const full=t>3.4+i*.2;FX+=`<ellipse cx="${x}" cy="${y-48}" rx="22" ry="6" fill="#fff" stroke="#111" stroke-width="2"/>${full?`<ellipse cx="${x}" cy="${y-53}" rx="15" ry="7" fill="#e8a33d"/><rect x="${x-6}" y="${y-58}" width="5" height="3" fill="#e8590c"/>`:''}`}
+      if(eat&&i%2===0){const p2=(t*.9+i*.3)%1;FX+=`<text x="${x}" y="${y-70-p2*40}" font-size="18" text-anchor="middle" opacity="${1-p2}">❤️</text>`}
+    });
+    caption(t,0,2.0,'WHEN UZBEKISTAN','COOKS PLOV 🍚') || caption(t,2.0,3.2,'EVERYONE: 🏃💨','') || caption(t,3.2,4.4,'ONE PLATE','PLEASE 🙏') || caption(t,4.4,5.5,'10/10 🤤','');
+    $('fx').innerHTML=FX;
+  };
+}
+
+setTheme({1:'manila',2:'neon',3:'winter',4:'fuji',5:'rio',6:'stage',7:'castle',8:'sunset',9:'cappadocia',10:'steppe',11:'desert',12:'seoul',13:'fiesta',14:'rome',15:'samarkand'}[CLIP]);
+const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6,7:clip7,8:clip8,9:clip9,10:clip10,11:clip11,12:clip12,13:clip13,14:clip14,15:clip15}[CLIP]||clip1)();
 window.draw=draw;window.DUR=DUR;
 if(!location.search.includes('render')){
   const audio=new Audio(`short${CLIP}-audio.m4a`);audio.loop=true;let t0=null;

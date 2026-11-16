@@ -7,7 +7,7 @@
 | `index.html` | интерактивные TikTok-тренды countryball-шариков (12 стран, 7 трендов) |
 | `skit.html` → `uchitel-vyshel.mp4` | скетч «POV: учитель вышел из класса» (RU-подписи) |
 | `jeepney.html` → `jeepney-transformer.mp4` | «Poor Philippine-ball has a JEEPNEY TRANSFORMER!» (английская озвучка) |
-| `short5.html?clip=1..12` → `shorts/*.mp4` | 5-секундные шортсы с хуком и циклом: «Wait for it», «Who wins?», «Everyone was scared», Япония «Blink», Бразилия «Don't kick», «Pick one 1-2-3», Германия vs Филиппины, Индия тук-тук, Турция «Guess the country», Казахстан «can fly», Египет-пирамида, Корея K-pop (5–5,5 с, у каждого свой фон) |
+| `short5.html?clip=1..15` → `shorts/*.mp4` | 5-секундные шортсы с хуком и циклом: «Wait for it», «Who wins?», «Everyone was scared», Япония «Blink», Бразилия «Don't kick», «Pick one 1-2-3», Германия vs Филиппины, Индия тук-тук, Турция «Guess the country», Казахстан «can fly», Египет-пирамида, Корея K-pop, Мексика-пиньята, Италия-пицца, Узбекистан-плов (5–5,5 с, у каждого свой фон) |
 | `part3.html` → `part3-winter-robots.mp4` | Part 3: снегопад, Russia-бот из снегоуборщика раздаёт ушанки, зимнее караоке; `part3-winter-robots-no-music.mp4` — без музыки |
 | `part2.html` → `part2-robot-battle.mp4` | Part 2: USA-бот против Jeepney-бота; `part2-robot-battle-no-music.mp4` — без музыки (голос + эффекты), чтобы добавить трендовый звук в TikTok/Shorts |
 
@@ -40,7 +40,7 @@ node tools/render_video.js part3.html part3-audio.m4a part3-winter-robots.mp4
 ffmpeg -y -i part3-winter-robots.mp4 -i voice/part3-audio-nomusic.m4a -map 0:v -map 1:a -c copy part3-winter-robots-no-music.mp4
 
 # 5-секундные шортсы
-for c in 1 2 3 4 5 6 7 8 9 10 11 12; do python3 tools/short5_audio.py $c voice/s$c.wav && ffmpeg -y -i voice/s$c.wav -c:a aac short$c-audio.m4a; done
+for c in $(seq 1 15); do python3 tools/short5_audio.py $c voice/s$c.wav && ffmpeg -y -i voice/s$c.wav -c:a aac short$c-audio.m4a; done
 node tools/render_video.js "short5.html?clip=1" short1-audio.m4a shorts/short1-wait-for-it.mp4
 node tools/render_video.js "short5.html?clip=2" short2-audio.m4a shorts/short2-who-wins.mp4
 node tools/render_video.js "short5.html?clip=3" short3-audio.m4a shorts/short3-scared-russia-bot.mp4
@@ -53,4 +53,7 @@ node tools/render_video.js "short5.html?clip=9" short9-audio.m4a shorts/short9-t
 node tools/render_video.js "short5.html?clip=10" short10-audio.m4a shorts/short10-kazakhstan-fly.mp4
 node tools/render_video.js "short5.html?clip=11" short11-audio.m4a shorts/short11-egypt-pyramid.mp4
 node tools/render_video.js "short5.html?clip=12" short12-audio.m4a shorts/short12-korea-kpop.mp4
+node tools/render_video.js "short5.html?clip=13" short13-audio.m4a shorts/short13-mexico-pinata.mp4
+node tools/render_video.js "short5.html?clip=14" short14-audio.m4a shorts/short14-italy-pizza.mp4
+node tools/render_video.js "short5.html?clip=15" short15-audio.m4a shorts/short15-uzbekistan-plov.mp4
 ```

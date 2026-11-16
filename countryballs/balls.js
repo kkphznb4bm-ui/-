@@ -19,6 +19,9 @@ const C = {
   india:{name:'Индия',emoji:'🇮🇳',acc:'none',flag:()=>hstripes(['#FF9933','#fff','#138808'])+`<circle r="12" fill="none" stroke="#000080" stroke-width="2"/>${[...Array(12)].map((_,i)=>`<line x1="0" y1="0" x2="${(Math.cos(i*Math.PI/6)*12).toFixed(1)}" y2="${(Math.sin(i*Math.PI/6)*12).toFixed(1)}" stroke="#000080" stroke-width="1"/>`).join('')}`},
   egypt:{name:'Египет',emoji:'🇪🇬',acc:'none',flag:()=>hstripes(['#CE1126','#fff','#000'])+`<path d="M0,-10 l-6,4 -8,-2 4,6 -2,10 12,-4 12,4 -2,-10 4,-6 -8,2z" fill="#C09300"/>`},
   korea:{name:'Корея',emoji:'🇰🇷',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#fff"/><g transform="rotate(34)"><path d="M-17,0 A17,17 0 0,1 17,0 A8.5,8.5 0 0,1 0,0 A8.5,8.5 0 0,0 -17,0Z" fill="#CD2E3A"/><path d="M-17,0 A17,17 0 0,0 17,0 A8.5,8.5 0 0,0 0,0 A8.5,8.5 0 0,1 -17,0Z" fill="#0047A0"/></g>${[[-33,-24,34],[33,-24,-34],[-33,24,-34],[33,24,34]].map(([x,y,r])=>`<g transform="translate(${x},${y}) rotate(${r})">${[-6,0,6].map(d=>`<rect x="-9" y="${d-2}" width="18" height="4" fill="#000"/>`).join('')}</g>`).join('')}`},
+  mexico:{name:'Мексика',emoji:'🇲🇽',acc:'sombrero',flag:()=>vstripes(['#006847','#fff','#CE1126'])+`<ellipse cx="0" cy="2" rx="9" ry="7" fill="#8a5a2b"/><path d="M-10,8 Q0,14 10,8" stroke="#2f9e44" stroke-width="2" fill="none"/>`},
+  italy:{name:'Италия',emoji:'🇮🇹',acc:'none',flag:()=>vstripes(['#009246','#fff','#CE2B37'])},
+  uzbekistan:{name:'Узбекистан',emoji:'🇺🇿',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="32" fill="#1EB5E0"/><rect x="-50" y="-18" width="100" height="3" fill="#CE1126"/><rect x="-50" y="-15" width="100" height="30" fill="#fff"/><rect x="-50" y="15" width="100" height="3" fill="#CE1126"/><rect x="-50" y="18" width="100" height="32" fill="#1EB534"/><circle cx="-30" cy="-34" r="8" fill="#fff"/><circle cx="-26" cy="-35" r="7" fill="#1EB5E0"/>${[...Array(6)].map((_,i)=>`<circle cx="${-14+i*6}" cy="-38" r="1.6" fill="#fff"/>`).join('')}`},
 };
 
 /* ================== АКСЕССУАРЫ ================== */
@@ -29,6 +32,7 @@ const ACC = {
   toqi:`<path d="M-30,-36 Q-28,-62 0,-62 Q28,-62 30,-36 Z" fill="#111" stroke="#111" stroke-width="2.5"/>${[-18,-6,6,18].map(x=>`<path d="M${x},-44 q-4,-5 0,-10 q4,5 0,10z" fill="#fff"/>`).join('')}`,
   fez:`<path d="M-22,-38 L-16,-70 L16,-70 L22,-38 Z" fill="#B2122B" stroke="#111" stroke-width="2.5"/><path d="M0,-70 Q14,-62 18,-48" stroke="#111" stroke-width="2.5" fill="none"/><circle cx="18" cy="-46" r="4" fill="#111"/>`,
   beret:`<ellipse cx="-6" cy="-40" rx="36" ry="13" fill="#1a1a1a" stroke="#111" stroke-width="2.5" transform="rotate(-12)"/><rect x="-10" y="-58" width="4" height="8" fill="#111" transform="rotate(-12)"/>`,
+  sombrero:`<g stroke="#111" stroke-width="2.5"><ellipse cx="0" cy="-36" rx="62" ry="12" fill="#e9b44c"/><path d="M-24,-38 Q-22,-74 0,-76 Q22,-74 24,-38Z" fill="#e9b44c"/><path d="M-23,-46 H23" stroke="#CE1126" stroke-width="5"/><path d="M-58,-36 H58" stroke="#006847" stroke-width="3" fill="none"/></g>`,
   none:'',
 };
 
