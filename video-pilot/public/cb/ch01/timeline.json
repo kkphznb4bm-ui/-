@@ -1,0 +1,520 @@
+{
+ "id": "ch01",
+ "num": 1,
+ "title": "THE MYSTERIOUS ISLAND",
+ "fps": 30,
+ "total": 3368,
+ "beats": [
+  {
+   "act": "black",
+   "min": 2.5,
+   "i": 0,
+   "start": 0,
+   "len": 75
+  },
+  {
+   "act": "aerial",
+   "who": "narr",
+   "text": "Imagine waking up one morning... and discovering that every country in the world has disappeared from its homeland.",
+   "min": 13,
+   "i": 1,
+   "start": 75,
+   "audio": "b01_narr.mp3",
+   "voiceAt": 81,
+   "words": [
+    {
+     "w": "Imagine",
+     "f": 84
+    },
+    {
+     "w": "waking",
+     "f": 102
+    },
+    {
+     "w": "up",
+     "f": 114
+    },
+    {
+     "w": "one",
+     "f": 119
+    },
+    {
+     "w": "morning",
+     "f": 126
+    },
+    {
+     "w": "and",
+     "f": 148
+    },
+    {
+     "w": "discovering",
+     "f": 152
+    },
+    {
+     "w": "that",
+     "f": 170
+    },
+    {
+     "w": "every",
+     "f": 176
+    },
+    {
+     "w": "country",
+     "f": 185
+    },
+    {
+     "w": "in",
+     "f": 198
+    },
+    {
+     "w": "the",
+     "f": 201
+    },
+    {
+     "w": "world",
+     "f": 204
+    },
+    {
+     "w": "has",
+     "f": 215
+    },
+    {
+     "w": "disappeared",
+     "f": 220
+    },
+    {
+     "w": "from",
+     "f": 239
+    },
+    {
+     "w": "its",
+     "f": 244
+    },
+    {
+     "w": "homeland",
+     "f": 248
+    }
+   ],
+   "voiceEnd": 296,
+   "len": 390
+  },
+  {
+   "act": "title",
+   "min": 5,
+   "i": 2,
+   "start": 465,
+   "len": 150
+  },
+  {
+   "act": "wake",
+   "min": 10,
+   "i": 3,
+   "start": 615,
+   "len": 300
+  },
+  {
+   "who": "usa",
+   "text": "WHAT?! Where am I?!",
+   "emo": "wide",
+   "pose": "up",
+   "i": 4,
+   "start": 915,
+   "audio": "b04_usa.mp3",
+   "voiceAt": 921,
+   "words": [
+    {
+     "w": "WHAT",
+     "f": 924
+    },
+    {
+     "w": "Where",
+     "f": 962
+    },
+    {
+     "w": "am",
+     "f": 969
+    },
+    {
+     "w": "I",
+     "f": 973
+    }
+   ],
+   "voiceEnd": 1006,
+   "len": 105
+  },
+  {
+   "who": "rus",
+   "text": "Why is everyone shouting?",
+   "emo": "smug",
+   "i": 5,
+   "start": 1020,
+   "audio": "b05_rus.mp3",
+   "voiceAt": 1026,
+   "words": [
+    {
+     "w": "Why",
+     "f": 1029
+    },
+    {
+     "w": "is",
+     "f": 1039
+    },
+    {
+     "w": "everyone",
+     "f": 1044
+    },
+    {
+     "w": "shouting",
+     "f": 1057
+    }
+   ],
+   "voiceEnd": 1103,
+   "len": 97
+  },
+  {
+   "who": "chn",
+   "text": "Wait... where is my country?",
+   "emo": "normal",
+   "pose": "shrug",
+   "i": 6,
+   "start": 1117,
+   "audio": "b06_chn.mp3",
+   "voiceAt": 1123,
+   "words": [
+    {
+     "w": "Wait",
+     "f": 1126
+    },
+    {
+     "w": "where",
+     "f": 1146
+    },
+    {
+     "w": "is",
+     "f": 1152
+    },
+    {
+     "w": "my",
+     "f": 1159
+    },
+    {
+     "w": "country",
+     "f": 1164
+    }
+   ],
+   "voiceEnd": 1209,
+   "len": 106
+  },
+  {
+   "who": "jpn",
+   "text": "This doesn't make any sense.",
+   "emo": "normal",
+   "i": 7,
+   "start": 1223,
+   "audio": "b07_jpn.mp3",
+   "voiceAt": 1229,
+   "words": [
+    {
+     "w": "This",
+     "f": 1232
+    },
+    {
+     "w": "doesn't",
+     "f": 1238
+    },
+    {
+     "w": "make",
+     "f": 1248
+    },
+    {
+     "w": "any",
+     "f": 1254
+    },
+    {
+     "w": "sense",
+     "f": 1259
+    }
+   ],
+   "voiceEnd": 1299,
+   "len": 90
+  },
+  {
+   "act": "usa-rock",
+   "who": "usa",
+   "text": "Okay, everyone! Stay calm. I'm taking charge!",
+   "emo": "happy",
+   "pose": "wave",
+   "i": 8,
+   "start": 1313,
+   "audio": "b08_usa.mp3",
+   "voiceAt": 1319,
+   "words": [
+    {
+     "w": "Okay",
+     "f": 1322
+    },
+    {
+     "w": "everyone",
+     "f": 1340
+    },
+    {
+     "w": "Stay",
+     "f": 1380
+    },
+    {
+     "w": "calm",
+     "f": 1392
+    },
+    {
+     "w": "I'm",
+     "f": 1430
+    },
+    {
+     "w": "taking",
+     "f": 1437
+    },
+    {
+     "w": "charge",
+     "f": 1447
+    }
+   ],
+   "voiceEnd": 1487,
+   "len": 188
+  },
+  {
+   "who": "fra",
+   "text": "Why should YOU be in charge?",
+   "emo": "angry",
+   "pose": "hips",
+   "i": 9,
+   "start": 1501,
+   "audio": "b09_fra.mp3",
+   "voiceAt": 1507,
+   "words": [
+    {
+     "w": "Why",
+     "f": 1510
+    },
+    {
+     "w": "should",
+     "f": 1516
+    },
+    {
+     "w": "YOU",
+     "f": 1521
+    },
+    {
+     "w": "be",
+     "f": 1524
+    },
+    {
+     "w": "in",
+     "f": 1528
+    },
+    {
+     "w": "charge",
+     "f": 1532
+    }
+   ],
+   "voiceEnd": 1573,
+   "len": 86
+  },
+  {
+   "act": "usa-rock",
+   "who": "usa",
+   "text": "Because I'm the strongest!",
+   "emo": "happy",
+   "pose": "flex",
+   "i": 10,
+   "start": 1587,
+   "audio": "b10_usa.mp3",
+   "voiceAt": 1593,
+   "words": [
+    {
+     "w": "Because",
+     "f": 1596
+    },
+    {
+     "w": "I'm",
+     "f": 1606
+    },
+    {
+     "w": "the",
+     "f": 1611
+    },
+    {
+     "w": "strongest",
+     "f": 1614
+    }
+   ],
+   "voiceEnd": 1659,
+   "len": 86
+  },
+  {
+   "who": "rus",
+   "text": "That's what you always say.",
+   "emo": "smug",
+   "i": 11,
+   "start": 1673,
+   "audio": "b11_rus.mp3",
+   "voiceAt": 1679,
+   "words": [
+    {
+     "w": "That's",
+     "f": 1682
+    },
+    {
+     "w": "what",
+     "f": 1692
+    },
+    {
+     "w": "you",
+     "f": 1696
+    },
+    {
+     "w": "always",
+     "f": 1700
+    },
+    {
+     "w": "say",
+     "f": 1714
+    }
+   ],
+   "voiceEnd": 1757,
+   "len": 98
+  },
+  {
+   "act": "argue",
+   "min": 11,
+   "i": 12,
+   "start": 1771,
+   "len": 330
+  },
+  {
+   "who": "kgz",
+   "text": "Guys... maybe we should first figure out where we are?",
+   "emo": "normal",
+   "pose": "shrug",
+   "i": 13,
+   "start": 2101,
+   "audio": "b13_kgz.mp3",
+   "voiceAt": 2107,
+   "words": [
+    {
+     "w": "Guys",
+     "f": 2110
+    },
+    {
+     "w": "maybe",
+     "f": 2135
+    },
+    {
+     "w": "we",
+     "f": 2143
+    },
+    {
+     "w": "should",
+     "f": 2145
+    },
+    {
+     "w": "first",
+     "f": 2152
+    },
+    {
+     "w": "figure",
+     "f": 2162
+    },
+    {
+     "w": "out",
+     "f": 2169
+    },
+    {
+     "w": "where",
+     "f": 2174
+    },
+    {
+     "w": "we",
+     "f": 2178
+    },
+    {
+     "w": "are",
+     "f": 2183
+    }
+   ],
+   "voiceEnd": 2203,
+   "len": 116
+  },
+  {
+   "act": "silence",
+   "min": 5.5,
+   "i": 14,
+   "start": 2217,
+   "len": 165
+  },
+  {
+   "who": "ger",
+   "text": "Finally. Someone with a logical idea.",
+   "emo": "smug",
+   "i": 15,
+   "start": 2382,
+   "audio": "b15_ger.mp3",
+   "voiceAt": 2388,
+   "words": [
+    {
+     "w": "Finally",
+     "f": 2391
+    },
+    {
+     "w": "Someone",
+     "f": 2429
+    },
+    {
+     "w": "with",
+     "f": 2444
+    },
+    {
+     "w": "a",
+     "f": 2449
+    },
+    {
+     "w": "logical",
+     "f": 2452
+    },
+    {
+     "w": "idea",
+     "f": 2469
+    }
+   ],
+   "voiceEnd": 2514,
+   "len": 146
+  },
+  {
+   "act": "sign1",
+   "min": 8,
+   "i": 16,
+   "start": 2528,
+   "len": 240
+  },
+  {
+   "act": "sign2",
+   "min": 8,
+   "i": 17,
+   "start": 2768,
+   "len": 240
+  },
+  {
+   "act": "shock",
+   "min": 7,
+   "i": 18,
+   "start": 3008,
+   "len": 210
+  },
+  {
+   "act": "next",
+   "min": 5,
+   "i": 19,
+   "start": 3218,
+   "len": 150
+  }
+ ]
+}

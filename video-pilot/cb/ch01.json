@@ -1,0 +1,107 @@
+{
+ "id": "ch01",
+ "num": 1,
+ "title": "THE MYSTERIOUS ISLAND",
+ "beats": [
+  {
+   "act": "black",
+   "min": 2.5
+  },
+  {
+   "act": "aerial",
+   "who": "narr",
+   "text": "Imagine waking up one morning... and discovering that every country in the world has disappeared from its homeland.",
+   "min": 13
+  },
+  {
+   "act": "title",
+   "min": 5
+  },
+  {
+   "act": "wake",
+   "min": 10
+  },
+  {
+   "who": "usa",
+   "text": "WHAT?! Where am I?!",
+   "emo": "wide",
+   "pose": "up"
+  },
+  {
+   "who": "rus",
+   "text": "Why is everyone shouting?",
+   "emo": "smug"
+  },
+  {
+   "who": "chn",
+   "text": "Wait... where is my country?",
+   "emo": "normal",
+   "pose": "shrug"
+  },
+  {
+   "who": "jpn",
+   "text": "This doesn't make any sense.",
+   "emo": "normal"
+  },
+  {
+   "act": "usa-rock",
+   "who": "usa",
+   "text": "Okay, everyone! Stay calm. I'm taking charge!",
+   "emo": "happy",
+   "pose": "wave"
+  },
+  {
+   "who": "fra",
+   "text": "Why should YOU be in charge?",
+   "emo": "angry",
+   "pose": "hips"
+  },
+  {
+   "act": "usa-rock",
+   "who": "usa",
+   "text": "Because I'm the strongest!",
+   "emo": "happy",
+   "pose": "flex"
+  },
+  {
+   "who": "rus",
+   "text": "That's what you always say.",
+   "emo": "smug"
+  },
+  {
+   "act": "argue",
+   "min": 11
+  },
+  {
+   "who": "kgz",
+   "text": "Guys... maybe we should first figure out where we are?",
+   "emo": "normal",
+   "pose": "shrug"
+  },
+  {
+   "act": "silence",
+   "min": 5.5
+  },
+  {
+   "who": "ger",
+   "text": "Finally. Someone with a logical idea.",
+   "emo": "smug"
+  },
+  {
+   "act": "sign1",
+   "min": 8
+  },
+  {
+   "act": "sign2",
+   "min": 8
+  },
+  {
+   "act": "shock",
+   "min": 7
+  },
+  {
+   "act": "next",
+   "min": 5
+  }
+ ]
+}

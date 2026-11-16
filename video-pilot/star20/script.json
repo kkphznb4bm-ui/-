@@ -1,0 +1,96 @@
+{
+  "title": "The Life of a Star",
+  "chapters": [
+    {"id": "ch01", "title": "Stardust", "shots": [
+      {"v": "dust-you", "t": "Look at your hand. The calcium in your bones, the iron in your blood, the oxygen you just breathed in."},
+      {"v": "elements", "t": "All of it was made inside stars that lived and died long before our Sun was born."},
+      {"v": "meet-stella", "t": "This is the story of one of those stars. Let's call her Stella."},
+      {"v": "timeline", "t": "Her life will last millions of years, and we're going to watch all of it."},
+      {"v": "title", "t": "From a cold, dark cloud... to a blinding explosion... to the atoms inside you. This is the life of a star."}
+    ]},
+    {"id": "ch02", "title": "A Cloud in the Dark", "shots": [
+      {"v": "nebula-fly", "t": "Space between the stars isn't empty. It's filled with thin gas, mostly hydrogen and helium, and tiny grains of dust."},
+      {"v": "nebula-wide", "t": "In some places, this gas gathers into giant clouds called nebulae, tens or even hundreds of light-years across."},
+      {"v": "nebula-cold", "t": "Inside, they are incredibly cold. Only about ten degrees above absolute zero."},
+      {"v": "nebula-drift", "t": "For millions of years, a cloud like this can simply drift."},
+      {"v": "shock-trigger", "t": "But then something disturbs it. Perhaps the shockwave from a distant exploding star."},
+      {"v": "collapse-clumps", "t": "The cloud begins to collapse. Gravity pulls the gas into dense clumps, and each clump keeps shrinking."},
+      {"v": "spin-disk", "t": "As it falls inward, the gas spins faster, like a figure skater pulling in her arms, and flattens into a disk."},
+      {"v": "protostar", "t": "In the center, a hot, dense ball forms. A protostar. It glows, but not from fusion. Only from the heat of gravity squeezing it."}
+    ]},
+    {"id": "ch03", "title": "Ignition", "shots": [
+      {"v": "proto-squeeze", "t": "For thousands of years, the protostar keeps contracting. Its core gets hotter, and denser."},
+      {"v": "thermometer", "t": "Until it reaches about ten million degrees."},
+      {"v": "fusion-collide", "t": "At that temperature, something amazing happens. Hydrogen nuclei slam into each other so hard that they fuse."},
+      {"v": "fusion-chain", "t": "Through a chain of steps, four hydrogen nuclei become one helium nucleus."},
+      {"v": "mass-scale", "t": "But the helium weighs slightly less than the four hydrogens that made it."},
+      {"v": "emc2", "t": "That tiny bit of missing mass turns into energy, exactly as Einstein's famous equation predicts. E equals m c squared."},
+      {"v": "ignite", "t": "A little mass makes a huge amount of energy. Its outward push stops the collapse. Stella is officially a star."}
+    ]},
+    {"id": "ch04", "title": "How a Star Works", "shots": [
+      {"v": "balance", "t": "A star is a constant tug of war. Gravity tries to crush it inward. The energy from fusion pushes outward."},
+      {"v": "main-sequence", "t": "As long as the two stay balanced, the star is stable. Astronomers call this the main sequence, and a star spends about ninety percent of its life here."},
+      {"v": "cross-section", "t": "Inside, energy from the core has a long journey ahead."},
+      {"v": "photon-walk", "t": "In a star like our Sun, light bounces around inside for tens of thousands of years, sometimes more than a hundred thousand, before reaching the surface."},
+      {"v": "convection", "t": "Near the surface, hot gas rises and cooler gas sinks, like boiling soup. That's why a star's surface looks grainy and alive."},
+      {"v": "light-travel", "t": "Once light escapes, it races across space at three hundred thousand kilometers per second. The sunlight on your face left the Sun only about eight minutes ago."}
+    ]},
+    {"id": "ch05", "title": "Building Worlds", "shots": [
+      {"v": "disk-close", "t": "Remember the spinning disk around a young star? It's full of gas and dust."},
+      {"v": "dust-clump", "t": "Dust grains stick together, into pebbles, then rocks, then mountains."},
+      {"v": "planetesimals", "t": "Over millions of years, they collide and grow, until they become planets."},
+      {"v": "frost-line", "t": "Close to the star, it's hot, so only rock and metal survive. That's where rocky worlds like Earth are born."},
+      {"v": "gas-giants", "t": "Farther out, past the frost line, it's cold enough for ice. Planets there grow big enough to grab huge amounts of gas, and become giants like Jupiter and Saturn."},
+      {"v": "system-done", "t": "Then the young star's wind blows away the leftover gas. What remains is a planetary system."}
+    ]},
+    {"id": "ch06", "title": "Big and Small", "shots": [
+      {"v": "lineup", "t": "Not all stars are alike. The most important thing about a star is its mass. How much stuff it's made of."},
+      {"v": "red-dwarf", "t": "Small, cool red dwarfs sip their fuel so slowly that they can shine for trillions of years. Longer than the universe has existed so far."},
+      {"v": "sun-like", "t": "Stars like our Sun live about ten billion years."},
+      {"v": "blue-giant", "t": "And the heavyweights, ten, twenty, even fifty times heavier than the Sun, burn hot and fast. They shine thousands of times brighter, but live only a few million years."},
+      {"v": "color-temp", "t": "A star's color tells us its temperature. Red stars are the coolest, yellow ones are in the middle, and blue-white stars are the hottest."},
+      {"v": "stella-heavy", "t": "Stella is one of the heavyweights, about twenty times the mass of our Sun. She will live fast... and die spectacularly."}
+    ]},
+    {"id": "ch07", "title": "Old Age", "shots": [
+      {"v": "core-empty", "t": "After about ten million years, the hydrogen in Stella's core runs out."},
+      {"v": "helium-burn", "t": "Without fusion, the core shrinks and heats up, until it is hot enough to fuse helium into carbon and oxygen."},
+      {"v": "giant-swell", "t": "Meanwhile, her outer layers swell enormously. Stella becomes a red supergiant."},
+      {"v": "giant-orbits", "t": "She is so big that, if she replaced our Sun, she would swallow Mercury, Venus, Earth, and Mars."},
+      {"v": "onion", "t": "Deep inside, she burns heavier and heavier elements, layer after layer, like an onion. Carbon, neon, oxygen, silicon... and finally, iron."},
+      {"v": "countdown", "t": "Each stage burns faster than the last. Carbon lasts about a thousand years. Silicon burns in about a day."}
+    ]},
+    {"id": "ch08", "title": "A Gentle Ending", "shots": [
+      {"v": "sun-old", "t": "But what about smaller stars, like our Sun? They never get hot enough to make iron."},
+      {"v": "planetary-nebula", "t": "When a Sun-like star runs out of fuel, it gently puffs its outer layers into space, creating a glowing shell called a planetary nebula. Despite the name, it has nothing to do with planets."},
+      {"v": "white-dwarf", "t": "Left behind is the core. A white dwarf, about the size of Earth, but with roughly the mass of the Sun."},
+      {"v": "teaspoon", "t": "One teaspoon of it would weigh several tons."},
+      {"v": "cooling", "t": "It no longer makes energy. It just slowly cools, for billions and billions of years. That is the future of our own Sun, about five billion years from now."}
+    ]},
+    {"id": "ch09", "title": "Supernova", "shots": [
+      {"v": "iron-core", "t": "Stella's ending will be very different. Iron is a dead end. Fusing it doesn't release energy. It takes energy."},
+      {"v": "fire-out", "t": "So when Stella's core fills with iron, the fire goes out."},
+      {"v": "collapse", "t": "With nothing holding it up, the core, heavier than our Sun but about the size of Earth, collapses in less than a second, falling inward at up to a quarter of the speed of light."},
+      {"v": "bounce", "t": "It crushes into a ball of neutrons only about twenty kilometers wide, and the falling matter rebounds outward. A shockwave rips through the star."},
+      {"v": "supernova", "t": "This is a supernova."},
+      {"v": "galaxy-outshine", "t": "For a few weeks, this single star can outshine billions of stars in its entire galaxy."},
+      {"v": "forge", "t": "And in the heat of the blast, even more elements are forged, and flung out into space."}
+    ]},
+    {"id": "ch10", "title": "What Remains", "shots": [
+      {"v": "remnant-choice", "t": "What's left depends on how heavy the core was."},
+      {"v": "neutron-star", "t": "Often, it becomes a neutron star. A city-sized ball so dense that a teaspoon would weigh about a billion tons."},
+      {"v": "pulsar", "t": "Some spin hundreds of times per second, sweeping beams of radiation across space like a lighthouse. We call them pulsars."},
+      {"v": "bh-form", "t": "But if the leftover core is heavy enough, nothing can stop the collapse. Not even neutrons."},
+      {"v": "black-hole", "t": "It becomes a black hole. A region where gravity is so strong that not even light can escape. Its edge of no return is called the event horizon."},
+      {"v": "accretion", "t": "Gas swirling around it heats up and glows, forming a bright disk. Stella's heart has become one of the strangest objects in the universe."}
+    ]},
+    {"id": "ch11", "title": "Star Stuff", "shots": [
+      {"v": "ejecta", "t": "But the most important part of Stella isn't what she left behind. It's what she threw out."},
+      {"v": "elements-spread", "t": "Her supernova scattered carbon, oxygen, silicon, iron and much more, across light-years of space."},
+      {"v": "new-cloud", "t": "That enriched gas mixes into new clouds... and the cycle begins again."},
+      {"v": "solar-birth", "t": "About four and a half billion years ago, one such cloud, enriched by generations of stars like Stella, collapsed to form our Sun, our Earth, and everything on it."},
+      {"v": "you-elements", "t": "The carbon in your cells. The oxygen in your lungs. The iron in your blood. All of it came from stars."},
+      {"v": "sagan", "t": "As the astronomer Carl Sagan said: we are made of star stuff."},
+      {"v": "end", "t": "Thank you for watching. Tonight, look up. You're looking at your ancestors."}
+    ]}
+  ]
+}
