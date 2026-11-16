@@ -11,6 +11,13 @@
     "remotion": {
       "command": "npx",
       "args": ["-y", "@remotion/mcp@latest"]
+    },
+    "fal-ai": {
+      "command": "npx",
+      "args": ["-y", "fal-ai-mcp@0.2.1"],
+      "env": {
+        "FAL_KEY": "${FAL_KEY}"
+      }
     }
   }
 }
