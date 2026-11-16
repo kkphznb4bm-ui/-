@@ -336,7 +336,7 @@ const LabSet: React.FC<{ g: number; on: number; mapGlow: number; message: number
           </g>
         ))}
         {/* island map on the wall */}
-        <g transform="translate(1250 380)" opacity={0.3 + 0.7 * Math.max(lit, mapGlow)}>
+        <g transform="translate(1250 320)" opacity={0.3 + 0.7 * Math.max(lit, mapGlow)}>
           <rect x={-260} y={-190} width={520} height={360} fill="#d9cfae" stroke="#111" strokeWidth={6} />
           <path d="M-170 -10 Q-160 -120 -40 -130 Q90 -150 170 -70 Q230 -20 180 70 Q120 140 0 130 Q-120 130 -170 60Z" fill="#7fb36a" stroke="#3a5a30" strokeWidth={4} />
           <circle cx={40} cy={-40} r={34} fill="#8a7a6a" />
@@ -356,7 +356,7 @@ const LabSet: React.FC<{ g: number; on: number; mapGlow: number; message: number
         ))}
         {/* message on the wall */}
         {message > 0 && (
-          <text x={1250} y={760} textAnchor="middle" fontFamily={COMIC} fontSize={64} fill="#9fffe0" style={{ filter: 'drop-shadow(0 0 12px #3fffc0)' }}>
+          <text x={1250} y={590} textAnchor="middle" fontFamily={COMIC} fontSize={64} fill="#9fffe0" style={{ filter: 'drop-shadow(0 0 12px #3fffc0)' }}>
             {msg.slice(0, shown)}
           </text>
         )}
@@ -842,6 +842,7 @@ export const makeChapter = (tl: Timeline, spec: Spec): React.FC => {
     if (a === 'title' || a === 'recap' || a === 'next') return { ...grp, z: grp.z * 0.9 };
     if (a === 'door') return { x: 3050, y: 430, z: 1.0 };
     if (a === 'tally' || a === 'ballot') return { x: 1480, y: 560, z: 1.0 };
+    if (a === 'flashback') return { x: 1600, y: 640, z: 1.45 };
     if (a === 'forest-light') return { x: -200, y: 420, z: 1.2 };
     if (a === 'lab-found') return { x: 2050, y: 620, z: 1.05 };
     if (a === 'map' || a === 'message') return { x: 1250, y: 520, z: 1.25 };
@@ -1517,14 +1518,14 @@ const VoiceCaption: React.FC<{ words: Word[]; from: number; to: number }> = ({ w
   if (f < from || f >= to) return null;
   const o = interpolate(f, [from, from + 6, to - 8, to], [0, 1, 1, 0], clamp);
   return (
-    <div style={{ position: 'absolute', left: 0, right: 0, bottom: 90, textAlign: 'center', opacity: o }}>
-      <span style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: 52, color: '#ff4a6a', background: 'rgba(10,0,6,0.75)', padding: '12px 28px', border: '3px solid #ff4a6a', textShadow: `${(random(`vg${f}`) - 0.5) * 6}px 0 #00e5ff` }}>
+    <div style={{ position: 'absolute', left: 200, right: 200, bottom: 80, display: 'flex', justifyContent: 'center', opacity: o }}>
+      <div style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: 48, lineHeight: 1.3, textAlign: 'center', color: '#ff4a6a', background: 'rgba(10,0,6,0.8)', padding: '12px 28px', border: '3px solid #ff4a6a', textShadow: `${(random(`vg${f}`) - 0.5) * 6}px 0 #00e5ff` }}>
         {words.map((w, i) => (
           <span key={i} style={{ opacity: f >= w.f ? 1 : 0.15 }}>
             {w.w.toUpperCase()}{' '}
           </span>
         ))}
-      </span>
+      </div>
     </div>
   );
 };
