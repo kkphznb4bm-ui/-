@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   AbsoluteFill,
+  Audio,
   Easing,
   Sequence,
   cancelRender,
@@ -32,7 +33,7 @@ const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
 // ---------- timing ----------
 
 const SCENES = [
-  { id: 'wake', dur: 300 },
+  { id: 'wake', dur: 330 },
   { id: 'skyscraper', dur: 450 },
   { id: 'city', dur: 450 },
   { id: 'robot', dur: 450 },
@@ -466,7 +467,7 @@ const WakeScene: React.FC = () => {
         {main.map(([flag, x], i) => {
           const w = spring({ frame: f - 40 - i * 8, fps, config: { damping: 9 } });
           const speaking =
-            (flag === 'usa' && f >= 95 && f < 160) || (flag === 'rus' && f >= 165 && f < 230) || (flag === 'chn' && f >= 235);
+            (flag === 'usa' && f >= 100 && f < 163) || (flag === 'rus' && f >= 166 && f < 246) || (flag === 'chn' && f >= 249);
           const eyes: Eyes = w < 0.5 ? 'closed' : flag === 'usa' && f < 160 ? 'wide' : flag === 'rus' && speaking ? 'smug' : 'normal';
           return (
             <Ball
@@ -495,9 +496,9 @@ const WakeScene: React.FC = () => {
       </World>
       <BigText lines={['WHAT HAPPENS WHEN', 'EVERY COUNTRY GETS', 'TRAPPED ON ONE ISLAND?']} size={92} opacity={hook} scale={0.8 + 0.2 * hookScale} />
       {f > 92 && <Sticker text="DAY 1" />}
-      <Bubble x={250} y={1020} text="WHERE ARE WE?!" from={95} to={160} size={76} />
-      <Bubble x={540} y={1020} text="LOOKS LIKE WE'RE STUCK HERE." from={165} to={230} />
-      <Bubble x={830} y={1020} text="WHO BROUGHT US HERE?" from={235} to={298} />
+      <Bubble x={250} y={1020} text="WHERE ARE WE?!" from={100} to={163} size={76} />
+      <Bubble x={540} y={1020} text="LOOKS LIKE WE'RE STUCK HERE." from={166} to={246} />
+      <Bubble x={830} y={1020} text="WHO BROUGHT US HERE?" from={249} to={328} />
     </AbsoluteFill>
   );
 };
@@ -1022,6 +1023,27 @@ const SinkingScene: React.FC = () => {
   );
 };
 
+// ---------- voice ----------
+
+// [global frame, file in public/voice-edge]
+const VOICE: [number, string][] = [
+  [0, 'hook'],
+  [101, 'usa_where'],
+  [167, 'rus_stuck'],
+  [250, 'chn_who'],
+  [330 + 112, 'rus_why'],
+  [330 + 274, 'usa_great'],
+  [780 + 132, 'usa_how'],
+  [780 + 287, 'chn_eff'],
+  [1230 + 152, 'rus_work'],
+  [1230 + 292, 'jpn_tech'],
+  [1680 + 92, 'usa_what'],
+  [1680 + 187, 'kgz_home'],
+  [2130 + 6, 'day2'],
+  [2130 + 162, 'rus_resp'],
+  [2130 + 347, 'usa_bad'],
+];
+
 // ---------- composition ----------
 
 const COMPONENTS: Record<(typeof SCENES)[number]['id'], React.FC> = {
@@ -1049,6 +1071,11 @@ export const Island: React.FC = () => {
           </Sequence>
         );
       })}
+      {VOICE.map(([at, file]) => (
+        <Sequence key={file} from={at} layout="none">
+          <Audio src={staticFile(`voice-edge/${file}.mp3`)} />
+        </Sequence>
+      ))}
     </AbsoluteFill>
   );
 };
