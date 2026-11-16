@@ -6,11 +6,11 @@
     },
     "ffmpeg": {
       "command": "npx",
-      "args": ["-y", "ffmpeg-mcp"]
+      "args": ["-y", "ffmpeg-mcp@0.0.3"]
     },
     "remotion": {
       "command": "npx",
-      "args": ["-y", "@remotion/mcp@latest"]
+      "args": ["-y", "@remotion/mcp@4.0.539"]
     },
     "fal-ai": {
       "command": "npx",
