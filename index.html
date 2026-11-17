@@ -47,7 +47,13 @@ button { cursor: pointer; }
 }
 
 /* Header */
-.top { background: radial-gradient(120% 140% at 85% 0%, var(--red-deep) 0%, rgba(140, 10, 30, 0) 60%), var(--bg); }
+.top { background: radial-gradient(120% 140% at 85% 0%, rgba(140, 10, 30, .55) 0%, rgba(140, 10, 30, 0) 60%); }
+.page-bg {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(16, 11, 11, .55) 0%, rgba(16, 11, 11, .78) 45%, rgba(16, 11, 11, .9) 100%),
+    url("img/bg.jpg") center / cover no-repeat, var(--bg);
+}
 .hero { padding-block: 34px 26px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 18px 32px; }
 .brand { margin: 0; display: flex; align-items: center; gap: 12px; font-family: var(--f-display); line-height: .9; }
 .brand .word { font-weight: 700; font-size: clamp(52px, 11vw, 96px); letter-spacing: -.01em; text-transform: uppercase; }
@@ -61,7 +67,7 @@ button { cursor: pointer; }
 }
 
 /* Category nav */
-.cats { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid #2B1E1F; }
+.cats { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(16, 11, 11, .88); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid #2B1E1F; }
 .cats .wrap { display: flex; gap: 8px; overflow-x: auto; padding-block: 12px; scrollbar-width: none; }
 .cats .wrap::-webkit-scrollbar { display: none; }
 .cat-link {
@@ -142,6 +148,7 @@ button { cursor: pointer; }
 @media (max-width: 560px) {
   .item.featured { flex-direction: column; }
   .item.featured .pic { min-height: 0; aspect-ratio: 4 / 3; }
+  .item.featured .pic img { object-fit: cover; }
   .item.featured .info { padding: 4px 16px 18px; }
 }
 
@@ -243,6 +250,7 @@ footer { color: var(--text-muted); font-size: 13px; padding-block: 0 110px; }
 </style>
 </head>
 <body>
+<div class="page-bg" aria-hidden="true"></div>
 
 <div class="top">
   <header class="wrap hero">
@@ -401,9 +409,9 @@ const MENU = [
   { id: "wings", cat: "snacks", img: "wings", name: "Крылышки", variants: [["6 шт", 320], ["12 шт", 650], ["18 шт", 930]] },
   { id: "samsa", cat: "snacks", img: "samsa", name: "Самса с курицей и сыром", price: 70 },
   { id: "fries", cat: "snacks", img: "fries", name: "Фри стандарт", price: 145 },
-  { id: "wedges", cat: "snacks", img: "fries", name: "Картофель по-деревенски", price: 120 },
-  { id: "nuggets", cat: "snacks", img: "fries", name: "Наггетсы", price: 214 },
-  { id: "sauce", cat: "snacks", name: "Соус", desc: "Выберите вкус", variants: ["Кетчуп", "Сырный", "BBQ", "Чесночный", "Горчичный", "Хайдари", "Чили", "Кисло-сладкий"].map(s => [s, 30]) },
+  { id: "wedges", cat: "snacks", img: "wedges", name: "Картофель по-деревенски", price: 120 },
+  { id: "nuggets", cat: "snacks", img: "nuggets", name: "Наггетсы", price: 214 },
+  { id: "sauce", cat: "snacks", img: "sauce", name: "Соус", desc: "Выберите вкус", variants: ["Кетчуп", "Сырный", "BBQ", "Чесночный", "Горчичный", "Хайдари", "Чили", "Кисло-сладкий"].map(s => [s, 30]) },
 
   // Кофе
   { id: "espresso", cat: "coffee", sub: "Горячий кофе", img: "coffee", name: "Эспрессо", variants: [["0,3 л", 120]] },
