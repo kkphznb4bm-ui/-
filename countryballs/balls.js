@@ -22,6 +22,7 @@ const C = {
   mexico:{name:'Мексика',emoji:'🇲🇽',acc:'sombrero',flag:()=>vstripes(['#006847','#fff','#CE1126'])+`<ellipse cx="0" cy="2" rx="9" ry="7" fill="#8a5a2b"/><path d="M-10,8 Q0,14 10,8" stroke="#2f9e44" stroke-width="2" fill="none"/>`},
   italy:{name:'Италия',emoji:'🇮🇹',acc:'none',flag:()=>vstripes(['#009246','#fff','#CE2B37'])},
   uzbekistan:{name:'Узбекистан',emoji:'🇺🇿',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="32" fill="#1EB5E0"/><rect x="-50" y="-18" width="100" height="3" fill="#CE1126"/><rect x="-50" y="-15" width="100" height="30" fill="#fff"/><rect x="-50" y="15" width="100" height="3" fill="#CE1126"/><rect x="-50" y="18" width="100" height="32" fill="#1EB534"/><circle cx="-30" cy="-34" r="8" fill="#fff"/><circle cx="-26" cy="-35" r="7" fill="#1EB5E0"/>${[...Array(6)].map((_,i)=>`<circle cx="${-14+i*6}" cy="-38" r="1.6" fill="#fff"/>`).join('')}`},
+  canada:{name:'Канада',emoji:'🇨🇦',acc:'none',flag:()=>vstripes(['#D80621','#fff','#fff','#D80621'])+`<path d="M0,-20 l4,8 6,-3 -2,12 7,-4 2,5 8,-1 -4,8 3,2 -14,10 1,6 -10,-2 v12 h-2 v-12 l-10,2 1,-6 -14,-10 3,-2 -4,-8 8,1 2,-5 7,4 -2,-12 6,3z" fill="#D80621"/>`},
 };
 
 /* ================== АКСЕССУАРЫ ================== */

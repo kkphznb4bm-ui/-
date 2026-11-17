@@ -157,3 +157,12 @@ const ITALY_PARTS=()=>GENERIC_PARTS({leg:'#009246',arm:'#f8f9fa',accent:'#CE2B37
 const UZBEK_PARTS=()=>GENERIC_PARTS({leg:'#1EB5E0',arm:'#1EB5E0',accent:'#1EB534',body:'#f8f9fa',roof:'#1EB534',sign:'UZ 🍚',signColor:'#1EB5E0',hood:'#f8f9fa',
   bodyDecor:`<rect x="-110" y="-34" width="220" height="20" fill="#1EB5E0"/><rect x="-110" y="14" width="220" height="20" fill="#1EB534"/><rect x="-110" y="-15" width="220" height="3" fill="#CE1126"/><rect x="-110" y="11" width="220" height="3" fill="#CE1126"/>`,
   hoodDecor:`<path d="M-26,-26 L-26,-40 Q0,-50 26,-40 L26,-26Z" fill="#111"/>${[-14,0,14].map(x=>`<path d="M${x},-38 q-3,-4 0,-7 q3,3 0,7z" fill="#fff"/>`).join('')}`});
+const FRANCE_PARTS=()=>GENERIC_PARTS({leg:'#0055A4',arm:'#f8f9fa',accent:'#EF4135',body:'#f8f9fa',roof:'#0055A4',sign:'FR 🥐',signColor:'#0055A4',hood:'#f8f9fa',
+  bodyDecor:`<rect x="-110" y="-34" width="220" height="22" fill="#0055A4"/><rect x="-110" y="12" width="220" height="22" fill="#EF4135"/>${[...Array(5)].map((_,i)=>`<rect x="${-100+i*44}" y="-8" width="30" height="16" rx="3" fill="#9fd3ff"/>`).join('')}`,
+  hoodDecor:`<ellipse cx="-4" cy="-30" rx="32" ry="11" fill="#1a1a1a" stroke="#111" stroke-width="2" transform="rotate(-10)"/><rect x="-6" y="-46" width="4" height="8" fill="#111"/><path d="M-12,16 q6,6 12,0 q6,6 12,0" stroke="#111" stroke-width="2.5" fill="none"/>`});
+const CANADA_PARTS=()=>GENERIC_PARTS({leg:'#D80621',arm:'#D80621',accent:'#fff',body:'#f8f9fa',roof:'#D80621',sign:'CA 🍁',signColor:'#D80621',hood:'#f8f9fa',
+  bodyDecor:`<rect x="-110" y="-34" width="40" height="68" fill="#D80621"/><rect x="70" y="-34" width="40" height="68" fill="#D80621"/><text x="0" y="12" text-anchor="middle" font-size="34">🍁</text>`,
+  hoodDecor:`<path d="M-24,-28 Q0,-52 24,-28Z" fill="#D80621" stroke="#111" stroke-width="2"/><circle cy="-50" r="6" fill="#fff" stroke="#111" stroke-width="2"/>`});
+const TAJIK_PARTS=()=>GENERIC_PARTS({leg:'#CC0000',arm:'#f8f9fa',accent:'#006600',body:'#f8f9fa',roof:'#006600',sign:'TJ 🍵',signColor:'#CC0000',hood:'#f8f9fa',
+  bodyDecor:`<rect x="-110" y="-34" width="220" height="20" fill="#CC0000"/><rect x="-110" y="14" width="220" height="20" fill="#006600"/><path d="M-9,8 L-9,0 L-4,4 L0,-3 L4,4 L9,0 L9,8Z" fill="#F8C300" transform="translate(0,-4) scale(1.4)"/>`,
+  hoodDecor:`<path d="M-24,-26 Q-22,-48 0,-48 Q22,-48 24,-26Z" fill="#111"/>${[-12,0,12].map(x=>`<path d="M${x},-36 q-3,-4 0,-7 q3,3 0,7z" fill="#fff"/>`).join('')}`});

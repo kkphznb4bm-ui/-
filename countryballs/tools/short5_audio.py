@@ -133,6 +133,26 @@ elif clip == 15:
     for i in range(4): add(2.0 + i * .12, lp(noise(.3), .3) * env(int(.3 * SR), .05, .1), .3); add(2.0 + i * .12, sweep(300, 900, .2), .1)   # бег
     for i in range(4): add(3.4 + i * .2, tone(midi(79 + i * 2), .1, 'sine', .002, .08), .15)  # шлёп на тарелку
     for i, n in enumerate([72, 76, 79, 84]): add(4.4 + i * .1, tone(midi(n), .3, 'tri', .005, .25), .15)
+elif clip == 16:
+    for k in np.arange(0, 1.2, 1 / 4.5): add(k, lp(noise(.05), .4) * np.exp(-T(.05) * 50), .5); add(k, tone(900, .04, 'square', .001, .03), .08)  # тук-тук
+    add(1.2, sweep(400, 1200, .3), .3); add(1.2, kick(), .6)                   # «понедельник?!»
+    for k in np.arange(1.7, 2.9, .3): add(k, kick(), .6); add(k + .15, clap(), .5)   # марш забастовки
+    for i, n in enumerate([67, 72, 71, 69, 67, 64, 65, 67]): add(2.9 + i * .32, tone(midi(n), .3, 'tri', .01, .15, vib=.006), .16)  # аккордеон-вальс
+    for i in range(8): add(2.9 + i * .32, tone(midi([48, 55][i % 2]), .25, 'sine', .01, .15), .12)
+elif clip == 17:
+    for k in np.arange(0, 5.5, .2): add(k, lp(noise(.03), .5) * np.exp(-T(.03) * 80), .15)   # шаги
+    for i, h in enumerate((.8, 2.0, 3.2)):
+        add(h, tone(220 + i * 40, .2, 'sine', .001, .18) * np.exp(-T(.2) * 12), .6); add(h, kick(), .4)  # бум
+        for j, n in enumerate([76, 72]): add(h + .2 + j * .18, tone(midi(n - i * 2), .2, 'tri', .01, .1), .2)   # «сор-ри»
+    add(3.7, lp(sweep(160, 110, .6, 'saw'), .08) * env(int(.6 * SR), .05, .2), .6)   # «лось»
+    for i, n in enumerate([72, 76, 79, 84]): add(4.4 + i * .12, tone(midi(n), .3, 'sine', .005, .25), .15)
+elif clip == 18:
+    for i in range(18): add(i * .3, tone(midi([62, 65, 67, 69, 67, 65][i % 6]), .25, 'tri', .005, .15), .1)  # рубаб-мотив
+    for q in range(9):
+        tt = .4 + q * .5 + .25
+        add(tt, tone(midi(72 + q * 2), .12, 'sine', .002, .1), .25); add(tt, lp(noise(.05), .3) * np.exp(-T(.05) * 40), .4)   # «дзынь» тарелки
+    add(3.0, sweep(500, 300, .5), .2)                                          # «уф»
+    for k in np.arange(4.4, 5.5, .12): add(k, tone(rng.uniform(1500, 2200), .05, 'sine', .002, .03), .06)  # дребезг посуды
 else:
     for k in (0, .9, 1.8): boom(k)                               # тяжёлые шаги
     add(0, lp(noise(2.0), .03) * env(int(2.0 * SR), .2, .3), 1.2)    # ветер
