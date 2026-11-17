@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Терияки</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: black sushi-bar page, dark slate cards with lime prices and gold section rules (as on the printed menu); order slip sticky on the right, bottom sheet on phones. Single deliberate dark look. */
+:root {
+  --bg: #0A0A0B;
+  --surface: #151517;
+  --surface-2: #1E1E21;
+  --line: #2A2A2E;
+  --text: #F3F3EE;
+  --muted: #A3A39B;
+  --lime: #C6F432;
+  --lime-ink: #101204;
+  --gold: #E5B23A;
+  --red: #E0322B;
+  --shadow: 0 16px 40px rgba(0, 0, 0, .55);
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r: 16px;
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.5 var(--f-body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--lime); outline-offset: 2px; }
+.wrap {
+  max-width: 1200px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.page-bg {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(90% 60% at 100% 0%, rgba(198, 244, 50, .10), rgba(198, 244, 50, 0) 60%),
+    radial-gradient(70% 50% at 0% 100%, rgba(229, 178, 58, .10), rgba(229, 178, 58, 0) 60%),
+    var(--bg);
+}
+
+/* Header */
+.hero { padding-block: 34px 24px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 18px 32px; }
+.brand { margin: 0; font: 800 clamp(40px, 9vw, 80px)/1 var(--f-display); letter-spacing: .02em; text-transform: uppercase; }
+.brand span { color: var(--lime); }
+.brand-sub { margin: 8px 0 0; font: 600 13px/1 var(--f-display); letter-spacing: .32em; color: var(--gold); text-transform: uppercase; }
+.tagline { margin: 14px 0 0; color: var(--muted); font-size: 17px; max-width: 46ch; }
+.badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { font: 600 12px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; padding: 10px 14px; border-radius: 999px; border: 1.5px solid var(--gold); color: var(--gold); }
+
+/* Category nav */
+.cats { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(10, 10, 11, .9); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.cats .wrap { display: flex; gap: 8px; overflow-x: auto; padding-block: 12px; scrollbar-width: none; }
+.cats .wrap::-webkit-scrollbar { display: none; }
+.cat-link { flex: none; text-decoration: none; color: var(--text); font: 600 12.5px/1 var(--f-display); text-transform: uppercase; letter-spacing: .04em; padding: 11px 15px; border-radius: 999px; background: var(--surface-2); }
+.cat-link:hover { background: #2A2A2E; }
+.cat-link.active { background: var(--lime); color: var(--lime-ink); }
+
+/* Main grid */
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 370px; gap: 32px; align-items: start; padding-block: 26px 120px; }
+@media (max-width: 959px) { .main { grid-template-columns: minmax(0, 1fr); } }
+.section { scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 74px); }
+.section + .section { margin-top: 44px; }
+.banner { margin: 0 0 18px; display: flex; align-items: center; gap: 16px; font: 700 clamp(20px, 3.6vw, 28px)/1.1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; }
+.banner::before, .banner::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, rgba(229, 178, 58, 0), var(--gold)); }
+.banner::after { background: linear-gradient(90deg, var(--gold), rgba(229, 178, 58, 0)); }
+.subhead { margin: 22px 0 12px; color: var(--lime); font: 600 15px/1.1 var(--f-display); text-transform: uppercase; letter-spacing: .06em; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+
+/* Item card */
+.item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; }
+.pic { aspect-ratio: 4 / 3; background: #111; overflow: hidden; max-width: 100%; }
+.pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.info { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.item h3 { margin: 0; font: 700 15px/1.25 var(--f-display); text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; }
+.item .desc { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.4; }
+.item .vol { margin: 0; color: var(--gold); font-size: 13px; font-weight: 800; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1.5px solid var(--line); background: transparent; color: var(--text); border-radius: 999px; padding: 5px 10px; font-size: 13px; font-weight: 700; line-height: 1.2; }
+.chip[aria-pressed="true"] { background: var(--text); border-color: var(--text); color: var(--bg); }
+.row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 8px; }
+.price { font: 700 22px/1 var(--f-display); color: var(--lime); font-variant-numeric: tabular-nums; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.price small { font-size: .62em; margin-left: 1px; }
+.price s { color: var(--muted); font-size: .6em; font-weight: 500; }
+.price .ask { font: 700 13px/1.2 var(--f-body); color: var(--gold); }
+.add { border: 0; background: var(--lime); color: var(--lime-ink); font-weight: 800; white-space: nowrap; border-radius: 999px; padding: 9px 16px; font-size: 15px; }
+.add:hover { filter: brightness(1.08); }
+.stepper { display: inline-flex; align-items: center; background: var(--text); color: var(--bg); border-radius: 999px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stepper button { border: 0; background: transparent; color: inherit; width: 36px; height: 36px; font-size: 20px; line-height: 1; border-radius: 999px; }
+.stepper span { min-width: 22px; text-align: center; }
+
+/* Featured card */
+.item.featured { grid-column: 1 / -1; flex-direction: row; align-items: stretch; border: 1.5px solid var(--gold); background: linear-gradient(135deg, #1D1A12, #121214); }
+.item.featured .pic { flex: 1 1 56%; aspect-ratio: auto; min-height: 240px; }
+.item.featured .info { flex: 1 1 44%; justify-content: center; padding: 22px; gap: 10px; }
+.item.featured h3 { font-size: clamp(22px, 3.4vw, 32px); }
+.item.featured .desc { font-size: 15px; }
+.tag { align-self: flex-start; background: var(--red); color: #FFFFFF; font: 700 11px/1 var(--f-display); text-transform: uppercase; letter-spacing: .08em; padding: 7px 10px; border-radius: 999px; }
+.item.featured .price { font-size: 38px; }
+.item.featured .row { justify-content: flex-start; gap: 18px; }
+@media (max-width: 560px) {
+  .item.featured { flex-direction: column; }
+  .item.featured .pic { min-height: 0; aspect-ratio: 4 / 3; }
+  .item.featured .info { padding: 6px 16px 18px; }
+}
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .info { padding: 10px 11px 12px; }
+  .item h3 { font-size: 13px; }
+  .item .desc { font-size: 12px; }
+  .price { font-size: 19px; }
+  .add { padding: 8px 12px; font-size: 14px; }
+  .chip { padding: 4px 8px; font-size: 12px; }
+}
+
+/* Order slip */
+.cart { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); position: sticky; top: calc(env(safe-area-inset-top, 0px) + 78px); display: flex; flex-direction: column; max-height: calc(100vh - 100px); }
+.cart-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 18px 10px; }
+.cart-head h2 { margin: 0; font: 700 20px/1 var(--f-display); text-transform: uppercase; }
+.close { border: 0; background: var(--surface-2); width: 36px; height: 36px; border-radius: 50%; font-size: 20px; display: none; }
+.cart-body { overflow-y: auto; padding: 0 18px; min-height: 0; flex: 1; }
+.cart-foot { padding: 14px 18px 18px; border-top: 1px dashed var(--line); }
+.empty { text-align: center; color: var(--muted); padding: 18px 6px 26px; }
+.empty strong { display: block; color: var(--text); font: 700 16px/1.2 var(--f-display); text-transform: uppercase; margin-bottom: 6px; }
+.line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.line:last-child { border-bottom: 0; }
+.line .name { font-weight: 800; }
+.line .name em { font-style: normal; font-weight: 600; color: var(--muted); }
+.line .sum { font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+.line .unit { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.line .stepper { justify-self: end; transform: scale(.9); transform-origin: right center; }
+.total { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.total span:first-child { color: var(--muted); font-weight: 700; }
+.total strong { font: 700 26px/1 var(--f-display); color: var(--lime); font-variant-numeric: tabular-nums; }
+.note { color: var(--gold); font-size: 12.5px; margin: 0 0 10px; }
+.primary { width: 100%; border: 0; background: var(--lime); color: var(--lime-ink); font: 700 15px/1 var(--f-display); text-transform: uppercase; letter-spacing: .04em; padding: 17px; border-radius: 14px; text-align: center; text-decoration: none; display: block; margin-top: 10px; }
+.primary:hover { filter: brightness(1.08); }
+.primary:disabled { opacity: .35; cursor: not-allowed; }
+.ghost { width: 100%; border: 1.5px solid var(--line); background: transparent; color: var(--text); font-weight: 700; padding: 12px; border-radius: 14px; margin-top: 8px; }
+.link-btn { border: 0; background: none; color: var(--muted); font-weight: 700; padding: 0; text-decoration: underline; font-size: 14px; }
+form { display: grid; gap: 12px; padding-bottom: 6px; }
+label { display: grid; gap: 5px; font-weight: 700; font-size: 14px; }
+.lbl { font-weight: 700; font-size: 14px; margin-bottom: 5px; }
+input[type="text"], input[type="tel"], textarea { width: 100%; border: 1.5px solid var(--line); background: var(--bg); color: var(--text); border-radius: 12px; padding: 11px 12px; font-size: 16px; font-weight: 500; }
+input::placeholder, textarea::placeholder { color: #6E6E68; }
+input:focus, textarea:focus { outline: none; border-color: var(--lime); }
+textarea { resize: vertical; min-height: 64px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--bg); padding: 4px; border-radius: 12px; border: 1.5px solid var(--line); }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { text-align: center; padding: 9px; border-radius: 9px; cursor: pointer; font-size: 15px; display: block; }
+.seg input:checked + label { background: var(--text); color: var(--bg); }
+.seg input:focus-visible + label { outline: 3px solid var(--lime); }
+.err { color: #FF6B5E; font-size: 13px; font-weight: 700; }
+.done h3 { font: 700 18px/1.2 var(--f-display); text-transform: uppercase; margin: 4px 0 6px; }
+.done p { color: var(--muted); margin: 0 0 12px; font-size: 14px; }
+.receipt { white-space: pre-wrap; font: 500 13px/1.5 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; background: var(--bg); border: 1px dashed var(--line); border-radius: 12px; padding: 12px; margin: 0 0 12px; max-height: 260px; overflow: auto; }
+
+/* Mobile bar + sheet */
+.bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: none; padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.bar button { width: 100%; border: 0; border-radius: 16px; padding: 14px 18px; background: var(--lime); color: var(--lime-ink); display: flex; align-items: center; justify-content: space-between; font: 700 15px/1 var(--f-display); text-transform: uppercase; letter-spacing: .03em; box-shadow: var(--shadow); }
+.bar .count { background: var(--lime-ink); color: var(--lime); border-radius: 999px; min-width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0 8px; margin-right: 10px; font-variant-numeric: tabular-nums; }
+.backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, .65); z-index: 45; }
+@media (max-width: 959px) {
+  .bar.show { display: block; }
+  .cart { position: fixed; left: 0; right: 0; bottom: 0; top: auto; z-index: 50; max-height: 88vh; border-radius: 22px 22px 0 0; transform: translateY(105%); transition: transform .28s ease; padding-bottom: env(safe-area-inset-bottom, 0px); padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+  .cart.open { transform: none; }
+  .close { display: inline-grid; place-items: center; }
+}
+footer { color: var(--muted); font-size: 13px; padding-block: 0 110px; }
+</style>
+</head>
+<body>
+<div class="page-bg" aria-hidden="true"></div>
+
+<header class="wrap hero">
+  <div>
+    <h1 class="brand">Терия<span>ки</span></h1>
+    <p class="brand-sub">Суши · Роллы · Пицца</p>
+    <p class="tagline">Роллы, сеты, пицца, комбо и рамен. Соберите заказ на сайте и отправьте его нам в WhatsApp.</p>
+  </div>
+  <div class="badges" aria-label="Способы получения">
+    <span class="badge">Доставка</span>
+    <span class="badge">Самовывоз</span>
+  </div>
+</header>
+
+<nav class="cats" aria-label="Разделы меню">
+  <div class="wrap" id="catNav"></div>
+</nav>
+
+<div class="wrap main">
+  <main id="menu"></main>
+
+  <aside class="cart" id="cart" aria-label="Ваш заказ">
+    <div class="cart-head">
+      <h2 id="cartTitle">Ваш заказ</h2>
+      <button class="close" id="closeCart" type="button" aria-label="Закрыть">×</button>
+    </div>
+
+    <div class="cart-body" id="viewCart"></div>
+    <div class="cart-foot" id="footCart">
+      <div class="total"><span>Итого</span><strong id="total">0</strong></div>
+      <p class="note" id="note" hidden></p>
+      <button class="primary" id="toCheckout" type="button">Оформить заказ</button>
+    </div>
+
+    <div class="cart-body" id="viewCheckout" hidden>
+      <form id="orderForm" novalidate>
+        <label for="fName">Имя
+          <input type="text" id="fName" name="name" autocomplete="given-name" placeholder="Как к вам обращаться">
+        </label>
+        <label for="fPhone">Телефон
+          <input type="tel" id="fPhone" name="phone" autocomplete="tel" placeholder="Номер для связи">
+        </label>
+        <div>
+          <div class="lbl">Как получить</div>
+          <div class="seg" role="radiogroup" aria-label="Как получить">
+            <input type="radio" name="method" id="mDelivery" value="Доставка" checked><label for="mDelivery">Доставка</label>
+            <input type="radio" name="method" id="mPickup" value="Самовывоз"><label for="mPickup">Самовывоз</label>
+          </div>
+        </div>
+        <label for="fAddress" id="addressWrap">Адрес
+          <input type="text" id="fAddress" name="address" autocomplete="street-address" placeholder="Улица, дом, подъезд, этаж">
+        </label>
+        <label for="fComment">Комментарий
+          <textarea id="fComment" name="comment" placeholder="Палочки, соус, пожелания…"></textarea>
+        </label>
+        <div class="err" id="formErr" role="alert"></div>
+      </form>
+    </div>
+    <div class="cart-foot" id="footCheckout" hidden>
+      <div class="total"><span>К оплате</span><strong id="total2">0</strong></div>
+      <p class="note" id="note2" hidden></p>
+      <button class="primary" type="submit" form="orderForm">Заказать через WhatsApp</button>
+      <button class="ghost" id="backToCart" type="button">Назад к корзине</button>
+    </div>
+
+    <div class="cart-body done" id="viewDone" hidden>
+      <h3>Открываем WhatsApp</h3>
+      <p>Текст заказа уже вставлен в чат. Нажмите «Отправить» в WhatsApp, и мы подтвердим заказ. Если WhatsApp не открылся, нажмите кнопку ниже.</p>
+      <pre class="receipt" id="receipt"></pre>
+    </div>
+    <div class="cart-foot" id="footDone" hidden>
+      <a class="primary" id="waLink" href="#" target="_blank" rel="noopener">Отправить в WhatsApp</a>
+      <button class="ghost" id="copyBtn" type="button">Скопировать текст заказа</button>
+      <div style="text-align:center;margin-top:12px"><button class="link-btn" id="newOrder" type="button">Начать новый заказ</button></div>
+    </div>
+  </aside>
+</div>
+
+<footer class="wrap">© Терияки · Instagram: teriyaki_jld</footer>
+
+<div class="backdrop" id="backdrop" hidden></div>
+<div class="bar" id="bar">
+  <button type="button" id="openCart">
+    <span><span class="count" id="barCount">0</span>Корзина</span>
+    <span id="barTotal">0</span>
+  </button>
+</div>
+
+<script>
+/* ===== Настройки заведения — меняйте здесь ===== */
+const CONFIG = {
+  brand: "Терияки",
+  currency: "с",
+  // Номер WhatsApp, куда придут заказы: только цифры, с кодом страны
+  whatsapp: "996770245642",
+};
+
+const CATS = [
+  { id: "combo",  name: "Комбо" },
+  { id: "sets",   name: "Сеты" },
+  { id: "rolls",  name: "Роллы" },
+  { id: "baked",  name: "Запечённые" },
+  { id: "hot",    name: "Горячие роллы" },
+  { id: "maki",   name: "Маки" },
+  { id: "sushi",  name: "Гунканы и суши" },
+  { id: "pizza",  name: "Пицца" },
+  { id: "ramen",  name: "Рамен" },
+  { id: "snacks", name: "Закуски и соусы" },
+  { id: "drinks", name: "Напитки и чай" },
+];
+
+/* price — цена (null = уточняется); oldPrice — зачёркнутая; variants — [название, цена]; img — фото */
+const PIZZA = (a, b) => [["28 см", a], ["33 см", b]];
+const MENU = [
+  // Комбо
+  { id: "combo-super", cat: "combo", img: "combo-super", name: "Супер Комбо", price: 1599, oldPrice: 2310, featured: true, tag: "Выгодно", desc: "40 шт роллов, пицца Пепперони 30 см, лимонад 1 л" },
+  { id: "combo-gurman", cat: "combo", img: "combo-gurman", name: "Комбо «Гурман»", price: 1499, oldPrice: 1750, desc: "40 шт премиальных роллов, пицца Пепперони 30 см, лимонад 1 л" },
+  { id: "combo-time", cat: "combo", img: "combo-time", name: "Комбо Тайм", price: 1250, desc: "Запечённый тори 8 шт, запечённый с крабом 8 шт, хот кани спайси 8 шт, пицца Пепперони 30 см, кола 1 л" },
+  { id: "combo-1", cat: "combo", sub: "Фастфуд комбо", img: "combo-1", name: "Комбо №1", price: 549, desc: "Картофель фри, шаурма 2 шт, куриная грудка, кола 0,5, сырный соус" },
+  { id: "combo-2", cat: "combo", sub: "Фастфуд комбо", img: "combo-2", name: "Комбо №2", price: 949, desc: "Картофель фри, чизи бургер 2 шт, куриная грудка 2 шт, кола 0,5 2 шт, сырный соус" },
+  { id: "combo-3", cat: "combo", sub: "Фастфуд комбо", img: "combo-3", name: "Комбо №3", price: 549, desc: "Картофель фри, бургер говяжий, шаурма говяжья, кола 0,5, сырный соус" },
+  { id: "combo-4", cat: "combo", sub: "Фастфуд комбо", img: "combo-4", name: "Комбо №4", price: 949, desc: "Картофель фри, бургер говяжий 2 шт, шаурма говяжья 2 шт, кола 0,5 2 шт, сырный соус" },
+
+  // Сеты
+  { id: "set-deluxe", cat: "sets", img: "set-deluxe", name: "Де Люкс сет", vol: "48 шт", price: 1599, desc: "Запечённый краб, запечённый угорь, запечённый курица, сяке фри, фила лайт, кани чиз" },
+  { id: "set-signature", cat: "sets", img: "set-signature", name: "Фирменный сет", vol: "30 шт", price: 1199, desc: "Канада, Филадельфия, сяки калифорния, сяки маки" },
+  { id: "set-baked", cat: "sets", img: "set-baked", name: "Запечённый сет", vol: "24 шт", price: 989, desc: "Запечённый с крабом, запечённый с угрем, запечённый тори" },
+  { id: "set-tempura", cat: "sets", img: "set-tempura", name: "Темпура сет", vol: "21 шт", price: 899, desc: "Хот эби, хот кани спайси, хот вегас" },
+  { id: "set-classic", cat: "sets", img: "set-classic", name: "Классика сет", vol: "30 шт", price: 599, desc: "Каппа маки, сяке маки, авокадо маки, унаги маки, спайси кани" },
+
+  // Роллы
+  { id: "r-phila", cat: "rolls", img: "r-phila", name: "Филадельфия", vol: "8 шт", price: 350, desc: "Рис, нори, сыр «Cremette», огурец, лосось" },
+  { id: "r-kani", cat: "rolls", img: "r-kani", name: "Кани чиз", vol: "8 шт", price: 289, desc: "Рис, нори, сыр «Cremette», огурец, снежный краб, икра масаго" },
+  { id: "r-sake-cal", cat: "rolls", img: "r-sake-cal", name: "Сяке калифорния", vol: "8 шт", price: 360, desc: "Рис, нори, огурец, авокадо, лосось, икра масаго, яп. майонез" },
+  { id: "r-canada", cat: "rolls", img: "r-canada", name: "Канада", vol: "8 шт", price: 420, desc: "Рис, нори, авокадо, сыр «Cremette», лосось, угорь, унаги соус, кунжут" },
+  { id: "r-asahi", cat: "rolls", img: "r-asahi", name: "Асахи ролл (XL)", vol: "8 шт", price: 450, desc: "Рис, нори, сыр «Cremette», креветка отв., огурец, масаго, зелень" },
+  { id: "r-phila-ebi", cat: "rolls", img: "r-phila-ebi", name: "Филадельфия эби (XL)", vol: "8 шт", price: 480, desc: "Рис, нори, сыр «Cremette», лосось, авокадо, креветка темпура" },
+
+  // Запечённые
+  { id: "b-crab", cat: "baked", img: "b-crab", name: "Запечённый с крабом", vol: "8 шт", price: 299, desc: "Рис, нори, смесь кани, сыр «Cremette», икра масаго, сырный соус, лук зел." },
+  { id: "b-tori", cat: "baked", img: "b-tori", name: "Запечённый тори", vol: "8 шт", price: 289, desc: "Рис, нори, смесь тори, курица, салат айсберг, кунжут, сырный соус" },
+  { id: "b-eel", cat: "baked", img: "b-eel", name: "Запечённый с угрем", vol: "8 шт", price: 360, desc: "Рис, нори, сыр «Cremette», угорь, огурец, крем соус, унаги соус, кунжут" },
+  { id: "b-shrimp", cat: "baked", img: "b-shrimp", name: "Запечённый с креветкой", vol: "8 шт", price: 360, desc: "Рис, нори, креветка темпура, сыр «Cremette», огурец, икра масаго, крем соус" },
+  { id: "b-salmon", cat: "baked", img: "b-salmon", name: "Запечённый с лососем", vol: "8 шт", price: 360, desc: "Рис, нори, лосось, огурец, сыр «Cremette», крем соус, икра масаго" },
+
+  // Горячие роллы
+  { id: "h-kani", cat: "hot", img: "h-kani", name: "Хот кани спайси", vol: "8 шт", price: 289, desc: "Рис, нори, сыр «Cremette», снежный краб, авокадо, спайси соус, темпурный кляр, панко" },
+  { id: "h-unagi", cat: "hot", img: "h-unagi", name: "Хот унаги", vol: "8 шт", price: 380, desc: "Рис, нори, сыр «Cremette», огурец, кунжут, панко, темпурный кляр, лук зел., угорь, унаги соус" },
+  { id: "h-ebi", cat: "hot", img: "h-ebi", name: "Хот эби", vol: "8 шт", price: 380, desc: "Рис, нори, сыр «Cremette», огурец, кунжут, спайси соус, темпурный кляр, лук зел., жар. креветка, масаго, панко" },
+  { id: "h-teriyaki", cat: "hot", img: "h-teriyaki", name: "Терияки", vol: "8 шт", price: 370, desc: "Рис, нори, сыр «Cremette», лосось, лук зел., огурец, спайси соус, темпурный кляр, панко" },
+  { id: "h-chicken", cat: "hot", img: "h-chicken", name: "Чикен ролл", vol: "8 шт", price: 289, desc: "Рис, нори, темпурный кляр, курица, сыр «Cremette», помидор, огурец, кисло-сладкий соус, панко" },
+  { id: "h-caesar", cat: "hot", img: "h-caesar", name: "Цезарь", vol: "8 шт", price: 289, desc: "Рис, нори, темпурный кляр, смесь тори, панко, курица, салат айсберг, кисло-сладкий соус" },
+  { id: "h-sand-chicken", cat: "hot", sub: "Сэндвичи", img: "h-sand-chicken", name: "Сэндвич с курицей", vol: "4 шт", price: 230, desc: "Рис, нори, смесь тори, кисло-сладкий соус, темпурный кляр" },
+  { id: "h-sand-crab", cat: "hot", sub: "Сэндвичи", img: "h-sand-crab", name: "Сэндвич с крабом", vol: "4 шт", price: 250, desc: "Рис, нори, кисло-сладкий соус, смесь кани, авокадо, масаго, темпурный кляр" },
+  { id: "h-sand-salmon", cat: "hot", sub: "Сэндвичи", img: "h-sand-salmon", name: "Сэндвич с лососем", vol: "4 шт", price: 299, desc: "Рис, нори, сыр «Cremette», авокадо, лосось, масаго, темпурный кляр" },
+  { id: "hd-salmon", cat: "hot", sub: "Суши хот-доги", img: "hd-salmon", name: "Хот-дог с лососем", price: 449, desc: "Рис, нори, снежный краб, лосось, авокадо, кунжут, кляр панко, огурец, терияки соус, спайси соус, чука салат, масаго" },
+  { id: "hd-shrimp", cat: "hot", sub: "Суши хот-доги", img: "hd-shrimp", name: "Хот-дог с креветкой", price: 449, desc: "Рис, нори, снежный краб, креветка в кляре, авокадо, кунжут, спайси соус, кисло-сладкий соус, кляр панко, огурец, терияки соус, чука салат, масаго" },
+
+  // Маки
+  { id: "m-unagi", cat: "maki", img: "m-unagi", name: "Унаги маки", price: 170, desc: "Рис, угорь, унаги соус, кунжут" },
+  { id: "m-sake", cat: "maki", img: "m-sake", name: "Сяке маки", price: 160, desc: "Рис, лосось" },
+  { id: "m-sake-cheese", cat: "maki", img: "m-sake-cheese", name: "Сяке чиз маки", price: 170, desc: "Лосось, сырный соус" },
+  { id: "m-kani", cat: "maki", img: "m-kani", name: "Кани спайси маки", price: 130, desc: "Краб, спайси соус, кунжут" },
+  { id: "m-avocado", cat: "maki", img: "m-avocado", name: "Авокадо маки", price: 130, desc: "Рис, авокадо" },
+  { id: "m-kappa", cat: "maki", img: "m-kappa", name: "Каппа маки", price: 110, desc: "Рис, огурец" },
+
+  // Гунканы и суши
+  { id: "g-unagi", cat: "sushi", sub: "Гунканы", img: "g-unagi", name: "Унаги спайси", price: 89, desc: "Рис, угорь, унаги соус, спайси соус" },
+  { id: "g-sake", cat: "sushi", sub: "Гунканы", img: "g-sake", name: "Сяке спайси", price: 89, desc: "Рис, лосось, спайси соус" },
+  { id: "g-ebi", cat: "sushi", sub: "Гунканы", img: "g-ebi", name: "Эби спайси", price: 89, desc: "Рис, креветка, спайси соус" },
+  { id: "g-kani", cat: "sushi", sub: "Гунканы", img: "g-kani", name: "Кани спайси", price: 79, desc: "Рис, снежный краб, спайси соус" },
+  { id: "g-tori", cat: "sushi", sub: "Гунканы", img: "g-tori", name: "Тори унаги", price: 79, desc: "Рис, курица, унаги, майонез, масаго" },
+  { id: "s-eel", cat: "sushi", sub: "Суши", img: "s-eel", name: "Суши угорь", price: 89, desc: "Рис, угорь, унаги соус, кунжут" },
+  { id: "s-salmon", cat: "sushi", sub: "Суши", img: "s-salmon", name: "Суши лосось", price: 89, desc: "Рис, лосось" },
+  { id: "s-shrimp", cat: "sushi", sub: "Суши", img: "s-shrimp", name: "Суши креветка", price: 89, desc: "Рис, креветка" },
+  { id: "s-sake-cheese", cat: "sushi", sub: "Суши", img: "s-sake-cheese", name: "Сяке чиз", price: 99, desc: "Рис, лосось, сырный соус" },
+
+  // Пицца
+  { id: "p-pepperoni", cat: "pizza", img: "p-pepperoni", name: "Пепперони", variants: PIZZA(350, 450), desc: "Пепперони, сыр моцарелла, фирменный томатный соус" },
+  { id: "p-teriyaki", cat: "pizza", img: "p-teriyaki", name: "Пицца Терияки", variants: PIZZA(489, 699), desc: "Курица, сыр креметте, сыр моцарелла, сыр пармезан, кисло-сладкий соус, маслины" },
+  { id: "p-mari", cat: "pizza", img: "p-mari", name: "Мари", variants: PIZZA(350, 450), desc: "Курица, сыр моцарелла, халапеньо, томат. соус, помидор, соус острый" },
+  { id: "p-margarita", cat: "pizza", img: "p-margarita", name: "Маргарита гурме", variants: PIZZA(350, 450), desc: "Сыр моцарелла, сыр пармезан, томат. соус, соус васаби, помидор" },
+  { id: "p-east", cat: "pizza", img: "p-east", name: "Восточная", variants: PIZZA(520, 799), desc: "Пепперони, курица, охот. колбаса, огурец маринов., помидор, крас. лук, перец, том. соус, соломка, грибы мар., маслины, халапеньо" },
+  { id: "p-bbq", cat: "pizza", img: "p-bbq", name: "Чикен барбекю", variants: PIZZA(399, 549), desc: "Курица, соус барбекю, мар. грибы, шампиньоны, крас. лук, моцарелла, том. соус, халапеньо" },
+  { id: "p-half", cat: "pizza", img: "p-half", name: "Половинки", variants: PIZZA(320, 450), desc: "Пепперони / маргарита гурме" },
+
+  // Рамен
+  { id: "ramen", cat: "ramen", img: "ramen", name: "Рамен с курицей", price: null, featured: true, tag: "Новинка", desc: "Лапша, бульон, курица, зелёный лук, кунжут" },
+
+  // Закуски и соусы
+  { id: "wedges", cat: "snacks", img: "wedges", name: "Картошка по-деревенски", price: 130 },
+  { id: "fries", cat: "snacks", img: "fries", name: "Картошка фри", price: 110 },
+  { id: "wasabi", cat: "snacks", img: "wasabi", name: "Васаби", price: 20 },
+  { id: "ginger", cat: "snacks", img: "ginger", name: "Имбирь", price: 20 },
+  { id: "sauce", cat: "snacks", img: "sauces", name: "Соус", desc: "Выберите вкус", variants: [["Терияки", 25], ["Острый", 30], ["Соевый", 20], ["Сырный", 20], ["Слив. сыр", 30], ["Спайси", 35], ["Унаги", 25]] },
+
+  // Напитки и чай
+  { id: "cola", cat: "drinks", sub: "Прохладные напитки", img: "drinks", name: "Coca-Cola", variants: [["0,5 л", 80], ["1 л", 130]] },
+  { id: "fanta", cat: "drinks", sub: "Прохладные напитки", img: "drinks", name: "Fanta", variants: [["1 л", 130]] },
+  { id: "fuze", cat: "drinks", sub: "Прохладные напитки", img: "drinks", name: "Fuze Tea", variants: [["1 л", 130]] },
+  { id: "gorilla", cat: "drinks", sub: "Прохладные напитки", img: "drinks", name: "Gorilla energy", price: 100 },
+  { id: "water", cat: "drinks", sub: "Прохладные напитки", img: "drinks", name: "Вода без газа", variants: [["0,5 л", 50], ["1 л", 80]] },
+  { id: "tea-plain", cat: "drinks", sub: "Чай", img: "tea", name: "Чай", variants: [["Чёрный", 50], ["Зелёный", 50]] },
+  { id: "tea-currant", cat: "drinks", sub: "Чай", img: "tea", name: "Чай смородиновый", price: 230 },
+  { id: "tea-berry", cat: "drinks", sub: "Чай", img: "tea", name: "Чай ягодный", price: 230 },
+  { id: "tea-buckthorn", cat: "drinks", sub: "Чай", img: "tea", name: "Чай облепиха с апельсином", price: 230 },
+];
+
+/* ===== Помощники ===== */
+const $ = s => document.querySelector(s);
+const byId = id => MENU.find(m => m.id === id);
+const vars = m => m.variants ? m.variants.map(([label, price]) => ({ label, price })) : [{ label: "", price: m.price }];
+const imgOf = (m, vi) => Array.isArray(m.img) ? m.img[vi] : m.img;
+const imgSrc = name => `img/${name}.jpg`;
+const fmt = n => n.toLocaleString("ru-RU") + " " + CONFIG.currency;
+const fmtHTML = (n, old) => n == null
+  ? `<span class="ask">Цена уточняется</span>`
+  : n.toLocaleString("ru-RU") + "<small>" + CONFIG.currency + "</small>" + (old ? ` <s>${old.toLocaleString("ru-RU")} ${CONFIG.currency}</s>` : "");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const keyOf = (id, vi) => id + ":" + vi;
+function parseKey(k) {
+  const i = k.lastIndexOf(":"); const m = byId(k.slice(0, i)); const vi = +k.slice(i + 1);
+  if (!m) return null; const v = vars(m)[vi]; if (!v) return null;
+  return { m, vi, v };
+}
+const lineName = (m, v) => m.name + (v.label ? " (" + v.label + ")" : m.vol ? " (" + m.vol + ")" : "");
+
+/* ===== Корзина ===== */
+const STORE_KEY = "teriyaki-cart-v1";
+let cart = {};
+try { cart = JSON.parse(localStorage.getItem(STORE_KEY) || "{}") || {}; } catch (e) { cart = {}; }
+for (const k of Object.keys(cart)) if (!parseKey(k) || !(cart[k] > 0)) delete cart[k];
+const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(cart)); } catch (e) {} };
+const sel = {};
+const count = () => Object.values(cart).reduce((a, b) => a + b, 0);
+const sum = () => Object.entries(cart).reduce((a, [k, q]) => a + (parseKey(k).v.price || 0) * q, 0);
+const unpriced = () => Object.keys(cart).map(parseKey).filter(x => x.v.price == null).map(x => x.m.name);
+function setQty(k, q) { if (q <= 0) delete cart[k]; else cart[k] = Math.min(q, 99); save(); update(); }
+
+function controlHTML(k) {
+  const q = cart[k] || 0;
+  if (!q) return `<button class="add" type="button" data-add="${k}">+ В корзину</button>`;
+  return `<span class="stepper"><button type="button" data-dec="${k}" aria-label="Убрать одну">−</button><span aria-live="polite">${q}</span><button type="button" data-inc="${k}" aria-label="Добавить ещё">+</button></span>`;
+}
+
+/* ===== Меню ===== */
+function cardHTML(m) {
+  const vs = vars(m); const vi = sel[m.id] || 0; const img = imgOf(m, vi);
+  return `<article class="item${m.featured ? " featured" : ""}" data-item="${m.id}">
+    ${img ? `<div class="pic"><img src="${imgSrc(img)}" alt="${esc(m.name)}" loading="lazy" data-pic data-img="${img}"></div>` : ""}
+    <div class="info">
+      ${m.tag ? `<span class="tag">${esc(m.tag)}</span>` : ""}
+      <h3>${esc(m.name)}</h3>
+      ${m.vol ? `<p class="vol">${esc(m.vol)}</p>` : ""}
+      ${m.desc ? `<p class="desc">${esc(m.desc)}</p>` : ""}
+      ${vs.length > 1
+        ? `<div class="chips" role="group" aria-label="Вариант">${vs.map((v, i) => `<button type="button" class="chip" data-pick="${m.id}" data-vi="${i}" aria-pressed="${i === vi}">${esc(v.label)}</button>`).join("")}</div>`
+        : (vs[0].label ? `<p class="vol">${esc(vs[0].label)}</p>` : "")}
+      <div class="row"><span class="price" data-price>${fmtHTML(vs[vi].price, m.oldPrice)}</span><span data-ctl>${controlHTML(keyOf(m.id, vi))}</span></div>
+    </div>
+  </article>`;
+}
+
+function renderMenu() {
+  $("#catNav").innerHTML = CATS.map((c, i) =>
+    `<a class="cat-link${i === 0 ? " active" : ""}" href="#${c.id}" data-cat="${c.id}">${c.name}</a>`).join("");
+  $("#menu").innerHTML = CATS.map(c => {
+    const items = MENU.filter(m => m.cat === c.id);
+    const subs = [...new Set(items.map(m => m.sub || ""))];
+    return `<section class="section" id="${c.id}">
+      <h2 class="banner">${c.name}</h2>
+      ${subs.map(s => `${s ? `<h3 class="subhead">${s}</h3>` : ""}<div class="grid">${items.filter(m => (m.sub || "") === s).map(cardHTML).join("")}</div>`).join("")}
+    </section>`;
+  }).join("");
+}
+
+function refreshCard(id) {
+  const el = document.querySelector(`[data-item="${id}"]`); if (!el) return;
+  const m = byId(id); const vi = sel[id] || 0; const v = vars(m)[vi];
+  el.querySelector("[data-price]").innerHTML = fmtHTML(v.price, m.oldPrice);
+  el.querySelector("[data-ctl]").innerHTML = controlHTML(keyOf(id, vi));
+  el.querySelectorAll("[data-pick]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.vi === vi)));
+  const pic = el.querySelector("[data-pic]"); const img = imgOf(m, vi);
+  if (pic && pic.dataset.img !== img) { pic.src = imgSrc(img); pic.dataset.img = img; }
+}
+
+function renderCart() {
+  const keys = Object.keys(cart);
+  $("#viewCart").innerHTML = !keys.length
+    ? `<div class="empty"><strong>Пока пусто</strong>Нажмите «В корзину» у любого блюда, и оно появится здесь.</div>`
+    : keys.map(k => {
+        const { m, v } = parseKey(k); const q = cart[k];
+        const label = v.label || m.vol || "";
+        return `<div class="line">
+          <span class="name">${esc(m.name)}${label ? ` <em>· ${esc(label)}</em>` : ""}</span><span class="sum">${v.price == null ? "уточняется" : fmt(v.price * q)}</span>
+          <span class="unit">${v.price == null ? "" : fmt(v.price) + " × " + q}</span>${controlHTML(k)}
+        </div>`;
+      }).join("");
+  const u = unpriced();
+  const noteText = u.length ? `+ ${u.join(", ")}: цену подтвердим в WhatsApp` : "";
+  ["#note", "#note2"].forEach(s => { $(s).textContent = noteText; $(s).hidden = !u.length; });
+  $("#total").textContent = fmt(sum());
+  $("#total2").textContent = fmt(sum());
+  $("#toCheckout").disabled = !keys.length;
+}
+
+function update() {
+  MENU.forEach(m => refreshCard(m.id));
+  renderCart();
+  const n = count();
+  $("#barCount").textContent = n;
+  $("#barTotal").textContent = fmt(sum());
+  $("#bar").classList.toggle("show", n > 0 && !$("#cart").classList.contains("open"));
+  if (!n && step === "checkout") showStep("cart");
+}
+
+document.addEventListener("click", e => {
+  const p = e.target.closest("[data-pick]");
+  if (p) { sel[p.dataset.pick] = +p.dataset.vi; refreshCard(p.dataset.pick); return; }
+  const t = e.target.closest("[data-add],[data-inc],[data-dec]");
+  if (!t) return;
+  if (t.dataset.add) setQty(t.dataset.add, 1);
+  if (t.dataset.inc) setQty(t.dataset.inc, (cart[t.dataset.inc] || 0) + 1);
+  if (t.dataset.dec) setQty(t.dataset.dec, (cart[t.dataset.dec] || 0) - 1);
+});
+
+/* ===== Шаги: корзина → оформление → WhatsApp ===== */
+let step = "cart";
+function showStep(s) {
+  step = s;
+  $("#viewCart").hidden = $("#footCart").hidden = s !== "cart";
+  $("#viewCheckout").hidden = $("#footCheckout").hidden = s !== "checkout";
+  $("#viewDone").hidden = $("#footDone").hidden = s !== "done";
+  $("#cartTitle").textContent = s === "cart" ? "Ваш заказ" : s === "checkout" ? "Оформление" : "Почти готово";
+}
+$("#toCheckout").addEventListener("click", () => { if (count()) showStep("checkout"); });
+$("#backToCart").addEventListener("click", () => showStep("cart"));
+document.querySelectorAll('input[name="method"]').forEach(r => r.addEventListener("change", () => {
+  $("#addressWrap").hidden = $("#mPickup").checked;
+}));
+
+let orderText = "";
+$("#orderForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("#fName").value.trim();
+  const phone = $("#fPhone").value.trim();
+  const pickup = $("#mPickup").checked;
+  const address = $("#fAddress").value.trim();
+  const comment = $("#fComment").value.trim();
+  const errs = [];
+  if (!name) errs.push("имя");
+  if (phone.replace(/\D/g, "").length < 7) errs.push("телефон");
+  if (!pickup && !address) errs.push("адрес доставки");
+  if (errs.length) { $("#formErr").textContent = "Заполните: " + errs.join(", ") + "."; return; }
+  $("#formErr").textContent = "";
+
+  const lines = Object.entries(cart).map(([k, q]) => {
+    const { m, v } = parseKey(k);
+    return `${q} × ${lineName(m, v)} — ${v.price == null ? "цена уточняется" : fmt(v.price * q)}`;
+  });
+  const u = unpriced();
+  orderText = [
+    `Новый заказ в ${CONFIG.brand}`, "",
+    ...lines, "",
+    `Итого: ${fmt(sum())}${u.length ? " + " + u.join(", ") + " (цена уточняется)" : ""}`, "",
+    `Имя: ${name}`,
+    `Телефон: ${phone}`,
+    `Получение: ${pickup ? "Самовывоз" : "Доставка"}`,
+    ...(pickup ? [] : [`Адрес: ${address}`]),
+    ...(comment ? [`Комментарий: ${comment}`] : []),
+  ].join("\n");
+  $("#receipt").textContent = orderText;
+  const waUrl = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(orderText)}`;
+  $("#waLink").href = waUrl;
+  showStep("done");
+  // Сразу перекидываем в WhatsApp; если браузер не дал, остаётся кнопка на экране
+  try { window.open(waUrl, "_blank", "noopener"); } catch (err) {}
+});
+
+$("#copyBtn").addEventListener("click", () => {
+  const btn = $("#copyBtn");
+  const ok = () => { btn.textContent = "Скопировано"; setTimeout(() => btn.textContent = "Скопировать текст заказа", 1800); };
+  const fallback = () => {
+    const r = document.createRange(); r.selectNodeContents($("#receipt"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent = "Текст выделен, скопируйте вручную";
+  };
+  try { navigator.clipboard.writeText(orderText).then(ok, fallback); } catch (err) { fallback(); }
+});
+
+$("#newOrder").addEventListener("click", () => {
+  cart = {}; save(); $("#orderForm").reset(); $("#addressWrap").hidden = false;
+  showStep("cart"); update();
+});
+
+/* ===== Мобильная шторка ===== */
+function openCart(open) {
+  $("#cart").classList.toggle("open", open);
+  $("#backdrop").hidden = !open;
+  update();
+}
+$("#openCart").addEventListener("click", () => openCart(true));
+$("#closeCart").addEventListener("click", () => openCart(false));
+$("#backdrop").addEventListener("click", () => openCart(false));
+document.addEventListener("keydown", e => { if (e.key === "Escape") openCart(false); });
+
+/* ===== Подсветка раздела в навигации ===== */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    document.querySelectorAll(".cat-link").forEach(a => {
+      const on = a.dataset.cat === en.target.id;
+      a.classList.toggle("active", on);
+      if (on) { const nav = $("#catNav"); nav.scrollTo({ left: a.offsetLeft - nav.offsetLeft - 16, behavior: "smooth" }); }
+    });
+  });
+}, { rootMargin: "-35% 0px -60% 0px" });
+
+renderMenu();
+document.querySelectorAll(".section").forEach(s => io.observe(s));
+showStep("cart");
+update();
+</script>
+</body>
+</html>
