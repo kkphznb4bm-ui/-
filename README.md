@@ -1,5 +1,6 @@
-# How Are You?
+# ХАВАЮ! How Are You?
 
-Сайт-меню с корзиной. Откройте `index.html` в браузере.
+Сайт-меню с корзиной и оформлением заказа через WhatsApp. Откройте `index.html` в браузере.
 
-Настройки (номер WhatsApp, валюта) и меню с ценами — в начале `<script>` в `index.html` (`CONFIG`, `CATS`, `MENU`).
+- Настройки (номер WhatsApp, валюта) и меню с ценами — в начале `<script>` в `index.html` (`CONFIG`, `CATS`, `MENU`).
+- Фото блюд лежат в папке `img/`.

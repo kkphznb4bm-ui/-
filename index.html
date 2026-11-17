@@ -3,210 +3,232 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>How Are You?</title>
+<title>ХАВАЮ! How Are You?</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Manrope:wght@400;600;700;800&display=swap">
 <style>
-/* Layout: menu grid on the left, sticky order slip on the right; on phones the slip becomes a bottom sheet behind a floating total bar. */
+/* Layout: brand-dark page, cream menu cards under red category banners (as on the printed menu); order slip sticky on the right, bottom sheet on phones. Single deliberate dark look. */
 :root {
-  --bg: #F8F6F9;
-  --surface: #FFFFFF;
-  --ink: #26132E;
-  --muted: #6D6074;
-  --line: #E6DFEA;
-  --accent: #F5B301;
-  --accent-ink: #26132E;
-  --chili: #D2372B;
-  --tile: #FFF1CC;
-  --shadow: 0 10px 30px rgba(38, 19, 46, .10);
-  /* food illustration colors (same in both themes) */
-  --bun: #E59A35; --bun-dark: #C27A1E; --patty: #6E3518; --leaf: #4FA334; --cheese: #FFD23F;
-  --wrap: #EDD3A0; --wrap-line: #CDA866; --red: #D2372B; --cup: #2F6FD0; --ice: #DDEBFF; --tea: #B5651D;
-  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --bg: #100B0B;
+  --bg-2: #1B1213;
+  --text: #FFF7EA;
+  --text-muted: #C2B1A8;
+  --card: #FFF3DC;
+  --card-ink: #1B1112;
+  --card-muted: #6E5B55;
+  --card-line: #EAD8B6;
+  --red: #C8102E;
+  --red-deep: #8C0A1E;
+  --yellow: #FFC414;
+  --shadow: 0 14px 34px rgba(0, 0, 0, .45);
+  --f-display: "Oswald", "Arial Narrow", Impact, system-ui, sans-serif;
   --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --r: 18px;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #150D19; --surface: #20152A; --ink: #F5EDF8; --muted: #B4A7BB; --line: #382B42;
-    --accent: #FFC21F; --accent-ink: #26132E; --chili: #FF6A5C; --tile: #33253D;
-    --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #150D19; --surface: #20152A; --ink: #F5EDF8; --muted: #B4A7BB; --line: #382B42;
-  --accent: #FFC21F; --accent-ink: #26132E; --chili: #FF6A5C; --tile: #33253D;
-  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark;
+  color-scheme: dark;
 }
 [hidden] { display: none !important; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
-body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font: 400 16px/1.5 var(--f-body);
-}
+body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.5 var(--f-body); }
 body::before {
   content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
   z-index: 30; background: var(--bg);
 }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
-:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
 .wrap {
-  max-width: 1180px; margin: 0 auto;
+  max-width: 1200px; margin: 0 auto;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 
 /* Header */
-.hero { padding-block: 36px 20px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 32px; }
-.brand { font: 800 clamp(34px, 7vw, 64px)/1 var(--f-display); letter-spacing: -.02em; margin: 0; text-wrap: balance; }
-.brand .q {
-  display: inline-grid; place-items: center; width: 1.05em; height: 1.05em; margin-left: .08em;
-  background: var(--accent); color: var(--accent-ink); border-radius: 50%; transform: rotate(12deg);
-  font-size: .8em; vertical-align: .05em;
-}
-.tagline { margin: 10px 0 0; color: var(--muted); font-size: 17px; max-width: 44ch; }
+.top { background: radial-gradient(120% 140% at 85% 0%, var(--red-deep) 0%, rgba(140, 10, 30, 0) 60%), var(--bg); }
+.hero { padding-block: 34px 26px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 18px 32px; }
+.brand { margin: 0; display: flex; align-items: center; gap: 12px; font-family: var(--f-display); line-height: .9; }
+.brand .word { font-weight: 700; font-size: clamp(52px, 11vw, 96px); letter-spacing: -.01em; text-transform: uppercase; }
+.brand .word b { color: var(--yellow); font-weight: 700; }
+.brand .sub { font-weight: 500; font-size: clamp(14px, 2.6vw, 22px); line-height: 1; text-transform: uppercase; letter-spacing: .02em; }
+.tagline { margin: 12px 0 0; color: var(--text-muted); font-size: 17px; max-width: 46ch; }
 .badges { display: flex; flex-wrap: wrap; gap: 8px; }
 .badge {
-  font: 700 12px/1 var(--f-body); letter-spacing: .06em; text-transform: uppercase;
-  padding: 9px 12px; border-radius: 999px; border: 1.5px solid var(--ink);
+  font: 600 14px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase;
+  padding: 10px 14px; border-radius: 999px; border: 1.5px solid var(--yellow); color: var(--yellow);
 }
 
 /* Category nav */
-.cats {
-  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg);
-  border-bottom: 1px solid var(--line);
-}
+.cats { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid #2B1E1F; }
 .cats .wrap { display: flex; gap: 8px; overflow-x: auto; padding-block: 12px; scrollbar-width: none; }
 .cats .wrap::-webkit-scrollbar { display: none; }
 .cat-link {
-  flex: none; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 15px;
-  padding: 9px 16px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line);
+  flex: none; text-decoration: none; color: var(--text); font: 600 15px/1 var(--f-display);
+  text-transform: uppercase; letter-spacing: .04em;
+  padding: 11px 16px; border-radius: 999px; background: var(--bg-2); border: 1px solid #33242500;
 }
-.cat-link.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.cat-link:hover { background: #2A1C1D; }
+.cat-link.active { background: var(--red); }
 
 /* Main grid */
-.main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 32px; align-items: start; padding-block: 24px 120px; }
-@media (max-width: 899px) { .main { grid-template-columns: minmax(0, 1fr); } }
-.section { scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 72px); }
-.section + .section { margin-top: 36px; }
-.section h2 { font: 800 24px/1.1 var(--f-display); margin: 0 0 14px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 370px; gap: 32px; align-items: start; padding-block: 26px 120px; }
+@media (max-width: 959px) { .main { grid-template-columns: minmax(0, 1fr); } }
+.section { scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 74px); }
+.section + .section { margin-top: 40px; }
+.banner {
+  margin: 0 0 16px; background: linear-gradient(180deg, var(--red) 0%, var(--red-deep) 100%);
+  color: #FFFFFF; font: 700 clamp(24px, 4vw, 32px)/1 var(--f-display); text-transform: uppercase;
+  text-align: center; padding: 12px 16px; border-radius: 999px; letter-spacing: .02em;
+}
+.subhead {
+  margin: 22px 0 12px; color: var(--yellow); font: 600 20px/1.1 var(--f-display); text-transform: uppercase;
+  display: flex; align-items: center; gap: 12px; letter-spacing: .03em;
+}
+.subhead::after { content: ""; flex: 1; height: 2px; background: var(--yellow); opacity: .5; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
 
+/* Item card */
 .item {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
-  padding: 14px; display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 4px 14px;
-  grid-template-rows: auto 1fr auto; align-items: start;
+  background: var(--card); color: var(--card-ink); border-radius: var(--r); overflow: hidden;
+  display: flex; flex-direction: column;
 }
-.item .pic {
-  grid-row: 1 / 3; width: 76px; height: 76px; border-radius: 14px; background: var(--tile);
-  display: grid; place-items: center;
+.pic { aspect-ratio: 4 / 3; background: var(--card); overflow: hidden; max-width: 100%; }
+.pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.info { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.item h3 { margin: 0; font: 700 19px/1.15 var(--f-display); text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; }
+.item .desc { margin: 0; color: var(--card-muted); font-size: 13.5px; line-height: 1.4; }
+.item .vol { margin: 0; color: var(--card-muted); font-size: 13.5px; font-weight: 700; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  border: 1.5px solid var(--card-line); background: transparent; color: var(--card-ink);
+  border-radius: 999px; padding: 5px 10px; font-size: 13px; font-weight: 700; line-height: 1.2;
 }
-.item .pic svg { width: 58px; height: 58px; }
-.item h3 { margin: 0; font-size: 17px; font-weight: 800; line-height: 1.25; }
-.item p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.4; }
-.item .row { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
-.price { font-weight: 800; font-variant-numeric: tabular-nums; font-size: 17px; }
+.chip[aria-pressed="true"] { background: var(--card-ink); border-color: var(--card-ink); color: var(--card); }
+.row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 8px; }
+.price { font: 700 26px/1 var(--f-display); color: var(--red); font-variant-numeric: tabular-nums; }
+.price small { font-size: .6em; margin-left: 2px; }
 
 .add {
-  border: 0; background: var(--accent); color: var(--accent-ink); font-weight: 800;
-  border-radius: 999px; padding: 8px 16px; font-size: 15px; white-space: nowrap;
+  border: 0; background: var(--red); color: #FFFFFF; font-weight: 800; white-space: nowrap;
+  border-radius: 999px; padding: 9px 16px; font-size: 15px;
 }
-.add:hover { filter: brightness(1.05); }
+.add:hover { background: var(--red-deep); }
 .stepper {
-  display: inline-flex; align-items: center; background: var(--ink); color: var(--bg);
+  display: inline-flex; align-items: center; background: var(--card-ink); color: var(--card);
   border-radius: 999px; font-weight: 800; font-variant-numeric: tabular-nums;
 }
-.stepper button {
-  border: 0; background: transparent; color: inherit; width: 36px; height: 36px;
-  font-size: 20px; line-height: 1; border-radius: 999px;
-}
+.stepper button { border: 0; background: transparent; color: inherit; width: 36px; height: 36px; font-size: 20px; line-height: 1; border-radius: 999px; }
 .stepper span { min-width: 22px; text-align: center; }
+
+/* Featured card */
+.item.featured {
+  grid-column: 1 / -1; flex-direction: row; align-items: stretch;
+  background: linear-gradient(135deg, var(--red-deep), #5E0614); color: #FFFFFF;
+}
+.item.featured .pic { flex: 1 1 55%; aspect-ratio: auto; min-height: 220px; background: transparent; }
+.item.featured .pic img { object-fit: contain; }
+.item.featured .info { flex: 1 1 45%; justify-content: center; padding: 22px; gap: 10px; }
+.item.featured h3 { font-size: clamp(28px, 4vw, 40px); }
+.item.featured .tag {
+  align-self: flex-start; background: var(--yellow); color: var(--card-ink); font: 700 13px/1 var(--f-display);
+  text-transform: uppercase; letter-spacing: .08em; padding: 7px 10px; border-radius: 999px;
+}
+.item.featured .price { color: var(--yellow); font-size: 44px; }
+.item.featured .row { margin-top: 6px; justify-content: flex-start; gap: 18px; }
+.item.featured .add { background: var(--yellow); color: var(--card-ink); }
+.item.featured .stepper { background: var(--yellow); color: var(--card-ink); }
+@media (max-width: 560px) {
+  .item.featured { flex-direction: column; }
+  .item.featured .pic { min-height: 0; aspect-ratio: 4 / 3; }
+  .item.featured .info { padding: 4px 16px 18px; }
+}
+
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .info { padding: 10px 11px 12px; }
+  .item h3 { font-size: 16px; }
+  .price { font-size: 22px; }
+  .add { padding: 8px 12px; font-size: 14px; }
+  .chip { padding: 4px 8px; font-size: 12px; }
+}
+/* Compact (no photo) card, e.g. sauces */
+.item.compact { grid-column: 1 / -1; }
 
 /* Order slip */
 .cart {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
-  box-shadow: var(--shadow); position: sticky; top: calc(env(safe-area-inset-top, 0px) + 76px);
+  background: var(--card); color: var(--card-ink); border-radius: var(--r); box-shadow: var(--shadow);
+  position: sticky; top: calc(env(safe-area-inset-top, 0px) + 78px);
   display: flex; flex-direction: column; max-height: calc(100vh - 100px);
 }
 .cart-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 18px 10px; }
-.cart-head h2 { margin: 0; font: 800 20px/1.1 var(--f-display); }
-.close { border: 0; background: var(--bg); width: 36px; height: 36px; border-radius: 50%; font-size: 20px; display: none; }
+.cart-head h2 { margin: 0; font: 700 26px/1 var(--f-display); text-transform: uppercase; }
+.close { border: 0; background: var(--card-line); width: 36px; height: 36px; border-radius: 50%; font-size: 20px; display: none; }
 .cart-body { overflow-y: auto; padding: 0 18px; min-height: 0; flex: 1; }
-.cart-foot { padding: 14px 18px 18px; border-top: 1px dashed var(--line); }
-
-.empty { text-align: center; color: var(--muted); padding: 22px 6px 26px; }
-.empty svg { width: 64px; height: 64px; margin-bottom: 6px; opacity: .9; }
-.empty strong { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
-
-.line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.cart-foot { padding: 14px 18px 18px; border-top: 2px dashed var(--card-line); }
+.empty { text-align: center; color: var(--card-muted); padding: 18px 6px 26px; }
+.empty strong { display: block; color: var(--card-ink); font: 700 20px/1.2 var(--f-display); text-transform: uppercase; margin-bottom: 4px; }
+.line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 12px 0; border-bottom: 1px solid var(--card-line); }
 .line:last-child { border-bottom: 0; }
-.line .name { font-weight: 700; }
+.line .name { font-weight: 800; }
+.line .name em { font-style: normal; font-weight: 600; color: var(--card-muted); }
 .line .sum { font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
-.line .unit { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.line .unit { color: var(--card-muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 .line .stepper { justify-self: end; transform: scale(.9); transform-origin: right center; }
-
 .total { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
-.total span:first-child { color: var(--muted); font-weight: 600; }
-.total strong { font: 800 24px/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.total span:first-child { color: var(--card-muted); font-weight: 700; }
+.total strong { font: 700 32px/1 var(--f-display); color: var(--red); font-variant-numeric: tabular-nums; }
 .primary {
-  width: 100%; border: 0; background: var(--accent); color: var(--accent-ink);
-  font-weight: 800; font-size: 17px; padding: 15px; border-radius: 14px; text-align: center;
+  width: 100%; border: 0; background: var(--red); color: #FFFFFF; font: 700 19px/1 var(--f-display);
+  text-transform: uppercase; letter-spacing: .04em; padding: 16px; border-radius: 14px; text-align: center;
   text-decoration: none; display: block;
 }
-.primary:disabled { opacity: .45; cursor: not-allowed; }
-.ghost {
-  width: 100%; border: 1.5px solid var(--line); background: transparent; font-weight: 700;
-  padding: 12px; border-radius: 14px; margin-top: 8px;
-}
-.link-btn { border: 0; background: none; color: var(--muted); font-weight: 700; padding: 0; text-decoration: underline; font-size: 14px; }
+.primary:hover { background: var(--red-deep); }
+.primary:disabled { opacity: .4; cursor: not-allowed; }
+.ghost { width: 100%; border: 1.5px solid var(--card-line); background: transparent; color: var(--card-ink); font-weight: 700; padding: 12px; border-radius: 14px; margin-top: 8px; }
+.link-btn { border: 0; background: none; color: var(--card-muted); font-weight: 700; padding: 0; text-decoration: underline; font-size: 14px; }
 
-/* Checkout form */
 form { display: grid; gap: 12px; padding-bottom: 6px; }
 label { display: grid; gap: 5px; font-weight: 700; font-size: 14px; }
+.lbl { font-weight: 700; font-size: 14px; margin-bottom: 5px; }
 input[type="text"], input[type="tel"], textarea {
-  width: 100%; border: 1.5px solid var(--line); background: var(--bg); border-radius: 12px;
-  padding: 11px 12px; font-size: 16px; font-weight: 500;
+  width: 100%; border: 1.5px solid var(--card-line); background: #FFFFFF; color: var(--card-ink);
+  border-radius: 12px; padding: 11px 12px; font-size: 16px; font-weight: 500; color-scheme: light;
 }
-input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+input::placeholder, textarea::placeholder { color: #A8968E; }
+input:focus, textarea:focus { outline: none; border-color: var(--red); }
 textarea { resize: vertical; min-height: 64px; }
-.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--bg); padding: 4px; border-radius: 12px; border: 1.5px solid var(--line); }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #FFFFFF; padding: 4px; border-radius: 12px; border: 1.5px solid var(--card-line); }
 .seg input { position: absolute; opacity: 0; pointer-events: none; }
 .seg label { text-align: center; padding: 9px; border-radius: 9px; cursor: pointer; font-size: 15px; display: block; }
-.seg input:checked + label { background: var(--ink); color: var(--bg); }
-.seg input:focus-visible + label { outline: 3px solid var(--accent); }
-.err { color: var(--chili); font-size: 13px; font-weight: 600; }
-
-/* Done */
-.done h3 { font: 800 18px/1.2 var(--f-display); margin: 4px 0 6px; }
-.done p { color: var(--muted); margin: 0 0 12px; font-size: 14px; }
+.seg input:checked + label { background: var(--card-ink); color: var(--card); }
+.seg input:focus-visible + label { outline: 3px solid var(--red); }
+.err { color: var(--red); font-size: 13px; font-weight: 700; }
+.done h3 { font: 700 22px/1.2 var(--f-display); text-transform: uppercase; margin: 4px 0 6px; }
+.done p { color: var(--card-muted); margin: 0 0 12px; font-size: 14px; }
 .receipt {
   white-space: pre-wrap; font: 500 13px/1.5 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  background: var(--bg); border: 1px dashed var(--line); border-radius: 12px; padding: 12px; margin: 0 0 12px;
+  background: #FFFFFF; border: 1px dashed var(--card-line); border-radius: 12px; padding: 12px; margin: 0 0 12px;
   max-height: 260px; overflow: auto;
 }
 
-/* Mobile bottom sheet */
+/* Mobile bar + sheet */
 .bar {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: none;
   padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
-  display: none;
 }
 .bar button {
-  width: 100%; border: 0; border-radius: 16px; padding: 14px 18px; background: var(--ink); color: var(--bg);
-  display: flex; align-items: center; justify-content: space-between; font-weight: 800; font-size: 16px;
-  box-shadow: var(--shadow);
+  width: 100%; border: 0; border-radius: 16px; padding: 14px 18px; background: var(--red); color: #FFFFFF;
+  display: flex; align-items: center; justify-content: space-between; font: 700 18px/1 var(--f-display);
+  text-transform: uppercase; letter-spacing: .03em; box-shadow: var(--shadow);
 }
 .bar .count {
-  background: var(--accent); color: var(--accent-ink); border-radius: 999px; min-width: 28px; height: 28px;
+  background: var(--yellow); color: var(--card-ink); border-radius: 999px; min-width: 28px; height: 28px;
   display: inline-grid; place-items: center; padding: 0 8px; margin-right: 10px; font-variant-numeric: tabular-nums;
 }
-.backdrop { position: fixed; inset: 0; background: rgba(20, 8, 26, .5); z-index: 45; }
-@media (max-width: 899px) {
+.backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, .6); z-index: 45; }
+@media (max-width: 959px) {
   .bar.show { display: block; }
   .cart {
     position: fixed; left: 0; right: 0; bottom: 0; top: auto; z-index: 50; max-height: 88vh;
@@ -217,31 +239,23 @@ textarea { resize: vertical; min-height: 64px; }
   .cart.open { transform: none; }
   .close { display: inline-grid; place-items: center; }
 }
-
-footer { color: var(--muted); font-size: 13px; padding-block: 0 110px; }
-
-/* food illustration fills */
-.f-bun { fill: var(--bun); } .f-bund { fill: var(--bun-dark); } .f-patty { fill: var(--patty); }
-.f-leaf { fill: var(--leaf); } .f-cheese { fill: var(--cheese); } .f-wrap { fill: var(--wrap); }
-.f-wline { fill: none; stroke: var(--wrap-line); stroke-width: 2.5; stroke-linecap: round; }
-.f-red { fill: var(--red); } .f-cup { fill: var(--cup); } .f-ice { fill: var(--ice); }
-.f-tea { fill: var(--tea); } .f-white { fill: #FFFFFF; } .f-straw { fill: none; stroke: var(--red); stroke-width: 4; stroke-linecap: round; }
-.f-steam { fill: none; stroke: var(--muted); stroke-width: 2.5; stroke-linecap: round; }
-.f-fry { fill: var(--cheese); }
+footer { color: var(--text-muted); font-size: 13px; padding-block: 0 110px; }
 </style>
 </head>
 <body>
 
-<header class="wrap hero">
-  <div>
-    <h1 class="brand">How Are You<span class="q">?</span></h1>
-    <p class="tagline">Шаурма, бургеры и холодные напитки. Соберите заказ и отправьте его нам в пару касаний.</p>
-  </div>
-  <div class="badges" aria-label="Способы получения">
-    <span class="badge">Доставка</span>
-    <span class="badge">Самовывоз</span>
-  </div>
-</header>
+<div class="top">
+  <header class="wrap hero">
+    <div>
+      <h1 class="brand"><span class="word"><b>Х</b>АВАЮ!</span><span class="sub">How<br>are<br>you?</span></h1>
+      <p class="tagline">Бургеры, шаурма, пицца, роллы и напитки. Соберите заказ на сайте и отправьте его нам в WhatsApp.</p>
+    </div>
+    <div class="badges" aria-label="Способы получения">
+      <span class="badge">Доставка</span>
+      <span class="badge">Самовывоз</span>
+    </div>
+  </header>
+</div>
 
 <nav class="cats" aria-label="Разделы меню">
   <div class="wrap" id="catNav"></div>
@@ -256,25 +270,23 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 110px; }
       <button class="close" id="closeCart" type="button" aria-label="Закрыть">×</button>
     </div>
 
-    <!-- step 1: cart -->
     <div class="cart-body" id="viewCart"></div>
     <div class="cart-foot" id="footCart">
       <div class="total"><span>Итого</span><strong id="total">0</strong></div>
       <button class="primary" id="toCheckout" type="button">Оформить заказ</button>
     </div>
 
-    <!-- step 2: checkout -->
     <div class="cart-body" id="viewCheckout" hidden>
       <form id="orderForm" novalidate>
         <label for="fName">Имя
           <input type="text" id="fName" name="name" autocomplete="given-name" placeholder="Как к вам обращаться">
         </label>
         <label for="fPhone">Телефон
-          <input type="tel" id="fPhone" name="phone" autocomplete="tel" placeholder="+992 ___ __ __ __">
+          <input type="tel" id="fPhone" name="phone" autocomplete="tel" placeholder="Номер для связи">
         </label>
         <div>
-          <div style="font-weight:700;font-size:14px;margin-bottom:5px">Как получить</div>
-          <div class="seg" role="radiogroup">
+          <div class="lbl">Как получить</div>
+          <div class="seg" role="radiogroup" aria-label="Как получить">
             <input type="radio" name="method" id="mDelivery" value="Доставка" checked><label for="mDelivery">Доставка</label>
             <input type="radio" name="method" id="mPickup" value="Самовывоз"><label for="mPickup">Самовывоз</label>
           </div>
@@ -294,10 +306,9 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 110px; }
       <button class="ghost" id="backToCart" type="button">Назад к корзине</button>
     </div>
 
-    <!-- step 3: done -->
     <div class="cart-body done" id="viewDone" hidden>
       <h3>Заказ собран</h3>
-      <p>Осталось отправить его нам в WhatsApp. Как только сообщение придёт, мы перезвоним и подтвердим.</p>
+      <p>Осталось отправить его нам в WhatsApp. Как только сообщение придёт, мы перезвоним и подтвердим заказ.</p>
       <pre class="receipt" id="receipt"></pre>
     </div>
     <div class="cart-foot" id="footDone" hidden>
@@ -308,7 +319,7 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 110px; }
   </aside>
 </div>
 
-<footer class="wrap">© How Are You? · Цены указаны в сомони</footer>
+<footer class="wrap">© ХАВАЮ! How Are You? · howareyou.food</footer>
 
 <div class="backdrop" id="backdrop" hidden></div>
 <div class="bar" id="bar">
@@ -321,113 +332,191 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 110px; }
 <script>
 /* ===== Настройки заведения — меняйте здесь ===== */
 const CONFIG = {
-  currency: "сом",
+  currency: "с",
   // Номер WhatsApp, куда придут заказы: только цифры, с кодом страны
-  whatsapp: "992000000000",
+  whatsapp: "000000000000",
 };
 
 const CATS = [
-  { id: "shawarma", name: "Шаурма" },
   { id: "burgers",  name: "Бургеры" },
-  { id: "snacks",   name: "Закуски" },
+  { id: "shawarma", name: "Шаурма" },
+  { id: "hotdogs",  name: "Хот-доги и сэндвичи" },
+  { id: "pizza",    name: "Пицца" },
+  { id: "sushi",    name: "Суши" },
+  { id: "snacks",   name: "Закуски и соусы" },
+  { id: "coffee",   name: "Кофе" },
   { id: "drinks",   name: "Напитки" },
 ];
 
+/* price — одна цена; variants — варианты [название, цена]; img — фото (или массив по вариантам) */
+const CHICKEN_BEEF = (c, b) => [["С курицей", c], ["С говядиной", b]];
 const MENU = [
-  { id: "sh-chicken", cat: "shawarma", icon: "wrap",   name: "Шаурма с курицей",  desc: "Курица на гриле, свежие овощи, чесночный соус", price: 25 },
-  { id: "sh-beef",    cat: "shawarma", icon: "wrap",   name: "Шаурма с говядиной", desc: "Говядина, маринованный лук, томаты, острый соус", price: 30 },
-  { id: "sh-xl",      cat: "shawarma", icon: "wrap",   name: "Шаурма XL",         desc: "Двойная порция мяса и сыр. На двоих или очень голодным", price: 38 },
-  { id: "b-classic",  cat: "burgers",  icon: "burger", name: "Бургер",            desc: "Говяжья котлета, салат, томат, фирменный соус", price: 28 },
-  { id: "b-cheese",   cat: "burgers",  icon: "cheese", name: "Чизбургер",         desc: "Котлета, сыр чеддер, огурчик, кетчуп и горчица", price: 30 },
-  { id: "b-double",   cat: "burgers",  icon: "cheese", name: "Двойной чизбургер", desc: "Две котлеты и два ломтика чеддера", price: 42 },
-  { id: "s-fries",    cat: "snacks",   icon: "fries",  name: "Картофель фри",     desc: "Хрустящий, с солью. Порция 150 г", price: 12 },
-  { id: "s-nuggets",  cat: "snacks",   icon: "nuggets",name: "Наггетсы, 6 шт",    desc: "Куриные, с соусом на выбор", price: 18 },
-  { id: "d-cola",     cat: "drinks",   icon: "cup",    name: "Кола 0,5 л",        desc: "Холодная, со льдом", price: 8 },
-  { id: "d-fanta",    cat: "drinks",   icon: "cup",    name: "Фанта 0,5 л",       desc: "Апельсиновая", price: 8 },
-  { id: "d-ayran",    cat: "drinks",   icon: "cup",    name: "Айран 0,5 л",       desc: "Освежающий, лучший друг шаурмы", price: 7 },
-  { id: "d-water",    cat: "drinks",   icon: "bottle", name: "Вода 0,5 л",        desc: "Без газа", price: 4 },
-  { id: "d-tea",      cat: "drinks",   icon: "tea",    name: "Чай",               desc: "Чёрный или зелёный", price: 5 },
+  // Бургеры
+  { id: "signature", cat: "burgers", img: "signature", name: "Фирменный чизбургер", price: 350, featured: true },
+  { id: "hamburger", cat: "burgers", img: ["hamb-beef", "hamb-chicken"], name: "Гамбургер", variants: [["С говядиной", 220], ["С курицей", 220]] },
+  { id: "cheeseburger", cat: "burgers", img: ["cheese-beef", "cheese-chicken"], name: "Чизбургер", variants: [["С говядиной", 230], ["С курицей", 220]] },
+  { id: "double", cat: "burgers", img: ["double-beef", "double-chicken"], name: "Двойной чизбургер", variants: [["С говядиной", 360], ["С курицей", 340]] },
+
+  // Шаурма
+  { id: "shawarma", cat: "shawarma", img: "shawarma", name: "Шаурма", variants: CHICKEN_BEEF(310, 330) },
+  { id: "fresh", cat: "shawarma", img: "fresh", name: "Фреш-шаурма", price: 320 },
+  { id: "baked", cat: "shawarma", img: "baked", name: "Запечённая шаурма", variants: CHICKEN_BEEF(335, 345) },
+  { id: "mini", cat: "shawarma", img: "mini", name: "Шаурма мини", variants: CHICKEN_BEEF(225, 235) },
+  { id: "baked-mini", cat: "shawarma", img: "baked-mini", name: "Запечённая шаурма мини", variants: CHICKEN_BEEF(235, 245) },
+
+  // Хот-доги и сэндвичи
+  { id: "hotdog", cat: "hotdogs", img: "hotdog", name: "Хот-дог классический", price: 190 },
+  { id: "sandwich-chicken", cat: "hotdogs", img: "sandwich-chicken", name: "Сэндвич куриный", price: 110 },
+  { id: "sandwich-classic", cat: "hotdogs", img: "sandwich-classic", name: "Сэндвич классический", price: 140 },
+
+  // Пицца
+  { id: "pepperoni", cat: "pizza", img: "pepperoni", name: "Пепперони", price: 620 },
+  { id: "chili", cat: "pizza", img: "chili", name: "Чили", price: 620 },
+  { id: "margarita", cat: "pizza", img: "margarita", name: "Маргарита", price: 620 },
+  { id: "asian", cat: "pizza", img: "asian", name: "Азиатская", price: 680 },
+  { id: "chicken-mush", cat: "pizza", img: "chicken-mush", name: "Куриная с грибами", price: 680 },
+
+  // Суши
+  { id: "set-havayu", cat: "sushi", sub: "Сеты", img: "sets", name: "Хаваю сет", price: 2100, desc: "Запечённый ролл, Калифорния темпура с лососем, Калифорния, Запечённый ролл с курицей, Чикен сет" },
+  { id: "set-mini", cat: "sushi", sub: "Сеты", img: "sets", name: "Мини сет", price: 1300, desc: "Запечённый ролл, Калифорния с крабом, Маки сет" },
+  { id: "set-mix", cat: "sushi", sub: "Сеты", img: "sets", name: "Микс сет", price: 2700, desc: "Филадельфия, лосось, Эби темпура, Запечённый ролл с крабом, Сяке маки, Запечённый ролл с лососем" },
+  { id: "baked-salmon", cat: "sushi", sub: "Запечённые роллы", img: "rolls-baked", name: "Запечённый ролл с лососем", price: 590, desc: "Лосось, омлет, огурец, сыр творожный, рис, нори" },
+  { id: "baked-shrimp", cat: "sushi", sub: "Запечённые роллы", img: "rolls-baked", name: "Запечённый ролл с креветками", price: 510, desc: "Креветки, творожный сыр, икра, рис, нори, сырная шапочка" },
+  { id: "baked-crab", cat: "sushi", sub: "Запечённые роллы", img: "rolls-baked", name: "Запечённый ролл с крабом", price: 510, desc: "Краб, рис, творожный сыр, нори, сырная шапочка" },
+  { id: "baked-chicken", cat: "sushi", sub: "Запечённые роллы", img: "rolls-baked", name: "Запечённый ролл с курицей", price: 510, desc: "Курица, рис, сыр творожный, соус, огурец, салат, соус спайси" },
+  { id: "philadelphia", cat: "sushi", sub: "Холодные роллы", img: "rolls-cold", name: "Филадельфия", price: 650, desc: "Лосось, рис, кремовый сыр, нори" },
+  { id: "caesar-roll", cat: "sushi", sub: "Холодные роллы", img: "rolls-cold", name: "Цезарь ролл", price: 470, desc: "Курица, соус цезарь, лист салата, помидоры, сыр, рис, нори" },
+  { id: "california-crab", cat: "sushi", sub: "Холодные роллы", img: "rolls-cold", name: "Калифорния с крабом", price: 500, desc: "Краб, авокадо, огурец, японский майонез, рис, нори" },
+  { id: "california-salmon", cat: "sushi", sub: "Холодные роллы", img: "rolls-cold", name: "Калифорния с лососем", price: 580, desc: "Лосось, огурец, японский майонез, рис, нори" },
+  { id: "phila-tempura", cat: "sushi", sub: "Жареные роллы", img: "rolls-fried", name: "Филадельфия темпура", price: 570, desc: "Лосось, творожный сыр, кунжут, рис, нори" },
+  { id: "ebi-tempura", cat: "sushi", sub: "Жареные роллы", img: "rolls-fried", name: "Эби темпура", price: 550, desc: "Креветка, творожный сыр, икра масаго, огурец, рис, сливочный соус, кунжут" },
+  { id: "california-tempura", cat: "sushi", sub: "Жареные роллы", img: "rolls-fried", name: "Калифорния темпура с крабом", price: 510, desc: "Краб, рис, творожный сыр, икра, кунжут, темпурная крошка" },
+  { id: "chicken-tempura", cat: "sushi", sub: "Жареные роллы", img: "rolls-fried", name: "Чикен темпура", price: 510, desc: "Курица, рис, огурец, японский соус, лист салата, сыр, соус спайси, кунжут" },
+  { id: "sake-maki", cat: "sushi", sub: "Маки роллы", img: "maki", name: "Сяке маки", price: 270, desc: "Рис, лосось, нори" },
+  { id: "kappa-maki", cat: "sushi", sub: "Маки роллы", img: "maki", name: "Каппа маки", price: 270, desc: "Рис, огурец, нори, кунжут" },
+  { id: "kani-maki", cat: "sushi", sub: "Маки роллы", img: "maki", name: "Кани маки", price: 270, desc: "Рис, краб, нори" },
+  { id: "chicken-maki", cat: "sushi", sub: "Маки роллы", img: "maki", name: "Чеккен маки", price: 270, desc: "Рис, курица, куриное филе" },
+
+  // Закуски и соусы
+  { id: "wings", cat: "snacks", img: "wings", name: "Крылышки", variants: [["6 шт", 320], ["12 шт", 650], ["18 шт", 930]] },
+  { id: "samsa", cat: "snacks", img: "samsa", name: "Самса с курицей и сыром", price: 70 },
+  { id: "fries", cat: "snacks", img: "fries", name: "Фри стандарт", price: 145 },
+  { id: "wedges", cat: "snacks", img: "fries", name: "Картофель по-деревенски", price: 120 },
+  { id: "nuggets", cat: "snacks", img: "fries", name: "Наггетсы", price: 214 },
+  { id: "sauce", cat: "snacks", name: "Соус", desc: "Выберите вкус", variants: ["Кетчуп", "Сырный", "BBQ", "Чесночный", "Горчичный", "Хайдари", "Чили", "Кисло-сладкий"].map(s => [s, 30]) },
+
+  // Кофе
+  { id: "espresso", cat: "coffee", sub: "Горячий кофе", img: "coffee", name: "Эспрессо", variants: [["0,3 л", 120]] },
+  { id: "americano", cat: "coffee", sub: "Горячий кофе", img: "coffee", name: "Американо", variants: [["0,3 л", 120]] },
+  { id: "cappuccino", cat: "coffee", sub: "Горячий кофе", img: "coffee", name: "Капучино", variants: [["0,3 л", 160], ["0,4 л", 180]] },
+  { id: "latte", cat: "coffee", sub: "Горячий кофе", img: "coffee", name: "Латте", variants: [["0,3 л", 160], ["0,4 л", 180]] },
+  { id: "mocha", cat: "coffee", sub: "Горячий кофе", img: "coffee", name: "Мокко", variants: [["0,3 л", 180], ["0,4 л", 200]] },
+  { id: "raf", cat: "coffee", sub: "Горячий кофе", img: "coffee", name: "Раф", variants: [["0,3 л", 180], ["0,4 л", 200]] },
+  { id: "flat-white", cat: "coffee", sub: "Горячий кофе", img: "coffee", name: "Флэт уайт", variants: [["0,3 л", 180], ["0,4 л", 200]] },
+  { id: "iced-coffee", cat: "coffee", sub: "Айс кофе", img: "iced-coffee", name: "Айс кофе", desc: "0,5 л", variants: [["Айс латте", 220], ["Айс американо", 220], ["Фраппе", 220]] },
+
+  // Напитки
+  { id: "lemonade", cat: "drinks", sub: "Холодные", img: "lemonade", name: "Лимонад", desc: "0,5 л", variants: ["Ягодный", "Манго-маракуйя", "Мохито", "Апельсин", "Яблоко-киви", "Блю курасао"].map(s => [s, 180]) },
+  { id: "iced-tea", cat: "drinks", sub: "Холодные", img: "iced-tea", name: "Айс ти", desc: "0,5 л", variants: [["Ягодный", 180], ["Тропик", 180]] },
+  { id: "shake", cat: "drinks", sub: "Холодные", img: "shake", name: "Милкшейк", desc: "0,5 л", variants: ["Шоколадный", "Клубника", "Ванильный", "Орео", "Банановый"].map(s => [s, 220]) },
+  { id: "tea-berry", cat: "drinks", sub: "Чай", img: "tea", name: "Чай ягодный", variants: [["0,3 л", 100], ["0,4 л", 120]] },
+  { id: "tea-buckthorn", cat: "drinks", sub: "Чай", img: "tea", name: "Чай облепиховый", variants: [["0,3 л", 100], ["0,4 л", 120]] },
+  { id: "tea-ginger", cat: "drinks", sub: "Чай", img: "tea", name: "Чай имбирный", variants: [["0,3 л", 100], ["0,4 л", 120]] },
+  { id: "tea-plain", cat: "drinks", sub: "Чай", img: "tea", name: "Чай обычный", price: 50 },
 ];
 
-/* ===== Иллюстрации ===== */
-const ICONS = {
-  wrap: `<svg viewBox="0 0 64 64" aria-hidden="true"><path class="f-leaf" d="M18 14c4-6 9-4 14-6 5 2 10 0 14 6z"/><path class="f-red" d="M22 13a4 4 0 1 1 8 0zM35 12a4 4 0 1 1 8 0z"/><path class="f-wrap" d="M16 13h32l-9 46a4 4 0 0 1-4 3h-6a4 4 0 0 1-4-3z"/><path class="f-wline" d="M19 24l24 4M21 34l20 3M23 44l15 2"/></svg>`,
-  burger: `<svg viewBox="0 0 64 64" aria-hidden="true"><path class="f-bun" d="M8 30C8 18 19 10 32 10s24 8 24 20z"/><path class="f-leaf" d="M6 33h52l-4 5-5-3-5 3-5-3-5 3-5-3-5 3-5-3-5 3-4-5z"/><rect class="f-red" x="9" y="37" width="46" height="4" rx="2"/><rect class="f-patty" x="8" y="41" width="48" height="8" rx="4"/><path class="f-bund" d="M9 51h46v1a7 7 0 0 1-7 7H16a7 7 0 0 1-7-7z"/><circle class="f-white" cx="24" cy="19" r="1.4"/><circle class="f-white" cx="34" cy="16" r="1.4"/><circle class="f-white" cx="42" cy="22" r="1.4"/></svg>`,
-  cheese: `<svg viewBox="0 0 64 64" aria-hidden="true"><path class="f-bun" d="M8 30C8 18 19 10 32 10s24 8 24 20z"/><path class="f-leaf" d="M7 33h50l-3 4H10z"/><rect class="f-patty" x="8" y="37" width="48" height="8" rx="4"/><path class="f-cheese" d="M7 43h50l-6 3-6 6-6-6H24l-6 6-6-6z"/><path class="f-bund" d="M9 50h46v2a7 7 0 0 1-7 7H16a7 7 0 0 1-7-7z"/><circle class="f-white" cx="24" cy="19" r="1.4"/><circle class="f-white" cx="34" cy="16" r="1.4"/><circle class="f-white" cx="42" cy="22" r="1.4"/></svg>`,
-  fries: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect class="f-fry" x="19" y="8" width="5" height="26" rx="2"/><rect class="f-fry" x="27" y="5" width="5" height="28" rx="2"/><rect class="f-fry" x="35" y="7" width="5" height="27" rx="2"/><rect class="f-fry" x="42" y="11" width="5" height="23" rx="2"/><path class="f-red" d="M14 26h36l-5 32H19z"/><path class="f-white" d="M24 38a8 6 0 0 0 16 0z" opacity=".9"/></svg>`,
-  nuggets: `<svg viewBox="0 0 64 64" aria-hidden="true"><ellipse class="f-bund" cx="22" cy="36" rx="13" ry="10"/><ellipse class="f-bun" cx="42" cy="32" rx="14" ry="10"/><ellipse class="f-bun" cx="30" cy="48" rx="14" ry="9"/><circle class="f-red" cx="50" cy="50" r="8"/><circle class="f-white" cx="38" cy="29" r="1.3"/><circle class="f-white" cx="27" cy="46" r="1.3"/></svg>`,
-  cup: `<svg viewBox="0 0 64 64" aria-hidden="true"><path class="f-straw" d="M36 18l6-14h8"/><path class="f-ice" d="M14 16h36v4H14z"/><path class="f-cup" d="M16 20h32l-4 38a4 4 0 0 1-4 3H24a4 4 0 0 1-4-3z"/><rect class="f-white" x="20" y="32" width="24" height="9" rx="2" opacity=".9"/></svg>`,
-  bottle: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect class="f-cup" x="27" y="4" width="10" height="6" rx="1.5"/><path class="f-ice" d="M26 10h12v6l6 8v32a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4V24l6-8z"/><rect class="f-cup" x="20" y="30" width="24" height="14"/></svg>`,
-  tea: `<svg viewBox="0 0 64 64" aria-hidden="true"><path class="f-steam" d="M24 6c-3 4 3 6 0 10M33 4c-3 4 3 6 0 10M42 6c-3 4 3 6 0 10"/><path class="f-white" d="M10 22h40v16a20 20 0 0 1-40 0z" stroke="var(--line)" stroke-width="2"/><path class="f-tea" d="M13 26h34v12a17 17 0 0 1-34 0z"/><path class="f-steam" d="M50 28h4a6 6 0 0 1 0 12h-5"/></svg>`,
-  bag: `<svg viewBox="0 0 64 64" aria-hidden="true"><path class="f-wrap" d="M12 20h40l-3 38H15z"/><path class="f-wline" d="M24 26v-8a8 8 0 0 1 16 0v8"/><circle class="f-red" cx="32" cy="40" r="6"/></svg>`,
-};
-
-/* ===== Состояние корзины ===== */
-const STORE_KEY = "hay-cart-v1";
-let cart = {};
-try { cart = JSON.parse(localStorage.getItem(STORE_KEY) || "{}") || {}; } catch (e) { cart = {}; }
-for (const id of Object.keys(cart)) if (!MENU.find(m => m.id === id) || !(cart[id] > 0)) delete cart[id];
-const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(cart)); } catch (e) {} };
-
+/* ===== Помощники ===== */
 const $ = s => document.querySelector(s);
 const byId = id => MENU.find(m => m.id === id);
+const vars = m => m.variants ? m.variants.map(([label, price]) => ({ label, price })) : [{ label: "", price: m.price }];
+const imgOf = (m, vi) => Array.isArray(m.img) ? m.img[vi] : m.img;
 const fmt = n => n.toLocaleString("ru-RU") + " " + CONFIG.currency;
-const count = () => Object.values(cart).reduce((a, b) => a + b, 0);
-const sum = () => Object.entries(cart).reduce((a, [id, q]) => a + byId(id).price * q, 0);
+const fmtHTML = n => n.toLocaleString("ru-RU") + "<small>" + CONFIG.currency + "</small>";
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const keyOf = (id, vi) => id + ":" + vi;
+function parseKey(k) {
+  const i = k.lastIndexOf(":"); const m = byId(k.slice(0, i)); const vi = +k.slice(i + 1);
+  if (!m) return null; const v = vars(m)[vi]; if (!v) return null;
+  return { m, vi, v };
+}
 
-function setQty(id, q) {
-  if (q <= 0) delete cart[id]; else cart[id] = Math.min(q, 99);
-  save(); update();
+/* ===== Корзина ===== */
+const STORE_KEY = "havayu-cart-v2";
+let cart = {};
+try { cart = JSON.parse(localStorage.getItem(STORE_KEY) || "{}") || {}; } catch (e) { cart = {}; }
+for (const k of Object.keys(cart)) if (!parseKey(k) || !(cart[k] > 0)) delete cart[k];
+const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(cart)); } catch (e) {} };
+const sel = {}; // выбранный вариант на карточке
+const count = () => Object.values(cart).reduce((a, b) => a + b, 0);
+const sum = () => Object.entries(cart).reduce((a, [k, q]) => a + parseKey(k).v.price * q, 0);
+function setQty(k, q) { if (q <= 0) delete cart[k]; else cart[k] = Math.min(q, 99); save(); update(); }
+
+function controlHTML(k) {
+  const q = cart[k] || 0;
+  if (!q) return `<button class="add" type="button" data-add="${k}">+ В корзину</button>`;
+  return `<span class="stepper"><button type="button" data-dec="${k}" aria-label="Убрать одну">−</button><span aria-live="polite">${q}</span><button type="button" data-inc="${k}" aria-label="Добавить ещё">+</button></span>`;
 }
 
 /* ===== Меню ===== */
-function controlHTML(id) {
-  const q = cart[id] || 0;
-  if (!q) return `<button class="add" type="button" data-add="${id}">+ В корзину</button>`;
-  return `<span class="stepper"><button type="button" data-dec="${id}" aria-label="Убрать одну">−</button><span aria-live="polite">${q}</span><button type="button" data-inc="${id}" aria-label="Добавить ещё">+</button></span>`;
+function cardHTML(m) {
+  const vs = vars(m); const vi = sel[m.id] || 0; const img = imgOf(m, vi);
+  const cls = "item" + (m.featured ? " featured" : "") + (!img ? " compact" : "");
+  return `<article class="${cls}" data-item="${m.id}">
+    ${img ? `<div class="pic"><img src="img/${img}.jpg" alt="${esc(m.name)}" loading="lazy" data-pic></div>` : ""}
+    <div class="info">
+      ${m.featured ? `<span class="tag">Хит заведения</span>` : ""}
+      <h3>${esc(m.name)}</h3>
+      ${m.desc ? `<p class="desc">${esc(m.desc)}</p>` : ""}
+      ${vs.length > 1
+        ? `<div class="chips" role="group" aria-label="Вариант">${vs.map((v, i) => `<button type="button" class="chip" data-pick="${m.id}" data-vi="${i}" aria-pressed="${i === vi}">${esc(v.label)}</button>`).join("")}</div>`
+        : (vs[0].label ? `<p class="vol">${esc(vs[0].label)}</p>` : "")}
+      <div class="row"><span class="price" data-price>${fmtHTML(vs[vi].price)}</span><span data-ctl>${controlHTML(keyOf(m.id, vi))}</span></div>
+    </div>
+  </article>`;
 }
 
 function renderMenu() {
   $("#catNav").innerHTML = CATS.map((c, i) =>
     `<a class="cat-link${i === 0 ? " active" : ""}" href="#${c.id}" data-cat="${c.id}">${c.name}</a>`).join("");
-  $("#menu").innerHTML = CATS.map(c => `
-    <section class="section" id="${c.id}">
-      <h2>${c.name}</h2>
-      <div class="grid">
-        ${MENU.filter(m => m.cat === c.id).map(m => `
-          <article class="item">
-            <div class="pic">${ICONS[m.icon]}</div>
-            <h3>${esc(m.name)}</h3>
-            <p>${esc(m.desc)}</p>
-            <div class="row"><span class="price">${fmt(m.price)}</span><span data-ctl="${m.id}">${controlHTML(m.id)}</span></div>
-          </article>`).join("")}
-      </div>
-    </section>`).join("");
+  $("#menu").innerHTML = CATS.map(c => {
+    const items = MENU.filter(m => m.cat === c.id);
+    const subs = [...new Set(items.map(m => m.sub || ""))];
+    return `<section class="section" id="${c.id}">
+      <h2 class="banner">${c.name}</h2>
+      ${subs.map(s => `${s ? `<h3 class="subhead">${s}</h3>` : ""}<div class="grid">${items.filter(m => (m.sub || "") === s).map(cardHTML).join("")}</div>`).join("")}
+    </section>`;
+  }).join("");
 }
 
-/* ===== Корзина ===== */
+function refreshCard(id) {
+  const el = document.querySelector(`[data-item="${id}"]`); if (!el) return;
+  const m = byId(id); const vi = sel[id] || 0; const v = vars(m)[vi];
+  el.querySelector("[data-price]").innerHTML = fmtHTML(v.price);
+  el.querySelector("[data-ctl]").innerHTML = controlHTML(keyOf(id, vi));
+  el.querySelectorAll("[data-pick]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.vi === vi)));
+  const pic = el.querySelector("[data-pic]"); const img = imgOf(m, vi);
+  if (pic && !pic.src.endsWith(`img/${img}.jpg`)) pic.src = `img/${img}.jpg`;
+}
+
 function renderCart() {
-  const ids = Object.keys(cart);
+  const keys = Object.keys(cart);
   const body = $("#viewCart");
-  if (!ids.length) {
-    body.innerHTML = `<div class="empty">${ICONS.bag}<strong>Пока пусто</strong>Нажмите «В корзину» у любого блюда, и оно появится здесь.</div>`;
-  } else {
-    body.innerHTML = ids.map(id => {
-      const m = byId(id), q = cart[id];
-      return `<div class="line">
-        <span class="name">${esc(m.name)}</span><span class="sum">${fmt(m.price * q)}</span>
-        <span class="unit">${fmt(m.price)} × ${q}</span>${controlHTML(id)}
-      </div>`;
-    }).join("");
-  }
+  body.innerHTML = !keys.length
+    ? `<div class="empty"><strong>Пока пусто</strong>Нажмите «В корзину» у любого блюда, и оно появится здесь.</div>`
+    : keys.map(k => {
+        const { m, v } = parseKey(k); const q = cart[k];
+        return `<div class="line">
+          <span class="name">${esc(m.name)}${v.label ? ` <em>· ${esc(v.label)}</em>` : ""}</span><span class="sum">${fmt(v.price * q)}</span>
+          <span class="unit">${fmt(v.price)} × ${q}</span>${controlHTML(k)}
+        </div>`;
+      }).join("");
   $("#total").textContent = fmt(sum());
   $("#total2").textContent = fmt(sum());
-  $("#toCheckout").disabled = !ids.length;
+  $("#toCheckout").disabled = !keys.length;
 }
 
 function update() {
-  document.querySelectorAll("[data-ctl]").forEach(el => { el.innerHTML = controlHTML(el.dataset.ctl); });
+  MENU.forEach(m => refreshCard(m.id));
   renderCart();
   const n = count();
   $("#barCount").textContent = n;
@@ -437,6 +526,8 @@ function update() {
 }
 
 document.addEventListener("click", e => {
+  const p = e.target.closest("[data-pick]");
+  if (p) { sel[p.dataset.pick] = +p.dataset.vi; refreshCard(p.dataset.pick); return; }
   const t = e.target.closest("[data-add],[data-inc],[data-dec]");
   if (!t) return;
   if (t.dataset.add) setQty(t.dataset.add, 1);
@@ -455,9 +546,7 @@ function showStep(s) {
 }
 $("#toCheckout").addEventListener("click", () => { if (count()) showStep("checkout"); });
 $("#backToCart").addEventListener("click", () => showStep("cart"));
-
-const methodInputs = document.querySelectorAll('input[name="method"]');
-methodInputs.forEach(r => r.addEventListener("change", () => {
+document.querySelectorAll('input[name="method"]').forEach(r => r.addEventListener("change", () => {
   $("#addressWrap").hidden = $("#mPickup").checked;
 }));
 
@@ -476,12 +565,12 @@ $("#orderForm").addEventListener("submit", e => {
   if (errs.length) { $("#formErr").textContent = "Заполните: " + errs.join(", ") + "."; return; }
   $("#formErr").textContent = "";
 
-  const lines = Object.entries(cart).map(([id, q]) => {
-    const m = byId(id);
-    return `${q} × ${m.name} — ${fmt(m.price * q)}`;
+  const lines = Object.entries(cart).map(([k, q]) => {
+    const { m, v } = parseKey(k);
+    return `${q} × ${m.name}${v.label ? " (" + v.label + ")" : ""} — ${fmt(v.price * q)}`;
   });
   orderText = [
-    "Новый заказ в How Are You?", "",
+    "Новый заказ в ХАВАЮ! How Are You?", "",
     ...lines, "",
     `Итого: ${fmt(sum())}`, "",
     `Имя: ${name}`,
@@ -490,7 +579,6 @@ $("#orderForm").addEventListener("submit", e => {
     ...(pickup ? [] : [`Адрес: ${address}`]),
     ...(comment ? [`Комментарий: ${comment}`] : []),
   ].join("\n");
-
   $("#receipt").textContent = orderText;
   $("#waLink").href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(orderText)}`;
   showStep("done");
@@ -501,7 +589,7 @@ $("#copyBtn").addEventListener("click", () => {
   const ok = () => { btn.textContent = "Скопировано"; setTimeout(() => btn.textContent = "Скопировать текст заказа", 1800); };
   const fallback = () => {
     const r = document.createRange(); r.selectNodeContents($("#receipt"));
-    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
     btn.textContent = "Текст выделен, скопируйте вручную";
   };
   try { navigator.clipboard.writeText(orderText).then(ok, fallback); } catch (err) { fallback(); }
@@ -527,9 +615,13 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") openCart(fal
 const io = new IntersectionObserver(entries => {
   entries.forEach(en => {
     if (!en.isIntersecting) return;
-    document.querySelectorAll(".cat-link").forEach(a => a.classList.toggle("active", a.dataset.cat === en.target.id));
+    document.querySelectorAll(".cat-link").forEach(a => {
+      const on = a.dataset.cat === en.target.id;
+      a.classList.toggle("active", on);
+      if (on) { const nav = $("#catNav"); nav.scrollTo({ left: a.offsetLeft - 16, behavior: "smooth" }); }
+    });
   });
-}, { rootMargin: "-40% 0px -55% 0px" });
+}, { rootMargin: "-35% 0px -60% 0px" });
 
 renderMenu();
 document.querySelectorAll(".section").forEach(s => io.observe(s));
