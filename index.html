@@ -310,13 +310,13 @@ footer { color: var(--text-muted); font-size: 13px; padding-block: 0 110px; }
     </div>
     <div class="cart-foot" id="footCheckout" hidden>
       <div class="total"><span>К оплате</span><strong id="total2">0</strong></div>
-      <button class="primary" type="submit" form="orderForm">Подтвердить заказ</button>
+      <button class="primary" type="submit" form="orderForm">Заказать через WhatsApp</button>
       <button class="ghost" id="backToCart" type="button">Назад к корзине</button>
     </div>
 
     <div class="cart-body done" id="viewDone" hidden>
-      <h3>Заказ собран</h3>
-      <p>Осталось отправить его нам в WhatsApp. Как только сообщение придёт, мы перезвоним и подтвердим заказ.</p>
+      <h3>Открываем WhatsApp</h3>
+      <p>Текст заказа уже вставлен в чат. Нажмите «Отправить» в WhatsApp, и мы подтвердим заказ. Если WhatsApp не открылся, нажмите кнопку ниже.</p>
       <pre class="receipt" id="receipt"></pre>
     </div>
     <div class="cart-foot" id="footDone" hidden>
@@ -342,7 +342,7 @@ footer { color: var(--text-muted); font-size: 13px; padding-block: 0 110px; }
 const CONFIG = {
   currency: "с",
   // Номер WhatsApp, куда придут заказы: только цифры, с кодом страны
-  whatsapp: "000000000000",
+  whatsapp: "996702240440",
 };
 
 const CATS = [
@@ -588,8 +588,11 @@ $("#orderForm").addEventListener("submit", e => {
     ...(comment ? [`Комментарий: ${comment}`] : []),
   ].join("\n");
   $("#receipt").textContent = orderText;
-  $("#waLink").href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(orderText)}`;
+  const waUrl = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(orderText)}`;
+  $("#waLink").href = waUrl;
   showStep("done");
+  // Сразу перекидываем в WhatsApp; если браузер не дал, остаётся кнопка на экране
+  try { window.open(waUrl, "_blank", "noopener"); } catch (err) {}
 });
 
 $("#copyBtn").addEventListener("click", () => {
