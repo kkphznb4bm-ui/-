@@ -172,7 +172,7 @@ elif clip == 20:
 elif clip == 21:
     for i, n in enumerate([62, 66, 69, 66, 62, 66, 69, 71]): add(i * .3, tone(midi(n), .28, 'tri', .01, .1), .12)  # кантри-гитара
     add(0, lp(sweep(70, 60, 2.4, 'saw'), .05), .2)                              # диджериду-гул
-    add(2.4, sweep(200, 1200, .7), .3); add(3.1, boom.__call__(3.1) or np.zeros(1), 0)   # переворот
+    add(2.4, sweep(200, 1200, .7), .3); boom(3.1)   # переворот
     for i, n in enumerate([72, 76, 79, 84]): add(3.3 + i * .1, tone(midi(n), .3, 'sine', .005, .25), .15)
     for k in np.arange(3.5, 5.5, .35): add(k, sweep(400, 200, .12), .12)        # прыжки кенгуру
 else:
