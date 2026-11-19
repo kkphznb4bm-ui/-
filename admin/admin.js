@@ -472,7 +472,7 @@ function startApp() {
     if (VM.admin.emailLogin) $("#loginUser").type = "email";
   }
   if (VM.mode === "demo") {
-    $("#demoBar").hidden = false; $("#demoHint").hidden = false;
+    $("#demoBar").hidden = false; $("#demoHint").hidden = window.SHOW_DEMO === false;
     $("#demoHint").innerHTML = `Демо-вход: логин <b>${VM.DEMO_LOGIN}</b>, пароль <b>${VM.DEMO_PASSWORD}</b>`;
   }
   try { const me = await api("me", { allow401: true }); me.loggedIn ? startApp() : showLogin(); }

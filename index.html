@@ -1021,7 +1021,7 @@ $("#orderForm").addEventListener("submit", async e => {
       const d = await VM.placeOrder({
         items: Object.entries(cart).map(([key, qty]) => ({ key, qty })), name, phone, address, comment,
         method: pickup ? "pickup" : "delivery", pay: qr ? "qr" : "cash" });
-      number = d.id; total = d.total;
+      number = VM.mode === "demo" && window.SHOW_DEMO === false ? "" : d.id; total = d.total;
       lines = d.items.map(it => `${it.qty} × ${it.name}${it.variant ? " (" + it.variant + ")" : ""}${it.choices.length ? " [" + it.choices.join(", ") + "]" : ""} — ${fmt(it.sum)}`);
     } catch (err) {
       $("#formErr").textContent = err.message || "Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.";
@@ -1132,7 +1132,7 @@ async function loadMenu() {
 }
 VM.init().then(async mode => {
   API = true;
-  if (mode === "demo") $("#demoNote").hidden = false;
+  if (mode === "demo" && window.SHOW_DEMO !== false) $("#demoNote").hidden = false;
   await loadMenu();
   VM.onMenu(m => applyMenu(m));
 });

@@ -13,3 +13,6 @@ window.FIREBASE_CONFIG = {
 };
 */
 window.FIREBASE_CONFIG = null;
+
+/* Подсказки демо-режима (логин и пароль демо на странице входа). На публичном сайте Netlify выключаются автоматически. */
+window.SHOW_DEMO = true;

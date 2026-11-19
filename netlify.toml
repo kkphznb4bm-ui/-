@@ -1,0 +1,14 @@
+# Настройки Netlify: публикуются только файлы сайта (без сервера и служебных файлов).
+[build]
+  command = "rm -rf dist && mkdir dist && cp -r index.html menu-data.js backend.js firebase-config.js img admin dist/ && sed -i 's/window.SHOW_DEMO = true;/window.SHOW_DEMO = false;/' dist/firebase-config.js"
+  publish = "dist"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

@@ -25,7 +25,9 @@
 
 ### Размещение сайта бесплатно
 
-Подходит любой статический хостинг: файлы сайта лежат в корне репозитория, сборка не нужна.
+**Netlify** (настройки уже в `netlify.toml`): app.netlify.com → Add new site → Import an existing project → GitHub → репозиторий → ветка `claude/stoic-heisenberg-vmanj9` → Deploy. Netlify сам соберёт папку `dist` и будет обновлять сайт после каждого изменения в ветке. На публичном сайте подсказки демо-входа скрыты.
+
+Подходит и любой другой статический хостинг:
 
 - **Cloudflare Pages**: Workers & Pages → Create → Pages → Connect to Git → выбрать репозиторий и ветку → Build command пусто, Build output directory `/` → Deploy. Работает и с закрытым репозиторием.
 - **Firebase Hosting**: `npx firebase-tools deploy --only hosting,firestore:rules` (настройки уже в `firebase.json`).
