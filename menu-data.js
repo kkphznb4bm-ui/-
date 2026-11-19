@@ -91,7 +91,7 @@ var MENU = [
 
   // Супы
   { id: "pho-beef", cat: "soups", sub: "Азиатские супы", img: "pho", name: "Фо-бо с говядиной", price: 599 },
-  { id: "pho-chicken", cat: "soups", sub: "Азиатские супы", img: "pho", name: "Фо-бо с курицей", price: 450 },
+  { id: "pho-chicken", cat: "soups", sub: "Азиатские супы", img: "pho-chicken", name: "Фо-бо с курицей", price: 450 },
   { id: "malatang", cat: "soups", sub: "Азиатские супы", img: "malatan", name: "Малатан", variants: [["С морепродуктами", 750], ["С говядиной", 570], ["С курицей", 400]] },
   { id: "beef-soup", cat: "soups", sub: "Домашние супы", img: "beef-soup", name: "Говяжий суп", price: 300, desc: "С лапшой или рисом" },
   { id: "beef-meatball", cat: "soups", sub: "Домашние супы", img: "beef-meatball", name: "Суп с говяжьими фрикадельками", price: 300, desc: "С лапшой или рисом" },
