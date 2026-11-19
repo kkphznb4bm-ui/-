@@ -264,3 +264,7 @@ h3 { margin: 0 0 14px; font: 700 15px/1.3 var(--f-body); }
 @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+.demo-hint { margin: 0; font-size: 13px; color: var(--muted); background: rgba(240, 217, 160, .06); border: 1px dashed var(--line-2); border-radius: 12px; padding: 10px 12px; }
+.demo-hint b { color: var(--gold-2); font-variant-numeric: tabular-nums; }
+.demo-bar { margin-top: calc(10px + env(safe-area-inset-top, 0px)); padding: 10px 14px; border-radius: 12px; border: 1px dashed var(--gold); color: var(--gold-2); background: rgba(212, 175, 99, .07); font-size: 13px; }

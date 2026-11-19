@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Вкус Мира</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Кафе «Вкус Мира»: завтраки, осетинские пироги, кутабы, бургеры из говядины 12 часов, салаты, поке и супы. Заказ онлайн через WhatsApp.">
@@ -7,6 +12,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: split hero (headline + plate collage), gold-ruled ticker, then one dark wine column: hits rail, signature offers, sticky-filtered menu (cards for dishes with photos, menu-board lists for pies/kutabs/sandwiches), about, reviews, contacts. Cart is a drawer. Single deliberate dark look in the cafe's burgundy and gold. */
+[hidden] { display: none !important; }
 :root {
   --bg: #120A0B;
   --bg-2: #180D0F;
@@ -331,6 +337,9 @@ a.c-item:hover { border-color: var(--line-2); transform: translateX(4px); backgr
 .c-item .soon { color: var(--muted); font-weight: 600; }
 
 footer.site { margin-top: clamp(64px, 9vw, 110px); border-top: 1px solid var(--line); padding-block: 34px 120px; color: var(--muted); font-size: 14px; }
+.staff-link { color: var(--muted); font-size: 13.5px; text-decoration: underline; text-underline-offset: 3px; }
+.staff-link:hover { color: var(--gold-2); }
+.demo-note { flex-basis: 100%; display: inline-block; font-size: 12px; color: var(--muted); border: 1px dashed var(--line-2); border-radius: 999px; padding: 5px 12px; width: fit-content; }
 footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center; }
 
 /* ---------- Floating buttons ---------- */
@@ -427,6 +436,8 @@ textarea { resize: vertical; min-height: 70px; }
   .ticker-track { animation: none; }
 }
 </style>
+</head>
+<body>
 
 <div class="loader" aria-hidden="true"><div class="loader-mark" data-text="Вкус Мира">Вкус Мира</div></div>
 
@@ -565,6 +576,8 @@ textarea { resize: vertical; min-height: 70px; }
   <div class="wrap">
     <a class="logo" href="#top"><span class="name"><b>Вкус Мира</b><small>вкусы, которые объединяют</small></span></a>
     <span id="footNote">© Кафе «Вкус Мира»</span>
+    <a class="staff-link" href="admin/index.html">Вход для администратора</a>
+    <span class="demo-note" id="demoNote" hidden>Демо-режим: заказы сохраняются только в этом браузере</span>
   </div>
 </footer>
 
@@ -648,6 +661,8 @@ textarea { resize: vertical; min-height: 70px; }
 </aside>
 
 <script src="menu-data.js"></script>
+<script src="firebase-config.js"></script>
+<script src="backend.js"></script>
 <script>
 /* =====================================================================
    НАСТРОЙКИ ЗАВЕДЕНИЯ — всё, что нужно поменять, находится здесь
@@ -679,7 +694,7 @@ const byId = id => MENU.find(m => m.id === id);
 const catOf = m => CATS.find(c => c.id === m.cat);
 const vars = m => m.variants ? m.variants.map(([label, price]) => ({ label, price })) : [{ label: "", price: m.price }];
 const imgOf = (m, vi) => Array.isArray(m.img) ? m.img[vi] : m.img;
-const imgSrc = name => (name.includes("/") ? name : `img/${name}.jpg`);
+const imgSrc = name => (/^data:image\//.test(name) || name.includes("/") ? name : `img/${name}.jpg`);
 const fmt = n => n.toLocaleString("ru-RU") + " " + CONFIG.currency;
 const fmtHTML = n => n.toLocaleString("ru-RU") + "<small>" + CONFIG.currency + "</small>";
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -1003,15 +1018,14 @@ $("#orderForm").addEventListener("submit", async e => {
   if (API) {
     const btn = $("#footCheckout [type=submit]"); sending = true; btn.disabled = true; btn.textContent = "Отправляем…";
     try {
-      const r = await fetch("api/orders", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+      const d = await VM.placeOrder({
         items: Object.entries(cart).map(([key, qty]) => ({ key, qty })), name, phone, address, comment,
-        method: pickup ? "pickup" : "delivery", pay: qr ? "qr" : "cash" }) });
-      const d = await r.json().catch(() => ({}));
-      if (!r.ok) { $("#formErr").textContent = d.error || "Не удалось отправить заказ. Попробуйте ещё раз."; if (r.status === 409) loadMenu(); return; }
+        method: pickup ? "pickup" : "delivery", pay: qr ? "qr" : "cash" });
       number = d.id; total = d.total;
       lines = d.items.map(it => `${it.qty} × ${it.name}${it.variant ? " (" + it.variant + ")" : ""}${it.choices.length ? " [" + it.choices.join(", ") + "]" : ""} — ${fmt(it.sum)}`);
     } catch (err) {
-      $("#formErr").textContent = "Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.";
+      $("#formErr").textContent = err.message || "Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.";
+      if (err.status === 409) loadMenu();
       return;
     } finally { sending = false; btn.disabled = false; btn.textContent = "Заказать через WhatsApp"; }
   }
@@ -1114,19 +1128,18 @@ function applyMenu(data) {
   save(); renderAll(); update();
 }
 async function loadMenu() {
-  try {
-    const r = await fetch("api/menu", { cache: "no-store" });
-    if (!r.ok || !(r.headers.get("content-type") || "").includes("json")) return false;
-    applyMenu(await r.json()); API = true; return true;
-  } catch (e) { return false; }
+  try { applyMenu(await VM.loadMenu()); return true; } catch (e) { return false; }
 }
-loadMenu().then(ok => {
-  if (!ok || !window.EventSource) return;
-  const es = new EventSource("api/events");
-  let t; es.addEventListener("menu", () => { clearTimeout(t); t = setTimeout(loadMenu, 300); });
+VM.init().then(async mode => {
+  API = true;
+  if (mode === "demo") $("#demoNote").hidden = false;
+  await loadMenu();
+  VM.onMenu(m => applyMenu(m));
 });
 
 /* ===== Старт ===== */
 renderTicker(); renderHits(); renderFeatures(); renderOffers(); renderMenu(); renderAbout(); renderReviews(); renderContacts();
 showStep("cart"); update(); onScroll(); initReveal();
 </script>
+</body>
+</html>

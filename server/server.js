@@ -282,7 +282,7 @@ function dishInput(b, existing) {
 }
 
 function translit(s) {
-  const map = { а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh", з: "z", и: "i", й: "y", к: "k", л: "l", м: "m", н: "n", о: "o", п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f", х: "h", ц: "c", ч: "ch", ш: "sh", щ: "sch", ы: "y", э: "e", ю: "yu", я: "ya" };
+  const map = { "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "е": "e", "ё": "e", "ж": "zh", "з": "z", "и": "i", "й": "y", "к": "k", "л": "l", "м": "m", "н": "n", "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u", "ф": "f", "х": "h", "ц": "c", "ч": "ch", "ш": "sh", "щ": "sch", "ы": "y", "э": "e", "ю": "yu", "я": "ya" };
   return s.toLowerCase().split("").map(c => map[c] ?? c).join("").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 30) || "dish";
 }
 
@@ -465,7 +465,7 @@ function serveFile(res, file, cache) {
 function staticRoute(req, res, url) {
   let p; try { p = decodeURIComponent(url.pathname); } catch { p = "/"; }
   if (p === "/" || p === "/index.html") return serveFile(res, path.join(ROOT, "index.html"), "no-cache");
-  if (p === "/menu-data.js") return serveFile(res, path.join(ROOT, "menu-data.js"), "no-cache");
+  if (["/menu-data.js", "/backend.js", "/firebase-config.js"].includes(p)) return serveFile(res, path.join(ROOT, p.slice(1)), "no-cache");
   if (p === "/admin") { res.writeHead(301, { Location: "/admin/" }); return res.end(); }
   if (p === "/admin/") return serveFile(res, path.join(ROOT, "admin", "index.html"), "no-store");
   const roots = [["/img/", path.join(ROOT, "img"), "public, max-age=86400"], ["/uploads/", UPLOAD_DIR, "public, max-age=31536000, immutable"], ["/admin/", path.join(ROOT, "admin"), "no-cache"]];

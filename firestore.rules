@@ -1,0 +1,41 @@
+rules_version = '2';
+// Правила базы «Вкус Мира». Замените ADMIN_EMAIL на почту администратора (ту же, что в firebase-config.js).
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'ADMIN_EMAIL';
+    }
+    function str(v, max) { return v is string && v.size() <= max; }
+
+    // меню видят все, меняет только администратор
+    match /categories/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /dishes/{id}     { allow read: if true; allow write: if isAdmin(); }
+
+    // счётчик номеров заказов: гость может только увеличить его на 1
+    match /meta/counter {
+      allow read: if true;
+      allow create: if isAdmin() || request.resource.data.n == 1;
+      allow update: if isAdmin() || request.resource.data.n == resource.data.n + 1;
+    }
+
+    // заказы: гость может только создать новый заказ правильного вида, читать и менять — только администратор
+    match /orders/{id} {
+      allow read, update, delete: if isAdmin();
+      allow create: if
+        request.resource.data.keys().hasOnly(['name','phone','comment','method','pay','address','items','total','status','paid','num','createdAt','updatedAt'])
+        && str(request.resource.data.name, 80) && request.resource.data.name.size() > 0
+        && str(request.resource.data.phone, 30) && request.resource.data.phone.size() >= 7
+        && (request.resource.data.comment == null || str(request.resource.data.comment, 500))
+        && (request.resource.data.address == null || str(request.resource.data.address, 300))
+        && request.resource.data.method in ['delivery', 'pickup']
+        && request.resource.data.pay in ['cash', 'qr']
+        && request.resource.data.status == 'new'
+        && request.resource.data.paid == false
+        && request.resource.data.items is list && request.resource.data.items.size() > 0 && request.resource.data.items.size() <= 60
+        && request.resource.data.total is int && request.resource.data.total > 0 && request.resource.data.total <= 1000000
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.num == getAfter(/databases/$(database)/documents/meta/counter).data.n;
+    }
+  }
+}

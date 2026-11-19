@@ -5,7 +5,7 @@ const $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const money = n => (n || 0).toLocaleString("ru-RU") + " сом";
 const moneyHTML = n => (n || 0).toLocaleString("ru-RU") + "<span>сом</span>";
-const imgSrc = name => "../" + (name.includes("/") ? name : `img/${name}.jpg`);
+const imgSrc = name => /^data:image\//.test(name) ? name : "../" + (name.includes("/") ? name : `img/${name}.jpg`);
 const firstImg = img => (Array.isArray(img) ? img[0] : img) || "";
 
 const STATUS = { new: "Новый", accepted: "Принят", cooking: "Готовится", ready: "Готов", delivered: "Доставлен", cancelled: "Отменён" };
@@ -19,15 +19,8 @@ const whenText = ms => sameDay(ms, Date.now()) ? "сегодня, " + fmtTime(ms
 
 /* ===== запросы к серверу ===== */
 async function api(path, opts = {}) {
-  const r = await fetch("../api/admin/" + path, {
-    method: opts.method || "GET", credentials: "same-origin",
-    headers: opts.body ? { "Content-Type": "application/json", "X-Requested-With": "fetch" } : { "X-Requested-With": "fetch" },
-    body: opts.body ? JSON.stringify(opts.body) : undefined,
-  });
-  const data = await r.json().catch(() => ({}));
-  if (r.status === 401 && !opts.allow401) { showLogin(); throw new Error(data.error || "Войдите заново."); }
-  if (!r.ok) throw new Error(data.error || "Ошибка сервера.");
-  return data;
+  try { return await VM.admin.request(path, opts); }
+  catch (e) { if (e.status === 401 && !opts.allow401) showLogin(); throw e; }
 }
 
 function toast(title, text = "", bad = false) {
@@ -59,14 +52,15 @@ document.addEventListener("click", () => { try { audio = audio || new (window.Au
 function showLogin() {
   stopEvents();
   $("#appView").hidden = true; $("#loginView").hidden = false; $("#modal").hidden = true;
-  setTimeout(() => $("#loginPw").focus(), 50);
+  setTimeout(() => ($("#loginUserWrap").hidden ? $("#loginPw") : $("#loginUser")).focus(), 50);
 }
 $("#loginForm").addEventListener("submit", async e => {
   e.preventDefault();
-  const pw = $("#loginPw").value; if (!pw) { $("#loginErr").textContent = "Введите пароль."; return; }
+  const pw = $("#loginPw").value, user = $("#loginUser").value;
+  if ((VM.admin.needsLogin && !user.trim()) || !pw) { $("#loginErr").textContent = VM.admin.needsLogin ? "Введите логин и пароль." : "Введите пароль."; return; }
   $("#loginBtn").disabled = true; $("#loginErr").textContent = "";
   try {
-    await api("login", { method: "POST", body: { password: pw }, allow401: true });
+    await api("login", { method: "POST", body: { email: user, password: pw }, allow401: true });
     $("#loginPw").value = ""; startApp();
   } catch (err) { $("#loginErr").textContent = err.message; }
   finally { $("#loginBtn").disabled = false; }
@@ -100,14 +94,16 @@ let es = null, newCount = 0;
 function setLive(on) { ["#live", "#liveM"].forEach(s => { $(s).classList.toggle("on", on); }); $("#live span").textContent = on ? "Онлайн: заказы приходят сами" : "Переподключение…"; }
 function startEvents() {
   stopEvents();
-  es = new EventSource("../api/admin/events");
-  es.onopen = () => setLive(true);
-  es.onerror = async () => {
-    setLive(false);
-    try { const me = await api("me", { allow401: true }); if (!me.loggedIn) showLogin(); } catch (e) {}
-  };
-  es.addEventListener("order", e => {
-    const o = JSON.parse(e.data);
+  const off = VM.admin.subscribe({
+    open: () => setLive(true),
+    error: async () => { setLive(false); try { const me = await api("me", { allow401: true }); if (!me.loggedIn) showLogin(); } catch (e) {} },
+    order: o => onNewOrder(o),
+    "order-update": o => onOrderUpdate(o),
+  });
+  es = { close: off };
+}
+function onNewOrder(o) {
+  {
     newCount++; updateBadge(); beep();
     toast(`Новый заказ №${o.id}`, `${o.name} · ${money(o.total)}`);
     document.title = `(${newCount}) Новый заказ · Вкус Мира`;
@@ -115,15 +111,16 @@ function startEvents() {
     else if (view === "orders") refreshChipCounts();
     if (view === "overview") loadOverview();
     if (view === "history" && hOffset === 0) loadHistory();
-  });
-  es.addEventListener("order-update", e => {
-    const o = JSON.parse(e.data);
+  }
+}
+function onOrderUpdate(o) {
+  {
     const i = orders.findIndex(x => x.id === o.id);
     if (i >= 0) { orders[i] = o; if (view === "orders") { if (matchesFilter(o)) renderOrders(); else { orders.splice(i, 1); renderOrders(); } } }
     if (view === "orders") refreshChipCounts();
     if (view === "overview") loadOverview();
     if (view === "history") loadHistory();
-  });
+  }
 }
 function stopEvents() { if (es) { es.close(); es = null; } setLive(false); }
 function updateBadge() { $$("#newBadge, #tabbar .badge").forEach(b => { b.hidden = !newCount; b.textContent = newCount; }); }
@@ -385,10 +382,10 @@ function shrink(file) {
     if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return reject(new Error("Выберите фото в формате JPG, PNG или WebP."));
     const url = URL.createObjectURL(file); const img = new Image();
     img.onload = () => {
-      const k = Math.min(1, 1400 / Math.max(img.width, img.height));
+      const k = Math.min(1, (VM.admin.imageMax || 1400) / Math.max(img.width, img.height));
       const c = document.createElement("canvas"); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
       c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
-      resolve(c.toDataURL("image/jpeg", .86));
+      resolve(c.toDataURL("image/jpeg", VM.admin.imageMax <= 700 ? .8 : .86));
     };
     img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Не удалось прочитать фото.")); };
     img.src = url;
@@ -468,6 +465,16 @@ function startApp() {
   go((location.hash || "").slice(1) || "overview");
 }
 (async () => {
+  await VM.init();
+  if (VM.admin.needsLogin) {
+    $("#loginUserWrap").hidden = false;
+    $("#loginUserLbl").textContent = VM.admin.emailLogin ? "Почта" : "Логин";
+    if (VM.admin.emailLogin) $("#loginUser").type = "email";
+  }
+  if (VM.mode === "demo") {
+    $("#demoBar").hidden = false; $("#demoHint").hidden = false;
+    $("#demoHint").innerHTML = `Демо-вход: логин <b>${VM.DEMO_LOGIN}</b>, пароль <b>${VM.DEMO_PASSWORD}</b>`;
+  }
   try { const me = await api("me", { allow401: true }); me.loggedIn ? startApp() : showLogin(); }
   catch (e) { showLogin(); $("#loginErr").textContent = "Сервер недоступен. Обновите страницу позже."; }
 })();

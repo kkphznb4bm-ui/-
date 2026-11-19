@@ -19,10 +19,14 @@
     <span class="cloche" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M4.5 17a7.5 7.5 0 0 1 15 0M12 9.5V8M10.5 8h3M2.5 19.5h19"/></svg></span>
     <h1>Вкус Мира</h1>
     <p class="muted">Вход в админ-панель</p>
+    <label for="loginUser" id="loginUserWrap" hidden><span id="loginUserLbl">Логин</span>
+      <input type="text" id="loginUser" autocomplete="username" autocapitalize="none" spellcheck="false">
+    </label>
     <label for="loginPw">Пароль
       <input type="password" id="loginPw" autocomplete="current-password" required>
     </label>
     <div class="err" id="loginErr" role="alert"></div>
+    <p class="demo-hint" id="demoHint" hidden></p>
     <button class="btn btn-primary" type="submit" id="loginBtn">Войти</button>
     <a class="back" href="../">← На сайт</a>
   </form>
@@ -46,6 +50,7 @@
   </aside>
 
   <main class="main">
+    <div class="demo-bar" id="demoBar" hidden>Демо-режим: заказы и изменения меню хранятся только в этом браузере. После подключения Firebase панель будет видеть заказы всех гостей.</div>
     <header class="top">
       <h1 id="viewTitle">Обзор</h1>
       <div class="top-actions">
@@ -152,6 +157,9 @@
 </div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
+<script src="../menu-data.js"></script>
+<script src="../firebase-config.js"></script>
+<script src="../backend.js" data-root="../"></script>
 <script src="admin.js"></script>
 </body>
 </html>
