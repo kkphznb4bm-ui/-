@@ -1,18 +1,14 @@
-/* Настройки Firebase. Пока здесь null, сайт работает в демо-режиме (данные только в этом браузере).
-   Чтобы включить общую базу, вставьте сюда блок из консоли Firebase
-   (Настройки проекта → Ваши приложения → Конфигурация SDK) и добавьте почту администратора:
-
+/* Настройки Firebase проекта «blue-mira». Эти значения не секретные: доступ к данным защищают правила базы (firestore.rules).
+   Если удалить блок (оставить window.FIREBASE_CONFIG = null), сайт перейдёт в демо-режим. */
 window.FIREBASE_CONFIG = {
-  apiKey: "...",
-  authDomain: "....firebaseapp.com",
-  projectId: "...",
-  storageBucket: "....appspot.com",
-  messagingSenderId: "...",
-  appId: "...",
-  adminEmail: "почта-администратора@gmail.com"
+  apiKey: "AIzaSyAW0494jq7UBxEAmhDlqlypQ_iRYUiuuLY",
+  authDomain: "blue-mira.firebaseapp.com",
+  projectId: "blue-mira",
+  storageBucket: "blue-mira.firebasestorage.app",
+  messagingSenderId: "878686070750",
+  appId: "1:878686070750:web:4f770e4993bd55787f1f4f",
+  adminEmail: "adminvkusmira@gmail.com"
 };
-*/
-window.FIREBASE_CONFIG = null;
 
 /* Подсказки демо-режима (логин и пароль демо на странице входа). На публичном сайте Netlify выключаются автоматически. */
 window.SHOW_DEMO = true;
