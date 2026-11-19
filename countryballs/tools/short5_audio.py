@@ -153,6 +153,28 @@ elif clip == 18:
         add(tt, tone(midi(72 + q * 2), .12, 'sine', .002, .1), .25); add(tt, lp(noise(.05), .3) * np.exp(-T(.05) * 40), .4)   # «дзынь» тарелки
     add(3.0, sweep(500, 300, .5), .2)                                          # «уф»
     for k in np.arange(4.4, 5.5, .12): add(k, tone(rng.uniform(1500, 2200), .05, 'sine', .002, .03), .06)  # дребезг посуды
+elif clip == 19:
+    add(0, lp(noise(1.6), .25) * .6, .7)                                       # дождь
+    for k in np.arange(0, 1.6, .2): add(k, lp(noise(.03), .5) * np.exp(-T(.03) * 80), .25)  # шаги по лужам
+    for i, n in enumerate([64, 60, 62, 55]): add(1.6 + i * .45, tone(midi(n), .9, 'sine', .005, .8) + tone(midi(n + 12), .9, 'sine', .005, .8) * .3, .3)  # Биг-Бен
+    add(2.6, sweep(300, 900, .3), .15); add(2.9, lp(noise(.6), .6) * env(int(.6 * SR), .05, .4), .3)   # «шшш»
+    for i, n in enumerate([72, 74, 76, 79, 76, 74]): add(3.9 + i * .26, tone(midi(n), .25, 'tri', .01, .15), .12)   # чайная мелодия
+    add(4.2, tone(2400, .06, 'sine', .001, .05), .15)                          # «дзынь» ложечки
+elif clip == 20:
+    for a in (0, 1.0, 1.7, 2.3, 2.9, 3.5):
+        add(a, lp(noise(.08), .5) * np.exp(-T(.08) * 30), .7); add(a, tone(midi(84), .1, 'square', .002, .08), .12)   # штамповка
+    b = DUR / 8
+    for i in range(16):
+        tt = i * b / 2
+        add(tt, kick() if i % 2 == 0 else hat(), .55)
+        add(tt, tone(midi([69, 72, 74, 76, 79, 76, 74, 72][i % 8]), b * .35, 'square', .003, .05), .07)
+    add(3.5, sweep(400, 2000, .4), .25)
+elif clip == 21:
+    for i, n in enumerate([62, 66, 69, 66, 62, 66, 69, 71]): add(i * .3, tone(midi(n), .28, 'tri', .01, .1), .12)  # кантри-гитара
+    add(0, lp(sweep(70, 60, 2.4, 'saw'), .05), .2)                              # диджериду-гул
+    add(2.4, sweep(200, 1200, .7), .3); add(3.1, boom.__call__(3.1) or np.zeros(1), 0)   # переворот
+    for i, n in enumerate([72, 76, 79, 84]): add(3.3 + i * .1, tone(midi(n), .3, 'sine', .005, .25), .15)
+    for k in np.arange(3.5, 5.5, .35): add(k, sweep(400, 200, .12), .12)        # прыжки кенгуру
 else:
     for k in (0, .9, 1.8): boom(k)                               # тяжёлые шаги
     add(0, lp(noise(2.0), .03) * env(int(2.0 * SR), .2, .3), 1.2)    # ветер

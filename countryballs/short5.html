@@ -423,6 +423,19 @@ const pine=(x,y,s=1,snow=false)=>`<g transform="translate(${x},${y}) scale(${s})
 const sakura=(x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M0,0 Q-4,-40 6,-70 M2,-40 Q20,-55 30,-60" stroke="#5c3b28" stroke-width="7" fill="none"/>${[[0,-80,30],[24,-66,24],[-22,-64,24],[34,-82,18],[-8,-100,20]].map(([cx,cy,r])=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#ffb3d1"/>`).join('')}</g>`;
 const balloon=(x,y,s,c1,c2)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M0,-40 C-30,-40 -30,0 -8,18 L8,18 C30,0 30,-40 0,-40Z" fill="${c1}" stroke="#333" stroke-width="2"/><path d="M0,-40 C-10,-40 -12,0 -4,18 L4,18 C12,0 10,-40 0,-40Z" fill="${c2}"/><path d="M-8,18 L-6,28 M8,18 L6,28" stroke="#333" stroke-width="1.5"/><rect x="-7" y="28" width="14" height="10" fill="#8b5a2b"/></g>`;
 const THEMES={
+  london:{sky:['#8b97a8','#cfd6df'],sun:[-100,-100,'#000',1],road:'#5c6168',grass:'#7da36b',line:'#5f8a50',
+    scen:`<g transform="translate(290,358)"><rect x="-26" y="-240" width="52" height="240" fill="#c9b27a" stroke="#8a7445" stroke-width="2"/><rect x="-32" y="-190" width="64" height="64" fill="#d6c08a" stroke="#8a7445" stroke-width="2"/>
+          <circle cy="-158" r="24" fill="#fffbe6" stroke="#5a4a2a" stroke-width="3"/><polygon points="-26,-240 0,-300 26,-240" fill="#5a6b5a" stroke="#3a4a3a" stroke-width="2"/><path d="M0,-300 v-14" stroke="#c9a227" stroke-width="3"/>
+          ${[...Array(5)].map((_,i)=>`<rect x="-18" y="${-110+i*20}" width="36" height="8" fill="#a8925a"/>`).join('')}</g>
+          <g fill="#b0b8c4"><rect x="-10" y="270" width="60" height="88"/><rect x="60" y="250" width="70" height="108"/><rect x="140" y="290" width="70" height="68"/></g>`,
+    palms:''},
+  greatwall:{sky:['#7cc6ff','#fff0e0'],sun:[300,170,'#ff6b6b',26],road:'#a39380',grass:'#9ccf7a',line:'#7fb35c',
+    scen:`<path d="M-40,340 L30,240 L90,300 L170,200 L250,290 L320,220 L400,300 V360 H-40Z" fill="#6f9f6a"/>
+          <path d="M-40,330 L30,232 L90,292 L170,192 L250,282 L320,212 L400,292" stroke="#c9b48c" stroke-width="12" fill="none" stroke-linejoin="round"/>
+          ${[[30,232],[170,192],[320,212]].map(([x,y])=>`<rect x="${x-12}" y="${y-28}" width="24" height="24" fill="#c9b48c" stroke="#8a7a5a" stroke-width="2"/>`).join('')}
+          ${[40,120,240,320].map((x,i)=>`<g transform="translate(${x},${250+i%2*14})"><path d="M0,-30 v10" stroke="#333"/><ellipse cx="0" cy="-8" rx="12" ry="15" fill="#e03131" stroke="#b02525" stroke-width="2"/><rect x="-5" y="6" width="10" height="4" fill="#ffd43b"/></g>`).join('')}`,
+    palms:''},
+  outback:{sky:['#ff9a3c','#ffe0a8'],sun:[300,140,'#fff1b8',30],road:'#c2591f',grass:'#d9662b',line:'#b04e1a',scen:'',palms:''},
   paris:{sky:['#8ec9ff','#fdf0e6'],sun:[60,180,'#ffe066',26],road:'#9aa0a6',grass:'#c7d9a8',line:'#a9bf86',
     scen:`<g transform="translate(270,358)" fill="none" stroke="#6b5a4a" stroke-width="3"><path d="M-55,0 Q-30,-70 -12,-150 L-4,-230 L4,-230 L12,-150 Q30,-70 55,0"/><path d="M-25,0 Q0,-40 25,0"/><path d="M-40,-60 H40 M-20,-150 H20"/><path d="M0,-230 V-262"/>
           ${[...Array(6)].map((_,i)=>`<path d="M${-45+i*4},${-i*25} L${45-i*4},${-i*25-20} M${45-i*4},${-i*25} L${-45+i*4},${-i*25-20}" stroke-width="1.5"/>`).join('')}</g>
@@ -864,8 +877,118 @@ function clip18(){
   };
 }
 
-setTheme({1:'manila',2:'neon',3:'winter',4:'fuji',5:'rio',6:'stage',7:'castle',8:'sunset',9:'cappadocia',10:'steppe',11:'desert',12:'seoul',13:'fiesta',14:'rome',15:'samarkand',16:'paris',17:'rockies',18:'pamir'}[CLIP]);
-const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6,7:clip7,8:clip8,9:clip9,10:clip10,11:clip11,12:clip12,13:clip13,14:clip14,15:clip15,16:clip16,17:clip17,18:clip18}[CLIP]||clip1)();
+/* ===== CLIP 19: Великобритания — не мешай чаепитию ===== */
+function clip19(){
+  const R=buildRobot($('robots'),UK_PARTS());
+  const uk=makeBall('uk'), us=makeBall('usa');$('actors').append(uk.g,us.g);
+  const S=.68, X=140, Y=535, FIVE=1.6;
+  const CUP=`<g><path d="M-10,-10 h20 l-3,14 h-14z" fill="#fff" stroke="#111" stroke-width="2"/><path d="M10,-6 q8,0 6,7 q-2,4 -8,3" fill="none" stroke="#111" stroke-width="2"/><ellipse cy="5" rx="14" ry="3" fill="#fff" stroke="#111" stroke-width="2"/><path d="M-4,-16 q3,-5 0,-9 M4,-16 q3,-5 0,-9" stroke="#aaa" stroke-width="1.8" fill="none"/></g>`;
+  const DROPS=[...Array(50)].map((_,i)=>({x:(i*73)%380,ph:(i*97)%640}));
+  return t=>{
+    common(t);
+    const tea=t>=FIVE;
+    // часы Биг-Бена
+    const mins=t<FIVE?lerp(50,60,t/FIVE):60, hr=tea?150:150-(60-mins)*.5;
+    FX+=`<g transform="translate(290,200)"><line x1="0" y1="0" x2="${Math.sin(mins*6*Math.PI/180)*18}" y2="${-Math.cos(mins*6*Math.PI/180)*18}" stroke="#111" stroke-width="2.5"/><line x1="0" y1="0" x2="${Math.sin(hr*Math.PI/180)*12}" y2="${-Math.cos(hr*Math.PI/180)*12}" stroke="#111" stroke-width="3.5"/></g>`;
+    // дождь: идёт → замирает → исчезает
+    const rainOp=t<FIVE?1:1-seg(t,FIVE+.3,FIVE+.9);
+    const tt=Math.min(t,FIVE);
+    if(rainOp>0) DROPS.forEach(d=>{const y=(d.ph+tt*700)%660-10;FX+=`<line x1="${d.x}" y1="${y}" x2="${d.x-3}" y2="${y+14}" stroke="#a5c8ff" stroke-width="2" opacity="${.8*rainOp}"/>`});
+    $('gloom').setAttribute('opacity',.25*(1-seg(t,FIVE+.3,FIVE+1)));
+    // робот
+    const run=!tea, step=run?Math.sin(t*14):0;
+    poseRobot(R,{x:run?lerp(70,X,t/FIVE):X,y:Y-Math.abs(step)*5,s:S,k:1,life:id=>{
+      if(run){if(id==='legL')return {rot:step*28};if(id==='legR')return {rot:-step*28};if(id==='armL')return {rot:18-step*30};if(id==='armR')return {rot:-18-step*30}}
+      if(id==='armR') return {rot:-110};                 // чашка
+      if(id==='armL'&&t>2.8&&t<3.9) return {rot:-160};   // «шш»
+    }});
+    R.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill',tea?'#ffd8a8':'#7cf'));
+    const rx=run?lerp(70,X,t/FIVE):X;
+    const sh=rp(rx,Y,S,0,-62,-300);
+    pose(uk,{x:sh[0],y:sh[1],s:.4,eyes:tea?'H':'N',look:1,mouth:0,hl:[0,0],hr:[0,0]});
+    if(tea){const h=rp(X,Y,S,0,78+62*Math.sin(110*Math.PI/180),-205+62*Math.cos(110*Math.PI/180));FX+=`<g transform="translate(${h[0]+6},${h[1]-14}) scale(1.4)">${CUP}</g>`;
+      if(t>2.8&&t<3.9){const f=rp(X,Y,S,0,-78-62*Math.sin(160*Math.PI/180)*-1,-205+62*Math.cos(160*Math.PI/180));FX+=`<rect x="${f[0]-3}" y="${f[1]-30}" width="7" height="22" rx="3" fill="#dee2e6" stroke="#111" stroke-width="2"/>`}}
+    // Америка вбегает
+    const ux=t<2.6?440:lerp(440,300,ease(seg(t,2.6,3.0)));
+    const frozen=t>2.9&&t<4.0, sipping=t>=4.0;
+    pose(us,{x:ux,y:575,s:.55,eyes:frozen?'W':sipping?'H':'N',look:-1,mouth:t>2.6&&t<2.95?8:0,sweat:frozen?1:0,hl:[0,0],hr:sipping?[-10,-26]:[0,0],op:t>2.6?1:0});
+    if(sipping) FX+=`<g transform="translate(${ux-38},545) scale(1.1)">${CUP}</g>`;
+    if(t>2.6&&t<2.95) word(t,2.6,2.95,'HEY! 🗣️','300','480','#fff',24,0);
+    word(t,2.9,3.9,'SHH ☕','170','230','#fff',30,0);
+    word(t,FIVE,FIVE+.8,'DING DONG 🔔','230','120','#ffd43b',24,0);
+    caption(t,0,FIVE,'NEVER INTERRUPT…','') || caption(t,FIVE,2.8,'…TEA TIME ☕','') || caption(t,2.8,4.0,'SHH! ☝️','') || caption(t,4.0,5.5,'ONE LUMP OR TWO? 🫖','');
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',t>=FIVE?.4*(1-seg(t,FIVE,FIVE+.25)):0);
+  };
+}
+
+/* ===== CLIP 20: Китай — производство роботов ===== */
+function clip20(){
+  const N=32, RB=[...Array(N)].map(()=>buildRobot($('robots'),CHINA_PARTS()));
+  const cn=makeBall('china');$('actors').appendChild(cn.g);
+  const STEPS=[[0,1],[1.0,2],[1.7,4],[2.3,8],[2.9,16],[3.5,32]];
+  const LAY={1:[1,1,.75],2:[2,1,.55],4:[2,2,.4],8:[4,2,.3],16:[4,4,.22],32:[8,4,.15]};
+  return t=>{
+    common(t);
+    const [t0,n]=STEPS.filter(s=>t>=s[0]).pop();
+    const [cols,rows,S]=LAY[n];
+    const cellW=340/cols, cellH=(n===1?380:400)/rows, pop=back(seg(t,t0,t0+.25));
+    RB.forEach((R,i)=>{
+      if(i>=n){R.g.setAttribute('opacity',0);return}
+      R.g.setAttribute('opacity',1);
+      const c=i%cols, r=Math.floor(i/cols);
+      const x=10+cellW*(c+.5), y=210+cellH*(r+1)-(n===1?10:4);
+      const dance=Math.sin(t*2*Math.PI*1.6+(n>=8?0:i));
+      poseRobot(R,{x,y:y-Math.abs(dance)*6*S,s:S*(i>=n/2&&n>1?pop:1),k:1,rot:dance*6,life:id=>{
+        if(id==='armL')return {rot:120+dance*40};if(id==='armR')return {rot:-120+dance*40};
+      }});
+      R.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill','#ffd43b'));
+    });
+    const sh=rp(10+cellW*.5,210+cellH-(n===1?10:4),S,0,62,-300);
+    pose(cn,{x:sh[0],y:sh[1],s:.45*S/.75,eyes:n>=16?'W':'H',look:1,mouth:4,hl:[0,0],hr:[0,0]});
+    FX+=`<g transform="translate(180,620) scale(${1+.2*(1-seg(t,t0,t0+.2))})"><rect x="-70" y="-26" width="140" height="44" rx="22" fill="#EE1C25" stroke="#FFD700" stroke-width="3"/><text y="7" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="26" fill="#FFD700">×${n}</text></g>`;
+    caption(t,0,1.0,'HOW FAST CAN CHINA','BUILD ROBOTS? ⚡') || caption(t,1.0,3.5,'PRODUCTION','SPEED 🏭') || caption(t,3.5,5.5,'MADE IN','5 SECONDS 📦');
+    $('fx').innerHTML=FX;
+    $('flash').setAttribute('opacity',STEPS.reduce((m,[a])=>Math.max(m,a>0&&t>=a?.35*(1-seg(t,a,a+.18)):0),0));
+  };
+}
+
+/* ===== CLIP 21: Австралия — кто тут вверх ногами? ===== */
+function clip21(){
+  const A=buildRobot($('robots'),AUSTRALIA_PARTS()), U=buildRobot($('robots'),TRUCK_PARTS());
+  const au=makeBall('australia'), us=makeBall('usa');$('actors').append(au.g,us.g);
+  ['road','grass','grassLine','dashes'].forEach(id=>$(id).style.display='none');
+  // «потолок» — австралийская земля сверху, обычная земля снизу
+  $('foreground').innerHTML=`<rect x="-200" y="-200" width="760" height="250" fill="#d9662b"/><path d="M-200,50 H560" stroke="#b04e1a" stroke-width="5"/>
+    <g transform="translate(250,50) scale(1,-1)"><path d="M-90,0 Q-80,-60 -30,-66 Q30,-70 80,-50 Q100,-30 100,0Z" fill="#b8461a" stroke="#8a3210" stroke-width="2"/></g>
+    <g transform="translate(60,50) scale(1,-1)"><rect x="-4" y="-50" width="8" height="50" fill="#e9e3d6"/><circle cy="-62" r="20" fill="#7a9a6a"/><circle cx="-14" cy="-50" r="13" fill="#8aaa7a"/></g>
+    <rect x="-200" y="560" width="760" height="300" fill="#7ccf63"/><path d="M-200,560 H560" stroke="#5aa647" stroke-width="5"/>`;
+  return t=>{
+    common(t);
+    const flip=ease(seg(t,2.4,3.1))*180;
+    $('cam').setAttribute('transform',`rotate(${flip} 180 305)`);
+    const wave=t>3.3;
+    poseRobot(A,{x:110,y:50,s:.62,k:1,rot:180,life:id=>{
+      if(wave&&id==='armR') return {rot:-120-Math.abs(Math.sin(t*9))*50};
+    }});
+    poseRobot(U,{x:255,y:560,s:.62,k:1,rot:t>3.1?Math.sin(t*20)*3:0,life:id=>{
+      if(t>3.1){if(id==='armL')return {rot:150};if(id==='armR')return {rot:-150}}
+    }});
+    A.g.querySelectorAll('.lamp').forEach(l=>l.setAttribute('fill','#ffd43b'));
+    const a=rp(110,50,.62,180,62,-300), b=rp(255,560,.62,0,-62,-310);
+    pose(au,{x:a[0],y:a[1],s:.4,rot:180,eyes:'H',look:1,mouth:wave?5:0,hl:[0,0],hr:[0,0]});
+    pose(us,{x:b[0],y:b[1],s:.4,eyes:t>3.1?'W':'N',sweat:t>3.1?1:0,look:-1,mouth:0,hl:[0,0],hr:[0,0]});
+    // кенгуру прыгает по «потолку»
+    const kx=(t*80)%460-50;
+    FX+=`<text x="${kx}" y="${110+Math.abs(Math.sin(t*6))*-0}" font-size="40" transform="rotate(180 ${kx} 96)">🦘</text>`;
+    if(wave) FX+=`<text x="120" y="440" font-family="DejaVu Sans" font-weight="bold" font-size="24" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" transform="rotate(180 180 305)">G'DAY MATE 🦘</text>`;
+    caption(t,0,2.4,'WHY IS AUSTRALIA','UPSIDE DOWN? 🤔') || caption(t,2.4,3.6,'…WAIT 😳','') || caption(t,3.6,5.5,"…OH. IT'S US 🙃",'');
+    $('fx').innerHTML=FX;
+  };
+}
+
+setTheme({1:'manila',2:'neon',3:'winter',4:'fuji',5:'rio',6:'stage',7:'castle',8:'sunset',9:'cappadocia',10:'steppe',11:'desert',12:'seoul',13:'fiesta',14:'rome',15:'samarkand',16:'paris',17:'rockies',18:'pamir',19:'london',20:'greatwall',21:'outback'}[CLIP]);
+const draw=({1:clip1,2:clip2,3:clip3,4:clip4,5:clip5,6:clip6,7:clip7,8:clip8,9:clip9,10:clip10,11:clip11,12:clip12,13:clip13,14:clip14,15:clip15,16:clip16,17:clip17,18:clip18,19:clip19,20:clip20,21:clip21}[CLIP]||clip1)();
 window.draw=draw;window.DUR=DUR;
 if(!location.search.includes('render')){
   const audio=new Audio(`short${CLIP}-audio.m4a`);audio.loop=true;let t0=null;
