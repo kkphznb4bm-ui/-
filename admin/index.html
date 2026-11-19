@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#120A0B">
+<title>Вкус Мира · Админ-панель</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ===== Вход ===== -->
+<section class="login" id="loginView" hidden>
+  <form class="login-card" id="loginForm" novalidate>
+    <span class="cloche" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M4.5 17a7.5 7.5 0 0 1 15 0M12 9.5V8M10.5 8h3M2.5 19.5h19"/></svg></span>
+    <h1>Вкус Мира</h1>
+    <p class="muted">Вход в админ-панель</p>
+    <label for="loginPw">Пароль
+      <input type="password" id="loginPw" autocomplete="current-password" required>
+    </label>
+    <div class="err" id="loginErr" role="alert"></div>
+    <button class="btn btn-primary" type="submit" id="loginBtn">Войти</button>
+    <a class="back" href="../">← На сайт</a>
+  </form>
+</section>
+
+<!-- ===== Панель ===== -->
+<div class="app" id="appView" hidden>
+  <aside class="side">
+    <a class="brand" href="../" title="Открыть сайт"><span class="cloche sm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M4.5 17a7.5 7.5 0 0 1 15 0M12 9.5V8M10.5 8h3M2.5 19.5h19"/></svg></span><span><b>Вкус Мира</b><small>админ-панель</small></span></a>
+    <nav class="nav" id="nav" aria-label="Разделы">
+      <button type="button" data-view="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Обзор</span></button>
+      <button type="button" data-view="orders"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg><span>Заказы</span><i class="badge" id="newBadge" hidden>0</i></button>
+      <button type="button" data-view="history"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg><span>История</span></button>
+      <button type="button" data-view="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17h18M4.5 17a7.5 7.5 0 0 1 15 0M12 9.5V8"/></svg><span>Меню</span></button>
+      <button type="button" data-view="settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Настройки</span></button>
+    </nav>
+    <div class="side-foot">
+      <span class="live" id="live"><i></i><span>Подключение…</span></span>
+      <button class="btn btn-ghost sm" type="button" id="logoutBtn">Выйти</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <h1 id="viewTitle">Обзор</h1>
+      <div class="top-actions">
+        <span class="live m" id="liveM"><i></i></span>
+        <button class="btn btn-ghost sm only-m" type="button" id="logoutBtnM">Выйти</button>
+      </div>
+    </header>
+
+    <!-- Обзор -->
+    <section class="view" id="view-overview">
+      <div class="kpis" id="kpis"></div>
+      <div class="bar-row">
+        <h2>Аналитика</h2>
+        <div class="seg" role="group" aria-label="Период" id="periodSeg">
+          <button type="button" data-period="day">День</button>
+          <button type="button" data-period="week" aria-pressed="true">Неделя</button>
+          <button type="button" data-period="month">Месяц</button>
+        </div>
+      </div>
+      <div class="summary" id="summary"></div>
+      <div class="charts">
+        <figure class="panel chart"><figcaption><b>Выручка</b><span id="revCap"></span></figcaption><div class="plot" id="revChart"></div></figure>
+        <figure class="panel chart"><figcaption><b>Заказы</b><span id="ordCap"></span></figcaption><div class="plot" id="ordChart"></div></figure>
+      </div>
+      <div class="charts">
+        <section class="panel"><h3>Популярные блюда</h3><div id="topDishes"></div></section>
+        <section class="panel"><h3>Заказы по статусам</h3><div id="byStatus"></div></section>
+      </div>
+      <p class="note">Выручка считается только по оплаченным заказам, отменённые не учитываются. Заказ отмечается оплаченным автоматически при статусе «Доставлен» или вручную в карточке заказа.</p>
+    </section>
+
+    <!-- Заказы -->
+    <section class="view" id="view-orders" hidden>
+      <div class="chips" id="orderChips" role="group" aria-label="Статус"></div>
+      <div class="orders" id="orderList"></div>
+      <div class="more"><button class="btn btn-ghost sm" type="button" id="ordersMore" hidden>Показать ещё</button></div>
+    </section>
+
+    <!-- История -->
+    <section class="view" id="view-history" hidden>
+      <form class="filters panel" id="histForm">
+        <label class="grow">Поиск<input type="search" id="hQ" placeholder="№ заказа, имя или телефон"></label>
+        <label>С<input type="date" id="hFrom"></label>
+        <label>По<input type="date" id="hTo"></label>
+        <label>Статус<select id="hStatus"><option value="">Все</option></select></label>
+        <button class="btn btn-ghost sm" type="button" id="hReset">Сбросить</button>
+      </form>
+      <p class="muted found" id="hFound"></p>
+      <div class="table-wrap panel">
+        <table class="table">
+          <thead><tr><th>№</th><th>Клиент</th><th>Телефон</th><th class="num">Сумма</th><th>Дата</th><th>Статус</th><th>Оплата</th></tr></thead>
+          <tbody id="hBody"></tbody>
+        </table>
+      </div>
+      <div class="pager" id="hPager"></div>
+    </section>
+
+    <!-- Меню -->
+    <section class="view" id="view-menu" hidden>
+      <div class="bar-row">
+        <div class="filters-inline">
+          <input type="search" id="mQ" placeholder="Найти блюдо" aria-label="Найти блюдо">
+          <select id="mCat" aria-label="Раздел"><option value="">Все разделы</option></select>
+        </div>
+        <button class="btn btn-primary" type="button" id="addDish">+ Добавить блюдо</button>
+      </div>
+      <div id="menuList"></div>
+    </section>
+
+    <!-- Настройки -->
+    <section class="view" id="view-settings" hidden>
+      <div class="charts">
+        <form class="panel form" id="pwForm" novalidate>
+          <h3>Смена пароля</h3>
+          <label>Текущий пароль<input type="password" id="pwCur" autocomplete="current-password"></label>
+          <label>Новый пароль (минимум 8 символов)<input type="password" id="pwNew" autocomplete="new-password"></label>
+          <label>Повторите новый пароль<input type="password" id="pwNew2" autocomplete="new-password"></label>
+          <div class="err" id="pwErr" role="alert"></div>
+          <button class="btn btn-primary" type="submit">Сменить пароль</button>
+        </form>
+        <section class="panel">
+          <h3>Как это работает</h3>
+          <ul class="howto">
+            <li>Заказы с сайта сразу сохраняются в базу и появляются в разделе «Заказы» без перезагрузки, со звуковым сигналом.</li>
+            <li>Изменения меню (цены, фото, наличие) появляются на сайте у гостей в течение секунды.</li>
+            <li>Отключённое блюдо остаётся в меню с пометкой «Нет в наличии», заказать его нельзя.</li>
+            <li>После смены пароля все остальные устройства выходят из панели.</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" id="tabbar" aria-label="Разделы"></nav>
+</div>
+
+<!-- Окно -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-back" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <header><h2 id="modalTitle"></h2><button class="x" type="button" data-close aria-label="Закрыть">×</button></header>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>

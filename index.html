@@ -188,6 +188,10 @@ a { color: inherit; }
 .stepper button:active { transform: scale(.88); }
 .stepper span { min-width: 22px; text-align: center; }
 
+.soldout { display: inline-flex; align-items: center; border: 1px dashed var(--line-2); color: var(--muted); border-radius: 999px; padding: 8px 12px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.card.is-off .card-media img { filter: grayscale(.85) brightness(.7); }
+.vbtn.off { opacity: .6; cursor: default; }
+.vbtn.off .soldout { padding: 3px 8px; font-size: 11px; }
 /* ---------- Menu-board list (pies, kutabs, sandwiches) ---------- */
 .board { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); border: 1px solid var(--line-2); border-radius: 22px; overflow: hidden; background: linear-gradient(180deg, var(--surface-2), var(--surface)); }
 @media (max-width: 820px) { .board { grid-template-columns: minmax(0, 1fr); } }
@@ -643,6 +647,7 @@ textarea { resize: vertical; min-height: 70px; }
   </div>
 </aside>
 
+<script src="menu-data.js"></script>
 <script>
 /* =====================================================================
    НАСТРОЙКИ ЗАВЕДЕНИЯ — всё, что нужно поменять, находится здесь
@@ -665,106 +670,6 @@ const HITS = ["pie-chicken", "burger12", "kutab-meat", "shakshuka", "pho-beef", 
 /* Отзывы: добавляйте только настоящие, например { name: "Айжан", text: "Очень вкусные пироги!", stars: 5 } */
 const REVIEWS = [];
 
-/* layout "list" — раздел в виде меню-доски с одним общим фото */
-const CATS = [
-  { id: "breakfast", name: "Завтраки" },
-  { id: "combo", name: "Комбо-обеды" },
-  { id: "pies", name: "Осетинские пироги", prefix: "Осетинский пирог", layout: "list", img: "osetin", note: "<b>M</b> — большой пирог, <b>S</b> — маленький" },
-  { id: "kutab", name: "Азербайджанские кутабы", prefix: "Кутаб", layout: "list", img: "kutab", note: "Тонкое тесто, жарятся на сковороде, подаются с соусом" },
-  { id: "noodles", name: "Лапша" },
-  { id: "hot", name: "Горячие блюда" },
-  { id: "beef12", name: "Бургеры и конвертики" },
-  { id: "sandwich", name: "Сэндвичи", prefix: "Сэндвич", layout: "list", img: "sandwich", note: "<b>M</b> — большой сэндвич, <b>S</b> — маленький" },
-  { id: "salads", name: "Салаты и поке" },
-  { id: "soups", name: "Супы" },
-];
-
-const MS = (m, s) => [["M", m], ["S", s]];
-/* что можно выбрать в комбо */
-const CHOICE = {
-  SOUP: { label: "Суп", list: ["Говяжий суп", "Говяжьи фрикадельки", "Куриный суп", "Куриные фрикадельки", "Борщ", "Чечевичный с курицей"] },
-  SALAD: { label: "Салат", list: ["Цезарь с курицей", "Греческий", "Овощной", "Острый с курицей"] },
-  KUTAB: { label: "Кутаб", list: ["С мясом и сыром", "С курицей и сыром", "С сыром", "С картошкой и сыром", "Со шпинатом, жусаем и сыром"] },
-};
-const MENU = [
-  // Завтраки
-  { id: "eggs-veg", cat: "breakfast", img: "eggs-veg", name: "Яичница с курицей и овощами на гриле", price: 350, desc: "Два яйца, куриное филе, кабачок, перец и томат на гриле, хлеб, соус" },
-  { id: "omelet", cat: "breakfast", img: "omelet", name: "Омлет с курицей, овощами и сыром", price: 300, desc: "С гренками, свежими томатами и зеленью" },
-  { id: "eggs-greek", cat: "breakfast", img: "eggs-greek", name: "Яичница с курицей на гриле и греческий салат", price: 350, desc: "Два яйца, куриное филе, салат, хлеб, соус" },
-  { id: "shakshuka", cat: "breakfast", img: "shakshuka", name: "Шакшука", price: 290, desc: "Яйца в томатном соусе с овощами, гренки" },
-
-  // Комбо
-  { id: "combo1", cat: "combo", img: "combo1", name: "Комбо 1", price: 650, desc: "Суп, салат и кутаб на выбор", choices: "SOUP SALAD KUTAB" },
-  { id: "combo2", cat: "combo", img: "combo2", name: "Комбо 2", price: 500, desc: "Суп и кутаб на выбор", choices: "SOUP KUTAB" },
-  { id: "combo3", cat: "combo", img: "combo3", name: "Комбо 3", price: 450, desc: "Суп и салат на выбор", choices: "SOUP SALAD" },
-
-  // Осетинские пироги
-  { id: "pie-potato", cat: "pies", img: "osetin", name: "С картошкой и сыром", variants: MS(500, 250) },
-  { id: "pie-chicken", cat: "pies", img: "osetin", name: "С курицей и сыром", variants: MS(700, 350) },
-  { id: "pie-chicken-mush", cat: "pies", img: "osetin", name: "С курицей, сыром, грибами и сливками", variants: MS(720, 370) },
-  { id: "pie-meat", cat: "pies", img: "osetin", name: "С мясом и сыром", variants: MS(800, 370) },
-  { id: "pie-cheese", cat: "pies", img: "osetin", name: "С сыром", variants: MS(750, 370) },
-  { id: "pie-spinach", cat: "pies", img: "osetin", name: "Со шпинатом, дюсаем и сыром", variants: MS(700, 350) },
-
-  // Кутабы
-  { id: "kutab-potato", cat: "kutab", img: "kutab", name: "С картошкой и сыром", price: 150 },
-  { id: "kutab-chicken", cat: "kutab", img: "kutab", name: "С курицей и сыром", price: 200 },
-  { id: "kutab-chicken-mush", cat: "kutab", img: "kutab", name: "С курицей, сыром, грибами и сливками", price: 220 },
-  { id: "kutab-cheese", cat: "kutab", img: "kutab", name: "С сыром", price: 200 },
-  { id: "kutab-meat", cat: "kutab", img: "kutab", name: "С мясом и сыром", price: 250 },
-  { id: "kutab-spinach", cat: "kutab", img: "kutab", name: "Со шпинатом, гисаем и сыром", price: 200 },
-
-  // Лапша (во всех вариантах с овощами)
-  { id: "udon", cat: "noodles", img: "udon", name: "Удон", desc: "Подаётся с овощами", variants: [["С курицей", 350], ["С говядиной", 400], ["С креветками", 450], ["С форелью", 500]] },
-  { id: "noodle-rice", cat: "noodles", img: "noodle-rice", name: "Рисовая лапша", desc: "Подаётся с овощами", variants: [["С курицей", 400], ["С говядиной", 450], ["С креветками", 480], ["С форелью", 550]] },
-  { id: "noodle-soba", cat: "noodles", img: "noodle-soba", name: "Гречневая лапша", desc: "Подаётся с овощами", variants: [["С курицей", 350], ["С говядиной", 400], ["С креветками", 450], ["С форелью", 500]] },
-  { id: "chapche", cat: "noodles", img: "chapche", name: "Чапче", desc: "Подаётся с овощами", variants: [["С курицей", 350], ["С говядиной", 400], ["С креветками", 450], ["С форелью", 500]] },
-  { id: "rapokki", cat: "noodles", img: "rapokki", name: "Рапокки", desc: "Токпокки и рамен в соусе", variants: [["Томатный соус, курица", 380], ["Томатный соус, говядина", 399], ["Сливочный соус, курица", 399]] },
-
-  // Горячие блюда
-  { id: "beef-veg", cat: "hot", img: "beef-veg", name: "Говядина с овощами и рисом", price: 400 },
-  { id: "chicken-veg", cat: "hot", img: "chicken-veg", name: "Курица с овощами и рисом", price: 350 },
-  { id: "chicken-french", cat: "hot", img: "chicken-french", name: "Курица по-французски", price: 380, desc: "С рисом" },
-  { id: "hearts", cat: "hot", img: "hearts", name: "Куриные сердечки", price: 300, desc: "Со свежим салатом и рисом" },
-  { id: "dolma", cat: "hot", img: "dolma", name: "Долма", price: 360, desc: "С соусом, зеленью и лимоном" },
-
-  // Бургеры и конвертики
-  { id: "burger12", cat: "beef12", img: "burger", name: "Бургер из запечённой говядины 12 часов", variants: [["Размер M", 570], ["Размер S", 400]], desc: "Томлёная говядина, расплавленный сыр, томаты, салат" },
-  { id: "baked-burger", cat: "beef12", img: "baked-burger", name: "Запечённый бургер", variants: [["С говядиной 12 часов", 500], ["С курицей", 350]], desc: "Закрытая запечённая булочка с начинкой, свежие овощи, соус" },
-  { id: "konvert", cat: "beef12", img: "konvert", name: "Конвертик", variants: [["С говядиной 12 часов", 250], ["С курицей", 140]], desc: "Запечённый в лаваше с сыром, с соусом и зеленью" },
-  { id: "chicken-roll", cat: "beef12", img: "roll", name: "Курица Roll", price: 300, desc: "С картофелем фри и чесночным соусом" },
-
-  // Сэндвичи
-  { id: "sw-beef", cat: "sandwich", img: "sandwich", name: "С запечённой говядиной (12 часов)", variants: MS(450, 300) },
-  { id: "sw-chicken", cat: "sandwich", img: "sandwich", name: "С курицей", variants: MS(250, 170) },
-  { id: "sw-caesar", cat: "sandwich", img: "sandwich", name: "Цезарь", variants: MS(300, 200) },
-
-  // Салаты и поке
-  { id: "greek", cat: "salads", sub: "Салаты", img: "greek", name: "Греческий салат", price: 280 },
-  { id: "caesar-shrimp", cat: "salads", sub: "Салаты", img: "caesar-shrimp", name: "Цезарь с креветками", price: 380 },
-  { id: "caesar-chicken", cat: "salads", sub: "Салаты", img: "caesar-chicken", name: "Цезарь с курицей", price: 300 },
-  { id: "eggplant", cat: "salads", sub: "Салаты", img: "eggplant", name: "Хрустящий баклажан в кисло-сладком соусе", price: 300 },
-  { id: "veg-poached", cat: "salads", sub: "Салаты", img: "veg-poached", name: "Овощной салат с яйцом пашот", price: 280 },
-  { id: "veg-shrimp", cat: "salads", sub: "Салаты", img: "veg-shrimp", name: "Овощной салат с яйцом пашот и креветками", price: 450 },
-  { id: "veg-trout", cat: "salads", sub: "Салаты", img: "veg-trout", name: "Овощной салат с яйцом пашот и форелью", price: 480 },
-  { id: "spicy-chicken", cat: "salads", sub: "Салаты", img: "spicy-chicken", name: "Острый салат с курицей", price: 280 },
-  { id: "spicy-beef", cat: "salads", sub: "Салаты", img: "spicy-beef", name: "Острый салат с говядиной", price: 330 },
-  { id: "enoki", cat: "salads", sub: "Грибы эноки", img: ["enoki-sweet", "enoki-spicy"], name: "Грибы эноки", variants: [["В кисло-сладком соусе", 320], ["В остром соусе", 330]] },
-  { id: "poke-chicken", cat: "salads", sub: "Поке", img: "poke-chicken", name: "Поке с курицей", price: 350 },
-  { id: "poke-shrimp", cat: "salads", sub: "Поке", img: "poke-shrimp", name: "Поке с креветками", price: 450 },
-  { id: "poke-trout", cat: "salads", sub: "Поке", img: "poke-trout", name: "Поке с форелью", price: 480 },
-
-  // Супы
-  { id: "pho-beef", cat: "soups", sub: "Азиатские супы", img: "pho", name: "Фо-бо с говядиной", price: 599 },
-  { id: "pho-chicken", cat: "soups", sub: "Азиатские супы", img: "pho", name: "Фо-бо с курицей", price: 450 },
-  { id: "malatang", cat: "soups", sub: "Азиатские супы", img: "malatan", name: "Малатан", variants: [["С морепродуктами", 750], ["С говядиной", 570], ["С курицей", 400]] },
-  { id: "beef-soup", cat: "soups", sub: "Домашние супы", img: "beef-soup", name: "Говяжий суп", price: 300, desc: "С лапшой или рисом" },
-  { id: "beef-meatball", cat: "soups", sub: "Домашние супы", img: "beef-meatball", name: "Суп с говяжьими фрикадельками", price: 300, desc: "С лапшой или рисом" },
-  { id: "chicken-meatball", cat: "soups", sub: "Домашние супы", img: "chicken-meatball", name: "Суп с куриными фрикадельками", price: 260, desc: "С лапшой или рисом" },
-  { id: "chicken-soup", cat: "soups", sub: "Домашние супы", img: "chicken-soup", name: "Куриный суп", price: 260, desc: "С лапшой или рисом" },
-  { id: "borsch", cat: "soups", sub: "Домашние супы", img: "borsch", name: "Борщ с говядиной", price: 300 },
-  { id: "lentil", cat: "soups", sub: "Домашние супы", img: "lentil", name: "Чечевичный суп с курицей", price: 260 },
-];
 
 /* ===== Помощники ===== */
 const $ = s => document.querySelector(s);
@@ -774,7 +679,7 @@ const byId = id => MENU.find(m => m.id === id);
 const catOf = m => CATS.find(c => c.id === m.cat);
 const vars = m => m.variants ? m.variants.map(([label, price]) => ({ label, price })) : [{ label: "", price: m.price }];
 const imgOf = (m, vi) => Array.isArray(m.img) ? m.img[vi] : m.img;
-const imgSrc = name => `img/${name}.jpg`;
+const imgSrc = name => (name.includes("/") ? name : `img/${name}.jpg`);
 const fmt = n => n.toLocaleString("ru-RU") + " " + CONFIG.currency;
 const fmtHTML = n => n.toLocaleString("ru-RU") + "<small>" + CONFIG.currency + "</small>";
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -811,12 +716,17 @@ const sum = () => Object.entries(cart).reduce((a, [k, q]) => a + parseKey(k).v.p
 function setQty(k, q) { if (q <= 0) delete cart[k]; else cart[k] = Math.min(q, 99); save(); update(); }
 
 const stepperHTML = (k, q) => `<span class="stepper"><button type="button" data-dec="${k}" aria-label="Убрать одну">−</button><span aria-live="polite">${q}</span><button type="button" data-inc="${k}" aria-label="Добавить ещё">+</button></span>`;
+const isOff = k => { const p = parseKey(k); return !p || p.m.available === false; };
+const SOLD = `<span class="soldout">Нет в наличии</span>`;
 function controlHTML(k) {
   const q = cart[k] || 0;
+  if (isOff(k)) return SOLD;
   return q ? stepperHTML(k, q) : `<button class="add" type="button" data-add="${k}">${PLUS}В корзину</button>`;
 }
+const soldVariant = v => `<span class="vbtn off">${v.label ? `<em>${esc(v.label)}</em>` : ""}${fmt(v.price)}<span class="soldout">нет</span></span>`;
 function vControlHTML(m, vi) {
   const k = keyOf(m.id, vi); const v = vars(m)[vi]; const q = cart[k] || 0;
+  if (m.available === false) return soldVariant(v);
   if (q) return `<span class="vstep">${v.label ? `<em>${esc(v.label)}</em>` : ""}${stepperHTML(k, q)}</span>`;
   return `<button class="vbtn" type="button" data-add="${k}" aria-label="Добавить: ${esc(fullName(m))}${v.label ? " " + esc(v.label) : ""}, ${fmt(v.price)}">${v.label ? `<em>${esc(v.label)}</em>` : ""}${fmt(v.price)}<i>${PLUS}</i></button>`;
 }
@@ -825,7 +735,7 @@ function vControlHTML(m, vi) {
 function cardHTML(m, opts = {}) {
   const vs = vars(m); const vi = sel[m.id] || 0; const img = imgOf(m, vi);
   const title = fullName(m);
-  return `<article class="card" data-item="${m.id}">
+  return `<article class="card${m.available === false ? " is-off" : ""}" data-item="${m.id}">
     <div class="card-media">
       ${opts.hit ? `<span class="hit-badge">★ Хит</span>` : ""}
       <img src="${imgSrc(img)}" alt="${esc(title)}" loading="lazy" decoding="async" data-pic data-img="${img}">
@@ -882,10 +792,10 @@ function renderOffers() {
     { id: "burger12", cls: "wine", tag: "Фирменное блюдо", title: "Бургер из говядины 12 часов", text: "Томлёная говядина, расплавленный сыр и свежие овощи в мягкой булочке. Два размера: M и S.", img: "burger" },
     { id: "baked-burger", cls: "", tag: "Попробуйте", title: "Запечённый бургер", text: "Начинка запекается прямо в булочке под сырной корочкой с кунжутом. С говядиной 12 часов или с курицей.", img: "baked-burger" },
   ];
-  $("#offersGrid").innerHTML = o.map(x => {
+  $("#offersGrid").innerHTML = o.filter(x => byId(x.id)).map(x => {
     const m = byId(x.id);
     return `<article class="offer ${x.cls}" data-item="${m.id}">
-      <img src="${imgSrc(x.img)}" alt="${esc(m.name)}" loading="lazy">
+      <img src="${imgSrc(imgOf(m, 0))}" alt="${esc(m.name)}" loading="lazy">
       <div class="offer-body">
         <span class="tag">${x.tag}</span>
         <h3>${x.title}</h3>
@@ -1069,8 +979,10 @@ function updateQr() {
 }
 
 let orderText = "";
-$("#orderForm").addEventListener("submit", e => {
+let sending = false;
+$("#orderForm").addEventListener("submit", async e => {
   e.preventDefault();
+  if (sending) return;
   const name = $("#fName").value.trim();
   const phone = $("#fPhone").value.trim();
   const pickup = $("#mPickup").checked;
@@ -1083,14 +995,30 @@ $("#orderForm").addEventListener("submit", e => {
   if (!pickup && !address) errs.push("адрес доставки");
   if (errs.length) { $("#formErr").textContent = "Заполните: " + errs.join(", ") + "."; return; }
   $("#formErr").textContent = "";
-  const lines = Object.entries(cart).map(([k, q]) => {
+  let lines = Object.entries(cart).map(([k, q]) => {
     const { m, v, chText } = parseKey(k);
     return `${q} × ${fullName(m)}${v.label ? " (" + v.label + ")" : ""}${chText ? " [" + chText + "]" : ""} — ${fmt(v.price * q)}`;
   });
+  let total = sum(), number = "";
+  if (API) {
+    const btn = $("#footCheckout [type=submit]"); sending = true; btn.disabled = true; btn.textContent = "Отправляем…";
+    try {
+      const r = await fetch("api/orders", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+        items: Object.entries(cart).map(([key, qty]) => ({ key, qty })), name, phone, address, comment,
+        method: pickup ? "pickup" : "delivery", pay: qr ? "qr" : "cash" }) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) { $("#formErr").textContent = d.error || "Не удалось отправить заказ. Попробуйте ещё раз."; if (r.status === 409) loadMenu(); return; }
+      number = d.id; total = d.total;
+      lines = d.items.map(it => `${it.qty} × ${it.name}${it.variant ? " (" + it.variant + ")" : ""}${it.choices.length ? " [" + it.choices.join(", ") + "]" : ""} — ${fmt(it.sum)}`);
+    } catch (err) {
+      $("#formErr").textContent = "Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.";
+      return;
+    } finally { sending = false; btn.disabled = false; btn.textContent = "Заказать через WhatsApp"; }
+  }
   orderText = [
-    `Новый заказ в ${CONFIG.brand}`, "",
+    number ? `Заказ №${number} в ${CONFIG.brand}` : `Новый заказ в ${CONFIG.brand}`, "",
     ...lines, "",
-    `Итого: ${fmt(sum())}`, "",
+    `Итого: ${fmt(total)}`, "",
     `Имя: ${name}`,
     `Телефон: ${phone}`,
     `Получение: ${pickup ? "Самовывоз" : "Доставка"}`,
@@ -1099,6 +1027,7 @@ $("#orderForm").addEventListener("submit", e => {
     ...(comment ? [`Комментарий: ${comment}`] : []),
   ].join("\n");
   $("#receipt").textContent = orderText;
+  if (number) { cart = {}; save(); update(); }
   $("#doneText").textContent = qr
     ? "Нажмите «Отправить в WhatsApp»: текст заказа уже будет в чате. Отправьте его и приложите скриншот чека об оплате, мы проверим и подтвердим заказ."
     : "Нажмите «Отправить в WhatsApp»: текст заказа уже будет в чате. Отправьте его, и мы подтвердим заказ.";
@@ -1169,6 +1098,33 @@ function initReveal() {
   }), { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
   els.forEach(el => { if (!el.classList.contains("in")) io.observe(el); });
 }
+
+/* ===== Меню с сервера: если сайт открыт через сервер, меню и наличие берутся из базы ===== */
+let API = false;
+function renderAll() {
+  renderHits(); renderOffers(); renderMenu(); renderAbout();
+  const cur = document.querySelector('.filter[aria-pressed="true"]');
+  if (cur && cur.dataset.filter !== "all") setFilter(cur.dataset.filter, false);
+  $$("[data-reveal], [data-reveal-stagger]").forEach(el => el.classList.add("in"));
+}
+function applyMenu(data) {
+  CATS.splice(0, CATS.length, ...data.cats);
+  MENU.splice(0, MENU.length, ...data.dishes);
+  for (const k of Object.keys(cart)) if (!parseKey(k) || isOff(k)) delete cart[k];
+  save(); renderAll(); update();
+}
+async function loadMenu() {
+  try {
+    const r = await fetch("api/menu", { cache: "no-store" });
+    if (!r.ok || !(r.headers.get("content-type") || "").includes("json")) return false;
+    applyMenu(await r.json()); API = true; return true;
+  } catch (e) { return false; }
+}
+loadMenu().then(ok => {
+  if (!ok || !window.EventSource) return;
+  const es = new EventSource("api/events");
+  let t; es.addEventListener("menu", () => { clearTimeout(t); t = setTimeout(loadMenu, 300); });
+});
 
 /* ===== Старт ===== */
 renderTicker(); renderHits(); renderFeatures(); renderOffers(); renderMenu(); renderAbout(); renderReviews(); renderContacts();

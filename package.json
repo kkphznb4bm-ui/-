@@ -1,0 +1,13 @@
+{
+  "name": "vkus-mira",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Сайт кафе «Вкус Мира» с заказами и админ-панелью",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/server.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}
