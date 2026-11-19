@@ -169,6 +169,12 @@ a { color: inherit; }
 .chip:hover { border-color: rgba(240, 217, 160, .45); }
 .chip:active { transform: scale(.95); }
 .chip[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
+.picks { display: grid; gap: 6px; }
+.pick { display: grid; grid-template-columns: 52px minmax(0, 1fr); align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: var(--gold); }
+.pick select { width: 100%; min-width: 0; appearance: none; -webkit-appearance: none; background: rgba(240, 217, 160, .05) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4AF63' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center / 14px; border: 1px solid var(--line-2); color: var(--text); border-radius: 10px; padding: 7px 28px 7px 10px; font: 600 13px/1.2 var(--f-body); }
+.pick select:focus { outline: none; border-color: var(--gold); }
+.pick option { background: var(--surface); color: var(--text); }
+@media (max-width: 560px) { .pick { grid-template-columns: minmax(0, 1fr); gap: 3px; } }
 .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 8px; }
 .price { font: 600 26px/1 var(--f-display); color: var(--gold-2); font-variant-numeric: tabular-nums lining-nums; }
 .price small { font: 700 .5em var(--f-body); margin-left: 4px; color: var(--gold); }
@@ -518,7 +524,7 @@ textarea { resize: vertical; min-height: 70px; }
       <div class="about-text" data-reveal>
         <p class="kicker">О нас</p>
         <h2 class="sec-title">Кухни разных стран <em>за одним столом</em></h2>
-        <p>«Вкус Мира» объединяет блюда, которые любят по всему миру: осетинские пироги и азербайджанские кутабы, вьетнамский фо-бо и китайский малатан, гавайский поке и греческий салат.</p>
+        <p>«Вкус Мира» объединяет блюда, которые любят по всему миру: осетинские пироги и азербайджанские кутабы, вьетнамский фо-бо и китайский малатан, японский удон и корейский чапче, гавайский поке и греческий салат.</p>
         <p>Закажите на сайте: выберите блюда, укажите адрес, и заказ сразу придёт нам в WhatsApp.</p>
         <div class="stats" id="stats"></div>
       </div>
@@ -662,8 +668,11 @@ const REVIEWS = [];
 /* layout "list" — раздел в виде меню-доски с одним общим фото */
 const CATS = [
   { id: "breakfast", name: "Завтраки" },
+  { id: "combo", name: "Комбо-обеды" },
   { id: "pies", name: "Осетинские пироги", prefix: "Осетинский пирог", layout: "list", img: "osetin", note: "<b>M</b> — большой пирог, <b>S</b> — маленький" },
   { id: "kutab", name: "Азербайджанские кутабы", prefix: "Кутаб", layout: "list", img: "kutab", note: "Тонкое тесто, жарятся на сковороде, подаются с соусом" },
+  { id: "noodles", name: "Лапша" },
+  { id: "hot", name: "Горячие блюда" },
   { id: "beef12", name: "Бургеры и конвертики" },
   { id: "sandwich", name: "Сэндвичи", prefix: "Сэндвич", layout: "list", img: "sandwich", note: "<b>M</b> — большой сэндвич, <b>S</b> — маленький" },
   { id: "salads", name: "Салаты и поке" },
@@ -671,12 +680,23 @@ const CATS = [
 ];
 
 const MS = (m, s) => [["M", m], ["S", s]];
+/* что можно выбрать в комбо */
+const CHOICE = {
+  SOUP: { label: "Суп", list: ["Говяжий суп", "Говяжьи фрикадельки", "Куриный суп", "Куриные фрикадельки", "Борщ", "Чечевичный с курицей"] },
+  SALAD: { label: "Салат", list: ["Цезарь с курицей", "Греческий", "Овощной", "Острый с курицей"] },
+  KUTAB: { label: "Кутаб", list: ["С мясом и сыром", "С курицей и сыром", "С сыром", "С картошкой и сыром", "Со шпинатом, жусаем и сыром"] },
+};
 const MENU = [
   // Завтраки
   { id: "eggs-veg", cat: "breakfast", img: "eggs-veg", name: "Яичница с курицей и овощами на гриле", price: 350, desc: "Два яйца, куриное филе, кабачок, перец и томат на гриле, хлеб, соус" },
   { id: "omelet", cat: "breakfast", img: "omelet", name: "Омлет с курицей, овощами и сыром", price: 300, desc: "С гренками, свежими томатами и зеленью" },
   { id: "eggs-greek", cat: "breakfast", img: "eggs-greek", name: "Яичница с курицей на гриле и греческий салат", price: 350, desc: "Два яйца, куриное филе, салат, хлеб, соус" },
   { id: "shakshuka", cat: "breakfast", img: "shakshuka", name: "Шакшука", price: 290, desc: "Яйца в томатном соусе с овощами, гренки" },
+
+  // Комбо
+  { id: "combo1", cat: "combo", img: "combo1", name: "Комбо 1", price: 650, desc: "Суп, салат и кутаб на выбор", choices: "SOUP SALAD KUTAB" },
+  { id: "combo2", cat: "combo", img: "combo2", name: "Комбо 2", price: 500, desc: "Суп и кутаб на выбор", choices: "SOUP KUTAB" },
+  { id: "combo3", cat: "combo", img: "combo3", name: "Комбо 3", price: 450, desc: "Суп и салат на выбор", choices: "SOUP SALAD" },
 
   // Осетинские пироги
   { id: "pie-potato", cat: "pies", img: "osetin", name: "С картошкой и сыром", variants: MS(500, 250) },
@@ -693,6 +713,20 @@ const MENU = [
   { id: "kutab-cheese", cat: "kutab", img: "kutab", name: "С сыром", price: 200 },
   { id: "kutab-meat", cat: "kutab", img: "kutab", name: "С мясом и сыром", price: 250 },
   { id: "kutab-spinach", cat: "kutab", img: "kutab", name: "Со шпинатом, гисаем и сыром", price: 200 },
+
+  // Лапша (во всех вариантах с овощами)
+  { id: "udon", cat: "noodles", img: "udon", name: "Удон", desc: "Подаётся с овощами", variants: [["С курицей", 350], ["С говядиной", 400], ["С креветками", 450], ["С форелью", 500]] },
+  { id: "noodle-rice", cat: "noodles", img: "noodle-rice", name: "Рисовая лапша", desc: "Подаётся с овощами", variants: [["С курицей", 400], ["С говядиной", 450], ["С креветками", 480], ["С форелью", 550]] },
+  { id: "noodle-soba", cat: "noodles", img: "noodle-soba", name: "Гречневая лапша", desc: "Подаётся с овощами", variants: [["С курицей", 350], ["С говядиной", 400], ["С креветками", 450], ["С форелью", 500]] },
+  { id: "chapche", cat: "noodles", img: "chapche", name: "Чапче", desc: "Подаётся с овощами", variants: [["С курицей", 350], ["С говядиной", 400], ["С креветками", 450], ["С форелью", 500]] },
+  { id: "rapokki", cat: "noodles", img: "rapokki", name: "Рапокки", desc: "Токпокки и рамен в соусе", variants: [["Томатный соус, курица", 380], ["Томатный соус, говядина", 399], ["Сливочный соус, курица", 399]] },
+
+  // Горячие блюда
+  { id: "beef-veg", cat: "hot", img: "beef-veg", name: "Говядина с овощами и рисом", price: 400 },
+  { id: "chicken-veg", cat: "hot", img: "chicken-veg", name: "Курица с овощами и рисом", price: 350 },
+  { id: "chicken-french", cat: "hot", img: "chicken-french", name: "Курица по-французски", price: 380, desc: "С рисом" },
+  { id: "hearts", cat: "hot", img: "hearts", name: "Куриные сердечки", price: 300, desc: "Со свежим салатом и рисом" },
+  { id: "dolma", cat: "hot", img: "dolma", name: "Долма", price: 360, desc: "С соусом, зеленью и лимоном" },
 
   // Бургеры и конвертики
   { id: "burger12", cat: "beef12", img: "burger", name: "Бургер из запечённой говядины 12 часов", variants: [["Размер M", 570], ["Размер S", 400]], desc: "Томлёная говядина, расплавленный сыр, томаты, салат" },
@@ -735,6 +769,7 @@ const MENU = [
 /* ===== Помощники ===== */
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
+MENU.forEach(m => { if (typeof m.choices === "string") m.choices = m.choices.split(" ").map(c => CHOICE[c]); });
 const byId = id => MENU.find(m => m.id === id);
 const catOf = m => CATS.find(c => c.id === m.cat);
 const vars = m => m.variants ? m.variants.map(([label, price]) => ({ label, price })) : [{ label: "", price: m.price }];
@@ -749,10 +784,19 @@ const waUrl = text => `https://wa.me/${CONFIG.whatsapp}` + (text ? `?text=${enco
 const fullName = m => { const p = catOf(m).prefix; return p ? `${p} ${m.name.charAt(0).toLowerCase()}${m.name.slice(1)}` : m.name; };
 const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 function parseKey(k) {
-  const i = k.lastIndexOf(":"); const m = byId(k.slice(0, i)); const vi = +k.slice(i + 1);
+  const [base, chs] = k.split("~");
+  const i = base.lastIndexOf(":"); const m = byId(base.slice(0, i)); const vi = +base.slice(i + 1);
   if (!m) return null; const v = vars(m)[vi]; if (!v) return null;
-  return { m, vi, v };
+  let ch = [];
+  if (m.choices) {
+    ch = (chs || "").split(".").map(Number);
+    if (ch.length !== m.choices.length || ch.some((c, j) => !(c >= 0 && c < m.choices[j].list.length))) return null;
+  } else if (chs) return null;
+  const chText = m.choices ? m.choices.map((c, j) => `${c.label.toLowerCase()}: ${c.list[ch[j]]}`).join(", ") : "";
+  return { m, vi, v, ch, chText };
 }
+const selC = {};
+const curKey = m => keyOf(m.id, sel[m.id] || 0) + (m.choices ? "~" + (selC[m.id] || m.choices.map(() => 0)).join(".") : "");
 const PLUS = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>`;
 
 /* ===== Корзина: состояние ===== */
@@ -789,8 +833,9 @@ function cardHTML(m, opts = {}) {
     <div class="card-body">
       <h3>${esc(title)}</h3>
       ${m.desc ? `<p class="desc">${esc(m.desc)}</p>` : ""}
+      ${m.choices ? `<div class="picks">${m.choices.map((c, j) => `<label class="pick"><span>${esc(c.label)}</span><select data-choice="${m.id}" data-ci="${j}">${c.list.map((o, i) => `<option value="${i}"${i === ((selC[m.id] || [])[j] || 0) ? " selected" : ""}>${esc(o)}</option>`).join("")}</select></label>`).join("")}</div>` : ""}
       ${vs.length > 1 ? `<div class="chips" role="group" aria-label="Вариант">${vs.map((v, i) => `<button type="button" class="chip" data-pick="${m.id}" data-vi="${i}" aria-pressed="${i === vi}">${esc(v.label)}</button>`).join("")}</div>` : ""}
-      <div class="row"><span class="price" data-price>${fmtHTML(vs[vi].price)}</span><span data-ctl>${controlHTML(keyOf(m.id, vi))}</span></div>
+      <div class="row"><span class="price" data-price>${fmtHTML(vs[vi].price)}</span><span data-ctl>${controlHTML(curKey(m))}</span></div>
     </div>
   </article>`;
 }
@@ -805,7 +850,8 @@ function refreshItem(id) {
   const m = byId(id); const vi = sel[id] || 0; const v = vars(m)[vi]; const img = imgOf(m, vi);
   $$(`[data-item="${id}"]`).forEach(el => {
     const pr = el.querySelector("[data-price]"); if (pr) pr.innerHTML = fmtHTML(v.price);
-    const ctl = el.querySelector("[data-ctl]"); if (ctl) ctl.innerHTML = controlHTML(keyOf(id, vi));
+    const ctl = el.querySelector("[data-ctl]"); if (ctl) ctl.innerHTML = controlHTML(m.choices ? curKey(m) : keyOf(id, vi));
+    if (m.choices) el.querySelectorAll("[data-choice]").forEach(s => { s.value = String((selC[id] || [])[+s.dataset.ci] || 0); });
     el.querySelectorAll("[data-pick]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.vi === vi)));
     const pic = el.querySelector("[data-pic]");
     if (pic && img && pic.dataset.img !== img) { pic.src = imgSrc(img); pic.dataset.img = img; }
@@ -815,7 +861,7 @@ function refreshItem(id) {
 
 /* ===== Секции ===== */
 function renderTicker() {
-  const words = ["Завтраки", "Осетинские пироги", "Кутабы", "Говядина 12 часов", "Сэндвичи", "Салаты", "Поке", "Фо-бо", "Малатан", "Домашние супы"];
+  const words = ["Завтраки", "Комбо-обеды", "Осетинские пироги", "Кутабы", "Удон и чапче", "Рапокки", "Говядина 12 часов", "Сэндвичи", "Салаты", "Поке", "Фо-бо", "Малатан", "Домашние супы"];
   const half = words.map(w => `<span>${w}</span>`).join("");
   $("#ticker").innerHTML = half + half;
 }
@@ -929,10 +975,10 @@ function renderCart() {
         <strong>Корзина пуста</strong>Добавьте блюда из меню, и они появятся здесь.
         <div style="margin-top:18px"><button class="btn btn-ghost" type="button" id="emptyToMenu">Перейти в меню</button></div></div>`
     : keys.map(k => {
-        const { m, vi, v } = parseKey(k); const q = cart[k]; const img = imgOf(m, vi);
+        const { m, vi, v, chText } = parseKey(k); const q = cart[k]; const img = imgOf(m, vi);
         return `<div class="line">
           <span class="thumb"><img src="${imgSrc(img)}" alt="" loading="lazy"></span>
-          <span class="name">${esc(fullName(m))}${v.label ? ` <em>· ${esc(v.label)}</em>` : ""}</span><span class="sum">${fmt(v.price * q)}</span>
+          <span class="name">${esc(fullName(m))}${v.label ? ` <em>· ${esc(v.label)}</em>` : ""}${chText ? ` <em>· ${esc(chText)}</em>` : ""}</span><span class="sum">${fmt(v.price * q)}</span>
           <span class="unit">${fmt(v.price)} × ${q}</span>${controlHTML(k)}
         </div>`;
       }).join("");
@@ -983,12 +1029,18 @@ document.addEventListener("click", e => {
   if (!t) return;
   const rect = t.getBoundingClientRect();
   if (t.dataset.add) {
-    const { m, v } = parseKey(t.dataset.add);
+    const { m, v, chText } = parseKey(t.dataset.add);
     setQty(t.dataset.add, 1); flyToCart(rect);
-    toast(`${fullName(m)}${v.label ? " · " + v.label : ""} — в корзине`);
+    toast(`${fullName(m)}${v.label ? " · " + v.label : ""}${chText ? " (" + chText + ")" : ""} — в корзине`);
   }
   if (t.dataset.inc) { setQty(t.dataset.inc, (cart[t.dataset.inc] || 0) + 1); if (!t.closest(".drawer")) flyToCart(rect); }
   if (t.dataset.dec) setQty(t.dataset.dec, (cart[t.dataset.dec] || 0) - 1);
+});
+
+document.addEventListener("change", e => {
+  const s = e.target.closest("[data-choice]"); if (!s) return;
+  const m = byId(s.dataset.choice); const a = selC[m.id] || m.choices.map(() => 0);
+  a[+s.dataset.ci] = +s.value; selC[m.id] = a; refreshItem(m.id);
 });
 
 /* ===== Шаги заказа ===== */
@@ -1032,8 +1084,8 @@ $("#orderForm").addEventListener("submit", e => {
   if (errs.length) { $("#formErr").textContent = "Заполните: " + errs.join(", ") + "."; return; }
   $("#formErr").textContent = "";
   const lines = Object.entries(cart).map(([k, q]) => {
-    const { m, v } = parseKey(k);
-    return `${q} × ${fullName(m)}${v.label ? " (" + v.label + ")" : ""} — ${fmt(v.price * q)}`;
+    const { m, v, chText } = parseKey(k);
+    return `${q} × ${fullName(m)}${v.label ? " (" + v.label + ")" : ""}${chText ? " [" + chText + "]" : ""} — ${fmt(v.price * q)}`;
   });
   orderText = [
     `Новый заказ в ${CONFIG.brand}`, "",
