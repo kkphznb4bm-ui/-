@@ -175,3 +175,12 @@ const CHINA_PARTS=()=>GENERIC_PARTS({leg:'#EE1C25',arm:'#EE1C25',accent:'#FFD700
 const AUSTRALIA_PARTS=()=>GENERIC_PARTS({leg:'#012169',arm:'#012169',accent:'#FFCD00',body:'#00843D',roof:'#FFCD00',sign:'AU 🦘',signColor:'#00843D',hood:'#f8f9fa',
   bodyDecor:`<rect x="-110" y="-4" width="220" height="10" fill="#FFCD00"/><rect x="-90" y="-28" width="60" height="18" rx="3" fill="#9fd3ff"/>`,
   hoodDecor:`<ellipse cx="0" cy="-30" rx="40" ry="8" fill="#8b5a2b" stroke="#111" stroke-width="2"/><path d="M-22,-32 Q-20,-56 0,-56 Q20,-56 22,-32Z" fill="#a0703a" stroke="#111" stroke-width="2"/>${[-32,-20,20,32].map(x=>`<path d="M${x},-28 v12" stroke="#6b4422" stroke-width="2"/><circle cx="${x}" cy="-14" r="2.5" fill="#d9a066"/>`).join('')}`});
+const SPAIN_PARTS=()=>GENERIC_PARTS({leg:'#AA151B',arm:'#F1BF00',accent:'#AA151B',body:'#F1BF00',roof:'#AA151B',sign:'ES 🍅',signColor:'#AA151B',hood:'#f8f9fa',
+  bodyDecor:`<rect x="-110" y="-34" width="220" height="16" fill="#AA151B"/><rect x="-110" y="18" width="220" height="16" fill="#AA151B"/>`,
+  hoodDecor:`<path d="M-30,-26 Q0,-40 30,-26 L24,-20 Q0,-30 -24,-20Z" fill="#111"/>`});
+const INDONESIA_PARTS=()=>GENERIC_PARTS({leg:'#CE1126',arm:'#f8f9fa',accent:'#CE1126',body:'#f8f9fa',roof:'#CE1126',sign:'ID 🏝️',signColor:'#CE1126',hood:'#f8f9fa',
+  bodyDecor:`<rect x="-110" y="-34" width="220" height="34" fill="#CE1126"/>`,
+  hoodDecor:`<path d="M-26,-26 L-20,-40 H20 L26,-26Z" fill="#111"/>`});
+const ARGENTINA_PARTS=()=>GENERIC_PARTS({leg:'#111',arm:'#74ACDF',accent:'#fff',body:'#74ACDF',roof:'#fff',sign:'AR ⚽',signColor:'#74ACDF',hood:'#f8f9fa',
+  bodyDecor:`${[-90,-50,-10,30,70].map(x=>`<rect x="${x}" y="-34" width="20" height="68" fill="#fff"/>`).join('')}<circle cx="0" cy="0" r="12" fill="#F6B40E" stroke="#85340A" stroke-width="2"/>`,
+  hoodDecor:`<path d="M-28,-24 h56" stroke="#74ACDF" stroke-width="6"/>`});

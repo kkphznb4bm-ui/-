@@ -175,6 +175,31 @@ elif clip == 21:
     add(2.4, sweep(200, 1200, .7), .3); boom(3.1)   # переворот
     for i, n in enumerate([72, 76, 79, 84]): add(3.3 + i * .1, tone(midi(n), .3, 'sine', .005, .25), .15)
     for k in np.arange(3.5, 5.5, .35): add(k, sweep(400, 200, .12), .12)        # прыжки кенгуру
+elif clip == 22:
+    for i in range(10): add(i * .3, tone(midi([64, 65, 68, 69, 71, 69, 68, 65][i % 8]), .26, 'tri', .005, .12), .12)   # фламенко-гитара
+    for k in np.arange(0, 3.2, .15): add(k, lp(noise(.02), .8) * np.exp(-T(.02) * 100), .12)   # кастаньеты
+    for a in (.5, 1.0, 1.5, 1.9, 2.3, 2.7):
+        add(a, sweep(500, 900, .12), .12); add(a + .45, lp(noise(.12), .2) * np.exp(-T(.12) * 25), .9)   # бросок + шмяк
+    add(3.2, sweep(300, 1500, .4), .3); add(3.6, lp(noise(.6), .1) * np.exp(-T(.6) * 6), 2.0); boom(3.6)   # SPLAT
+    for k in np.arange(4.5, 5.4, .18): add(k, tone(rng.uniform(400, 700), .08, 'sine', .005, .06), .1)    # капает
+elif clip == 23:
+    for k in np.arange(0, 4.0, .55):
+        add(k + .05, sweep(300, 900, .25), .18); add(k + .5, lp(noise(.06), .3) * np.exp(-T(.06) * 40), .4)  # прыжок/приземление
+        add(k + .5, tone(midi(76 + int(k / .55) % 5), .1, 'sine', .002, .08), .15)
+    b = DUR / 8
+    for i in range(int(4.0 / (b / 2))): add(i * b / 2, tone(midi([67, 71, 74, 71][i % 4]), b * .3, 'tri', .005, .05), .08)   # гамелан-перезвон
+    add(4.0, sweep(900, 150, .6), .3); boom(4.2)
+    for i, n in enumerate([58, 57, 56, 55]): add(4.4 + i * .25, lp(tone(midi(n), .24, 'saw', .02, .05, vib=.02 if i == 3 else .004), .12), .3)
+elif clip == 24:
+    add(0, lp(noise(DUR), .04) * .5, .5)                                       # гул стадиона
+    add(.4, lp(noise(.08), .4) * np.exp(-T(.08) * 30), .8); add(.4, kick(), .5)  # удар по мячу
+    add(.8, lp(noise(1.2), .15) * env(int(1.2 * SR), .02, .8), 1.4)             # рёв трибун
+    add(.8, sweep(400, 1400, .9) * .5, .2)                                     # «ГООООЛ»
+    beat(1.0, 3.6, [45, 45, 52, 50], [69, 72, 76, 81, 79, 76], 1.0)
+    for f in range(3):
+        for k in np.arange(2.0 + f * .5, DUR, 1.5): add(k, sweep(300, 1800, .3), .1); add(k + .3, lp(noise(.4), .3) * np.exp(-T(.4) * 8), .6)  # фейерверк
+    for i, n in enumerate([76, 74, 72, 71]): add(3.6 + i * .25, tone(midi(n), .3, 'tri', .02, .2, vib=.015), .2)   # слёзы
+    for i, n in enumerate([72, 76, 79, 84]): add(4.6 + i * .1, tone(midi(n), .3, 'sine', .005, .25), .15)
 else:
     for k in (0, .9, 1.8): boom(k)                               # тяжёлые шаги
     add(0, lp(noise(2.0), .03) * env(int(2.0 * SR), .2, .3), 1.2)    # ветер

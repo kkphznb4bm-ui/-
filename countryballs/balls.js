@@ -26,6 +26,9 @@ const C = {
   uk:{name:'Великобритания',emoji:'🇬🇧',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#012169"/><path d="M-50,-50 L50,50 M50,-50 L-50,50" stroke="#fff" stroke-width="16"/><path d="M-50,-50 L50,50 M50,-50 L-50,50" stroke="#C8102E" stroke-width="6"/><path d="M0,-50 V50 M-50,0 H50" stroke="#fff" stroke-width="26"/><path d="M0,-50 V50 M-50,0 H50" stroke="#C8102E" stroke-width="15"/>`},
   china:{name:'Китай',emoji:'🇨🇳',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#EE1C25"/>`+star(-28,-24,12,'#FFFF00')+star(-8,-38,4,'#FFFF00')+star(0,-28,4,'#FFFF00')+star(0,-14,4,'#FFFF00')+star(-8,-4,4,'#FFFF00')},
   australia:{name:'Австралия',emoji:'🇦🇺',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="100" fill="#012169"/><g transform="translate(-25,-25) scale(.5)"><path d="M-50,-50 L50,50 M50,-50 L-50,50" stroke="#fff" stroke-width="16"/><path d="M-50,-50 L50,50 M50,-50 L-50,50" stroke="#C8102E" stroke-width="6"/><path d="M0,-50 V50 M-50,0 H50" stroke="#fff" stroke-width="26"/><path d="M0,-50 V50 M-50,0 H50" stroke="#C8102E" stroke-width="15"/></g>`+star(-25,25,10,'#fff')+star(28,-30,5,'#fff')+star(18,-6,5,'#fff')+star(36,-2,5,'#fff')+star(28,28,5,'#fff')},
+  spain:{name:'Испания',emoji:'🇪🇸',acc:'none',flag:()=>`<rect x="-50" y="-50" width="100" height="25" fill="#AA151B"/><rect x="-50" y="-25" width="100" height="50" fill="#F1BF00"/><rect x="-50" y="25" width="100" height="25" fill="#AA151B"/><rect x="-32" y="-14" width="14" height="24" rx="3" fill="#AA151B" stroke="#7a5a00" stroke-width="1.5"/>`},
+  indonesia:{name:'Индонезия',emoji:'🇮🇩',acc:'none',flag:()=>hstripes(['#CE1126','#fff'])},
+  argentina:{name:'Аргентина',emoji:'🇦🇷',acc:'none',flag:()=>hstripes(['#74ACDF','#fff','#74ACDF'])+`<circle r="8" fill="#F6B40E" stroke="#85340A" stroke-width="1"/>`},
 };
 
 /* ================== АКСЕССУАРЫ ================== */
