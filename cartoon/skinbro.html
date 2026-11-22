@@ -59,16 +59,17 @@ const lerp = (a,b,p) => a + (b-a)*p;
 const seg = (t,a,b) => clamp((t-a)/(b-a), 0, 1);
 const easeOut = p => 1 - Math.pow(1-p, 4);
 const easeIO = p => p<.5 ? 2*p*p : 1 - Math.pow(-2*p+2, 2)/2;
-function kf(t, keys){ // keys: [[t,x,y],...]
-  if (t <= keys[0][0]) return {x:keys[0][1], y:keys[0][2]};
+function kfv(t, keys){ // keys: [[t, v1, v2, ...], ...]
+  if (t <= keys[0][0]) return keys[0].slice(1);
   for (let i=1;i<keys.length;i++){
     if (t <= keys[i][0]){
       const a = keys[i-1], b = keys[i], p = easeIO(seg(t,a[0],b[0]));
-      return {x:lerp(a[1],b[1],p), y:lerp(a[2],b[2],p)};
+      return a.slice(1).map((v,j) => lerp(v, b[j+1], p));
     }
   }
-  const l = keys[keys.length-1]; return {x:l[1], y:l[2]};
+  return keys[keys.length-1].slice(1);
 }
+function kf(t, keys){ const v = kfv(t, keys); return {x:v[0], y:v[1]}; }
 function rr(x,y,w,h,r){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); }
 function mixColor(c1,c2,p){
   const a = parseInt(c1.slice(1),16), b = parseInt(c2.slice(1),16);
@@ -163,7 +164,6 @@ function room(t){
   ctx.fillStyle='#3b2f6b'; ctx.fillRect(740,60,180,10);
   ctx.fillStyle='#f5b400'; ctx.beginPath(); ctx.moveTo(770,60); ctx.lineTo(760,30); ctx.lineTo(790,30); ctx.closePath(); ctx.fill(); ctx.fillRect(771,52,8,8);
   ctx.fillStyle='#5be0b3'; rr(820,32,22,28,4); ctx.fill();
-  ctx.fillStyle='#ff7aa8'; ctx.beginPath(); ctx.arc(880,46,14,0,7); ctx.fill();
   // win rays
   const wp = seg(t, SP2[1]+.1, SP2[1]+.8);
   if (wp>0){
@@ -318,26 +318,59 @@ function faceState(t){
   if (t >= SP1[0]) return 'hope';
   return 'normal';
 }
-function guy(t){
+// поза: наклон вперёд/назад, проседание, поворот головы
+const LEAN = [[0,0,0],[1.4,4,0],[2.2,14,0],[5.9,18,0],[6.1,-6,12],[6.5,-6,12],[6.8,6,-4],[9.0,6,-4],[9.4,0,-12],
+  [9.65,14,4],[10.4,8,0],[10.9,-16,0],[12.5,-10,0],[13.0,16,0],[14.6,12,0],[15.0,-4,4],[17.5,-4,4],[17.7,0,0]];
+function pose(t){
   const anger = seg(t,6.5,7.2) * (1 - seg(t,10.2,11));
   const winT = t - SP2[1];
-  const jump = winT>0 ? -Math.abs(Math.sin(winT*6))*22 : 0;
+  const [lean, slump] = kfv(t, LEAN);
+  const breathe = Math.sin(t*2.4) * 2;
+  const jump = winT>0 ? -Math.abs(Math.sin(winT*6))*24 : 0;
   const shake = anger>0 && t<9 ? Math.sin(t*70)*3*anger : 0;
-  const ox = shake, oy = jump;
-  // chair
-  rr(120+ox*0.2, 230, 170, 200, 30); ctx.fillStyle='#1d1e2b'; ctx.fill();
-  ctx.fillStyle='#e23b4a'; ctx.fillRect(140, 250, 12, 160);
+  let rot = 0;
+  if (t < SP1[0]) rot = Math.sin(t*3)*.03;
+  else if (t < SP1[1]) rot = .04 + Math.sin(t*6)*.02;
+  else if (t < 6.55) rot = .16;
+  else if (t < 9.6) rot = Math.sin(t*9)*.09;
+  else if (t < 10.8) rot = -.04;
+  else if (t < SP2[0]) rot = -.12 + Math.sin(t*2.5)*.06;
+  else if (t < SP2[1]) rot = .05 + Math.sin(t*5)*.03;
+  else rot = Math.sin(winT*8)*.13;
+  return {anger, ox: lean + shake, oy: slump + jump, breathe, rot, jump};
+}
+// левая рука: [t, x, y, прикреплена к телу 0..1]
+const LHAND = [[0,222,398,0],[6.6,222,398,0],[6.85,200,296,1],[9.0,200,296,1],[9.3,222,398,0],[14.7,222,398,0],
+  [15.0,262,226,1],[16.6,262,226,1],[16.9,262,242,1],[17.5,262,242,1],[17.8,150,165,1]];
+function leftHand(t, P){
+  let [x, y, a] = kfv(t, LHAND);
+  if ((t>SP1[0] && t<SP1[1]-.3) || (t>13 && t<14.6)) y -= Math.abs(Math.sin(t*18))*7; // барабанит пальцами
+  if (t>6.85 && t<9) { x += Math.sin(t*44)*6; y += Math.cos(t*37)*6; }               // трясёт кулаком
+  if (t>SP2[1]+.3) y += Math.sin(t*14)*10;                                           // машет
+  return {x: x + P.ox*a, y: y + P.oy*a, fist: t>6.8 && t<9.2 || t>SP2[1]};
+}
+function guy(t){
+  const P = pose(t), {anger, ox, oy} = P;
+  // chair (покачивается)
+  ctx.save(); ctx.translate(205, 430); ctx.rotate(ox*.002 + (t>SP2[1] ? Math.sin(t*6)*.03 : 0)); ctx.translate(-205,-430);
+  rr(120 + ox*.25, 230 + Math.max(0,oy)*.5, 170, 200, 30); ctx.fillStyle='#1d1e2b'; ctx.fill();
+  ctx.fillStyle='#e23b4a'; ctx.fillRect(140 + ox*.25, 250, 12, 160);
+  ctx.restore();
+  // left arm behind (кроме момента, когда закрывает глаза)
+  const lh = leftHand(t, P);
+  const coverEyes = t>14.8 && t<17.6;
+  if (!coverEyes) arm(180+ox, 330+oy, lh.x, lh.y, -1, lh.fist);
   ctx.save(); ctx.translate(ox, oy);
-  // left arm behind
-  const winUp = seg(t, SP2[1], SP2[1]+.25);
-  const lh = { x: lerp(222, 150, winUp), y: lerp(398, 165 + Math.sin(t*14)*10, winUp) };
-  arm(180, 330, lh.x, lh.y - oy, -1);
-  // body
+  // body (дыхание)
+  ctx.save(); ctx.translate(230, 455); ctx.scale(1, 1 + P.breathe*.006); ctx.translate(-230,-455);
   rr(150, 295, 160, 160, 45); ctx.fillStyle=HOOD; ctx.fill();
   ctx.strokeStyle=HOOD_D; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(232,305); ctx.lineTo(232,400); ctx.stroke();
   ctx.fillStyle='#fff'; ctx.font='900 18px "Arial Black", Impact, sans-serif'; ctx.textAlign='center'; ctx.fillText('PRO', 232, 360);
+  ctx.restore();
   // neck
   ctx.fillStyle = SKIN; ctx.fillRect(220, 280, 30, 24);
+  // head pivot
+  ctx.save(); ctx.translate(235, 292 - P.breathe*.6); ctx.rotate(P.rot); ctx.translate(-235, -292);
   // head
   const hx = 238, hy = 232;
   ctx.fillStyle = mixColor('#f2c29b', '#ec5a4a', anger);
@@ -367,15 +400,21 @@ function guy(t){
     ctx.strokeStyle='#b0001e'; ctx.lineWidth=3; const vx=272, vy=198;
     for (const [a,b,c,d] of [[-8,-2,-2,-2],[2,-8,2,-2],[8,2,2,2],[-2,8,-2,2]]){ ctx.beginPath(); ctx.moveTo(vx+a,vy+b); ctx.quadraticCurveTo(vx,vy,vx+c,vy+d); ctx.stroke(); }
   }
-  ctx.restore();
-  return {ox, oy};
+  ctx.restore(); // head
+  ctx.restore(); // body offset
+  // закрывает глаза рукой (подглядывает)
+  if (coverEyes) arm(180+ox, 330+oy, lh.x, lh.y, -1, false);
+  return P;
 }
 function face(st, t, anger){
   const ex1 = 254, ex2 = 283, ey = 228;
   ctx.lineCap='round';
   const look = {x:3, y:1};
-  const blink = (Math.floor(t*10) % 37 === 0) && st==='normal';
+  const blink = (t % 3.3) < .13 && st !== 'angry' && st !== 'happy';
   const eye = (x, r, px, py, pr) => {
+    if (st==='hope') { px += Math.sin(t*22)*2; }                         // глаза бегают за рулеткой
+    if (st==='surprised') { if (t < 11.6) { px = 1; py = 5; } else { px = 5; py = -3; } } // на мышку, потом на экран
+    if (blink){ ctx.strokeStyle='#3a2418'; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(x-7,ey+1); ctx.lineTo(x+7,ey+1); ctx.stroke(); return; }
     ctx.fillStyle='#fff'; ctx.strokeStyle='#5a3a2a'; ctx.lineWidth=2;
     ctx.beginPath(); ctx.ellipse(x, ey, r*.85, r, 0, 0, 7); ctx.fill(); ctx.stroke();
     ctx.fillStyle='#1b1b1b'; ctx.beginPath(); ctx.arc(x+px, ey+py, pr, 0, 7); ctx.fill();
@@ -430,15 +469,17 @@ function mousePos(t){
   return {x, y};
 }
 function handPos(t, m){
-  // returns right hand position + fist flag
-  if (t < 6.55) return {x:m.x, y:m.y-6, f:false};
+  // правая рука; a = 1 — двигается вместе с телом
+  if (t < 6.55) return {x:m.x, y:m.y-6, f:false, a:0};
   if (t < 9.0){ const p = easeIO(seg(t,6.55,6.85));
-    return {x: lerp(m.x, 318, p) + Math.sin(t*40)*5*p, y: lerp(m.y-6, 290, p) + Math.cos(t*33)*5*p, f:true}; }
-  if (t < SLAM_UP[1]){ const p = easeIO(seg(t, SLAM_UP[0], SLAM_UP[1])); return {x:lerp(318,330,p), y:lerp(290,150,p), f:true}; }
-  if (t < SLAM_HIT){ const p = Math.pow(seg(t, SLAM_UP[1], SLAM_HIT), 2); return {x:lerp(330,352,p), y:lerp(150,392,p), f:true}; }
-  if (t < 10.6) return {x:352, y:392 - Math.max(0, Math.sin((t-SLAM_HIT)*14))*4*(1-seg(t,SLAM_HIT,10.3)), f:true};
-  if (t < SP2[1]){ const p = easeIO(seg(t,10.6,10.95)); return {x:lerp(352,312,p), y:lerp(392,300,p) + Math.sin(t*3)*3, f:false}; }
-  const p = seg(t, SP2[1], SP2[1]+.25); return {x:lerp(312,340,p), y:lerp(300,150 + Math.sin(t*14+1)*10, p), f:true};
+    return {x: lerp(m.x, 318, p) + Math.sin(t*40)*6*p, y: lerp(m.y-6, 284, p) + Math.cos(t*33)*6*p, f:true, a:p}; }
+  if (t < SLAM_UP[1]){ const p = easeIO(seg(t, SLAM_UP[0], SLAM_UP[1])); return {x:lerp(318,330,p), y:lerp(284,140,p), f:true, a:1-p}; }
+  if (t < SLAM_HIT){ const p = Math.pow(seg(t, SLAM_UP[1], SLAM_HIT), 2); return {x:lerp(330,352,p), y:lerp(140,392,p), f:true, a:0}; }
+  if (t < 10.6){ const k = 1-seg(t,SLAM_HIT,10.3); return {x:352 + Math.sin(t*30)*3*k, y:392 - Math.max(0, Math.sin((t-SLAM_HIT)*14))*4*k, f:true, a:0}; }
+  if (t < 12.6){ const p = easeIO(seg(t,10.6,10.95)); return {x:lerp(352,312,p), y:lerp(392,300,p) + Math.sin(t*3)*3, f:false, a:p}; }
+  if (t < SP2[1]){ // грызёт ногти / сжимает кулак у подбородка
+    return {x:300 + Math.sin(t*16)*2, y:282 + Math.abs(Math.sin(t*9))*4, f:true, a:1}; }
+  const p = seg(t, SP2[1], SP2[1]+.25); return {x:lerp(300,340,p), y:lerp(282,150 + Math.sin(t*14+1)*10, p), f:true, a:1};
 }
 function desk(t, impact){
   ctx.fillStyle='#8a5a3b'; ctx.beginPath(); ctx.moveTo(0,398); ctx.lineTo(W,398); ctx.lineTo(W,418); ctx.lineTo(0,418); ctx.closePath(); ctx.fill();
@@ -530,50 +571,150 @@ function confetti(t){
 }
 
 // ---------- frame ----------
+// ---------- кот на полке ----------
+function cat(t){
+  const sinceHit = t - SLAM_HIT;
+  const jump = sinceHit>0 && sinceHit<.7 ? Math.sin(sinceHit/.7*Math.PI)*42 : 0;
+  const scared = sinceHit>0 && sinceHit<1.6;
+  const winB = t>SP2[1] ? Math.abs(Math.sin((t-SP2[1])*5))*8 : 0;
+  const x = 862, y = 96 - jump - winB; // сидит на мониторе
+  const c = kf(t, CURSOR);
+  ctx.save();
+  // tail
+  ctx.strokeStyle='#3b3b4a'; ctx.lineWidth=7; ctx.lineCap='round';
+  const sw = Math.sin(t*(scared?14:3))*(scared?14:10);
+  ctx.beginPath(); ctx.moveTo(x+12, y-6); ctx.quadraticCurveTo(x+34, y-10, x+30+sw, y-40); ctx.stroke();
+  // body
+  ctx.fillStyle='#3b3b4a';
+  ctx.beginPath(); ctx.ellipse(x, y-18, scared?19:16, scared?21:18, 0, 0, 7); ctx.fill();
+  if (scared){ ctx.strokeStyle='#3b3b4a'; ctx.lineWidth=3; for(let i=0;i<9;i++){ const a=Math.PI+i*Math.PI/8; ctx.beginPath(); ctx.moveTo(x+Math.cos(a)*18, y-18+Math.sin(a)*20); ctx.lineTo(x+Math.cos(a)*27, y-18+Math.sin(a)*29); ctx.stroke(); } }
+  // head
+  const hy = y - 42;
+  ctx.beginPath(); ctx.arc(x, hy, 14, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(x-13,hy-4); ctx.lineTo(x-10,hy-20); ctx.lineTo(x-2,hy-12); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(x+13,hy-4); ctx.lineTo(x+10,hy-20); ctx.lineTo(x+2,hy-12); ctx.closePath(); ctx.fill();
+  // eyes follow cursor
+  const dx = clamp((c.x - x)/120, -1, 1)*2, dy = clamp((c.y - hy)/120, -1, 1)*2;
+  const er = scared ? 5 : 4;
+  for (const ex of [x-5, x+5]){ ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.arc(ex, hy-1, er, 0, 7); ctx.fill();
+    ctx.fillStyle='#111'; ctx.beginPath(); ctx.ellipse(ex+dx, hy-1+dy, scared?2.5:1.3, er-1, 0, 0, 7); ctx.fill(); }
+  // mouth (мяу)
+  if (t>20.6 && t<21.5){ ctx.fillStyle='#ff7a8a'; ctx.beginPath(); ctx.ellipse(x, hy+7, 3, 3.5, 0, 0, 7); ctx.fill(); }
+  ctx.restore();
+  if (scared){ ctx.fillStyle='#fff'; ctx.font='900 26px Impact, "Arial Black", sans-serif'; ctx.textAlign='center'; ctx.fillText('!', x+26, y-62); }
+}
+
+// ---------- камера: [t, zoom, focusX, focusY] ----------
+const CAM = [[0,1,480,270],[1.4,1,480,270],[3.0,1.18,620,250],[5.8,1.3,660,235],[6.05,1.6,262,250],[6.5,1.6,262,250],
+  [6.9,1.3,300,270],[8.9,1.4,300,260],[9.4,1.0,480,270],[10.6,1.0,480,270],[11.1,1.6,420,320],[11.9,1.6,440,320],
+  [12.5,1.25,620,290],[13.5,1.25,640,250],[14.6,1.3,560,250],[15.2,1.45,280,250],[16.4,1.45,290,250],[16.8,1.35,690,215],
+  [17.45,1.5,690,215],[17.75,1.0,480,270],[END,1.06,480,270]];
+function camera(t){
+  let [s, fx, fy] = kfv(t, CAM);
+  if (t>6.6 && t<9) { fx += Math.sin(t*23)*3; fy += Math.cos(t*19)*3; }
+  const hw = W/(2*s), hh = H/(2*s);
+  fx = clamp(fx, hw, W-hw); fy = clamp(fy, hh, H-hh);
+  ctx.translate(W/2, H/2); ctx.scale(s, s); ctx.translate(-fx, -fy);
+}
+
+// ---------- субтитры ----------
+// [начало, конец, кто говорит, текст]   [..] — звук/действие
+const SUBS = [
+  [0.15, 1.9,  'Парень', 'Ну давай, SKINBRO… дай мне нож, прошу!'],
+  [2.0,  4.0,  'Парень', 'Крутись, крутись, крутись…'],
+  [4.1,  5.95, 'Парень', 'Почти… почти… НУ!!'],
+  [6.0,  6.6,  'Парень', 'Наклейка?! За три цента?!'],
+  [6.65, 9.1,  'Парень', 'Да что за [пиип]! Опять эта [пиип] наклейка! Я [пиип] этот [пиип]!!'],
+  [9.6,  10.75,'',       '[со всей силы бьёт по столу]'],
+  [10.8, 12.5, 'Парень', 'Э?.. Стоп. Мышка… сама двигается?!'],
+  [12.55,14.6, '',       '[мышка сама нажимает «Крутить»]'],
+  [14.7, 17.5, 'Парень', 'Не смотрю… не смотрю… только не наклейка…'],
+  [17.6, 20.5, 'Парень', 'ДААААА!!! НОЖ! ЗА 4999 БАКСОВ!!!'],
+  [20.6, 21.6, 'Кот',    'Мяу.'],
+  [21.7, END,  '',       'Мораль: не идёт — стукни по столу 😎  (шутка)'],
+];
+const SPK_COLOR = {'Парень':'#ffcf4d', 'Кот':'#9fe6a0'};
+function wrapLine(text, maxW){
+  const words = text.split(' '), lines = []; let cur = '';
+  for (const w of words){ const tst = cur ? cur+' '+w : w; if (ctx.measureText(tst).width > maxW && cur){ lines.push(cur); cur = w; } else cur = tst; }
+  if (cur) lines.push(cur); return lines;
+}
+function subtitles(t){
+  const s = SUBS.find(x => t >= x[0] && t < x[1]);
+  if (!s) return;
+  const a = Math.min(seg(t, s[0], s[0]+.12), 1 - seg(t, s[1]-.12, s[1]));
+  const action = !s[2];
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.font = `${action?'italic 600':'700'} 23px system-ui, sans-serif`;
+  const prefix = s[2] ? s[2] + ': ' : '';
+  const lines = wrapLine(prefix + s[3], 760);
+  const lh = 30, bh = lines.length*lh + 16, by = H - 22 - bh;
+  const bw = Math.max(...lines.map(l => ctx.measureText(l).width)) + 36;
+  rr(W/2 - bw/2, by, bw, bh, 10); ctx.fillStyle = 'rgba(0,0,0,.72)'; ctx.fill();
+  ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  lines.forEach((line, i) => {
+    const y = by + 8 + lh/2 + i*lh;
+    let x = W/2 - ctx.measureText(line).width/2;
+    // speaker name colored, [пиип] — красным
+    const parts = line.split(/(\[[^\]]+\]|^[А-Яа-яA-Za-z]+: )/).filter(Boolean);
+    for (const part of parts){
+      let col = action ? '#c9c6e8' : '#ffffff';
+      if (i===0 && s[2] && part === s[2]+': ') col = SPK_COLOR[s[2]] || '#ffcf4d';
+      else if (!action && /^\[.*\]$/.test(part)) col = '#ff5a5f';
+      ctx.fillStyle = col; ctx.fillText(part, x, y); x += ctx.measureText(part).width;
+    }
+  });
+  ctx.restore();
+}
+function marks(t, P){
+  // "?!" над головой, "!!!" на победе
+  const hx = 240 + P.ox, hy = 160 + P.oy;
+  if (t>10.8 && t<12.6){ const b = Math.sin(t*10)*4; ctx.save(); ctx.font='900 40px Impact, "Arial Black", sans-serif'; ctx.textAlign='center';
+    ctx.lineWidth=5; ctx.strokeStyle='#111'; ctx.fillStyle='#ffe14d'; ctx.strokeText('?!', hx+60, hy-10+b); ctx.fillText('?!', hx+60, hy-10+b); ctx.restore(); }
+  if (t>5.95 && t<6.6){ ctx.save(); ctx.strokeStyle='#7fb8ff'; ctx.lineWidth=3; for (let i=0;i<4;i++){ ctx.beginPath(); ctx.moveTo(hx-30+i*16, hy-6); ctx.lineTo(hx-30+i*16, hy+16+(t-6)*30); ctx.stroke(); } ctx.restore(); }
+}
+
+// ---------- frame ----------
 function draw(t){
   ctx.setTransform(cv.width/W, 0, 0, cv.height/H, 0, 0);
+  ctx.fillStyle = '#000'; ctx.fillRect(0,0,W,H);
   const sinceHit = t - SLAM_HIT;
   const impact = sinceHit>0 && sinceHit<.6 ? Math.sin(sinceHit/.6*Math.PI) : 0;
-  const sh = sinceHit>0 && sinceHit<.75 ? (1-sinceHit/.75)*14 : 0;
-  ctx.save(); ctx.translate((Math.random()-.5)*sh, (Math.random()-.5)*sh);
+  const sh = sinceHit>0 && sinceHit<.75 ? (1-sinceHit/.75)*16 : 0;
+  ctx.save();
+  camera(t);
+  ctx.translate((Math.random()-.5)*sh, (Math.random()-.5)*sh);
   room(t);
-  guy(t);
+  cat(t);
+  const P = guy(t);
   desk(t, impact);
-  ctx.save(); ctx.translate(0, impact*-12);
+  ctx.save(); ctx.translate(0, impact*-12); ctx.rotate(impact*.01);
   const R = monitor(t);
+  if (sinceHit>0 && sinceHit<.35 && Math.floor(t*30)%2===0){ ctx.fillStyle='rgba(255,255,255,.25)'; ctx.fillRect(470,110,440,258); } // мигание экрана
   ctx.restore();
   const m = mousePos(t); const mm = {x:m.x, y:m.y + impact*-8};
   mouseObj(t, mm);
   // right arm in front
-  const winT = t - SP2[1]; const oy = winT>0 ? -Math.abs(Math.sin(winT*6))*22 : 0;
-  const anger = seg(t,6.5,7.2)*(1-seg(t,10.2,11)); const ox = anger>0 && t<9 ? Math.sin(t*70)*3*anger : 0;
   const hp = handPos(t, mm);
-  arm(290+ox, 335+oy, hp.x, hp.y, 1, hp.f);
+  arm(290+P.ox, 335+P.oy, hp.x + P.ox*hp.a, hp.y + P.oy*hp.a, 1, hp.f);
   // FX
   if (sinceHit>0 && sinceHit<.8) burst(370, 360, .5 + easeOut(seg(sinceHit,0,.15))*.6, 'БАМ!', '#ffe14d', '#d0021b');
   if (sinceHit>0 && sinceHit<.6){ ctx.strokeStyle='#fff'; ctx.lineWidth=3; for (let i=0;i<6;i++){ const a = Math.PI + i*Math.PI/5 + .1; ctx.beginPath(); ctx.moveTo(352+Math.cos(a)*30, 396+Math.sin(a)*20); ctx.lineTo(352+Math.cos(a)*(50+sinceHit*60), 396+Math.sin(a)*(34+sinceHit*40)); ctx.stroke(); } }
   for (const ct of [1.6, 12.6]){ const d = t-ct; if (d>0 && d<.6){ ctx.save(); ctx.globalAlpha = 1-d/.6; ctx.fillStyle = ct>10 ? '#d4a8ff' : '#fff'; ctx.font='900 18px Impact, "Arial Black", sans-serif'; ctx.textAlign='center'; ctx.fillText(ct>10 ? '*КЛИК*' : 'клик', mm.x+6, mm.y-30-d*30); ctx.restore(); } }
-  // speech
-  bubble('Ну давай, SKINBRO…\nдай мне нож! 🙏', 250, 105, 250, 172, .1, 1.8, t, {fs:20});
-  bubble('Почти… почти…', 250, 112, 252, 175, 4.2, 5.95, t, {fs:20});
-  bubble('Наклейка?!\nЗа 0.03 $?!', 250, 105, 252, 172, 6.0, 6.6, t, {fs:22});
-  bubble('#@$%&!!! *пиип* @#!!\nДА ЧТО ЗА *пиип*!!', 290, 100, 255, 170, 6.65, 9.05, t, {fs:22, comic:true, spiky:true, color:'#d0021b', bg:'#fff3c4', shake:true});
-  bubble('Э?.. мышка\nсама кликает?!', 255, 108, 250, 174, 10.9, 12.5, t, {fs:20});
-  bubble('Только не наклейка…', 250, 112, 252, 175, 15.4, 17.5, t, {fs:19});
-  bubble('ДАААААА!!!\nНОЖ ЗА 4999 $!!!', 270, 92, 255, 165, SP2[1]+.1, END, t, {fs:26, comic:true, spiky:true, color:'#1a7f37', bg:'#fff8d6', shake:true});
-  confetti(t);
+  bubble('#@$%&!! ★@#!!', 300 + P.ox, 120, 262 + P.ox, 178, 6.65, 9.05, t, {fs:26, comic:true, spiky:true, color:'#d0021b', bg:'#fff3c4', shake:true});
+  bubble('ДААААА!!!', 285 + P.ox, 105 + P.oy, 258 + P.ox, 170 + P.oy, SP2[1]+.1, 21.5, t, {fs:30, comic:true, spiky:true, color:'#1a7f37', bg:'#fff8d6', shake:true});
+  marks(t, P);
   ctx.restore();
+  confetti(t);
+  // vignette
+  const vg = ctx.createRadialGradient(W/2,H/2,H*.45,W/2,H/2,H*.95); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,.45)');
+  ctx.fillStyle = vg; ctx.fillRect(0,0,W,H);
+  subtitles(t);
   // ticks
   if (R.spinning && t>SP1[0]){
     const idx = Math.floor((R.off + WW/2)/STEP);
     if (lastIdx !== null && idx !== lastIdx) sTick();
     lastIdx = idx;
-  }
-  // final caption
-  const fin = seg(t, END-2.2, END-1.6);
-  if (fin>0){
-    ctx.save(); ctx.globalAlpha = fin; ctx.fillStyle='rgba(0,0,0,.55)'; ctx.fillRect(0,H-56,W,56);
-    ctx.fillStyle='#fff'; ctx.font='800 22px system-ui'; ctx.textAlign='center'; ctx.fillText('Мораль: если не идёт — бей стол 😎   (шутка)', W/2, H-20); ctx.restore();
   }
 }
 
