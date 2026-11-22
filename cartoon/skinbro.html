@@ -112,9 +112,9 @@ const CURSOR = [[0,560,240],[0.5,560,240],[1.4,BC.x,BC.y],
 const MOUSE0 = {x:405, y:392};
 
 // ---------- audio ----------
-let AC = null, muted = false, AOFF = 0; // AOFF — сдвиг для оффлайн-рендера звука
+let AC = null, muted = false, AOFF = 0, TRACK = null; // TRACK — готовая дорожка с озвучкой // AOFF — сдвиг для оффлайн-рендера звука
 function tone(f,d,type='square',v=.08,when=0,slide=null,flat=false){
-  if(!AC||muted) return;
+  if(!AC||muted||(TRACK&&!AOFF&&TRACK.ok)) return;
   const t0 = AC.currentTime + AOFF + when, o = AC.createOscillator(), g = AC.createGain();
   o.type = type; o.frequency.setValueAtTime(f,t0);
   if(slide) o.frequency.exponentialRampToValueAtTime(slide, t0+d);
@@ -123,7 +123,7 @@ function tone(f,d,type='square',v=.08,when=0,slide=null,flat=false){
   o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0+d+.03);
 }
 function noise(d,v=.4,freq=400){
-  if(!AC||muted) return;
+  if(!AC||muted||(TRACK&&!AOFF&&TRACK.ok)) return;
   const b = AC.createBuffer(1, AC.sampleRate*d, AC.sampleRate), a = b.getChannelData(0);
   for(let i=0;i<a.length;i++) a[i] = (Math.random()*2-1) * Math.pow(1-i/a.length, 3);
   const s = AC.createBufferSource(), f = AC.createBiquadFilter(), g = AC.createGain();
@@ -135,6 +135,7 @@ const sClick = () => { tone(2600,.02,'square',.07); tone(1300,.03,'square',.05,.
 const sLose = () => { tone(420,.25,'sawtooth',.06,0,260); tone(300,.5,'sawtooth',.06,.27,110); };
 const sBleep = d => tone(1000,d,'sine',.13,0,null,true);
 const sThud = () => { tone(130,.45,'sine',.6,0,38); noise(.35,.9,600); tone(900,.2,'triangle',.05,.02,500); };
+const sMeow = () => { tone(620,.18,'sawtooth',.05,0,900); tone(900,.42,'sawtooth',.05,.17,480); tone(1240,.18,'sine',.03,0,1800); };
 const sMagic = () => [1200,1500,1800,2400].forEach((f,i)=>tone(f,.25,'sine',.04,i*.07));
 const sWin = () => { [523,659,784,1047,1319,1568].forEach((f,i)=>tone(f,.25,'triangle',.09,i*.1));
   [1047,1319,1568].forEach(f=>tone(f,1.4,'triangle',.06,.65)); noise(.6,.15,4000); };
@@ -143,7 +144,7 @@ let events = [];
 function resetEvents(){
   events = [
     [1.6, sClick], [6.0, sLose],
-    [6.8, ()=>sBleep(.45)], [7.4, ()=>sBleep(.3)], [7.85, ()=>sBleep(.55)], [8.6, ()=>sBleep(.3)],
+    [7.76, ()=>sBleep(.35)], [21.0, sMeow],
     [SLAM_HIT, sThud], [10.85, sMagic], [12.6, sClick], [SP2[1], sWin],
   ].map(([t,f]) => ({t,f,done:false}));
 }
@@ -599,7 +600,7 @@ function cat(t){
   for (const ex of [x-5, x+5]){ ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.arc(ex, hy-1, er, 0, 7); ctx.fill();
     ctx.fillStyle='#111'; ctx.beginPath(); ctx.ellipse(ex+dx, hy-1+dy, scared?2.5:1.3, er-1, 0, 0, 7); ctx.fill(); }
   // mouth (мяу)
-  if (t>20.6 && t<21.5){ ctx.fillStyle='#ff7a8a'; ctx.beginPath(); ctx.ellipse(x, hy+7, 3, 3.5, 0, 0, 7); ctx.fill(); }
+  if (t>21.0 && t<21.7){ ctx.fillStyle='#ff7a8a'; ctx.beginPath(); ctx.ellipse(x, hy+7, 3, 3.5, 0, 0, 7); ctx.fill(); }
   ctx.restore();
   if (scared){ ctx.fillStyle='#fff'; ctx.font='900 26px Impact, "Arial Black", sans-serif'; ctx.textAlign='center'; ctx.fillText('!', x+26, y-62); }
 }
@@ -620,20 +621,21 @@ function camera(t){
 // ---------- субтитры ----------
 // [начало, конец, кто говорит, текст]   [..] — звук/действие
 const SUBS = [
-  [0.15, 1.9,  'Парень', 'Ну давай, SKINBRO… дай мне нож, прошу!'],
-  [2.0,  4.0,  'Парень', 'Крутись, крутись, крутись…'],
-  [4.1,  5.95, 'Парень', 'Почти… почти… НУ!!'],
-  [6.0,  6.6,  'Парень', 'Наклейка?! За три цента?!'],
-  [6.65, 9.1,  'Парень', 'Да что за [пиип]! Опять эта [пиип] наклейка! Я [пиип] этот [пиип]!!'],
-  [9.6,  10.75,'',       '[со всей силы бьёт по столу]'],
-  [10.8, 12.5, 'Парень', 'Э?.. Стоп. Мышка… сама двигается?!'],
-  [12.55,14.6, '',       '[мышка сама нажимает «Крутить»]'],
-  [14.7, 17.5, 'Парень', 'Не смотрю… не смотрю… только не наклейка…'],
-  [17.6, 20.5, 'Парень', 'ДААААА!!! НОЖ! ЗА 4999 БАКСОВ!!!'],
-  [20.6, 21.6, 'Кот',    'Мяу.'],
-  [21.7, END,  '',       'Мораль: не идёт — стукни по столу 😎  (шутка)'],
+  [0.1,  2.6,  'Парень', 'Ну давай, SKINBRO… дай мне нож, прошу!'],
+  [2.7,  4.55, 'Парень', 'Крутись, крутись, крутись…'],
+  [4.6,  6.0,  'Парень', 'Почти… почти… Ну!'],
+  [6.05, 7.25, 'Парень', 'Наклейка?! За три цента?!'],
+  [7.3,  9.1,  'Парень', 'Да что за [пиип]! Опять эта наклейка!'],
+  [9.1,  9.6,  'Парень', 'А-а-аргх!'],
+  [9.65, 10.65,'',       '[со всей силы бьёт по столу]'],
+  [10.7, 12.8, 'Парень', 'Э?.. Стоп. Мышка… сама двигается?!'],
+  [12.8, 14.7, '',       '[мышка сама нажимает «Крутить»]'],
+  [14.8, 17.5, 'Парень', 'Не смотрю… не смотрю… только не наклейка…'],
+  [17.65,20.9, 'Парень', 'Да-а-а-а! Нож! За 4999 баксов!!!'],
+  [21.0, 21.8, 'Кот',    'Мяу.'],
+  [21.9, END+1,'Рассказчик', 'Мораль: не идёт — стукни по столу. Шутка 😎'],
 ];
-const SPK_COLOR = {'Парень':'#ffcf4d', 'Кот':'#9fe6a0'};
+const SPK_COLOR = {'Парень':'#ffcf4d', 'Кот':'#9fe6a0', 'Рассказчик':'#8fd3ff'};
 function wrapLine(text, maxW){
   const words = text.split(' '), lines = []; let cur = '';
   for (const w of words){ const tst = cur ? cur+' '+w : w; if (ctx.measureText(tst).width > maxW && cur){ lines.push(cur); cur = w; } else cur = tst; }
@@ -734,12 +736,13 @@ function play(){
   if (!AC){ try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} }
   if (AC && AC.state === 'suspended') AC.resume();
   document.getElementById('start').style.display='none';
+  if (TRACK && TRACK.ok){ TRACK.el.currentTime = 0; TRACK.el.muted = muted; TRACK.el.play().catch(()=>{ TRACK.ok = false; }); }
   resetEvents(); lastIdx = null; t0 = null; playing = true; requestAnimationFrame(frame);
 }
 document.getElementById('start').onclick = play;
 document.getElementById('replay').onclick = play;
 const mb = document.getElementById('mute');
-mb.onclick = () => { muted = !muted; mb.textContent = muted ? '🔇 Без звука' : '🔊 Звук'; };
+mb.onclick = () => { muted = !muted; if (TRACK) TRACK.el.muted = muted; mb.textContent = muted ? '🔇 Без звука' : '🔊 Звук'; };
 
 
 // ---------- экспорт в видео (используется скриптом записи) ----------
@@ -762,6 +765,10 @@ window.__export = {
   }
 };
 
+if (FREEZE === null){
+  const el = new Audio('skinbro_audio.m4a'); el.preload = 'auto';
+  TRACK = {el, ok:false}; el.addEventListener('canplaythrough', () => { TRACK.ok = true; }, {once:true});
+}
 if (FREEZE !== null){ document.getElementById('start').style.display='none'; draw(FREEZE); }
 else draw(0.05);
 addEventListener('resize', () => { if (!playing) draw(FREEZE ?? 0.05); });
