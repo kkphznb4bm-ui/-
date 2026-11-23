@@ -2,6 +2,7 @@
 import sys, wave, numpy as np, subprocess, os
 SR = 44100; DUR = 39.0
 vo_dir, out = sys.argv[1], sys.argv[2]
+USE_VO = vo_dir != "-"  # "-" = без озвучки (только музыка и эффекты)
 mix = np.zeros(int(SR * DUR))
 def add(sig, t, g=1.0):
     i = int(t * SR); n = min(len(sig), len(mix) - i)
@@ -61,7 +62,7 @@ while t < 35.4:
 # огибающая громкости музыки: ниже под голосом
 VO = [('n1', .4), ('n2', 6.2), ('p1', 11.3), ('n3', 13.3), ('p2', 18.5), ('n4', 21.3), ('p3', 26.3), ('n5', 32.0)]
 duck = np.ones_like(mix)
-for name, st in VO:
+for name, st in (VO if USE_VO else []):
     a = readwav(os.path.join(vo_dir, name + '.wav'))
     i0, i1 = int((st - .1) * SR), int((st + len(a) / SR + .15) * SR)
     duck[i0:i1] = .35
@@ -69,7 +70,7 @@ duck = np.convolve(duck, np.ones(4410) / 4410, 'same')
 mix += music * duck * .35
 
 # ---- озвучка ----
-for name, st in VO:
+for name, st in (VO if USE_VO else []):
     a = readwav(os.path.join(vo_dir, name + '.wav'))
     add(a / (np.abs(a).max() + 1e-9), st, .95)
 
