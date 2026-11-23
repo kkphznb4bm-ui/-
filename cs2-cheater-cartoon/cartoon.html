@@ -16,7 +16,20 @@
 //  renderFrame(t) рисует кадр в момент t (секунды). Всё детерминировано,
 //  поэтому кадры можно рендерить в видео покадрово.
 // =====================================================================
-const W = 1080, H = 1920, DURATION = 39;
+const W = 1080, H = 1920;
+const T0 = 4.4;              // длительность тизера-спойлера в начале
+const DURATION = 39 + 2.2 + T0;
+// Карта времени «таймлайн видео → время анимации»: 2-я и 3-я сцены растянуты под озвучку
+const WARP = [[0, 0], [9.8, 9.8], [14.2, 13], [23.2, 21], [41.2, 39], [99, 96.8]];
+function pw(t, from, to) {
+  for (let i = 1; i < WARP.length; i++) if (t <= WARP[i][from]) {
+    const [a, b] = [WARP[i - 1], WARP[i]];
+    return lerp(a[to], b[to], (t - a[from]) / (b[from] - a[from]));
+  }
+  return t;
+}
+const warp = t => t < 0 ? t : pw(t, 0, 1), unwarp = a => a < 0 ? a : pw(a, 1, 0);
+let NOW = 0; // текущее время таймлайна (для синхронизации рта с репликами)
 const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
 const FONT = '"Noto Sans","DejaVu Sans",Arial,sans-serif';
@@ -59,17 +72,17 @@ function bigText(txt, x, y, size, fill = '#fff', stroke = '#000', opts = {}) {
 // ---------- озвучка / субтитры ----------
 // Время начала каждой реплики совпадает с build/audio.json
 const LINES = [
-  { id: 'n1', who: 'n', t: 0.4, d: 4.9, chunks: ['Обычный день.', 'Обычный игрок.', 'Он просто хотел', 'немного поиграть в CS2…'] },
-  { id: 'n2', who: 'n', t: 6.2, d: 5.0, chunks: ['Но что-то пошло не так.', 'Его убили через дым.', 'Он начал подозревать', 'неладное.'] },
-  { id: 'p1', who: 'p', t: 11.3, d: 1.65, chunks: ['ДА ОН ЧИТЕР!', 'КАК ОН МЕНЯ УВИДЕЛ?!'] },
-  { id: 'n3', who: 'n', t: 13.3, d: 4.9, chunks: ['После пятого поражения', 'он уже никому не доверял.', 'Даже собственному', 'тиммейту.'] },
-  { id: 'p2', who: 'p', t: 18.5, d: 2.2, chunks: ['Он слишком хорошо', 'кидает гранаты…', 'ПОДОЗРИТЕЛЬНО!'] },
-  { id: 'n4', who: 'n', t: 21.3, d: 4.5, chunks: ['После десятого поражения', 'он принял самое', 'важное решение', 'в своей жизни…'] },
-  { id: 'p3', who: 'p', t: 26.3, d: 1.8, chunks: ['Если все читеры…', 'значит, и мне пора!'] },
-  { id: 'n5', who: 'n', t: 32.0, d: 3.4, chunks: ['Но он забыл', 'одну маленькую деталь…', 'VAC тоже не спит.'] },
+  { id: 'n1', who: 'n', t: 0.35, d: 5.2, chunks: ['Обычный день.', 'Обычный игрок.', 'Он просто хотел', 'немного поиграть в CS2…'] },
+  { id: 'n2', who: 'n', t: 6.05, d: 5.37, chunks: ['Но что-то пошло не так.', 'Его убили через дым.', 'Он начал подозревать', 'неладное.'] },
+  { id: 'p1', who: 'p', t: 11.6, d: 2.6, chunks: ['ДА ОН ЧИТЕР!', 'КАК ОН МЕНЯ УВИДЕЛ?!'] },
+  { id: 'n3', who: 'n', t: 14.4, d: 4.76, chunks: ['После пятого поражения', 'он уже никому не доверял.', 'Даже собственному', 'тиммейту.'] },
+  { id: 'p2', who: 'p', t: 19.4, d: 3.67, chunks: ['Он слишком хорошо', 'кидает гранаты…', 'ПОДОЗРИТЕЛЬНО!'] },
+  { id: 'n4', who: 'n', t: 23.5, d: 4.8, chunks: ['После десятого поражения', 'он принял самое', 'важное решение', 'в своей жизни…'] },
+  { id: 'p3', who: 'p', t: 28.5, d: 3.22, chunks: ['Если все читеры…', 'значит, и мне пора!'] },
+  { id: 'n5', who: 'n', t: 33.9, d: 4.12, chunks: ['Но он забыл', 'одну маленькую деталь…', 'VAC тоже не спит.'] },
 ];
 function speaking(t) { for (const l of LINES) if (l.who === 'p' && t >= l.t && t <= l.t + l.d) return true; return false; }
-function mouthAnim(t) { return speaking(t) ? .35 + .65 * Math.abs(Math.sin(t * 17)) * (.6 + .4 * Math.sin(t * 5.3)) : 0; }
+function mouthAnim(_) { const t = NOW; return speaking(t) ? .35 + .65 * Math.abs(Math.sin(t * 17)) * (.6 + .4 * Math.sin(t * 5.3)) : 0; }
 
 function drawSubtitles(t) {
   for (const l of LINES) {
@@ -90,7 +103,7 @@ function drawSubtitles(t) {
     const pop = backOut(prog(t, pageStart, pageStart + .18));
     const isP = l.who === 'p';
     const size = isP ? 74 : 62;
-    const y0 = (t >= 13 && t < 21) ? 1265 : 1440;
+    const y0 = (t >= 14.2 && t < 23.2) ? 1265 : 1440;
     ctx.save();
     ctx.translate(W / 2, y0);
     ctx.scale(.85 + .15 * pop, .85 + .15 * pop);
@@ -423,13 +436,6 @@ function scene1(t) {
     hand(W / 2 - 60 + rub, 1240, 1.3); hand(W / 2 + 60 - rub, 1240, 1.3);
     deskFG(t);
     ctx.restore();
-    // заголовок
-    const k = backOut(prog(t, .1, .6));
-    ctx.save(); ctx.translate(W / 2, 260); ctx.scale(k, k); ctx.rotate(-.04);
-    fillRR(-470, -120, 940, 240, 36, '#FFE14D', OUT, 10);
-    bigText('КАК РОЖДАЕТСЯ', 0, -45, 78, OUT, null);
-    bigText('ЧИТЕР В CS2', 0, 50, 96, '#FF3D57', OUT, { lw: 16 });
-    ctx.restore();
     return;
   }
   // 2.6–3.7: экран загрузки
@@ -519,9 +525,9 @@ function scene2(t) {
   }
   // 9.8–13: лицо — злость, «ДА ОН ЧИТЕР!»
   const ang = prog(t, 9.8, 10.4);
-  const scream = t > 11.25;
+  const scream = t > 11.1;
   const [sx, sy] = shakeXY(t, scream ? 14 : 4);
-  const zoom = scream ? 1.25 + prog(t, 11.25, 11.5) * .1 : 1.05;
+  const zoom = scream ? 1.25 + prog(t, 11.1, 11.35) * .1 : 1.05;
   ctx.save(); ctx.translate(W / 2 + sx, H / 2 + sy); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -H / 2);
   roomBG(t, scream ? .6 : .2 * ang);
   if (scream) {
@@ -606,10 +612,10 @@ function scene3(t) {
   hand(hx, hy, 1.3);
 
   // штамп «ПОДОЗРИТЕЛЬНО!»
-  if (lt > 6.6) {
-    const s = 2.4 - 1.4 * easeOut(prog(lt, 6.6, 6.85));
+  if (lt > 6.9) {
+    const s = 2.4 - 1.4 * easeOut(prog(lt, 6.9, 7.15));
     ctx.save(); ctx.translate(560, 640); ctx.rotate(-.18); ctx.scale(s, s);
-    ctx.globalAlpha = clamp(prog(lt, 6.6, 6.75) * 1.2) * .92;
+    ctx.globalAlpha = clamp(prog(lt, 6.9, 7.05) * 1.2) * .92;
     fillRR(-420, -85, 840, 170, 14, null, '#E0122B', 14);
     bigText('ПОДОЗРИТЕЛЬНО!', 0, 0, 92, '#E0122B', null);
     ctx.restore();
@@ -654,12 +660,12 @@ function scene4(t) {
   const zoom = 1 + easeInOut(prog(lt, 3.6, 5.2)) * .35;
   ctx.save(); ctx.translate(W / 2, 760); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -760);
   const glow = prog(lt, 4.2, 4.9);
-  const shades = lt > 7.0 ? prog(lt, 7.0, 7.45) : null;
+  const shades = lt > 8.0 ? prog(lt, 8.0, 8.45) : null;
   drawGuy(W / 2, 760, 1.25, { t, expr: 'determined', glow, mouth: mouthAnim(t), noBlink: true, shades });
   ctx.restore();
   // «DEAL»-вспышка, когда очки сели
-  if (lt > 7.45) {
-    const p = backOut(prog(lt, 7.45, 7.75));
+  if (lt > 8.45) {
+    const p = backOut(prog(lt, 8.45, 8.75));
     ctx.save(); ctx.translate(W / 2, 260); ctx.scale(p, p); ctx.rotate(-.06);
     bigText('РЕЖИМ ЧИТЕРА: ВКЛ', 0, 0, 78, '#3CFF6B', '#000', { lw: 16, shadow: '#3CFF6B', blur: 40 });
     ctx.restore();
@@ -712,9 +718,9 @@ function scene5(t) {
       fillRR(-470, -300, 940, 600, 40, '#1a0004', '#fff', 14);
       bigText('⛔', 0, -160, 150, '#fff', null, { emoji: true });
       bigText('VAC-БАН', 0, 10, 170, '#FF3D3D', '#fff', { lw: 16 });
-      bigText('Аккаунт заблокирован навсегда', 0, 170, 44, '#fff', null, { weight: 700 });
+      bigText('Аккаунт заблокирован навсегда', 0, 150, 44, '#fff', null, { weight: 700 });
+      bigText('Время в игре: 1 секунда', 0, 230, 42, '#FFE14D', null);
       ctx.restore();
-      bigText('Время в игре: 1 секунда', W / 2, 1180, 50, '#FFE14D', '#000', { lw: 10 });
       ctx.restore();
       return;
     }
@@ -730,8 +736,8 @@ function scene5(t) {
     ctx.restore();
     deskFG(t, '#FF4B4B');
     // кнопка «УДАЛИТЬ ЧИТЫ» мем
-    if (lt > 3.6) {
-      const p = backOut(prog(lt, 3.6, 3.9));
+    if (lt > 4.6) {
+      const p = backOut(prog(lt, 4.6, 4.9));
       ctx.save(); ctx.translate(W / 2, 260); ctx.scale(p, p); ctx.rotate(.05);
       fillRR(-380, -80, 760, 160, 30, '#fff', OUT, 10);
       bigText('VAC 👁 НЕ СПИТ', 0, 0, 76, '#B00010', null, { emoji: true });
@@ -770,17 +776,123 @@ function zoomWipe(t, at, color = '#FFE14D') {
   ctx.fillStyle = color; ctx.beginPath(); ctx.arc(W / 2, H / 2, r, 0, Math.PI * 2); ctx.fill();
 }
 
-function renderFrame(t) {
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.clearRect(0, 0, W, H);
+// ---------- КАМЕРА ----------
+// Планы: [начало, конец, [fx, fy, zoom, rot] от, [..] до, easing]. (fx, fy) — точка кадра в центре экрана.
+const SHOTS = [
+  [0, 2.6, [540, 960, 1.12, 0], [540, 820, 1.38, -.025], easeInOut],
+  [2.6, 3.7, [540, 760, 1.38, .03], [540, 900, 1.1, 0], easeOut],
+  [3.7, 6, [540, 700, 1.25, 0], [540, 760, 1.12, .025], easeOut],
+  [6, 8.2, [540, 960, 1.08, 0], [560, 674, 1.6, -.025], easeIn],
+  [8.2, 9.8, [540, 700, 1.3, .045], [540, 800, 1.15, -.02], easeOut],
+  [9.8, 11.1, [540, 960, 1.1, 0], [540, 820, 1.32, .035], easeInOut],
+  [11.1, 13, [540, 880, 1.5, -.035], [540, 860, 1.25, .035], easeOut],
+  [13, 15.6, [250, 380, 1.65, -.03], [850, 400, 1.65, .03], easeInOut],
+  [15.6, 18.4, [850, 400, 1.65, .03], [540, 900, 1.08, 0], easeInOut],
+  [18.4, 19.9, [540, 900, 1.08, 0], [800, 720, 1.75, -.035], easeInOut],
+  [19.9, 21, [560, 660, 1.4, -.045], [540, 820, 1.12, 0], easeOut],
+  [21, 22, [540, 520, 1.5, 0], [540, 900, 1.5, 0], easeInOut],
+  [22, 24.6, [540, 1150, 1.3, .025], [540, 1000, 1.12, -.02], easeOut],
+  [24.6, 29.45, [540, 900, 1.08, 0], [540, 760, 1.2, -.07], easeInOut],
+  [29.45, 30, [540, 760, 1.32, .05], [540, 820, 1.12, 0], easeOut],
+  [30, 30.9, [540, 800, 1.12, 0], [540, 740, 1.35, 0], easeIn],
+  [30.9, 31.7, null, null, null],           // аимбот: камера «щёлкает» за прицелом
+  [31.7, 34.3, [540, 760, 1.22, .03], [540, 860, 1.1, 0], easeOut],
+  [34.3, 35.5, [540, 960, 1.08, 0], [540, 780, 1.55, 0], easeIn],
+  [35.5, 99, [540, 960, 1.06, 0], [540, 960, 1.06, 0], k => k],
+];
+const PUNCH = [[3.75, .25], [8.2, .3], [11.1, .25], [13.0, .12], [19.9, .28], [22.0, .2], [24.9, .15], [29.45, .28], [30.5, .12], [31.7, .22], [35.5, .18]];
+function camAt(t) {
+  let fx = W / 2, fy = H / 2, z = 1.08, r = 0;
+  for (const [a, b, A, B, e] of SHOTS) {
+    if (t < a || t >= b) continue;
+    if (!A) { // аимбот
+      const k = prog(t, 30.9, 31.6), idx = Math.min(2, Math.floor(k * 3));
+      const tx = [-.3, .1, .32][idx];
+      const snap = easeOut(clamp((k * 3 - idx) * 4));
+      const prev = idx ? [-.3, .1, .32][idx - 1] : 0;
+      fx = 540 + lerp(prev, tx, snap) * 700; fy = 674; z = 1.45; r = (tx - prev) * .08 * (1 - snap);
+    } else {
+      const k = e(prog(t, a, b));
+      fx = lerp(A[0], B[0], k); fy = lerp(A[1], B[1], k); z = lerp(A[2], B[2], k); r = lerp(A[3], B[3], k);
+    }
+    break;
+  }
+  // «ручная» камера — лёгкое покачивание
+  fx += Math.sin(t * .7) * 10; fy += Math.cos(t * .9) * 10; r += Math.sin(t * .5) * .006;
+  // удары (punch-in) и тряска
+  let sh = 0;
+  for (const [at, amt] of PUNCH) if (t >= at) { const d = Math.exp(-(t - at) * 9); z *= 1 + amt * d; sh += amt * 120 * Math.exp(-(t - at) * 6); }
+  fx += Math.sin(t * 71) * sh; fy += Math.cos(t * 63) * sh;
+  // не показываем края кадра
+  const cover = 1 + Math.abs(r) * 2.2;
+  z = Math.max(z, cover + .02);
+  const ze = z / cover;
+  fx = clamp(fx, W / 2 / ze, W - W / 2 / ze); fy = clamp(fy, H / 2 / ze, H - H / 2 / ze);
+  return { fx, fy, z, r };
+}
+
+function renderMain(tl, subs = true) {
+  NOW = tl;
+  const t = warp(tl);
+  const c = camAt(t);
+  ctx.save();
+  ctx.translate(W / 2, H / 2); ctx.rotate(c.r); ctx.scale(c.z, c.z); ctx.translate(-c.fx, -c.fy);
   if (t < 6) scene1(t);
   else if (t < 13) scene2(t);
   else if (t < 21) scene3(t);
   else if (t < 30) scene4(t);
   else scene5(t);
   [2.6, 3.7, 9.8, 24.6, 30, 30.9, 31.7, 34.3].forEach(a => wipe(t, a));
-  zoomWipe(t, 6, '#FFE14D'); zoomWipe(t, 13, '#FF3D57'); zoomWipe(t, 21, '#2E8BFF'); zoomWipe(t, 35.5, '#fff');
-  drawSubtitles(t);
+  zoomWipe(t, 0, '#FFE14D'); zoomWipe(t, 6, '#FFE14D'); zoomWipe(t, 13, '#FF3D57'); zoomWipe(t, 21, '#2E8BFF'); zoomWipe(t, 35.5, '#fff');
+  ctx.restore();
+  if (subs) drawSubtitles(tl);
+}
+
+// ---------- ТИЗЕР-СПОЙЛЕР (0 – T0) ----------
+function teaser(T) {
+  if (T < 1.3) renderMain(unwarp(28.3 + T), false);                 // читер надевает очки
+  else if (T < 2.6) renderMain(unwarp(31.7 + (T - 1.3)), false);    // VAC-бан и шок
+  else {                                                    // перемотка назад к началу
+    const k = easeIn(prog(T, 2.6, T0 - .05));
+    renderMain(unwarp(lerp(33, .3, k)), false);
+    // VHS-эффект
+    ctx.fillStyle = 'rgba(20,0,60,.25)'; ctx.fillRect(0, 0, W, H);
+    for (let i = 0; i < 6; i++) {
+      const y = ((T * 2300 + i * 377) % (H + 200)) - 100;
+      ctx.fillStyle = 'rgba(255,255,255,.18)'; ctx.fillRect(0, y, W, 10 + rand(i) * 30);
+    }
+    const blink = Math.sin(T * 14) > 0;
+    bigText('⏪ ПЕРЕМОТКА', 60, 160, 70, blink ? '#fff' : '#FFE14D', '#000', { align: 'left', lw: 12, emoji: true });
+    bigText('Как всё начиналось…', W / 2, 1300, 66, '#fff', '#000', { lw: 14 });
+  }
+  if (T < 2.6) {
+    // заголовок-крючок
+    const p = backOut(prog(T, .05, .45));
+    const wob = Math.sin(T * 9) * .03;
+    ctx.save(); ctx.translate(W / 2, 1390); ctx.scale(p, p); ctx.rotate(-.04 + wob);
+    fillRR(-490, -150, 980, 300, 40, '#FFE14D', OUT, 12);
+    bigText('КАК РОЖДАЮТСЯ', 0, -62, 92, OUT, null);
+    bigText('ЧИТЕРЫ В КСКЕ', 0, 62, 104, '#FF3D57', OUT, { lw: 18 });
+    ctx.restore();
+    // наклейка «СПОЙЛЕР»
+    if (T > 1.3) {
+      const q = backOut(prog(T, 1.3, 1.6));
+      ctx.save(); ctx.translate(W / 2, 1690); ctx.scale(q, q); ctx.rotate(.05);
+      fillRR(-440, -95, 880, 190, 24, '#E0122B', '#fff', 10);
+      bigText('⚠️ СПОЙЛЕР:', 0, -38, 66, '#fff', null, { emoji: true });
+      bigText('ВСЁ ЗАКОНЧИТСЯ ПЛОХО', 0, 42, 60, '#FFE14D', null);
+      ctx.restore();
+    }
+  }
+  // вспышки на склейках тизера
+  [1.3, 2.6].forEach(a => { const k = 1 - Math.abs(T - a) / .1; if (k > 0) { ctx.fillStyle = `rgba(255,255,255,${k})`; ctx.fillRect(0, 0, W, H); } });
+  zoomWipe(T, T0, '#FFE14D');
+}
+
+function renderFrame(T) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+  if (T < T0) teaser(T); else renderMain(T - T0);
 }
 window.renderFrame = renderFrame;
 window.DURATION = DURATION;

@@ -1,11 +1,20 @@
 """Сборка звуковой дорожки: озвучка + звуковые эффекты + фоновый бит (всё синтезируется локально)."""
 import sys, wave, numpy as np, subprocess, os
-SR = 44100; DUR = 39.0
+SR = 44100
+OFF = 4.4          # длительность тизера: всё основное сдвигается на OFF
+DUR = 39.0 + 2.2 + OFF
+WARP = [(0, 0), (9.8, 9.8), (14.2, 13), (23.2, 21), (41.2, 39), (99, 96.8)]
+def unwarp(a):
+    if a < 0: return a
+    for (n0, a0), (n1, a1) in zip(WARP, WARP[1:]):
+        if a <= a1: return n0 + (n1 - n0) * (a - a0) / (a1 - a0)
+    return a
 vo_dir, out = sys.argv[1], sys.argv[2]
 USE_VO = vo_dir != "-"  # "-" = без озвучки (только музыка и эффекты)
 mix = np.zeros(int(SR * DUR))
-def add(sig, t, g=1.0):
-    i = int(t * SR); n = min(len(sig), len(mix) - i)
+def add(sig, t, g=1.0, raw=False, anim=True):
+    # raw — абсолютное время; anim — время анимации (переводится в таймлайн); иначе — время таймлайна
+    i = int((t if raw else (unwarp(t) if anim else t) + OFF) * SR); n = min(len(sig), len(mix) - i)
     if n > 0: mix[i:i + n] += sig[:n] * g
 def readwav(p):
     w = wave.open(p); a = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(float) / 32768
@@ -45,14 +54,14 @@ def bass_note(f, d): t = T(d); return np.tanh(2 * np.sin(2 * np.pi * f * t)) * n
 bpm = 128; beat = 60 / bpm
 music = np.zeros_like(mix)
 def madd(sig, t, g):
-    i = int(t * SR); n = min(len(sig), len(music) - i)
+    i = int((t + OFF) * SR); n = min(len(sig), len(music) - i)
     if n > 0: music[i:i + n] += sig[:n] * g
 roots = [55, 55, 65.4, 49]
-b = 0; t = 0.0
-while t < 35.4:
+b = 0; t = -OFF
+while t < 37.7:
     # пауза в бите: момент выстрела, крик и бан
-    if not (8.15 < t < 8.7 or 31.6 < t < 32.4):
-        evil = 21 <= t < 30
+    if not (8.15 < t < 8.7 or 33.8 < t < 34.6 or -OFF + 1.25 < t < -OFF + 2.0):
+        evil = 23.2 <= t < 32.2 or t < -OFF + 1.3
         madd(kick(), t, .9 if b % 2 == 0 else 0)
         if b % 4 == 2: madd(snare(), t, .55)
         madd(hat(), t + beat / 2, .5)
@@ -60,11 +69,13 @@ while t < 35.4:
         madd(bass_note(r, beat * .9), t, .55)
     b += 1; t += beat
 # огибающая громкости музыки: ниже под голосом
-VO = [('n1', .4), ('n2', 6.2), ('p1', 11.3), ('n3', 13.3), ('p2', 18.5), ('n4', 21.3), ('p3', 26.3), ('n5', 32.0)]
+VO = [('t0', -OFF + .2), ('n1', .35), ('n2', 6.05), ('p1', 11.6), ('n3', 14.4), ('p2', 19.4), ('n4', 23.5), ('p3', 28.5), ('n5', 33.9)]
+if USE_VO and os.path.exists(os.path.join(vo_dir, 'timing.txt')):
+    VO = [(a, float(b)) for a, b in (l.split() for l in open(os.path.join(vo_dir, 'timing.txt')) if l.strip())]
 duck = np.ones_like(mix)
 for name, st in (VO if USE_VO else []):
     a = readwav(os.path.join(vo_dir, name + '.wav'))
-    i0, i1 = int((st - .1) * SR), int((st + len(a) / SR + .15) * SR)
+    i0, i1 = int((st + OFF - .1) * SR), int((st + OFF + len(a) / SR + .15) * SR)
     duck[i0:i1] = .35
 duck = np.convolve(duck, np.ones(4410) / 4410, 'same')
 mix += music * duck * .35
@@ -72,8 +83,16 @@ mix += music * duck * .35
 # ---- озвучка ----
 for name, st in (VO if USE_VO else []):
     a = readwav(os.path.join(vo_dir, name + '.wav'))
-    add(a / (np.abs(a).max() + 1e-9), st, .95)
+    add(a / (np.abs(a).max() + 1e-9), st, .95, anim=False)
 
+# ---- эффекты тизера (абсолютное время) ----
+def rewind(d=1.8):
+    t = T(d); f = 300 + 1500 * np.abs(np.sin(2 * np.pi * 7 * t)) * (1 - t / d * .6)
+    return np.sign(np.sin(2 * np.pi * np.cumsum(f) / SR)) * .18 * np.minimum(1, (d - t) / .1)
+add(stamp(), 0.02, .7, raw=True); add(riser(1.0), 0.1, .25, raw=True)
+add(stamp(), 1.15, .5, raw=True); add(ding(1760), 1.17, .4, raw=True)   # очки сели
+add(stamp(), 1.3, .9, raw=True); add(alarm(1.2), 1.32, .4, raw=True)    # VAC-бан
+add(rewind(1.75), 2.6, .7, raw=True); add(whoosh(.5), OFF - .25, .6, raw=True)
 # ---- эффекты ----
 add(ding(), .15, .5)
 add(whoosh(), 2.45, .5); add(pop(500), 2.6, .4)
@@ -82,15 +101,15 @@ add(boing(), 4.45, .5)
 add(whoosh(.5), 5.75, .6)
 add(shot(), 8.2, .9)
 add(whoosh(.3), 9.7, .4)
-add(riser(1.2), 10.1, .3)
+add(riser(1.2), 9.9, .3)
 add(whoosh(.5), 12.75, .6)
 for i in range(5): add(pop(400 + i * 120), 13.0 + i * .15, .35)
 for i in range(8): add(pop(900), 13.4 + i * .35, .12)
-add(stamp(), 19.6, .8)
+add(stamp(), 19.9, .8)
 add(whoosh(.5), 20.75, .6)
 add(pop(300), 22.0, .5)
 add(riser(1.0), 24.6, .4); add(ding(660), 25.5, .5)
-add(whoosh(.4), 27.6, .5); add(stamp(), 28.45, .6); add(ding(1760), 28.5, .5)
+add(whoosh(.4), 29.0, .5); add(stamp(), 29.45, .6); add(ding(1760), 29.5, .5)
 add(whoosh(.3), 29.8, .5); add(ding(990), 30.5, .5)
 for i in range(4): add(shot(), 30.95 + i * .18, .45)
 add(stamp(), 31.7, .9); add(alarm(2.4), 31.75, .5)
