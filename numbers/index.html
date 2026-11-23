@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Перебор цифр</title>
+<style>
+  :root {
+    --bg: #f4f5f7; --card: #ffffff; --text: #16181d; --muted: #6b7280;
+    --accent: #2563eb; --accent-text: #ffffff; --border: #e3e5ea; --mono-bg: #0f172a; --mono-text: #4ade80;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0d12; --card: #151821; --text: #e8eaf0; --muted: #9aa1b1;
+      --accent: #3b82f6; --border: #262a36; --mono-bg: #05070b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  p.sub { margin: 0 0 20px; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+  .display { background: var(--mono-bg); color: var(--mono-text); border-radius: 12px;
+    font: 700 clamp(2rem, 11vw, 4.5rem)/1.1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: .08em; text-align: center; padding: 24px 8px; word-break: break-all; user-select: all; }
+  .progress { height: 6px; background: var(--border); border-radius: 3px; margin-top: 12px; overflow: hidden; }
+  .progress > div { height: 100%; width: 0; background: var(--accent); }
+  .stats { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 8px; color: var(--muted); font-size: .9rem; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  label { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; color: var(--muted); }
+  input, select { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 10px; width: 100%; }
+  button { font: inherit; font-weight: 600; border: 1px solid var(--border); background: var(--bg); color: var(--text);
+    border-radius: 10px; padding: 10px 16px; cursor: pointer; flex: 1 1 auto; }
+  button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  button:disabled { opacity: .5; cursor: default; }
+  .log { font: 14px/1.6 ui-monospace, Menlo, Consolas, monospace; max-height: 260px; overflow: auto;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 2px 12px; }
+  .log .hit { color: var(--accent); font-weight: 700; }
+  .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .head h2 { font-size: 1rem; margin: 0; }
+  .head button { flex: 0 0 auto; padding: 4px 10px; font-size: .85rem; }
+  .found { margin-top: 12px; font-weight: 600; color: var(--accent); min-height: 1.5em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Перебор цифр</h1>
+  <p class="sub">Подбор по порядку: 00000000 → 00000001 → 00000002 → …</p>
+
+  <section class="card">
+    <div class="display" id="display">00000000</div>
+    <div class="progress"><div id="bar"></div></div>
+    <div class="stats">
+      <span id="pos">Шаг 0 из 100 000 000</span>
+      <span id="pct">0%</span>
+    </div>
+    <div class="found" id="found"></div>
+  </section>
+
+  <section class="card">
+    <div class="row" style="margin-bottom:12px">
+      <button class="primary" id="startBtn">▶ Старт</button>
+      <button id="prevBtn">− 1</button>
+      <button id="nextBtn">+ 1</button>
+      <button id="resetBtn">⟲ Сброс</button>
+    </div>
+    <div class="grid">
+      <label>Кол-во цифр
+        <input type="number" id="digits" min="1" max="15" value="8">
+      </label>
+      <label>Начать с
+        <input type="text" id="start" inputmode="numeric" value="00000000">
+      </label>
+      <label>Скорость
+        <select id="speed">
+          <option value="1000">1 в секунду</option>
+          <option value="200">5 в секунду</option>
+          <option value="50" selected>20 в секунду</option>
+          <option value="10">100 в секунду</option>
+          <option value="0">Максимум</option>
+        </select>
+      </label>
+      <label>Искать число (остановится)
+        <input type="text" id="target" inputmode="numeric" placeholder="например 00001234">
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="head">
+      <h2>История</h2>
+      <div class="row" style="flex-wrap:nowrap">
+        <button id="copyBtn">Копировать</button>
+        <button id="clearBtn">Очистить</button>
+      </div>
+    </div>
+    <div class="log" id="log"></div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const MAX_LOG = 500;
+  let digits = 8, current = 0, running = false, timer = null, history = [];
+
+  const total = () => 10 ** digits;
+  const fmt = n => String(n).padStart(digits, '0');
+
+  function render() {
+    $('display').textContent = fmt(current);
+    const pct = current / (total() - 1) * 100 || 0;
+    $('bar').style.width = pct + '%';
+    $('pos').textContent = `Шаг ${current.toLocaleString('ru')} из ${total().toLocaleString('ru')}`;
+    $('pct').textContent = pct.toFixed(pct < 1 ? 4 : 2) + '%';
+  }
+
+  function renderLog() {
+    const t = $('target').value.trim();
+    $('log').innerHTML = history.slice().reverse()
+      .map(v => `<span${v === t ? ' class="hit"' : ''}>${v}</span>`).join('');
+  }
+
+  function push(v) {
+    history.push(v);
+    if (history.length > MAX_LOG) history.shift();
+  }
+
+  function step(dir) {
+    const next = current + dir;
+    if (next < 0 || next >= total()) { stop(); $('found').textContent = 'Достигнут конец диапазона.'; return false; }
+    current = next;
+    const v = fmt(current);
+    push(v);
+    if (v === $('target').value.trim()) {
+      stop(); $('found').textContent = `Найдено: ${v} (шаг ${current.toLocaleString('ru')})`;
+      render(); renderLog(); return false;
+    }
+    return true;
+  }
+
+  function tick() {
+    const delay = +$('speed').value;
+    if (delay === 0) {
+      const end = performance.now() + 14;
+      while (running && performance.now() < end) if (!step(1)) break;
+    } else {
+      step(1);
+    }
+    render(); renderLog();
+    if (running) timer = setTimeout(tick, delay || 0);
+  }
+
+  function start() {
+    if (running) return stop();
+    running = true; $('found').textContent = '';
+    $('startBtn').textContent = '⏸ Пауза';
+    tick();
+  }
+  function stop() {
+    running = false; clearTimeout(timer);
+    $('startBtn').textContent = '▶ Старт';
+  }
+
+  function applyStart() {
+    const s = $('start').value.replace(/\D/g, '');
+    const n = s ? Math.min(parseInt(s, 10), total() - 1) : 0;
+    current = n; history = [fmt(n)];
+    $('start').value = fmt(n);
+    render(); renderLog();
+  }
+
+  $('startBtn').onclick = start;
+  $('nextBtn').onclick = () => { stop(); step(1); render(); renderLog(); };
+  $('prevBtn').onclick = () => { stop(); step(-1); render(); renderLog(); };
+  $('resetBtn').onclick = () => { stop(); $('found').textContent = ''; $('start').value = fmt(0); applyStart(); };
+  $('digits').onchange = () => {
+    stop();
+    digits = Math.max(1, Math.min(15, parseInt($('digits').value, 10) || 8));
+    $('digits').value = digits;
+    $('start').value = fmt(0);
+    applyStart();
+  };
+  $('start').onchange = () => { stop(); applyStart(); };
+  $('target').oninput = renderLog;
+  $('clearBtn').onclick = () => { history = []; renderLog(); };
+  $('copyBtn').onclick = async () => {
+    try { await navigator.clipboard.writeText(history.join('\n')); $('copyBtn').textContent = 'Скопировано'; }
+    catch { $('copyBtn').textContent = 'Ошибка'; }
+    setTimeout(() => $('copyBtn').textContent = 'Копировать', 1200);
+  };
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.code === 'Space') { e.preventDefault(); start(); }
+    if (e.code === 'ArrowRight') $('nextBtn').click();
+    if (e.code === 'ArrowLeft') $('prevBtn').click();
+  });
+
+  applyStart();
+})();
+</script>
+</body>
+</html>
