@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Как рождается читер</title>
+<style>
+  html,body{margin:0;background:#111;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  canvas{height:100vh;width:auto;max-width:100vw;aspect-ratio:9/16;display:block}
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+// =====================================================================
+//  «Как рождается читер в CS2» — 2D-мультфильм 9:16, 1080x1920
+//  renderFrame(t) рисует кадр в момент t (секунды). Всё детерминировано,
+//  поэтому кадры можно рендерить в видео покадрово.
+// =====================================================================
+const W = 1080, H = 1920, DURATION = 39;
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+const FONT = '"Noto Sans","DejaVu Sans",Arial,sans-serif';
+const EMOJI = '"Noto Color Emoji"';
+
+// ---------- утилиты ----------
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = k => 1 - Math.pow(1 - k, 3);
+const easeIn = k => k * k * k;
+const easeInOut = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const backOut = k => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
+const elastic = k => k === 0 || k === 1 ? k : Math.pow(2, -10 * k) * Math.sin((k * 10 - .75) * (2 * Math.PI / 3)) + 1;
+function rand(seed) { const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+function shakeXY(t, amp, seed = 1) { return [Math.sin(t * 61 + seed) * amp + Math.sin(t * 37 + seed * 3) * amp * .5, Math.cos(t * 53 + seed * 2) * amp + Math.sin(t * 29) * amp * .4]; }
+
+function rr(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+function fillRR(x, y, w, h, r, fill, stroke, lw = 6) { rr(x, y, w, h, r); if (fill) { ctx.fillStyle = fill; ctx.fill(); } if (stroke) { ctx.lineWidth = lw; ctx.strokeStyle = stroke; ctx.stroke(); } }
+function circle(x, y, r, fill, stroke, lw = 6) { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); if (fill) { ctx.fillStyle = fill; ctx.fill(); } if (stroke) { ctx.lineWidth = lw; ctx.strokeStyle = stroke; ctx.stroke(); } }
+function ellipse(x, y, rx, ry, fill, stroke, lw = 6, rot = 0) { ctx.beginPath(); ctx.ellipse(x, y, rx, ry, rot, 0, Math.PI * 2); if (fill) { ctx.fillStyle = fill; ctx.fill(); } if (stroke) { ctx.lineWidth = lw; ctx.strokeStyle = stroke; ctx.stroke(); } }
+function line(x1, y1, x2, y2, color, lw = 6) { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineCap = 'round'; ctx.stroke(); }
+
+// жирный мультяшный текст с обводкой
+function bigText(txt, x, y, size, fill = '#fff', stroke = '#000', opts = {}) {
+  ctx.save();
+  ctx.font = `${opts.weight || 900} ${size}px ${opts.emoji ? FONT + ',' + EMOJI : FONT}`;
+  ctx.textAlign = opts.align || 'center';
+  ctx.textBaseline = 'middle';
+  ctx.lineJoin = 'round';
+  if (opts.rot) { ctx.translate(x, y); ctx.rotate(opts.rot); x = 0; y = 0; }
+  if (stroke) {
+    ctx.strokeStyle = stroke; ctx.lineWidth = opts.lw || size * .22; ctx.strokeText(txt, x, y);
+  }
+  if (opts.shadow) { ctx.shadowColor = opts.shadow; ctx.shadowBlur = opts.blur || 30; }
+  ctx.fillStyle = fill; ctx.fillText(txt, x, y);
+  ctx.restore();
+}
+
+// ---------- озвучка / субтитры ----------
+// Время начала каждой реплики совпадает с build/audio.json
+const LINES = [
+  { id: 'n1', who: 'n', t: 0.4, d: 4.9, chunks: ['Обычный день.', 'Обычный игрок.', 'Он просто хотел', 'немного поиграть в CS2…'] },
+  { id: 'n2', who: 'n', t: 6.2, d: 5.0, chunks: ['Но что-то пошло не так.', 'Его убили через дым.', 'Он начал подозревать', 'неладное.'] },
+  { id: 'p1', who: 'p', t: 11.3, d: 1.65, chunks: ['ДА ОН ЧИТЕР!', 'КАК ОН МЕНЯ УВИДЕЛ?!'] },
+  { id: 'n3', who: 'n', t: 13.3, d: 4.9, chunks: ['После пятого поражения', 'он уже никому не доверял.', 'Даже собственному', 'тиммейту.'] },
+  { id: 'p2', who: 'p', t: 18.5, d: 2.2, chunks: ['Он слишком хорошо', 'кидает гранаты…', 'ПОДОЗРИТЕЛЬНО!'] },
+  { id: 'n4', who: 'n', t: 21.3, d: 4.5, chunks: ['После десятого поражения', 'он принял самое', 'важное решение', 'в своей жизни…'] },
+  { id: 'p3', who: 'p', t: 26.3, d: 1.8, chunks: ['Если все читеры…', 'значит, и мне пора!'] },
+  { id: 'n5', who: 'n', t: 32.0, d: 3.4, chunks: ['Но он забыл', 'одну маленькую деталь…', 'VAC тоже не спит.'] },
+];
+function speaking(t) { for (const l of LINES) if (l.who === 'p' && t >= l.t && t <= l.t + l.d) return true; return false; }
+function mouthAnim(t) { return speaking(t) ? .35 + .65 * Math.abs(Math.sin(t * 17)) * (.6 + .4 * Math.sin(t * 5.3)) : 0; }
+
+function drawSubtitles(t) {
+  for (const l of LINES) {
+    if (t < l.t - .05 || t > l.t + l.d + .25) continue;
+    // по две строки на «кадр» субтитров
+    const pages = [];
+    for (let i = 0; i < l.chunks.length; i += 2) pages.push(l.chunks.slice(i, i + 2));
+    const total = l.chunks.join(' ').length;
+    let acc = 0, idx = 0;
+    const k = clamp((t - l.t) / l.d);
+    for (let i = 0; i < pages.length; i++) {
+      const len = pages[i].join(' ').length;
+      if (k * total >= acc) idx = i;
+      acc += len;
+    }
+    const page = pages[idx];
+    const pageStart = l.t + l.d * (pages.slice(0, idx).reduce((s, p) => s + p.join(' ').length, 0) / total);
+    const pop = backOut(prog(t, pageStart, pageStart + .18));
+    const isP = l.who === 'p';
+    const size = isP ? 74 : 62;
+    const y0 = (t >= 13 && t < 21) ? 1265 : 1440;
+    ctx.save();
+    ctx.translate(W / 2, y0);
+    ctx.scale(.85 + .15 * pop, .85 + .15 * pop);
+    ctx.globalAlpha = clamp(pop * 1.5);
+    page.forEach((s, j) => {
+      bigText(s, 0, j * (size * 1.2), size, isP ? '#FFE14D' : '#fff', '#000', { lw: size * .2 });
+    });
+    ctx.restore();
+  }
+}
+
+// ---------- персонаж ----------
+// opts: expr (happy|neutral|angry|sus|determined|shock), mouth 0..1, hat, glasses, shades(0..1), redness, pale, glow
+const SKIN = '#F6C9A0', SKIN_D = '#E3A97E', HOODIE = '#2E8BFF', HOODIE_D = '#1D63C4', OUT = '#1b1b2a';
+function drawGuy(x, y, s, o = {}) {
+  const t = o.t || 0;
+  ctx.save();
+  ctx.translate(x, y); ctx.scale(s, s);
+  if (o.rot) ctx.rotate(o.rot);
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+
+  // --- тело (худи) ---
+  if (!o.headOnly) {
+    ctx.beginPath();
+    ctx.moveTo(-210, 520); ctx.quadraticCurveTo(-220, 230, -95, 170);
+    ctx.lineTo(95, 170); ctx.quadraticCurveTo(220, 230, 210, 520); ctx.closePath();
+    ctx.fillStyle = HOODIE; ctx.fill(); ctx.lineWidth = 9; ctx.strokeStyle = OUT; ctx.stroke();
+    // шнурки и карман
+    line(-35, 190, -42, 290, '#fff', 7); line(35, 190, 42, 290, '#fff', 7);
+    fillRR(-110, 360, 220, 110, 30, HOODIE_D, OUT, 7);
+    // шея
+    fillRR(-45, 120, 90, 70, 20, SKIN_D, OUT, 7);
+  }
+
+  // --- голова ---
+  let skin = SKIN;
+  if (o.redness) skin = mixColor(SKIN, '#FF3B2F', o.redness);
+  if (o.pale) skin = mixColor(skin, '#E8F0F2', o.pale);
+  // уши
+  circle(-150, 10, 34, skin, OUT, 8); circle(150, 10, 34, skin, OUT, 8);
+  ellipse(0, 0, 150, 160, skin, OUT, 9);
+  // румянец
+  if (o.expr === 'happy') { ellipse(-90, 60, 28, 16, 'rgba(255,110,110,.45)'); ellipse(90, 60, 28, 16, 'rgba(255,110,110,.45)'); }
+
+  // волосы (лохматые)
+  if (!o.hat) {
+    ctx.beginPath();
+    ctx.moveTo(-150, -20);
+    const spikes = [[-160, -110], [-120, -100], [-110, -200], [-60, -150], [-30, -225], [10, -160], [60, -215], [80, -150], [140, -170], [130, -100], [160, -60], [150, -20]];
+    for (const [px, py] of spikes) ctx.lineTo(px, py);
+    ctx.quadraticCurveTo(110, -110, 30, -95);
+    ctx.quadraticCurveTo(-60, -80, -100, -70);
+    ctx.quadraticCurveTo(-140, -50, -150, -20);
+    ctx.fillStyle = '#4A2C1A'; ctx.fill(); ctx.lineWidth = 8; ctx.strokeStyle = OUT; ctx.stroke();
+  }
+
+  // наушники
+  if (o.headphones !== false && !o.hat) {
+    ctx.beginPath(); ctx.arc(0, -10, 178, Math.PI * 1.08, Math.PI * 1.92);
+    ctx.lineWidth = 26; ctx.strokeStyle = OUT; ctx.stroke();
+    ctx.lineWidth = 14; ctx.strokeStyle = '#444'; ctx.stroke();
+    fillRR(-195, -40, 58, 110, 24, '#FF3D57', OUT, 8);
+    fillRR(137, -40, 58, 110, 24, '#FF3D57', OUT, 8);
+  }
+
+  // --- глаза ---
+  const ex = 58, ey = -5;
+  const blink = o.noBlink ? 1 : (Math.sin(t * 2.1) > .985 ? .1 : 1);
+  const expr = o.expr || 'neutral';
+  let eyeR = 40, pupil = 18, eyeH = 46 * blink;
+  if (expr === 'shock') { eyeR = 52; eyeH = 60; pupil = 8; }
+  if (expr === 'angry' || expr === 'determined') { eyeH = 34; }
+  const look = o.look || [0, 0];
+  for (const side of [-1, 1]) {
+    const cx = side * ex;
+    let h = eyeH;
+    if (expr === 'sus' && side === -1) h = 14;
+    ellipse(cx, ey, eyeR, h, '#fff', OUT, 7);
+    if (h > 12) {
+      if (o.glow) {
+        ctx.save(); ctx.shadowColor = '#ff2020'; ctx.shadowBlur = 40 * o.glow;
+        circle(cx + look[0], ey + look[1], pupil + 4, mixColor('#222', '#FF2A2A', o.glow)); ctx.restore();
+      } else circle(cx + look[0] * (expr === 'shock' ? .3 : 1), ey + look[1], pupil, '#222');
+      circle(cx + look[0] + 6, ey + look[1] - 7, 6, '#fff');
+    }
+  }
+  // брови
+  const brow = { happy: [-.15, -30], neutral: [0, -22], angry: [.5, -8], sus: [.25, -15], determined: [.45, -10], shock: [-.2, -55] }[expr] || [0, -20];
+  for (const side of [-1, 1]) {
+    ctx.save(); ctx.translate(side * ex, ey - 50 + brow[1]); ctx.rotate(side * brow[0]);
+    if (expr === 'sus' && side === 1) ctx.rotate(-.35), ctx.translate(0, -12);
+    fillRR(-38, -9, 76, 18, 9, '#3A2213');
+    ctx.restore();
+  }
+
+  // --- нос ---
+  ctx.beginPath(); ctx.moveTo(0, 30); ctx.quadraticCurveTo(-18, 62, 4, 66);
+  ctx.lineWidth = 7; ctx.strokeStyle = mixColor(skin, '#000', .35); ctx.stroke();
+
+  // --- рот ---
+  const m = clamp(o.mouth || 0);
+  ctx.save(); ctx.translate(0, 105);
+  if (expr === 'happy' && m < .1) {
+    ctx.beginPath(); ctx.arc(0, -20, 52, .2, Math.PI - .2); ctx.lineWidth = 9; ctx.strokeStyle = OUT; ctx.stroke();
+  } else if (expr === 'sus' && m < .1) {
+    ctx.beginPath(); ctx.moveTo(-40, 0); ctx.quadraticCurveTo(0, -6, 45, -14); ctx.lineWidth = 9; ctx.strokeStyle = OUT; ctx.stroke();
+  } else if (expr === 'determined' && m < .1) {
+    ctx.beginPath(); ctx.moveTo(-55, -10); ctx.quadraticCurveTo(0, 30, 60, -22); ctx.lineWidth = 9; ctx.strokeStyle = OUT; ctx.stroke();
+  } else if (expr === 'shock') {
+    ellipse(0, 5, 30, 40 + m * 10, '#5A0E14', OUT, 8);
+  } else if (expr === 'angry' || m > .1) {
+    const big = expr === 'angry' ? 1 : .7;
+    const mh = (14 + 55 * Math.max(m, expr === 'angry' ? .55 : 0)) * big;
+    ctx.beginPath(); ctx.ellipse(0, 5, 70 * big, mh, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#5A0E14'; ctx.fill();
+    ctx.save(); ctx.clip();
+    fillRR(-60, 5 - mh, 120, 22, 4, '#fff');           // зубы
+    ellipse(0, 5 + mh * .8, 40, 22, '#FF6A7A');         // язык
+    ctx.restore();
+    ctx.lineWidth = 8; ctx.strokeStyle = OUT; ctx.stroke();
+  } else {
+    line(-30, 0, 30, 0, OUT, 9);
+  }
+  ctx.restore();
+
+  // --- шляпа детектива ---
+  if (o.hat) {
+    ctx.save(); ctx.translate(0, -105);
+    ellipse(0, 25, 200, 40, '#7A5230', OUT, 8);
+    ctx.beginPath(); ctx.moveTo(-135, 25); ctx.quadraticCurveTo(-130, -110, 0, -115); ctx.quadraticCurveTo(130, -110, 135, 25); ctx.closePath();
+    ctx.fillStyle = '#9A6B3F'; ctx.fill(); ctx.lineWidth = 8; ctx.strokeStyle = OUT; ctx.stroke();
+    ctx.save(); ctx.clip();
+    ctx.strokeStyle = 'rgba(60,35,15,.45)'; ctx.lineWidth = 6;
+    for (let i = -160; i < 160; i += 34) { line(i, -120, i + 60, 40, 'rgba(60,35,15,.4)', 6); line(i + 60, -120, i, 40, 'rgba(60,35,15,.25)', 6); }
+    ctx.restore();
+    fillRR(-136, -12, 272, 28, 6, '#3B2614', OUT, 6);
+    circle(0, -118, 14, '#3B2614', OUT, 5);
+    ctx.restore();
+  }
+
+  // --- очки детектива ---
+  if (o.glasses) {
+    circle(-ex, ey, 54, 'rgba(200,230,255,.18)', '#111', 9);
+    circle(ex, ey, 54, 'rgba(200,230,255,.18)', '#111', 9);
+    line(-ex + 54, ey - 6, ex - 54, ey - 6, '#111', 9);
+    line(-ex - 54, ey - 6, -150, ey - 15, '#111', 8);
+    line(ex + 54, ey - 6, 150, ey - 15, '#111', 8);
+  }
+
+  // --- мемные пиксельные очки (падают сверху) ---
+  if (o.shades != null) {
+    const k = o.shades; // 0 — сверху, 1 — на месте
+    const sy = lerp(-700, ey - 25, easeOut(k));
+    ctx.save(); ctx.translate(0, sy);
+    const px = 16; ctx.fillStyle = '#000';
+    const rows = ['1111111111111111111111', '1222211111111222211110', '0122221100000122221100', '0011110000000011110000'];
+    const ox = -rows[0].length * px / 2;
+    rows.forEach((r, j) => [...r].forEach((c, i) => {
+      if (c === '0') return;
+      ctx.fillStyle = c === '2' && (i + j) % 3 === 0 ? '#fff' : '#000';
+      if (c === '2' && (i + j) % 3 !== 0) ctx.fillStyle = '#000';
+      ctx.fillRect(ox + i * px, j * px, px, px);
+      if (c === '2' && (i + j) % 3 === 0) { ctx.fillStyle = '#fff'; ctx.fillRect(ox + i * px, j * px, px, px); }
+    }));
+    ctx.restore();
+  }
+
+  // пар из ушей
+  if (o.steam) {
+    for (const side of [-1, 1]) for (let i = 0; i < 4; i++) {
+      const ph = ((t * 1.6 + i * .25) % 1);
+      ctx.globalAlpha = (1 - ph) * .85 * o.steam;
+      circle(side * (175 + ph * 120), 0 - ph * 160, 22 + ph * 40, '#fff');
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // капля пота
+  if (o.sweat) {
+    const ph = (t * .8) % 1;
+    ctx.save(); ctx.translate(120, -80 + ph * 80); ctx.globalAlpha = 1 - ph * .5;
+    ctx.beginPath(); ctx.moveTo(0, -30); ctx.quadraticCurveTo(22, 5, 0, 18); ctx.quadraticCurveTo(-22, 5, 0, -30);
+    ctx.fillStyle = '#7FD3FF'; ctx.fill(); ctx.lineWidth = 5; ctx.strokeStyle = OUT; ctx.stroke(); ctx.restore();
+  }
+  ctx.restore();
+}
+
+function mixColor(a, b, k) {
+  const pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16);
+  const r = Math.round(lerp(pa >> 16, pb >> 16, k)), g = Math.round(lerp((pa >> 8) & 255, (pb >> 8) & 255, k)), bl = Math.round(lerp(pa & 255, pb & 255, k));
+  return `rgb(${r},${g},${bl})`;
+}
+
+function hand(x, y, s = 1, fill = SKIN) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  ellipse(0, 0, 48, 42, fill, OUT, 8);
+  for (let i = -1; i <= 1; i++) ellipse(i * 26, -36, 14, 20, fill, OUT, 6);
+  ctx.restore();
+}
+
+// ---------- фоны ----------
+function roomBG(t, tint = 0) {
+  // стена
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, mixColor('#3B2E6E', '#5A0F1A', tint)); g.addColorStop(1, mixColor('#1A1638', '#22050A', tint));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  // окно с луной
+  fillRR(70, 170, 300, 360, 18, '#0E1230', '#11102A', 14);
+  circle(270, 270, 46, '#FFF3B0');
+  for (let i = 0; i < 9; i++) circle(100 + rand(i) * 240, 200 + rand(i + 9) * 300, 3, '#fff');
+  line(220, 170, 220, 530, '#11102A', 12); line(70, 350, 370, 350, '#11102A', 12);
+  // постер
+  ctx.save(); ctx.translate(820, 330); ctx.rotate(.06);
+  fillRR(-150, -190, 300, 380, 10, '#FF7A2F', OUT, 8);
+  bigText('GG', 0, -60, 130, '#fff', OUT, { lw: 14 });
+  bigText('EZ', 0, 80, 110, '#FFE14D', OUT, { lw: 14 });
+  ctx.restore();
+  // RGB-лента по низу стены
+  const hue = (t * 120) % 360;
+  for (let i = 0; i < 12; i++) { ctx.fillStyle = `hsl(${(hue + i * 30) % 360},90%,60%)`; ctx.fillRect(i * 90, 1050, 90, 14); }
+}
+function deskFG(t, glow = '#5BC8FF') {
+  // свечение монитора на персонаже (сверху вниз)
+  const g = ctx.createRadialGradient(W / 2, 1500, 50, W / 2, 1250, 900);
+  g.addColorStop(0, glow + '55'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  // стол
+  fillRR(-20, 1270, W + 40, 700, 0, '#6B4A33', OUT, 10);
+  ctx.fillStyle = '#5A3C28'; ctx.fillRect(0, 1290, W, 18);
+  // монитор — задняя крышка снизу кадра (камера «за монитором»)
+  fillRR(170, 1330, 740, 300, 26, '#23232F', OUT, 10);
+  fillRR(470, 1300, 140, 40, 8, '#2C2C3A', OUT, 7);
+  // клавиатура с подсветкой
+  ctx.save(); ctx.globalAlpha = .9;
+  const hue = (t * 160) % 360;
+  for (let i = 0; i < 9; i++) { ctx.fillStyle = `hsl(${(hue + i * 40) % 360},90%,60%)`; ctx.fillRect(220 + i * 72, 1660, 56, 26); }
+  ctx.restore();
+  // мышка и энергетик
+  ellipse(940, 1720, 50, 70, '#333', OUT, 8);
+  fillRR(70, 1560, 90, 170, 16, '#7CFF4F', OUT, 8);
+  bigText('⚡', 115, 1640, 60, '#111', null);
+}
+
+// «экран монитора» — обрамление на весь кадр
+function screenFrame(drawInside, t, opts = {}) {
+  ctx.fillStyle = '#0c0c14'; ctx.fillRect(0, 0, W, H);
+  const x = 40, y = 220, w = W - 80, h = 1080;
+  fillRR(x - 24, y - 24, w + 48, h + 48, 34, '#2B2B38', OUT, 10);
+  ctx.save(); rr(x, y, w, h, 14); ctx.clip();
+  drawInside(x, y, w, h);
+  // строки развёртки
+  ctx.globalAlpha = .07; ctx.fillStyle = '#000';
+  for (let i = 0; i < h; i += 6) ctx.fillRect(x, y + i, w, 3);
+  ctx.restore();
+  // подставка
+  fillRR(W / 2 - 70, y + h + 24, 140, 120, 6, '#2B2B38', OUT, 8);
+  fillRR(W / 2 - 220, y + h + 140, 440, 36, 18, '#2B2B38', OUT, 8);
+  // руки игрока на клавиатуре/мыши снизу
+  if (opts.hands !== false) {
+    fillRR(130, 1660, 520, 120, 20, '#1E1E28', OUT, 8);
+    for (let i = 0; i < 6; i++) fillRR(150 + i * 82, 1680, 66, 34, 6, '#3A3A4A');
+    ellipse(820, 1720, 60, 80, '#333', OUT, 8);
+    const tap = Math.abs(Math.sin(t * 14)) * 10;
+    hand(300, 1640 + tap, 1.2); hand(820, 1650 + (opts.clicking ? tap : 0), 1.2);
+  }
+}
+
+// FPS-вид внутри «игры» (оригинальная мультяшная арена)
+function arena(x, y, w, h, t, o = {}) {
+  // небо + стены (песочная «пустынная» карта)
+  const g = ctx.createLinearGradient(0, y, 0, y + h);
+  g.addColorStop(0, '#8FD3FF'); g.addColorStop(.45, '#DDF2FF'); g.addColorStop(.46, '#E9C98C'); g.addColorStop(1, '#C99A55');
+  ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
+  ctx.fillStyle = '#D9B271'; ctx.fillRect(x, y + h * .2, w * .28, h * .27); ctx.fillRect(x + w * .72, y + h * .15, w * .28, h * .32);
+  ctx.strokeStyle = 'rgba(120,80,30,.4)'; ctx.lineWidth = 4;
+  for (let i = 0; i < 6; i++) { ctx.strokeRect(x + 10, y + h * .22 + i * 45, w * .26 - 20, 40); }
+  // ящики
+  fillRR(x + w * .06, y + h * .55, 230, 230, 6, '#B97A3C', OUT, 8);
+  line(x + w * .06, y + h * .55, x + w * .06 + 230, y + h * .55 + 230, '#7A4A1E', 8);
+  line(x + w * .06 + 230, y + h * .55, x + w * .06, y + h * .55 + 230, '#7A4A1E', 8);
+  // дым
+  if (o.smoke) {
+    for (let i = 0; i < 14; i++) {
+      const a = i / 14 * Math.PI * 2, r = 140 + rand(i) * 70;
+      const sx = x + w / 2 + Math.cos(a + t * .2) * r * .9, sy = y + h * .42 + Math.sin(a + t * .2) * r * .55;
+      circle(sx, sy, 130 + rand(i + 3) * 60 + Math.sin(t * 2 + i) * 8, i % 2 ? '#C9CED6' : '#B6BCC6');
+    }
+    circle(x + w / 2, y + h * .42, 200, '#D2D6DD');
+  }
+  // враг
+  if (o.enemy) {
+    const ex = x + w * (o.enemyX || .5), ey = y + h * .42;
+    ctx.save(); ctx.globalAlpha = o.enemyAlpha ?? 1;
+    fillRR(ex - 40, ey - 20, 80, 120, 20, '#C0392B', OUT, 6);
+    circle(ex, ey - 50, 38, '#F6C9A0', OUT, 6);
+    fillRR(ex - 40, ey - 92, 80, 30, 12, '#222', OUT, 5);
+    ctx.restore();
+  }
+  // оружие игрока снизу справа (условное мультяшное)
+  ctx.save(); ctx.translate(x + w * .68, y + h * .86 + (o.recoil || 0)); ctx.rotate(-.25);
+  fillRR(-60, -40, 360, 90, 20, '#3A3F4A', OUT, 8);
+  fillRR(-140, -20, 120, 36, 10, '#2A2E37', OUT, 7);
+  fillRR(120, 40, 70, 140, 14, '#2A2E37', OUT, 7);
+  fillRR(40, -80, 120, 40, 10, '#4A505C', OUT, 6);
+  hand(220, 90, 1.2);
+  ctx.restore();
+  // прицел
+  const cx = x + w / 2 + (o.aimX || 0), cy = y + h * .42 + (o.aimY || 0);
+  const cc = o.crossColor || '#3CFF6B';
+  line(cx - 34, cy, cx - 12, cy, cc, 6); line(cx + 12, cy, cx + 34, cy, cc, 6);
+  line(cx, cy - 34, cx, cy - 12, cc, 6); line(cx, cy + 12, cx, cy + 34, cc, 6);
+  // HUD
+  fillRR(x + 20, y + h - 90, 220, 64, 12, 'rgba(0,0,0,.55)');
+  bigText('❤ ' + (o.hp ?? 100), x + 130, y + h - 58, 40, o.hp === 0 ? '#FF4B4B' : '#fff', null);
+  fillRR(x + w / 2 - 150, y + 20, 300, 70, 14, 'rgba(0,0,0,.55)');
+  bigText(o.score || '0 : 12', x + w / 2, y + 56, 46, '#fff', null);
+}
+
+// ---------- СЦЕНЫ ----------
+function scene1(t) {
+  // 0–2.6: игрок довольный запускает игру
+  if (t < 2.6) {
+    const zoom = 1 + t * .02;
+    ctx.save(); ctx.translate(W / 2, H / 2); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -H / 2);
+    roomBG(t);
+    const bob = Math.sin(t * 4) * 6;
+    drawGuy(W / 2, 760 + bob, 1.15, { t, expr: 'happy', look: [0, 10] });
+    // руки потирает
+    const rub = Math.sin(t * 18) * 14;
+    hand(W / 2 - 60 + rub, 1240, 1.3); hand(W / 2 + 60 - rub, 1240, 1.3);
+    deskFG(t);
+    ctx.restore();
+    // заголовок
+    const k = backOut(prog(t, .1, .6));
+    ctx.save(); ctx.translate(W / 2, 260); ctx.scale(k, k); ctx.rotate(-.04);
+    fillRR(-470, -120, 940, 240, 36, '#FFE14D', OUT, 10);
+    bigText('КАК РОЖДАЕТСЯ', 0, -45, 78, OUT, null);
+    bigText('ЧИТЕР В CS2', 0, 50, 96, '#FF3D57', OUT, { lw: 16 });
+    ctx.restore();
+    return;
+  }
+  // 2.6–3.7: экран загрузки
+  if (t < 3.7) {
+    screenFrame((x, y, w, h) => {
+      const g = ctx.createLinearGradient(0, y, 0, y + h); g.addColorStop(0, '#1F2A44'); g.addColorStop(1, '#0B0F1C');
+      ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
+      bigText('CS2', x + w / 2, y + 380, 230, '#FFB23F', '#000', { lw: 24 });
+      bigText('ЗАГРУЗКА…', x + w / 2, y + 620, 60, '#fff', null);
+      const k = prog(t, 2.7, 3.6);
+      fillRR(x + 120, y + 700, w - 240, 44, 22, '#2B3550');
+      fillRR(x + 120, y + 700, Math.max(44, (w - 240) * easeInOut(k)), 44, 22, '#3CFF6B');
+      bigText('нажмите «Играть», чтобы страдать', x + w / 2, y + 840, 36, '#8FA0C8', null, { weight: 700 });
+    }, t, { clicking: true });
+    return;
+  }
+  // 3.7–6.0: ПОРАЖЕНИЕ 0:13
+  const k = prog(t, 3.7, 4.1);
+  const [sx, sy] = shakeXY(t, 18 * (1 - prog(t, 3.75, 4.3)));
+  ctx.save(); ctx.translate(sx, sy);
+  screenFrame((x, y, w, h) => {
+    arena(x, y, w, h, t, { score: '0 : 13', hp: 0 });
+    ctx.fillStyle = `rgba(120,0,0,${.65 * k})`; ctx.fillRect(x, y, w, h);
+    const s = backOut(prog(t, 3.75, 4.15));
+    ctx.save(); ctx.translate(x + w / 2, y + h * .38); ctx.scale(s, s);
+    bigText('ПОРАЖЕНИЕ', 0, 0, 150, '#FF3D3D', '#fff', { lw: 22 });
+    bigText('0 : 13', 0, 190, 200, '#fff', '#000', { lw: 26 });
+    ctx.restore();
+  }, t);
+  ctx.restore();
+  // эмодзи-реакция
+  if (t > 4.4) {
+    const p = backOut(prog(t, 4.4, 4.8));
+    ctx.save(); ctx.translate(880, 1560); ctx.scale(p, p); ctx.rotate(Math.sin(t * 6) * .1);
+    bigText('💀', 0, 0, 170, '#fff', null, { emoji: true });
+    ctx.restore();
+  }
+}
+
+function scene2(t) {
+  // 6.0–9.8: вид в игре — выстрел через дым
+  if (t < 9.8) {
+    const shotT = 8.2;
+    const dead = t > shotT;
+    const [sx, sy] = dead ? shakeXY(t, 24 * (1 - prog(t, shotT, shotT + .6))) : [0, 0];
+    ctx.save(); ctx.translate(sx, sy);
+    screenFrame((x, y, w, h) => {
+      arena(x, y, w, h, t, { smoke: true, score: '0 : 13', hp: dead ? 0 : 100, aimX: Math.sin(t * 1.3) * 60, aimY: Math.sin(t * 2.1) * 20, recoil: 0 });
+      // глаза в дыму (враг видит!)
+      if (t > 7.0 && !dead) {
+        const a = prog(t, 7.0, 7.4);
+        ctx.globalAlpha = a;
+        const ex = x + w / 2 + 40, ey = y + h * .4;
+        ellipse(ex - 30, ey, 22, 14, '#FF2A2A'); ellipse(ex + 30, ey, 22, 14, '#FF2A2A');
+        ctx.globalAlpha = 1;
+      }
+      // трассер пули из дыма
+      if (t > shotT - .15 && t < shotT + .25) {
+        const k = prog(t, shotT - .15, shotT);
+        ctx.save(); ctx.shadowColor = '#FFE14D'; ctx.shadowBlur = 30;
+        line(x + w / 2 + 40, y + h * .4, lerp(x + w / 2 + 40, x + w / 2, k), lerp(y + h * .4, y + h + 50, k), '#FFE14D', 14);
+        ctx.restore();
+      }
+      if (dead) {
+        const k = prog(t, shotT, shotT + .3);
+        ctx.fillStyle = `rgba(200,0,0,${.55 * k})`; ctx.fillRect(x, y, w, h);
+        // трещины
+        ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 5;
+        for (let i = 0; i < 8; i++) { const a = i / 8 * 6.28 + .3; line(x + w / 2, y + h * .55, x + w / 2 + Math.cos(a) * 400 * k, y + h * .55 + Math.sin(a) * 400 * k, 'rgba(255,255,255,.6)', 5); }
+        const s = backOut(prog(t, shotT + .1, shotT + .45));
+        ctx.save(); ctx.translate(x + w / 2, y + h * .28); ctx.scale(s, s);
+        bigText('ВЫ УБИТЫ', 0, 0, 120, '#fff', '#B00000', { lw: 20 });
+        ctx.restore();
+        // килфид
+        const kf = easeOut(prog(t, shotT + .2, shotT + .5));
+        ctx.save(); ctx.translate(x + w - 20 + (1 - kf) * 700, y + 130);
+        fillRR(-760, -40, 760, 80, 12, 'rgba(0,0,0,.75)', '#FF3D3D', 4);
+        bigText('xX_Snayper_Xx', -600, 0, 34, '#FF7A7A', null);
+        bigText('🎯💨', -405, 0, 38, '#fff', null, { emoji: true });
+        bigText('ТЫ', -310, 0, 38, '#7FD3FF', null);
+        bigText('(через дым!)', -150, 0, 32, '#FFE14D', null, { weight: 700 });
+        ctx.restore();
+      }
+    }, t, { clicking: !dead });
+    ctx.restore();
+    return;
+  }
+  // 9.8–13: лицо — злость, «ДА ОН ЧИТЕР!»
+  const ang = prog(t, 9.8, 10.4);
+  const scream = t > 11.25;
+  const [sx, sy] = shakeXY(t, scream ? 14 : 4);
+  const zoom = scream ? 1.25 + prog(t, 11.25, 11.5) * .1 : 1.05;
+  ctx.save(); ctx.translate(W / 2 + sx, H / 2 + sy); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -H / 2);
+  roomBG(t, scream ? .6 : .2 * ang);
+  if (scream) {
+    // лучи
+    ctx.save(); ctx.translate(W / 2, 760);
+    for (let i = 0; i < 16; i++) { ctx.rotate(Math.PI / 8); ctx.fillStyle = i % 2 ? 'rgba(255,60,40,.35)' : 'rgba(255,200,40,.25)'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(1400, -150); ctx.lineTo(1400, 150); ctx.fill(); }
+    ctx.restore();
+  }
+  drawGuy(W / 2, 760, 1.2, { t, expr: 'angry', redness: .25 + .5 * ang, mouth: mouthAnim(t), steam: scream ? 1 : ang * .4, look: [0, 8], noBlink: true });
+  // кулаки трясутся
+  hand(W / 2 - 230 + sx * 2, 1180 + Math.sin(t * 30) * 12, 1.5, mixColor(SKIN, '#FF3B2F', .3));
+  hand(W / 2 + 230 - sx * 2, 1180 + Math.cos(t * 30) * 12, 1.5, mixColor(SKIN, '#FF3B2F', .3));
+  deskFG(t, '#FF4B4B');
+  ctx.restore();
+  if (t > 10.2 && t < 11.2) {
+    const p = backOut(prog(t, 10.2, 10.5));
+    ctx.save(); ctx.translate(W / 2, 300); ctx.scale(p, p);
+    bigText('?!', 0, 0, 220, '#FFE14D', OUT, { lw: 22 });
+    ctx.restore();
+  }
+}
+
+function scene3(t) {
+  // 13–21: детектив, доска с фото и красными нитками
+  const lt = t - 13;
+  // стена-пробка
+  ctx.fillStyle = '#B8834F'; ctx.fillRect(0, 0, W, H);
+  for (let i = 0; i < 260; i++) circle(rand(i) * W, rand(i + 500) * H, 3 + rand(i + 99) * 4, 'rgba(90,55,25,.35)');
+  fillRR(30, 120, W - 60, 1060, 10, null, '#6B4423', 26);
+
+  const photos = [
+    { x: 210, y: 300, name: 'ВРАГ №1', c: '#C0392B', r: -.08 },
+    { x: 540, y: 250, name: 'ВРАГ №2', c: '#8E44AD', r: .05 },
+    { x: 870, y: 320, name: 'ВРАГ №3', c: '#16A085', r: .1 },
+    { x: 260, y: 740, name: 'БОТ?', c: '#7F8C8D', r: .06 },
+    { x: 820, y: 760, name: 'ТИММЕЙТ', c: '#2E8BFF', r: -.07, sus: true },
+  ];
+  // нитки (рисуются постепенно)
+  const order = [[0, 1], [1, 2], [2, 4], [4, 3], [3, 0], [0, 4], [1, 3], [1, 4]];
+  order.forEach(([a, b], i) => {
+    const k = easeOut(prog(lt, .4 + i * .35, .8 + i * .35));
+    if (k <= 0) return;
+    const A = photos[a], B = photos[b];
+    line(A.x, A.y - 120, lerp(A.x, B.x, k), lerp(A.y - 120, B.y - 120, k), '#E0122B', 7);
+  });
+  photos.forEach((p, i) => {
+    const k = backOut(prog(lt, i * .15, i * .15 + .35));
+    if (k <= 0) return;
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.scale(k, k);
+    fillRR(-130, -150, 260, 300, 6, '#fff', '#555', 4);
+    fillRR(-110, -130, 220, 200, 4, '#DDE7F0');
+    // портрет-силуэт
+    circle(0, -60, 48, '#F6C9A0', OUT, 5); fillRR(-75, -10, 150, 80, 30, p.c, OUT, 5);
+    if (p.sus) { fillRR(-48, -74, 96, 20, 6, '#111'); }
+    bigText(p.name, 0, 112, 36, '#222', null);
+    circle(0, -150, 16, '#E0122B', OUT, 4);
+    ctx.restore();
+  });
+  // счётчик поражений
+  const cnt = Math.min(5, 1 + Math.floor(lt * 1.5));
+  fillRR(330, 1010, 420, 110, 18, '#FFF7C2', OUT, 7);
+  bigText('Поражений: ' + cnt, 540, 1065, 52, '#B00000', null);
+
+  // детектив снизу
+  const bob = Math.sin(t * 3) * 8;
+  const susT = lt > 5.4;
+  drawGuy(300, 1660 + bob, .85, { t, expr: 'sus', hat: true, glasses: true, mouth: mouthAnim(t), look: susT ? [16, -8] : [Math.sin(t * 1.5) * 12, -6] });
+  // лупа: двигается по доске, потом на тиммейта
+  let mx = 540 + Math.sin(lt * 1.2) * 280, my = 500 + Math.cos(lt * .9) * 160;
+  if (susT) { const k = easeInOut(prog(lt, 5.4, 6.0)); mx = lerp(mx, 820, k); my = lerp(my, 700, k); }
+  // ручка лупы от руки
+  const hx = 520, hy = 1560;
+  line(hx, hy, mx + 90, my + 90, '#5A3A1E', 26);
+  ctx.save(); rr(0, 0, 0, 0, 0);
+  ctx.beginPath(); ctx.arc(mx, my, 120, 0, Math.PI * 2); ctx.save(); ctx.clip();
+  // увеличение под лупой
+  ctx.fillStyle = 'rgba(220,240,255,.25)'; ctx.fillRect(mx - 130, my - 130, 260, 260);
+  if (susT) bigText('👀', mx, my, 120, '#fff', null, { emoji: true });
+  ctx.restore();
+  ctx.lineWidth = 18; ctx.strokeStyle = '#2A2A2A'; ctx.stroke();
+  ctx.restore();
+  hand(hx, hy, 1.3);
+
+  // штамп «ПОДОЗРИТЕЛЬНО!»
+  if (lt > 6.6) {
+    const s = 2.4 - 1.4 * easeOut(prog(lt, 6.6, 6.85));
+    ctx.save(); ctx.translate(560, 640); ctx.rotate(-.18); ctx.scale(s, s);
+    ctx.globalAlpha = clamp(prog(lt, 6.6, 6.75) * 1.2) * .92;
+    fillRR(-420, -85, 840, 170, 14, null, '#E0122B', 14);
+    bigText('ПОДОЗРИТЕЛЬНО!', 0, 0, 92, '#E0122B', null);
+    ctx.restore();
+  }
+}
+
+function scene4(t) {
+  const lt = t - 21;
+  // 21–24.5: таблица статистики 0 / 15
+  if (lt < 3.6) {
+    screenFrame((x, y, w, h) => {
+      ctx.fillStyle = '#121826'; ctx.fillRect(x, y, w, h);
+      bigText('СТАТИСТИКА МАТЧА', x + w / 2, y + 90, 56, '#FFB23F', null);
+      const rows = [['xX_Snayper_Xx', 31, 2], ['Kotletka228', 24, 5], ['NoScopeBabka', 20, 7], ['Тиммейт', 18, 9], ['ТЫ', 0, 15]];
+      rows.forEach((r, i) => {
+        const yy = y + 210 + i * 130, me = r[0] === 'ТЫ';
+        const flash = me && Math.sin(lt * 10) > 0;
+        fillRR(x + 30, yy - 50, w - 60, 105, 14, me ? (flash ? '#6B0F1A' : '#3A0A12') : '#1E2638', me ? '#FF3D57' : null, 5);
+        bigText(r[0], x + 70, yy, 44, me ? '#FF8A9A' : '#fff', null, { align: 'left' });
+        bigText('У: ' + r[1], x + w - 330, yy, 44, '#fff', null);
+        bigText('С: ' + r[2], x + w - 130, yy, 44, '#fff', null);
+      });
+      const s = backOut(prog(lt, 1.0, 1.4));
+      ctx.save(); ctx.translate(x + w / 2, y + h - 170); ctx.scale(s, s); ctx.rotate(-.05);
+      bigText('0 / 15', 0, 0, 170, '#FF3D57', '#fff', { lw: 20 });
+      ctx.restore();
+      bigText('Поражений: 10', x + w / 2, y + h - 50, 44, '#FFE14D', null);
+    }, t, { hands: true });
+    return;
+  }
+  // 24.6–30: лицо — решимость, глаза загораются, очки падают
+  const k = prog(lt, 3.6, 4.6);
+  ctx.fillStyle = mixColor('#1A1638', '#3A0008', k); ctx.fillRect(0, 0, W, H);
+  // спидлайны
+  ctx.save(); ctx.translate(W / 2, 760);
+  for (let i = 0; i < 70; i++) {
+    const a = rand(i) * Math.PI * 2, r0 = 500 + rand(i + 7) * 300 - ((t * 900 + i * 50) % 300);
+    ctx.globalAlpha = .25 * k;
+    line(Math.cos(a) * r0, Math.sin(a) * r0, Math.cos(a) * (r0 + 600), Math.sin(a) * (r0 + 600), '#fff', 4 + rand(i) * 6);
+  }
+  ctx.restore(); ctx.globalAlpha = 1;
+  const zoom = 1 + easeInOut(prog(lt, 3.6, 5.2)) * .35;
+  ctx.save(); ctx.translate(W / 2, 760); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -760);
+  const glow = prog(lt, 4.2, 4.9);
+  const shades = lt > 7.0 ? prog(lt, 7.0, 7.45) : null;
+  drawGuy(W / 2, 760, 1.25, { t, expr: 'determined', glow, mouth: mouthAnim(t), noBlink: true, shades });
+  ctx.restore();
+  // «DEAL»-вспышка, когда очки сели
+  if (lt > 7.45) {
+    const p = backOut(prog(lt, 7.45, 7.75));
+    ctx.save(); ctx.translate(W / 2, 260); ctx.scale(p, p); ctx.rotate(-.06);
+    bigText('РЕЖИМ ЧИТЕРА: ВКЛ', 0, 0, 78, '#3CFF6B', '#000', { lw: 16, shadow: '#3CFF6B', blur: 40 });
+    ctx.restore();
+  }
+  // мигающая рамка
+  ctx.save(); ctx.globalAlpha = .5 * glow * (0.6 + 0.4 * Math.sin(t * 8));
+  ctx.lineWidth = 40; ctx.strokeStyle = '#FF1E1E'; ctx.strokeRect(0, 0, W, H); ctx.restore();
+}
+
+function scene5(t) {
+  const lt = t - 30;
+  // 30–30.9 поиск матча
+  if (lt < .9) {
+    screenFrame((x, y, w, h) => {
+      ctx.fillStyle = '#0F1424'; ctx.fillRect(x, y, w, h);
+      const found = lt > .5;
+      bigText(found ? 'МАТЧ НАЙДЕН!' : 'ПОИСК МАТЧА…', x + w / 2, y + h * .4, 80, found ? '#3CFF6B' : '#fff', null);
+      if (!found) { ctx.save(); ctx.translate(x + w / 2, y + h * .6); ctx.rotate(lt * 12); ctx.beginPath(); ctx.arc(0, 0, 70, 0, 4.5); ctx.lineWidth = 16; ctx.strokeStyle = '#FFB23F'; ctx.stroke(); ctx.restore(); }
+      else bigText('😎', x + w / 2, y + h * .62, 160, '#fff', null, { emoji: true });
+    }, t, { clicking: true });
+    return;
+  }
+  // 30.9–31.7 аимбот: прицел «прилипает» к врагам
+  if (lt < 1.7) {
+    screenFrame((x, y, w, h) => {
+      const k = prog(lt, .9, 1.6);
+      const targets = [-.3, .1, .32];
+      const idx = Math.min(2, Math.floor(k * 3));
+      const ex = targets[idx];
+      arena(x, y, w, h, t, { enemy: true, enemyX: .5 + ex, aimX: ex * w, aimY: 0, crossColor: '#FF2A2A', recoil: Math.sin(t * 60) * 10, score: '0 : 0' });
+      // ESP-рамки
+      targets.forEach((tx, i) => {
+        ctx.strokeStyle = '#FF2A2A'; ctx.lineWidth = 5; ctx.setLineDash([16, 10]);
+        ctx.strokeRect(x + w * (.5 + tx) - 60, y + h * .42 - 110, 120, 230);
+        ctx.setLineDash([]);
+      });
+      bigText('AIMBOT ✓  WALLHACK ✓', x + w / 2, y + 140, 50, '#FF2A2A', '#000', { lw: 10 });
+    }, t, { clicking: true });
+    return;
+  }
+  // 31.7–35.4 БАН + шок
+  if (lt < 5.5) {
+    // первые полсекунды — красный экран бана во весь кадр
+    if (lt < 2.6) {
+      const [sx, sy] = shakeXY(t, 26 * (1 - prog(lt, 1.7, 2.4)));
+      ctx.save(); ctx.translate(sx, sy);
+      ctx.fillStyle = Math.sin(t * 20) > 0 ? '#B00010' : '#7A0008'; ctx.fillRect(-40, -40, W + 80, H + 80);
+      const s = backOut(prog(lt, 1.7, 2.0));
+      ctx.save(); ctx.translate(W / 2, 760); ctx.scale(s, s);
+      fillRR(-470, -300, 940, 600, 40, '#1a0004', '#fff', 14);
+      bigText('⛔', 0, -160, 150, '#fff', null, { emoji: true });
+      bigText('VAC-БАН', 0, 10, 170, '#FF3D3D', '#fff', { lw: 16 });
+      bigText('Аккаунт заблокирован навсегда', 0, 170, 44, '#fff', null, { weight: 700 });
+      ctx.restore();
+      bigText('Время в игре: 1 секунда', W / 2, 1180, 50, '#FFE14D', '#000', { lw: 10 });
+      ctx.restore();
+      return;
+    }
+    // шокированное лицо, очки сползают, мигалка
+    const alarm = Math.sin(t * 9) > 0;
+    roomBG(t, .3);
+    ctx.fillStyle = alarm ? 'rgba(255,0,0,.28)' : 'rgba(0,60,255,.22)'; ctx.fillRect(0, 0, W, H);
+    const fall = prog(lt, 2.6, 3.4);
+    drawGuy(W / 2, 760, 1.2, { t, expr: 'shock', pale: .5, sweat: true, noBlink: true });
+    // очки сползают вниз и падают
+    ctx.save(); ctx.translate(W / 2, 760 + 1.2 * (-30) + easeIn(fall) * 900); ctx.rotate(fall * 1.2); ctx.scale(1.2, 1.2);
+    ctx.fillStyle = '#000'; ctx.fillRect(-176, 0, 352, 16); ctx.fillRect(-160, 16, 96, 32); ctx.fillRect(32, 16, 96, 32);
+    ctx.restore();
+    deskFG(t, '#FF4B4B');
+    // кнопка «УДАЛИТЬ ЧИТЫ» мем
+    if (lt > 3.6) {
+      const p = backOut(prog(lt, 3.6, 3.9));
+      ctx.save(); ctx.translate(W / 2, 260); ctx.scale(p, p); ctx.rotate(.05);
+      fillRR(-380, -80, 760, 160, 30, '#fff', OUT, 10);
+      bigText('VAC 👁 НЕ СПИТ', 0, 0, 76, '#B00010', null, { emoji: true });
+      ctx.restore();
+    }
+    return;
+  }
+  // 35.5–39 финальная карточка
+  const p = elastic(prog(lt, 5.5, 6.4));
+  const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#FF3D57'); g.addColorStop(1, '#6A2CFF');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.save(); ctx.translate(W / 2, H / 2 - 120);
+  for (let i = 0; i < 20; i++) { ctx.rotate(Math.PI / 10 + t * .002); ctx.fillStyle = i % 2 ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.06)'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(1600, -160); ctx.lineTo(1600, 160); ctx.fill(); }
+  ctx.restore();
+  // маленький забаненный герой
+  drawGuy(W / 2, 1180, .75, { t, expr: 'shock', pale: .4, noBlink: true });
+  ctx.save(); ctx.translate(W / 2, 1230); ctx.rotate(-.2);
+  fillRR(-210, -45, 420, 90, 10, '#B00010', '#fff', 6); bigText('ЗАБАНЕН', 0, 0, 56, '#fff', null);
+  ctx.restore();
+  ctx.save(); ctx.translate(W / 2, 520); ctx.scale(p, p); ctx.rotate(Math.sin(t * 3) * .03);
+  bigText('Продолжение', 0, -90, 110, '#fff', OUT, { lw: 20 });
+  bigText('следует? 😂', 0, 50, 110, '#FFE14D', OUT, { lw: 20, emoji: true });
+  ctx.restore();
+}
+
+// ---------- переходы ----------
+function wipe(t, at) {
+  // быстрая «вспышка» на склейке сцен
+  const k = 1 - Math.abs(t - at) / .12;
+  if (k > 0) { ctx.fillStyle = `rgba(255,255,255,${k * .9})`; ctx.fillRect(0, 0, W, H); }
+}
+function zoomWipe(t, at, color = '#FFE14D') {
+  const k = prog(t, at - .25, at), k2 = prog(t, at, at + .25);
+  if (k <= 0 || k2 >= 1) return;
+  const r = t < at ? easeIn(k) * 1300 : (1 - easeOut(k2)) * 1300;
+  ctx.fillStyle = color; ctx.beginPath(); ctx.arc(W / 2, H / 2, r, 0, Math.PI * 2); ctx.fill();
+}
+
+function renderFrame(t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+  if (t < 6) scene1(t);
+  else if (t < 13) scene2(t);
+  else if (t < 21) scene3(t);
+  else if (t < 30) scene4(t);
+  else scene5(t);
+  [2.6, 3.7, 9.8, 24.6, 30, 30.9, 31.7, 34.3].forEach(a => wipe(t, a));
+  zoomWipe(t, 6, '#FFE14D'); zoomWipe(t, 13, '#FF3D57'); zoomWipe(t, 21, '#2E8BFF'); zoomWipe(t, 35.5, '#fff');
+  drawSubtitles(t);
+}
+window.renderFrame = renderFrame;
+window.DURATION = DURATION;
+
+// ---------- предпросмотр в браузере ----------
+if (!location.search.includes('render')) {
+  const audio = new Audio('cs2_cheater_audio.m4a');
+  let start = null;
+  function loop(ts) {
+    if (start === null) start = ts;
+    const t = ((ts - start) / 1000) % DURATION;
+    renderFrame(t);
+    requestAnimationFrame(loop);
+  }
+  document.fonts.ready.then(() => requestAnimationFrame(loop));
+  cv.addEventListener('click', () => { start = null; audio.currentTime = 0; audio.play().catch(() => {}); });
+}
+</script>
+</body>
+</html>
