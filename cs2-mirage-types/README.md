@@ -3,7 +3,7 @@
 - `mirage_types_tiktok.mp4` — видео 1080×1920 (9:16), 44,5 с: озвучка, бит, эффекты, субтитры (мат в субтитрах — со звёздочками).
 - `cartoon.html` — исходник анимации (canvas), клик — проиграть со звуком.
 - `vo/*.wav` — реплики (ElevenLabs): h — мидовый герой (Egor), c — кемпер (EscobarRKZ), r — вечный A (Evgeniy Rybakov),
-  m — тиммейт (Unreality2ime). `n1.wav` — рассказчик, пока временный (RHVoice): у ElevenLabs была занята очередь.
+  m — тиммейт (Unreality2ime). `n1.wav` — рассказчик (Pavel).
 
 ## Пересборка
 ```bash
