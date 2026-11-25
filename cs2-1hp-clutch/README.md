@@ -1,8 +1,9 @@
-# «1 HP против пятерых» — 2D-мультфильм для TikTok (CS2)
+# «1 HP против пятерых» · Серия 1 — 2D-мультфильм для TikTok (CS2)
 
-- `clutch_tiktok.mp4` — видео 1080×1920 (9:16), 37 с: озвучка ElevenLabs, бит, эффекты, субтитры.
+- `clutch_tiktok.mp4` — видео 1080×1920 (9:16), 43,5 с: соперники s1mple, donk, m0NESY, kyousuke, magixx; герой делает эйс; в конце «Продолжение следует… Серия 1». Озвучка ElevenLabs, бит, эффекты, субтитры.
 - `cartoon.html` — исходник анимации (canvas), клик — проиграть со звуком.
-- `vo/*.wav` — реплики: n1 — рассказчик (Pavel), m1–m3 — тиммейт (Evgeniy Rybakov), mom — мама (Liubava).
+- `vo/*.wav` — реплики: n1, n2 — рассказчик (Pavel), m1–m3 — тиммейт (Evgeniy Rybakov), mom — мама (Liubava), idu — герой (Egor).
+- Основная часть сдвинута на 2,5 с после хука: `SHIFT` в cartoon.html и `SH` в tools/audio.py.
 
 ## Пересборка
 ```bash

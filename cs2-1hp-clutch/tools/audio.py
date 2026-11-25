@@ -1,7 +1,7 @@
 """Звуковая дорожка «1 HP против пятерых»: озвучка + бит + эффекты (синтез локально).
 Использование: python3 audio.py <папка с репликами|-> <out.wav>"""
 import sys, wave, os, numpy as np
-SR = 44100; DUR = 37.0
+SR = 44100; DUR = 43.5
 vo_dir, out = sys.argv[1], sys.argv[2]
 USE_VO = vo_dir != '-'
 mix = np.zeros(int(SR * DUR)); rng = np.random.default_rng(3)
@@ -49,21 +49,28 @@ def sad():
         t = T(d); out.append(sum(np.sin(2 * np.pi * f * h * t) / h for h in range(1, 5)) * np.minimum(1, t / .02) * np.minimum(1, (d - t) / .05) * .3)
     return np.concatenate(out)
 
+SH = 2.5                           # основная часть сдвинута после длинного хука
+def A(sig, t, g=1.0): add(mix, sig, t + SH, g)
 # бит во время клатча
 bpm = 140; beat = 60 / bpm; music = np.zeros_like(mix); b = 0; t = 3.3
 while t < 19.3:
     if not (13.3 < t < 15.0):
-        add(music, kick(), t, .9 if b % 2 == 0 else 0)
-        if b % 4 == 2: add(music, snare(), t, .55)
-        add(music, hat(), t + beat / 2, .5)
-        add(music, bass_note([55, 55, 65.4, 49][(b // 8) % 4], beat * .9), t, .5)
+        add(music, kick(), t + SH, .9 if b % 2 == 0 else 0)
+        if b % 4 == 2: add(music, snare(), t + SH, .55)
+        add(music, hat(), t + SH + beat / 2, .5)
+        add(music, bass_note([55, 55, 65.4, 49][(b // 8) % 4], beat * .9), t + SH, .5)
     b += 1; t += beat
-# весёлый финальный бит
-b = 0; t = 33.9
-while t < 36.5:
-    add(music, kick(), t, .7 if b % 2 == 0 else 0); add(music, hat(), t + .2, .4); b += 1; t += .43
+# победный бит
+b = 0; t = 29.5
+while t < 34.2:
+    add(music, kick(), t + SH, .8 if b % 2 == 0 else 0); add(music, hat(), t + SH + .21, .45)
+    if b % 4 == 2: add(music, snare(), t + SH, .4)
+    b += 1; t += .43
+def pad(d, f):
+    t = T(d); s_ = sum(np.sin(2 * np.pi * f * k * t + k) / k for k in (1, 1.5, 2, 3)); return s_ * np.minimum(1, t / 1.0) * np.minimum(1, (d - t) / 1.0) * .15
+add(music, pad(6.5, 110), 34.3 + SH, 1.0)
 
-VO = [('n1', .05), ('m1', 3.5), ('m2', 15.9), ('mom', 25.4), ('m3', 31.0)]
+VO = [('n1', .05), ('m1', 6.0), ('m2', 18.4), ('mom', 27.9), ('idu', 32.2), ('m3', 34.1), ('n2', 37.95)]
 duck = np.ones_like(mix)
 if USE_VO:
     for name, st in VO:
@@ -73,26 +80,27 @@ if USE_VO:
 duck = np.convolve(duck, np.ones(4410) / 4410, 'same')
 mix += music * duck * .35
 
-# 0–3.3: бомба, сердце, сирена — с первого кадра
-for i in range(10): add(mix, beep(), i * .33, .5)
-for i in range(5): add(mix, heartbeat(), i * .7, .7)
-add(mix, siren(3.3), 0, 1.0)
-add(mix, whoosh(.4), 3.1, .6); add(mix, stamp(), 3.3, .5)
-# убийства
-add(mix, gunshot(), 8.7, 1.0); add(mix, ding(1760), 8.75, .5); add(mix, pop(400), 8.75, .3)
-add(mix, pop(900), 10.7, .3); add(mix, pop(1100), 11.15, .3); add(mix, explosion(), 11.6, .8); add(mix, pop(300), 11.7, .4)
-add(mix, whoosh(.6), 13.0, .6); add(mix, gunshot(), 13.9, .9); add(mix, gunshot(), 14.5, .9); add(mix, ding(1320), 14.6, .5)
-add(mix, stamp(), 15.85, .6)
-# дуэль: ветер и сердце
-add(mix, wind(5.8), 19.4, .6)
-for i in range(9): add(mix, heartbeat(), 19.6 + i * .62 * (1 - i * .03), .7)
-add(mix, riser(1.8), 23.3, .25)
-# мама
-add(mix, door(), 25.2, 1.0); add(mix, scratch(), 25.25, .6)
-add(mix, whoosh(.3), 27.95, .5)
-add(mix, gunshot(), 28.6, 1.0); add(mix, sad(), 28.8, .6)
-add(mix, cricket(1.2), 29.8, .6)
-add(mix, stamp(), 33.9, .6); add(mix, ding(1320), 34.0, .5)
+# хук (время видео): бомба, сердце, сирена с первого кадра; удар на каждом нике
+for i in range(17): add(mix, beep(), i * .33, .45)
+for i in range(8): add(mix, heartbeat(), i * .7, .65)
+add(mix, siren(5.8), 0, 1.0)
+add(mix, whoosh(.3), 1.9, .5)
+for at in (2.7, 3.2, 3.7, 4.25, 4.9): add(mix, stamp(), at, .45)
+# основная часть (время анимации, +SH)
+A(whoosh(.4), 3.1, .6); A(stamp(), 3.3, .5)
+A(gunshot(), 8.7, 1.0); A(ding(1760), 8.75, .5); A(pop(400), 8.75, .3)
+A(pop(900), 10.7, .3); A(pop(1100), 11.15, .3); A(explosion(), 11.6, .8); A(pop(300), 11.7, .4)
+A(whoosh(.6), 13.0, .6); A(gunshot(), 13.9, .9); A(gunshot(), 14.5, .9); A(ding(1320), 14.6, .5)
+A(stamp(), 15.85, .6)
+A(wind(5.8), 19.4, .6)
+for i in range(9): A(heartbeat(), 19.6 + i * .62 * (1 - i * .03), .7)
+A(riser(1.8), 23.3, .25)
+A(door(), 25.2, 1.0); A(scratch(), 25.25, .6)
+A(whoosh(.3), 28.35, .5); A(gunshot(), 28.85, 1.1); A(ding(1760), 28.9, .6); A(stamp(), 28.9, .7)
+for i, f in enumerate([523, 659, 784, 1047]): A(ding(f), 29.55 + i * .1, .5)
+A(stamp(), 31.0, .4)
+for i in range(4): A(ding(880)[:int(SR * .15)], 35.5 + i * .3, .4)
+A(riser(1.2), 38.0, .3); A(stamp(), 38.4, .7)
 
 mix = np.tanh(mix * 1.1) * .9
 mix *= np.clip((DUR - np.arange(len(mix)) / SR) / 1.0, 0, 1)

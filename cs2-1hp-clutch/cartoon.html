@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<title>1 HP против пятерых</title>
+<title>1 HP против пятерых · Серия 1</title>
 <style>
   html,body{margin:0;background:#111;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
   canvas{height:100vh;width:auto;max-width:100vw;aspect-ratio:9/16;display:block}
@@ -15,7 +15,7 @@
 //  «1 HP против пятерых» — 2D-мультфильм 9:16
 //  renderFrame(t) детерминированно рисует кадр в момент t (сек).
 // =====================================================================
-const W = 1080, H = 1920, DURATION = 37;
+const W = 1080, H = 1920, DURATION = 43.5;
 const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
 const FONT = '"Noto Sans","DejaVu Sans",Arial,sans-serif';
@@ -355,16 +355,20 @@ function street(t, scroll = 0, groundY = 1350) {
 
 // ---------- реплики ----------
 // n — рассказчик, m — тиммейт, mom — мама
+const SHIFT = 2.5;   // основная часть сдвинута на 2,5 с из-за длинного хука
 const LINES = [
-  { id: 'n1', who: 'n', t: 0.05, d: 3.25, chunks: ['Один HP. Пятеро врагов.', 'Бомба уже стоит.'] },
-  { id: 'm1', who: 'm', t: 3.5, d: 4.15, chunks: ['Брат… мы в тебя верим.', 'Ну, не очень, но верим.'] },
-  { id: 'm2', who: 'm', t: 15.9, d: 3.42, chunks: ['ДАААА! ДАВАЙ!', 'ТЫ БОГ!'] },
-  { id: 'mom', who: 'mom', t: 25.4, d: 2.96, chunks: ['Я ТРЕТИЙ РАЗ ЗОВУ!', 'ИДИ ЕСТЬ!'] },
-  { id: 'm3', who: 'm', t: 31.0, d: 2.72, chunks: ['…Передай маме, что она', 'сыграла лучше тебя.'] },
+  { id: 'n1', who: 'n', t: 0.05, d: 5.45, chunks: ['Один HP. Бомба стоит.', 'А против него —', 's1mple, donk, m0NESY,', 'kyousuke и magixx'] },
+  { id: 'm1', who: 'm', t: 6.0, d: 4.15, chunks: ['Брат… мы в тебя верим.', 'Ну, не очень, но верим.'] },
+  { id: 'm2', who: 'm', t: 18.4, d: 3.42, chunks: ['ДАААА! ДАВАЙ!', 'ТЫ БОГ!'] },
+  { id: 'mom', who: 'mom', t: 27.9, d: 2.96, chunks: ['Я ТРЕТИЙ РАЗ ЗОВУ!', 'ИДИ ЕСТЬ!'] },
+  { id: 'idu', who: 'p', t: 32.2, d: .95, chunks: ['Иду, мам.'] },
+  { id: 'm3', who: 'm', t: 34.1, d: 3.76, chunks: ['Брат… ты только что', 'сделал эйс против s1mple'] },
+  { id: 'n2', who: 'n', t: 37.95, d: 2.95, chunks: ['А через минуту', 'ему пришло сообщение…'] },
 ];
-const SUB_COLOR = { n: '#FFFFFF', m: '#C9A8FF', mom: '#FF8A85' };
-function speaking(who, t) { for (const l of LINES) if (l.who === who && t >= l.t && t <= l.t + l.d) return true; return false; }
-function mouthOf(who, t) { return speaking(who, t) ? .35 + .65 * Math.abs(Math.sin(t * 17 + who.charCodeAt(0))) * (.6 + .4 * Math.sin(t * 5.3)) : 0; }
+let NOW = 0;
+const SUB_COLOR = { n: '#FFFFFF', m: '#C9A8FF', mom: '#FF8A85', p: '#7FD3FF' };
+function speaking(who, _) { const t = NOW; for (const l of LINES) if (l.who === who && t >= l.t && t <= l.t + l.d) return true; return false; }
+function mouthOf(who, _) { const t = NOW; return speaking(who, t) ? .35 + .65 * Math.abs(Math.sin(t * 17 + who.charCodeAt(0))) * (.6 + .4 * Math.sin(t * 5.3)) : 0; }
 function drawSubtitles(t) {
   for (const l of LINES) {
     if (t < l.t - .05 || t > l.t + l.d + .25) continue;
@@ -383,15 +387,31 @@ function drawSubtitles(t) {
   }
 }
 
+// ---------- соперники ----------
+const PROS = {
+  s1mple: '#F2C200', donk: '#E0122B', m0NESY: '#8A8AA0', kyousuke: '#3BC4D0', magixx: '#7A5AE0',
+};
+function proChar(name, x, y, s, o = {}) {
+  CAST.e.beanie = PROS[name]; CAST.e.hoodie = mixColor(PROS[name], '#555F7A', .55); CAST.e.hoodieD = mixColor(PROS[name], '#3A4258', .6);
+  drawChar('e', x, y, s, o);
+  if (o.noTag) return;
+  ctx.save(); ctx.translate(x, y - 330 * s); ctx.rotate(o.rot || 0);
+  ctx.font = `900 ${Math.round(150 * s)}px ${FONT}`;
+  const w = ctx.measureText(name).width + 60 * s * 3;
+  fillRR(-w / 2, -55 * s * 2, w, 110 * s * 2, 30 * s * 2, 'rgba(0,0,0,.75)', PROS[name], 5);
+  bigText(name, 0, 0, Math.round(75 * s * 2), '#fff', null);
+  ctx.restore();
+}
+
 // ---------- общие элементы ----------
-function enemiesLeft(t) { return t < 8.7 ? 5 : t < 11.6 ? 4 : t < 13.9 ? 3 : t < 14.5 ? 2 : 1; }
+function enemiesLeft(t) { return t < 8.7 ? 5 : t < 11.6 ? 4 : t < 13.9 ? 3 : t < 14.5 ? 2 : t < 28.9 ? 1 : 0; }
 function vsBadge(t) {
   const n = enemiesLeft(t);
-  const changed = [8.7, 11.6, 13.9, 14.5].some(a => t > a && t < a + .3);
+  const changed = [8.7, 11.6, 13.9, 14.5, 28.9].some(a => t > a && t < a + .3);
   const s = changed ? 1.25 : 1;
   ctx.save(); ctx.translate(W - 190, 150); ctx.scale(s, s);
   fillRR(-150, -62, 300, 124, 28, 'rgba(0,0,0,.7)', '#FF3D3D', 7);
-  bigText('1 vs ' + n, 0, 4, 70, n === 1 ? '#FFE14D' : '#fff', null);
+  bigText(n === 0 ? 'ЭЙС ✓' : '1 vs ' + n, 0, 4, 70, n <= 1 ? '#FFE14D' : '#fff', null);
   ctx.restore();
 }
 function hpBadge(t, x = 190, y = 150) {
@@ -508,11 +528,11 @@ function sKill1(t) {
     draw: () => {
       const ex = lerp(860, 680, peek);
       ctx.save(); if (dead) { ctx.translate(ex, 980); ctx.rotate(easeOut(prog(t, 8.7, 9.1)) * 1.4); ctx.translate(-ex, -980); }
-      drawChar('e', ex, 760, .42, { t, expr: dead ? 'shock' : 'angry', gun: 'rifle', gunRot: .2 });
+      proChar('magixx', ex, 760, .42, { t, expr: dead ? 'shock' : 'angry', gun: 'rifle', gunRot: .2, noTag: dead });
       ctx.restore();
     },
   });
-  if (dead) { bigPop(t, 8.75, 'ХЕДШОТ 💀', 420, 110, '#fff'); killfeed(t, 8.75, 'ТЫ 🎯 Враг №1'); }
+  if (dead) { bigPop(t, 8.75, 'ХЕДШОТ 💀', 420, 110, '#fff'); killfeed(t, 8.75, 'ТЫ 🎯 magixx'); }
 }
 // 10.3–12.8: враг взрывает сам себя своей гранатой
 function sKill2(t) {
@@ -520,7 +540,7 @@ function sKill2(t) {
   fpsView(t, {
     aimX: Math.sin(t * 2) * 30,
     draw: () => {
-      if (!boom) drawChar('e', 560, 760, .42, { t, expr: t > 11.2 ? 'shock' : 'happy', gun: 'rifle' });
+      if (!boom) proChar('kyousuke', 560, 760, .42, { t, expr: t > 11.2 ? 'shock' : 'happy', gun: 'rifle' });
       // траектория гранаты: от врага к стене и назад
       if (t > 10.7 && !boom) {
         const k = prog(t, 10.7, 11.6);
@@ -535,7 +555,7 @@ function sKill2(t) {
       }
     },
   });
-  if (boom) { bigPop(t, 11.7, 'САМ СЕБЯ 🤡', 420, 100, '#FFE14D'); killfeed(t, 11.7, 'Враг №2 💣 Враг №2'); }
+  if (boom) { bigPop(t, 11.7, 'САМ СЕБЯ 🤡', 420, 100, '#FFE14D'); killfeed(t, 11.7, 'kyousuke 💣 kyousuke'); }
 }
 // 12.8–15.8: дабл в прыжке, слоу-мо
 function sKill3(t) {
@@ -547,9 +567,9 @@ function sKill3(t) {
   // враги по краям
   const d1 = t > 13.9, d2 = t > 14.5;
   ctx.save(); if (d1) { ctx.translate(140, 1250); ctx.rotate(-1.2 * easeOut(prog(t, 13.9, 14.2))); ctx.translate(-140, -1250); }
-  drawChar('e', 160, 1100, .5, { t, expr: d1 ? 'shock' : 'angry', gun: 'rifle', gunRot: -.2 }); ctx.restore();
+  proChar('donk', 160, 1100, .5, { t, expr: d1 ? 'shock' : 'angry', gun: 'rifle', gunRot: -.2, noTag: d1 }); ctx.restore();
   ctx.save(); if (d2) { ctx.translate(940, 1250); ctx.rotate(1.2 * easeOut(prog(t, 14.5, 14.8))); ctx.translate(-940, -1250); }
-  drawChar('e', 920, 1100, .5, { t, expr: d2 ? 'shock' : 'angry', gun: 'rifle', gunRot: .2 }); ctx.restore();
+  proChar('m0NESY', 920, 1100, .5, { t, expr: d2 ? 'shock' : 'angry', gun: 'rifle', gunRot: .2, noTag: d2 }); ctx.restore();
   // наш игрок в прыжке, развёрнут
   drawChar('p', jx, jy, .55, { t, expr: 'angry', noBlink: true, gun: 'rifle', rot: (k - .5) * .8, legs: 1.2 });
   // трассеры
@@ -582,14 +602,16 @@ function sDuel(t) {
     // силуэты друг против друга
     ctx.save(); ctx.filter = 'brightness(0.25)';
     drawChar('p', 220, 1050, .62, { t, expr: 'angry', gun: 'rifle', gunRot: .4 });
-    drawChar('e', 860, 1050, .62, { t, expr: 'angry', gun: 'rifle', gunRot: -.4 });
+    proChar('s1mple', 860, 1050, .62, { t, expr: 'angry', gun: 'rifle', gunRot: -.4, noTag: true });
     ctx.restore();
     bigText('1 vs 1', W / 2, 420, 140, '#fff', OUT, { lw: 20 });
+    bigText('ТЫ', 220, 620, 60, '#7FD3FF', OUT, { lw: 10 }); bigText('s1mple', 860, 620, 60, PROS.s1mple, OUT, { lw: 10 });
   } else if (t < 23.3) {
     // глаза крупно, split-screen
     ctx.fillStyle = '#000'; ctx.fillRect(-400, 560, W + 800, 10);
     ctx.save(); rr(0, 260, W, 300, 0); ctx.clip(); drawChar('p', W / 2, 560, 1.5, { t, expr: 'angry', noBlink: true, look: [16, 0], headOnly: true }); ctx.restore();
-    ctx.save(); rr(0, 570, W, 300, 0); ctx.clip(); drawChar('e', W / 2, 870, 1.5, { t, expr: 'angry', noBlink: true, look: [-16, 0], headOnly: true }); ctx.restore();
+    ctx.save(); rr(0, 570, W, 300, 0); ctx.clip(); proChar('s1mple', W / 2, 870, 1.5, { t, expr: 'angry', noBlink: true, look: [-16, 0], headOnly: true, noTag: true }); ctx.restore();
+    bigText('s1mple', 900, 830, 44, PROS.s1mple, OUT, { lw: 8 }); bigText('ТЫ', 140, 520, 44, '#7FD3FF', OUT, { lw: 8 });
     line(-400, 260, W + 400, 260, OUT, 10); line(-400, 870, W + 400, 870, OUT, 10);
   } else {
     // палец медленно тянется к кнопке мыши
@@ -619,50 +641,101 @@ function sMom(t) {
     fillRR(-12, -40, 24, 300, 10, '#B8C4D0', OUT, 6); ellipse(0, -70, 70, 50, '#B8C4D0', OUT, 7); ctx.restore();
   }
   // игрок оборачивается
-  const turn = t > 28.0;
+  const turn = t > 25.6;
   drawChar('p', 290, 1130, .7, { t, expr: 'shock', noBlink: true, look: turn ? [30, -6] : [-10, 10], sweat: true });
   desk(t, '#5BC8FF');
   if (t > 25.4) bigPop(t, 25.4, '😱', 330, 140, '#fff', 0);
 }
-// 28.6–29.8: смерть
-function sDeath(t) {
-  fpsView(t, { draw: () => drawChar('e', 560, 760, .42, { t, expr: 'happy', gun: 'rifle' }), aimX: 300 });
-  const k = prog(t, 28.6, 28.8);
-  ctx.fillStyle = `rgba(160,0,0,${.6 * k})`; ctx.fillRect(-400, -400, W + 800, H + 800);
-  bigPop(t, 28.65, 'ВЫ УБИТЫ', 600, 140, '#fff', 0);
-  killfeed(t, 28.7, 'Враг №5 🔫 ТЫ');
+// хук, часть 2 (таймлайн 2.0–5.8): состав соперников, карточки на каждом нике
+function sLineup(T) {
+  ctx.fillStyle = '#1A0006'; ctx.fillRect(-400, -400, W + 800, H + 800);
+  speedLines(T, W / 2, 900, .15);
+  const beep = (T * 3) % 1 < .25;
+  fillRR(W / 2 - 280, 250, 560, 130, 30, 'rgba(0,0,0,.7)', beep ? '#FF3D3D' : '#7A0010', 8);
+  bigText((beep ? '🔴' : '⚫') + ' 💣 1 vs 5', W / 2, 316, 76, '#fff', null);
+  const cards = [['s1mple', 2.7, 230, 640], ['donk', 3.2, 540, 600], ['m0NESY', 3.7, 850, 640], ['kyousuke', 4.25, 380, 1030], ['magixx', 4.9, 700, 1030]];
+  cards.forEach(([n, at, x, y], i) => {
+    const p = popIn(T, at, .3); if (p <= 0) return;
+    ctx.save(); ctx.translate(x, y); ctx.scale(p, p); ctx.rotate((i % 2 ? .05 : -.05));
+    fillRR(-150, -190, 300, 380, 26, '#fff', PROS[n], 10);
+    ctx.save(); rr(-130, -170, 260, 260, 18); ctx.clip(); ctx.fillStyle = mixColor(PROS[n], '#ffffff', .6); ctx.fillRect(-130, -170, 260, 260);
+    proChar(n, 0, -10, .52, { t: T, expr: 'angry', noTag: true }); ctx.restore();
+    bigText(n, 0, 140, 50, OUT, null);
+    ctx.restore();
+  });
+  if (T > 5.0) bigText('ТЫ ПРОТИВ НИХ 😰', W / 2, 1320, 64, '#FF3D3D', '#fff', { lw: 10 });
 }
-// 29.8–33.9: тишина, потом тиммейт. Игрок ест суп.
-function sSoup(t) {
-  roomBG(t, '#5A4A3A', '#2A2018');
-  // кухонный стол
-  fillRR(-200, 1180, W + 400, 900, 0, '#B8860B', OUT, 10);
-  drawChar('p', W / 2, 1000, .8, { t, expr: 'neutral', look: [0, 20] });
-  ellipse(W / 2, 1250, 230, 70, '#fff', OUT, 8); ellipse(W / 2, 1240, 180, 45, '#E0702B');
-  hand(W / 2 + 180, 1180, 1.3);
-  // наушники на столе — из них голос тиммейта
-  ctx.save(); ctx.translate(880, 1300);
-  ctx.beginPath(); ctx.arc(0, 0, 90, Math.PI, 0); ctx.lineWidth = 16; ctx.strokeStyle = OUT; ctx.stroke();
-  fillRR(-110, -10, 46, 80, 18, '#FF3D57', OUT, 6); fillRR(64, -10, 46, 80, 18, '#FF3D57', OUT, 6);
-  if (speaking('m', t)) for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.arc(0, 10, 120 + i * 30 + (t * 60) % 30, -2.2, -1.0); ctx.lineWidth = 6; ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.stroke(); }
-  ctx.restore();
-  if (t < 31.0) bigText('…', W / 2, 400, 160, '#fff', null);
+// 28.4–29.5: не глядя — флик в s1mple
+function sAce(t) {
+  const shot = t > 28.85;
+  fpsView(t, {
+    aimX: lerp(-260, 20, easeOut(prog(t, 28.55, 28.8))), aimY: lerp(120, -10, easeOut(prog(t, 28.55, 28.8))),
+    recoil: shot && t < 29.0 ? 40 : 0, flash: shot && t < 28.95 ? 1 : 0,
+    draw: () => {
+      ctx.save(); if (shot) { ctx.translate(560, 980); ctx.rotate(easeOut(prog(t, 28.85, 29.2)) * 1.4); ctx.translate(-560, -980); }
+      proChar('s1mple', 560, 760, .42, { t, expr: shot ? 'shock' : 'happy', gun: 'rifle', noTag: shot }); ctx.restore();
+    },
+  });
+  bigText('👀 не глядя', W / 2, 1300, 64, '#FFE14D', OUT, { lw: 12 });
+  if (shot) { bigPop(t, 28.9, 'ЭЙС 🏆', 460, 150, '#FFE14D'); killfeed(t, 28.9, 'ТЫ 🎯 s1mple'); }
 }
-// 33.9–37: финальная карточка
-function sEnd(t) {
-  const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#FF3D57'); g.addColorStop(1, '#6A2CFF');
+// 29.5–31.0: «Иду, мам» — спокойно, глядя на маму
+function sIdu(t) {
+  roomBG(t, '#3B2E6E', '#1A1638');
+  fillRR(560, 230, 460, 1030, 10, '#FFE6B0', OUT, 8);
+  drawChar('mom', 790, 760, .8, { t, expr: 'shock', noBlink: true, look: [-20, 0] });
+  drawChar('p', 330, 1080, .78, { t, expr: 'happy', mouth: mouthOf('p', t), look: [30, -6] });
+  shadesOn(330, 1080 - 4, .78);
+  desk(t, '#5BC8FF');
+  bigPop(t, 29.6, 'ПОБЕДА', 300, 130, '#3CFF6B', .05);
+}
+// 31.0–34.3: тиммейты в шоке, таблица
+function sScore(t) {
+  ctx.fillStyle = '#0D1020'; ctx.fillRect(-400, -400, W + 800, H + 800);
+  fillRR(60, 180, 960, 1120, 34, '#141B2E', '#3CFF6B', 7);
+  bigText('ПОБЕДА  13 : 12', W / 2, 270, 74, '#3CFF6B', null);
+  const rows = [['ТЫ  🏆 MVP', 34, '#FFE14D'], ['Kotletka228', 3, '#fff'], ['Brat_01', 2, '#fff'], ['NoScopeBabka', 1, '#fff'], ['xX_Pro_Xx', 0, '#fff']];
+  rows.forEach(([n, k, c], i) => { const y = 400 + i * 95; fillRR(100, y - 40, 880, 80, 16, i === 0 ? 'rgba(255,225,77,.15)' : 'rgba(255,255,255,.04)'); bigText(n, 140, y, 44, c, null, { align: 'left' }); bigText('У: ' + k, 920, y, 44, c, null, { align: 'right' }); });
+  bigText('СОПЕРНИКИ', W / 2, 900, 40, '#FF8A85', null);
+  Object.keys(PROS).forEach((n, i) => { const y = 970 + i * 62; bigText(n, 140, y, 38, PROS[n], '#000', { align: 'left', lw: 6 }); bigText('💀', 920, y, 38, '#fff', null, { align: 'right' }); });
+}
+// 34.3–37.6: телефон — сообщение с неизвестного номера
+function sPhone(t) {
+  const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#05060F'); g.addColorStop(1, '#141A33');
   ctx.fillStyle = g; ctx.fillRect(-400, -400, W + 800, H + 800);
-  drawChar('mom', 300, 1050, .7, { t, expr: 'happy' });
-  drawChar('p', 780, 1050, .7, { t, expr: 'cry', tears: true });
-  const p = elastic(prog(t, 33.9, 34.6));
-  ctx.save(); ctx.translate(W / 2, 360); ctx.scale(p, p); ctx.rotate(-.03 + Math.sin(t * 3) * .02);
-  fillRR(-490, -150, 980, 300, 40, '#FFE14D', OUT, 12);
-  bigText('ТВОЯ МАМА ТОЖЕ', 0, -50, 80, OUT, null);
-  bigText('ТАК ДЕЛАЛА? 😂👇', 0, 56, 80, '#E0122B', null);
+  const buzz = t > 35.5 ? Math.sin(t * 60) * 8 * (Math.sin(t * 6) > 0 ? 1 : 0) : 0;
+  ctx.save(); ctx.translate(W / 2 + buzz, 900);
+  ctx.shadowColor = '#5BC8FF'; ctx.shadowBlur = t > 35.5 ? 60 : 0;
+  fillRR(-260, -480, 520, 960, 60, '#1E2230', OUT, 12); ctx.shadowBlur = 0;
+  fillRR(-230, -440, 460, 880, 40, '#0E1A2E');
+  bigText('00:47', 0, -330, 90, '#fff', null);
+  if (t > 36.2) {
+    const p = easeOut(prog(t, 36.2, 36.5));
+    ctx.save(); ctx.translate(0, lerp(-200, -120, p)); ctx.globalAlpha = p;
+    fillRR(-210, -80, 420, 200, 28, 'rgba(255,255,255,.92)', null);
+    bigText('📩 Неизвестный номер', -180, -40, 32, '#333', null, { align: 'left' });
+    bigText('Привет. Видел твой эйс.', -180, 20, 30, '#111', null, { align: 'left', weight: 700 });
+    bigText('Есть разговор…', -180, 70, 30, '#111', null, { align: 'left', weight: 700 });
+    ctx.restore();
+  }
   ctx.restore();
-  const q = popIn(t, 34.3, .3);
-  if (q > 0) { ctx.save(); ctx.translate(300, 640); ctx.scale(q, q); ctx.rotate(-.1); fillRR(-170, -55, 340, 110, 22, '#fff', OUT, 7); bigText('MVP 🏆', 0, 0, 56, '#B00010', null); ctx.restore(); }
+  bigText('?!', 860, 420, 120, '#FFE14D', OUT, { lw: 16 });
 }
+// 37.6–41.0: «Продолжение следует…»
+function sEnd(t) {
+  ctx.fillStyle = '#000'; ctx.fillRect(-400, -400, W + 800, H + 800);
+  stars(t);
+  const p = elastic(prog(t, 38.4, 39.2));
+  ctx.save(); ctx.translate(W / 2, 700); ctx.scale(p, p);
+  bigText('ПРОДОЛЖЕНИЕ', 0, -70, 92, '#fff', '#B00010', { lw: 14 });
+  bigText('СЛЕДУЕТ…', 0, 60, 104, '#FFE14D', '#B00010', { lw: 14 });
+  ctx.restore();
+  const q = popIn(t, 39.0, .3);
+  if (q > 0) { ctx.save(); ctx.translate(W / 2, 980); ctx.scale(q, q); ctx.rotate(-.04); fillRR(-200, -60, 400, 120, 26, '#E0122B', '#fff', 8); bigText('СЕРИЯ 1', 0, 0, 64, '#fff', null); ctx.restore(); }
+  const r = popIn(t, 39.4, .3);
+  if (r > 0) { ctx.save(); ctx.translate(W / 2, 1220); ctx.scale(r, r); bigText('Подпишись, чтобы', 0, -40, 54, '#fff', OUT, { lw: 10 }); bigText('не пропустить серию 2 👇', 0, 30, 54, '#fff', OUT, { lw: 10 }); ctx.restore(); }
+}
+function stars(t) { for (let i = 0; i < 90; i++) circle(rand(i) * W, rand(i + 40) * H, 1.5 + rand(i + 9) * 3, `rgba(255,255,255,${.3 + .7 * Math.abs(Math.sin(t * 2 + i))})`); }
 
 // ---------- камера ----------
 const SHOTS = [
@@ -679,13 +752,14 @@ const SHOTS = [
   [19.4, 21.5, [540, 1000, 1.06, 0], [540, 1000, 1.25, 0], easeIn],
   [21.5, 23.3, [540, 560, 1.06, 0], [540, 560, 1.2, 0], easeIn],
   [23.3, 25.2, [540, 700, 1.2, 0], [460, 760, 1.6, 0], easeIn],
-  [25.2, 28.0, [700, 760, 1.25, .04], [600, 860, 1.06, 0], easeOut],
-  [28.0, 28.6, [290, 1000, 1.3, -.03], [290, 1000, 1.45, -.03], k => k],
-  [28.6, 29.8, [540, 760, 1.4, .05], [540, 800, 1.12, 0], easeOut],
-  [29.8, 33.9, [540, 1000, 1.04, 0], [540, 1050, 1.25, 0], easeInOut],
-  [33.9, 37, [540, 960, 1.2, 0], [540, 960, 1.04, 0], easeOut],
+  [25.2, 28.4, [700, 760, 1.25, .04], [600, 860, 1.06, 0], easeOut],
+  [28.4, 29.5, [540, 760, 1.15, 0], [560, 760, 1.35, .03], easeIn],
+  [29.5, 31.0, [400, 1000, 1.3, -.02], [540, 900, 1.06, 0], easeOut],
+  [31.0, 34.3, [540, 700, 1.04, 0], [540, 1000, 1.1, 0], easeInOut],
+  [34.3, 38.4, [540, 960, 1.04, 0], [540, 800, 1.35, 0], easeIn],
+  [38.4, 41.1, [540, 900, 1.06, 0], [540, 960, 1.02, 0], easeOut],
 ];
-const PUNCH = [[0, .0], [3.3, .25], [8.7, .35], [11.6, .45], [13.9, .2], [14.5, .3], [15.9, .25], [19.4, .15], [21.5, .15], [25.2, .5], [28.6, .5], [33.9, .2]];
+const PUNCH = [[3.3, .25], [8.7, .35], [11.6, .45], [13.9, .2], [14.5, .3], [15.9, .25], [19.4, .15], [21.5, .15], [25.2, .5], [28.9, .55], [29.6, .2], [35.5, .2], [38.4, .1]];
 function camAt(t) {
   let fx = W / 2, fy = H / 2, z = 1.06, r = 0;
   for (const [a, b, A, B, e] of SHOTS) if (t >= a && t < b) { const k = e(prog(t, a, b)); fx = lerp(A[0], B[0], k); fy = lerp(A[1], B[1], k); z = lerp(A[2], B[2], k); r = lerp(A[3], B[3], k); break; }
@@ -698,29 +772,40 @@ function camAt(t) {
   return { fx, fy, z, r };
 }
 function flash(t, at, col = '255,255,255') { const k = 1 - Math.abs(t - at) / .1; if (k > 0) { ctx.fillStyle = `rgba(${col},${k})`; ctx.fillRect(0, 0, W, H); } }
-function renderFrame(t) {
+function renderFrame(T) {
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H);
-  const c = camAt(t);
-  ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(c.r); ctx.scale(c.z, c.z); ctx.translate(-c.fx, -c.fy);
-  if (t < 3.3) sEye(t);
-  else if (t < 7.8) sDesk(t);
-  else if (t < 10.3) sKill1(t);
-  else if (t < 12.8) sKill2(t);
-  else if (t < 15.8) sKill3(t);
-  else if (t < 19.4) sHype(t);
-  else if (t < 25.2) sDuel(t);
-  else if (t < 28.6) sMom(t);
-  else if (t < 29.8) sDeath(t);
-  else if (t < 33.9) sSoup(t);
-  else sEnd(t);
-  ctx.restore();
-  // HUD поверх кадра во время клатча
-  if (t >= 3.3 && t < 25.2) { hpBadge(t); vsBadge(t); redPulse(t, t < 19.4 ? .3 : .15); }
-  if (t < 3.3) redPulse(t, .5);
-  if (t > 13.3 && t < 15.0) bigText('⏱ СЛОУ-МО', W / 2, 290, 54, '#BFE3FF', '#000', { lw: 10 });
-  [3.3, 7.8, 10.3, 12.8, 15.8, 19.4, 21.5, 23.3, 29.8, 33.9].forEach(a => flash(t, a));
-  flash(t, 25.2, '255,230,160'); flash(t, 28.6, '255,0,0');
-  drawSubtitles(t);
+  NOW = T;
+  if (T < 5.8) {
+    // хук: глаз (0–2.0), затем состав соперников (2.0–5.8)
+    const c = T < 2.0 ? camAt(T) : { fx: 540, fy: lerp(880, 840, prog(T, 2, 5.8)), z: lerp(1.12, 1.04, easeOut(prog(T, 2, 2.6))) * (1 + [2.7, 3.2, 3.7, 4.25, 4.9].reduce((a, at) => a + (T >= at ? .06 * Math.exp(-(T - at) * 9) : 0), 0)), r: 0 };
+    ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(c.r); ctx.scale(c.z, c.z); ctx.translate(-c.fx, -c.fy);
+    if (T < 2.0) sEye(T); else sLineup(T);
+    ctx.restore();
+    redPulse(T, T < 2.0 ? .5 : .3);
+    flash(T, 2.0);
+  } else {
+    const t = T - SHIFT;
+    const c = camAt(t);
+    ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(c.r); ctx.scale(c.z, c.z); ctx.translate(-c.fx, -c.fy);
+    if (t < 7.8) sDesk(t);
+    else if (t < 10.3) sKill1(t);
+    else if (t < 12.8) sKill2(t);
+    else if (t < 15.8) sKill3(t);
+    else if (t < 19.4) sHype(t);
+    else if (t < 25.2) sDuel(t);
+    else if (t < 28.4) sMom(t);
+    else if (t < 29.5) sAce(t);
+    else if (t < 31.0) sIdu(t);
+    else if (t < 34.3) sScore(t);
+    else if (t < 38.4) sPhone(t);
+    else sEnd(t);
+    ctx.restore();
+    if (t < 29.5) { hpBadge(t); vsBadge(t); redPulse(t, t < 19.4 ? .3 : .15); }
+    if (t > 13.3 && t < 15.0) bigText('⏱ СЛОУ-МО', W / 2, 290, 54, '#BFE3FF', '#000', { lw: 10 });
+    [3.3, 7.8, 10.3, 12.8, 15.8, 19.4, 21.5, 23.3, 29.5, 31.0, 34.3, 38.4].forEach(a => flash(t, a));
+    flash(t, 25.2, '255,230,160'); flash(t, 28.4, '255,255,255');
+  }
+  drawSubtitles(T);
 }
 window.renderFrame = renderFrame;
 window.DURATION = DURATION;
